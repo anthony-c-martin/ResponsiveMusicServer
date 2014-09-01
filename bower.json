@@ -1,0 +1,30 @@
+{
+  "name": "MusicServer",
+  "version": "0.0.0",
+  "authors": [
+    "antm611 <antm88@gmail.com>"
+  ],
+  "main": "dist/index.html",
+  "license": "MIT",
+  "homepage": "https://github.com/antm611/MusicServerGUI",
+  "private": true,
+  "dependencies": {
+    "angular": "~1.2.22",
+    "json3": "~3.3.1",
+    "es5-shim": "~3.1.0",
+    "angular-resource": "~1.2.22",
+    "angular-cookies": "~1.2.22",
+    "angular-sanitize": "~1.2.22",
+    "angular-animate": "~1.2.22",
+    "angular-touch": "~1.2.22",
+    "angular-route": "~1.2.22",
+    "jquery": "~2.1.1",
+    "js-md5": "~1.1.0",
+    "matchmedia-ng": "~1.0.3"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.2.22",
+    "angular-scenario": "~1.2.22"
+  },
+  "appPath": "app"
+}

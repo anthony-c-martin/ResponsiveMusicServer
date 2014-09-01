@@ -1,0 +1,12 @@
+<div class="panes">
+    <div artist-list scroll-loader="artistRequest.fetch()" class="pane-left">
+        <ul class="artists">
+            <li artist ng-repeat="artist in artists"></li>
+        </ul>
+    </div>
+    <div ng-if="isDesktop" album-list scroll-loader="albumRequest.fetch()" class="pane-right">
+        <ul class="albums">
+            <li album ng-repeat="album in albums" class="album"></li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,4 @@
+.lastfmicon {
+    @include url-icon('/images/lastfm.svg', 1em, 1em);
+    vertical-align: middle;
+}

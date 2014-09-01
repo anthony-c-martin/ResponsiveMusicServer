@@ -1,0 +1,10 @@
+<div class="dropdown">
+    <div class="arrow"></div>
+    <div cancel-click-event class="inner">
+        <ul class="playlist tracks">
+            <li ng-if="playlist.length > 0" class="desc"><span class="link-left" ng-click="clearAll()">Clear All</span><span class="link-right" ng-click="clearSelected()">Clear Selected</span></li>
+            <li track ng-repeat="track in playlist"></li>
+            <li ng-if="playlist.length <= 0" class="desc">The playlist is empty!</li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+$main-bg: #eee;
+
+$navbar-bg: #e7e7e7;
+$navbar-border: #ccc;
+
+$btn-border: #ccc;
+
+$li-border: #ccc;
+$li-hover: #ccc;
+
+$artist-color: #abc;
+$artist-color-selected: #abd;
+$album-color: #bbc;
+$album-color-selected: #bbd;
+$track-color: #cbc;
+$track-color-selected: #cbd;
+$album-tracks-color: #eef;
+
+$content-border: #ccc;
+
+$control-color: #ccd;
+$control-active-color: #bbc;
+$control-hover-color: #555;
+$control-text-color: #000;
+
+$slider-position-color: #abc;
+$slider-volume-color: #cba;
+
+$em1px: 1em / 16;
+$em2px: $em1px * 2;
+$em4px: $em2px * 2;
+$em6px: $em4px + $em2px;
+$em8px: $em4px * 2;
+$em10px: $em8px + $em2px;
+$em12px: $em8px + $em4px;
+
+$navbar-height-small: 3.5em;
+$navbar-height-med-large: 1.75em;
+
+$dropdown-color: #acb;
+$dropdown-border: #aaa;
+
+$login-bg-color: #acb;
+$login-border-color: #aaa;

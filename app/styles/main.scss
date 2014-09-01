@@ -1,0 +1,411 @@
+@import '_colors';
+@import '_mixins';
+@import '_mq-mixins';
+@import '_glyphicons';
+@import '_icons';
+
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+p, h1, h2, h3, h4 {
+    cursor: default;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    font-size: 100%;
+    overflow: hidden;
+}
+
+body {
+    overflow: auto;
+    @include mq-med-large {
+        padding: $navbar-height-med-large 0 0 0;
+    }
+    @include mq-small {
+        padding: $navbar-height-small 0 0 0;
+    }
+    margin: 0;
+    background-color: $main-bg;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: 300;
+    font-size: 1em;
+    min-height: 25em;
+    &>div {
+        height: 100%;
+        overflow: scroll;
+    }
+}
+
+input, button, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    &:focus {
+        outline: 0;
+    }
+}
+
+ul {
+    list-style-type: none;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: $navbar-bg;
+    border-bottom: 0.063 solid $navbar-border;
+    .navbar-inner {
+        padding: 0;
+        @include mq-med-large {
+            height: $navbar-height-med-large;
+        }
+        @include mq-small {
+            height: $navbar-height-small;
+        }
+    }
+    z-index: 1;
+}
+
+.controls {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    .control {
+        float: left;
+        white-space: nowrap;
+        vertical-align: middle;
+        background-color: $control-color;
+    }
+    button.control {
+        text-align: center;
+        @include noselect-pointer;
+        color: $control-text-color;
+        &:hover {
+            color: $control-hover-color;
+        }
+    }
+    &.controls-mini {
+        &>.control {
+            border: 0;
+            margin: 0;
+            padding: 0;
+            background-color: transparent;
+            @include mq-med-large {
+                opacity: 0;
+            }
+        }
+    }
+    &.controls-nav {
+        &>.control {
+            border: $em1px solid $btn-border;
+            margin: 0;
+            padding: $em4px;
+            height: 2em - $em4px;
+            &:not(:first-child) {
+                margin-left: -$em1px;
+            }
+            &.active {
+                background-color: $control-active-color;
+            }
+        }
+    }
+}
+
+.container {
+    height: 100%;
+    .view-container {
+        height: 100%;
+    }
+    @include mq-large {
+        margin-left: 6em;
+        margin-right: 6em;
+        padding: 1em;
+    }
+}
+
+.panes {
+    height: 100%;
+    .pane-left {
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        @include mq-large {
+            float: left;
+            width: 19em;
+        }
+    }
+    .pane-right {
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        @include hide-small-med;
+        margin-left: 19em;
+        border-left: $em2px solid #ddd;
+    }
+    @include mq-large {
+        position: relative;
+        border-radius: $em4px;
+        border: $em1px solid $content-border;
+    }
+}
+
+.hide-s {
+    @include hide-small;
+}
+
+.hide-sm {
+    @include hide-small-med;
+}
+
+.hide-m {
+    @include hide-med;
+}
+
+.hide-ml {
+    @include hide-med-large;
+}
+
+.hide-l {
+    @include hide-large
+}
+
+ul.artists {
+    @include ul-main(artist, $li-border, $li-hover, $artist-color, $artist-color-selected);
+    li>.artist {
+        &:first-of-type {
+            border-top: $em1px solid $li-border;
+        }
+        &:last-of-type {
+            border-bottom: 0;
+        }
+    }
+}
+
+ul.albums {
+    @include ul-main(album, $li-border, $li-hover, $album-color, $album-color-selected);
+        @include mq-med-large {
+        /*
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        */
+        &>li.album {
+            display: inline-block;
+            &>div.content {
+                margin: 1em;
+                text-align: left;
+                position: relative;
+                width: 12em;
+                &>img {
+                    width: 100%;
+                    padding: 0;
+                    margin: $em1px $em1px $em6px $em1px;
+                    border-radius: $em2px;
+                    border-width: $em1px;
+                    border-color: #111;
+                    border-style: solid;
+                    box-shadow: $em1px $em1px $em1px #888;
+                }
+            }
+        }
+    }
+    @include mq-small {
+        &>li.album {
+            &:first-of-type {
+                border-top: $em1px solid $li-border;
+            }
+            &:last-of-type {
+                border-bottom: 0;
+            }
+        }
+    }
+    li.album-tracks {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        @include mq-large {
+            @include slide-down(.5s);
+            &>.inner {
+                div.close-tracks {
+                    display:block;
+                    margin-bottom: 1em;
+                }
+                text-align: left;
+                position: relative;
+                display: block;
+                padding: 1em;
+                margin-top: 1.5em;
+                margin-bottom: 1em;
+                background-color: $album-tracks-color;
+                border-top: $em1px solid $li-border;
+                border-bottom: $em1px solid $li-border;
+                ul.tracks {
+                    @include column-width(19em);
+                    @include column-gap(2.5em);
+                    li.track {
+                        @include avoid-column-break;
+                    }
+                }
+            }
+            &>.arrow {
+                @include arrow(1.5em) {
+                    &:after {
+                        background-color: $album-tracks-color;
+                        border: $em1px solid $li-border;
+                    }
+                }
+                z-index: 1;
+            }
+        }
+    }
+}
+ul.tracks {
+    @include ul-main(track, $li-border, $li-hover, $track-color, $track-color-selected);
+}
+
+ul.search-albums {
+    @include ul-main(album, $li-border, $li-hover, $album-color, $album-color-selected);
+    &:first-of-type {
+        border-top: $em1px solid $li-border;
+    }
+    &:last-of-type {
+        border-bottom: 0;
+    }
+    &>li.album {
+        &>div.content {
+            &>img {
+                display: none;
+            }
+        }
+    }
+}
+
+.progress-container {
+    @include noselect-pointer;
+    width: 300px;
+    .progress-bar {
+        height: 1em;
+        float: left;
+        position: absolute;
+        &.progress-position {
+            background-color: $slider-position-color;
+        }
+        &.progress-volume {
+            background-color: $slider-volume-color;
+        }
+    }
+}
+
+.dropdown {
+    position: absolute;
+    overflow: hidden;
+    left: 0;
+    width: 20em;
+    left: -10em + 0.5em;
+    z-index: 1;
+    @include slide-down(.2s);
+    @include mq-med-large {
+        top: $navbar-height-med-large;
+    }
+    @include mq-small {
+        top: $navbar-height-small;
+    }
+    &>.arrow {
+        @include arrow(1em) {
+            &:after {
+                background-color: $dropdown-color;
+                border: $em1px solid $dropdown-border;
+            }
+            left: 10em + $em4px;
+        }
+    }
+    &>.inner {
+        margin-top: 1em;
+        background-color: $dropdown-color;
+        border: $em1px solid $dropdown-border;
+        max-height: 30em;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+}
+
+ul.playlist {
+    margin: 0;
+    padding: 0;
+    li {
+        padding: 1em;
+        @include noselect;
+        &.track {
+            padding: 0;
+        }
+        &>span.link-left {
+            @include noselect-pointer;
+        }
+        &>span.link-right {
+            float: right;
+            @include noselect-pointer;
+        }
+    }
+}
+
+ul.search {
+    margin: 0;
+    padding: 0;
+    li {
+        padding: 1em;
+        @include noselect;
+        &.track, &.artist, &.album {
+            padding: 0;
+        }
+        &>span.link-right {
+            float: right;
+            @include noselect-pointer;
+        }
+    }
+}
+
+form.login {
+    @include noselect;
+    background-color: $login-bg-color;
+    border: $em1px solid $login-border-color;
+    @include mq-small {
+        width: 100%;
+        padding-top: 1em;
+        padding-bottom: 1em;
+    }
+    @include mq-med-large {
+        width: 20em;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    &>.login-control {
+        @include mq-small {
+            font-size: 1.2em;
+        }
+        width: 100%;
+        height: 2em;
+    }
+    &>h2 {
+        text-align: center;
+    }
+    &>button.login-control {
+        @include noselect-pointer;
+        background-color: $control-color;
+        border: $em1px solid $btn-border;
+        @include mq-small {
+            margin-top: 1em;
+        }
+        text-align: center;
+        color: $control-text-color;
+        &:hover {
+            color: $control-hover-color;
+        }
+    }
+}

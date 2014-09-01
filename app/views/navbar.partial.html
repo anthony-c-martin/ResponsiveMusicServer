@@ -1,0 +1,40 @@
+<div class="navbar">
+    <div class="navbar-inner">
+        <div ng-controller="NavController" class="controls controls-nav hide-s">
+            <button ng-repeat="nav in navs" ng-click="changeLocation(nav.link)" ng-class="{active:isActive(nav.link)}" type="button" class="control">{{ nav.title }}</button>
+        </div>
+        <div class="controls controls-nav">
+            <button type="button" class="control"><span class="glyphicon glyphicon-backward"></span>
+            </button>
+            <button type="button" class="control"><span class="glyphicon glyphicon-play"></span>
+            </button>
+            <button type="button" class="control"><span class="glyphicon glyphicon-forward"></span>
+            </button>
+        </div>
+        <div class="controls controls-nav">
+            <div class="progress-container control">
+                <div class="progress-bar progress-position"></div>
+                <div class="progress-bar progress-volume"></div>
+            </div>
+        </div>
+        <div class="controls controls-nav">
+            <button type="button" ng-click="togglePlaylistHandler()" cancel-click-event class="control"><span class="glyphicon glyphicon-list"></span>
+            </button>
+            <playlist></playlist>
+        </div>
+        <div class="controls controls-nav">
+            <button type="button" class="control"><span class="glyphicon glyphicon-volume-up"></span>
+            </button>
+        </div>
+        <div class="controls controls-nav">
+            <button type="button" class="control"><span class="lastfmicon"></span>
+            </button>
+        </div>
+        <form ng-submit="search()" ng-controller="SearchController" cancel-click-event class="controls controls-nav">
+            <input ng-model="searchText" class="control" type="text" placeholder="search" autocomplete="off">
+            <button type="submit" class="control"><span class="glyphicon glyphicon-search"></span>
+            </button>
+            <search></search>
+        </form>
+    </div>
+</div>

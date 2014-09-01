@@ -1,0 +1,15 @@
+<li class="artist">
+    <div class="content">
+        <div class="controls controls-mini">
+            <button ng-click="add()" type="button" class="control"><span class="glyphicon glyphicon-plus"></span></button>
+            <button ng-click="play()" type="button" class="control"><span class="glyphicon glyphicon-play"></span></button>
+        </div>
+        <div class="desc">{{ artist.Name }}</div>
+    </div>
+    <div ng-if="showAlbums && artist.albums" album-list="albumRequest.fetch()" scroll-loader="fetchMore()">
+        <ul class="albums">
+            <li album="album" am-show-tracks="showTracks" ng-repeat="album in artist.albums">
+            </li>
+        </ul>
+    </div>
+</li>

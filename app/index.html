@@ -1,0 +1,105 @@
+<!doctype html>
+<!-- build:dev({.tmp,dist,app}) -->
+<html ng-app="musicServerAppDev">
+<!-- endbuild-->
+<html ng-app="musicServerApp">
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+</head>
+
+<body body-event-handler ng-controller="MainController">
+    <div>
+        <div navbar ng-if="loggedIn"></div>
+        <div class="container">
+            <div ng-view class="view-container"></div>
+        </div>
+    </div>
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/json3/lib/json3.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/js-md5/js/md5.js"></script>
+    <script src="bower_components/matchmedia/matchMedia.js"></script>
+    <script src="bower_components/matchmedia-ng/matchmedia-ng.js"></script>
+    <script src="bower_components/angular-mocks/angular-mocks.js"></script>
+    <script src="bower_components/angular-scenario/angular-scenario.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:dev({.tmp,dist,app}) -->
+    <script src="scripts/app.dev.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/templates.js"></script>
+    <script src="scripts/services/HttpRequest.js"></script>
+    <script src="scripts/services/Playlist.js"></script>
+    <script src="scripts/services/SessionData.js"></script>
+    <script src="scripts/services/LoginRequest.js"></script>
+    <script src="scripts/services/TrackRequest.js"></script>
+    <script src="scripts/services/ArtistRequest.js"></script>
+    <script src="scripts/services/AlbumRequest.js"></script>
+    <script src="scripts/services/SearchRequest.js"></script>
+    <script src="scripts/services/DataLoader.js"></script>
+    <script src="scripts/directives/track.js"></script>
+    <script src="scripts/directives/album.js"></script>
+    <script src="scripts/directives/artist.js"></script>
+    <script src="scripts/directives/albumTracks.js"></script>
+    <script src="scripts/directives/navbar.js"></script>
+    <script src="scripts/directives/scrollLoader.js"></script>
+    <script src="scripts/directives/tracklist.js"></script>
+    <script src="scripts/directives/artistList.js"></script>
+    <script src="scripts/directives/albumList.js"></script>
+    <script src="scripts/directives/albumArt.js"></script>
+    <script src="scripts/directives/audioPlayer.js"></script>
+    <script src="scripts/directives/errorModal.js"></script>
+    <script src="scripts/directives/selectable.js"></script>
+    <script src="scripts/directives/selectableAlbum.js"></script>
+    <script src="scripts/directives/selectableArea.js"></script>
+    <script src="scripts/directives/playlistEntry.js"></script>
+    <script src="scripts/directives/playerContainer.js"></script>
+    <script src="scripts/directives/playerContainer.js"></script>
+    <script src="scripts/directives/playlist.js"></script>
+    <script src="scripts/directives/search.js"></script>
+    <script src="scripts/directives/cancelClickEvent.js"></script>
+    <script src="scripts/directives/bodyEventHandler.js"></script>
+    <script src="scripts/controllers/MainController.js"></script>
+    <script src="scripts/controllers/LoginController.js"></script>
+    <script src="scripts/controllers/ArtistViewController.js"></script>
+    <script src="scripts/controllers/AlbumViewController.js"></script>
+    <script src="scripts/controllers/TrackViewController.js"></script>
+    <script src="scripts/controllers/ArtistListController.js"></script>
+    <script src="scripts/controllers/AlbumListController.js"></script>
+    <script src="scripts/controllers/TrackListController.js"></script>
+    <script src="scripts/controllers/NavController.js"></script>
+    <script src="scripts/controllers/PlayerController.js"></script>
+    <script src="scripts/controllers/SearchController.js"></script>
+    <script src="scripts/controllers/AlbumTrackListController.js"></script>
+    <script src="scripts/controllers/ErrorModalController.js"></script>
+    <script src="scripts/controllers/PlaylistController.js"></script>
+    <script src="scripts/filters/groupBy.js"></script>
+    <!-- endbuild -->
+</body>
+
+</html>

@@ -1,0 +1,118 @@
+@mixin vendor-prefix($name, $argument) {
+  -webkit-#{$name}: #{$argument};
+  -ms-#{$name}: #{$argument};
+  -moz-#{$name}: #{$argument};
+  -o-#{$name}: #{$argument};
+  #{$name}: #{$argument};
+}
+
+@mixin noselect {
+    @include vendor-prefix(user-select, none);
+}
+
+@mixin noselect-pointer {
+    @include noselect;
+    cursor: pointer;
+}
+
+@mixin ul-main($li-name, $li-border, $li-hover, $li-color, $li-color-selected) {
+    padding: 0;
+    margin: 0;
+    &>li.#{$li-name} {
+        background-color: $li-color;
+        border-bottom: $em1px solid $li-border;
+        &:hover {
+            background-color: $li-hover;
+            @include mq-med-large {
+                .controls {
+                    &.controls-mini {
+                        &>.control {
+                            opacity: 1;
+                        }
+                    }
+                }
+            }
+        }
+        @include noselect-pointer;
+        &.selected {
+            background-color: $li-color-selected;
+            &:hover {
+                background-color: $li-hover;
+            }
+        }
+        &>div.content {
+            margin: 0;
+            padding: $em10px;
+            &>.desc {
+                @include hide-overflow;
+            }
+            &>.controls {
+                float: right;
+            }
+        }
+    }
+}
+
+@mixin column-count($var) {
+    -moz-column-count: $var;
+    -webkit-column-count: $var;
+    column-count: $var;
+}
+
+@mixin column-width($var) {
+    -moz-column-width: $var;
+    -webkit-column-width: $var;
+    column-width: $var;
+}
+
+@mixin column-gap($var) {
+    -moz-column-gap: $var;
+    -webkit-column-gap: $var;
+    column-gap: $var;
+}
+
+@mixin avoid-column-break {
+    break-inside: avoid-column;
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+@mixin hide-overflow {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@mixin slide-down($duration) {
+    @include vendor-prefix(transition-property, height);
+    @include vendor-prefix(transition-duration, $duration);
+    @include vendor-prefix(transition-timing-function, linear);
+}
+
+@mixin url-icon($url, $x, $y) {
+    background: url($url);
+    background-size: $x $y;
+    height: $y;
+    width: $x;
+    display: inline-block;
+}
+
+@mixin arrow($width) {
+    width: $width * 2;
+    height: $width;
+    overflow-y: hidden;
+    position: absolute;
+    margin-left: -$width;
+    top: $em1px;
+    @content;
+    &:after {
+        content: "";
+        position: absolute;
+        left: $width / 2;
+        top: $width / 2;
+        width: $width;
+        height: $width;
+        transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+    }
+}
