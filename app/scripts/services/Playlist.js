@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .factory('Playlist', ['$q', 'TrackRequest',
-        function($q, TrackRequest) {
+    .factory('Playlist', ['$q', 'HttpRequest',
+        function($q, HttpRequest) {
             function convertTrack(track) {
                 if (track.ConversionPromise) {
                     return track.ConversionPromise;
@@ -12,7 +12,7 @@ angular.module('musicServerApp')
                         deferred.resolve(track);
                     } else {
                         track.ConversionPromise = deferred.promise;
-                        TrackRequest.convert(track.ID).load().then(function(data) {
+                        HttpRequest.track.convert(track.ID).load().then(function(data) {
                             if (data.Result && data.Result === 'Success') {
                                 track.FileName = data.FileName;
                                 deferred.resolve(track);
@@ -59,7 +59,7 @@ angular.module('musicServerApp')
                 addTracksByAlbum: function(albumId) {
                     var deferred = $q.defer();
                     var _this = this;
-                    TrackRequest.getFromAlbum(albumId).load().then(function(tracks) {
+                    HttpRequest.track.getFromAlbum(albumId).load().then(function(tracks) {
                         _this.addTracks(tracks);
                         deferred.resolve();
                     }, function() {
@@ -70,7 +70,7 @@ angular.module('musicServerApp')
                 addTracksByArtist: function(artistId) {
                     var deferred = $q.defer();
                     var _this = this;
-                    TrackRequest.getFromAlbum(artistId).load().then(function(tracks) {
+                    HttpRequest.track.getFromAlbum(artistId).load().then(function(tracks) {
                         _this.addTracks(tracks);
                         deferred.resolve();
                     }, function() {

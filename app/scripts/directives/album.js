@@ -4,16 +4,18 @@ angular.module('musicServerApp')
     .directive('album', [
         function() {
             function linkFunction(scope) {
-                /*
-                var index = '' + (element.index() * 2);
-                element.css('webkit-order', index);
-                element.css('order', index);
-                */
-                scope.play = function() {
+                scope.play = function($event) {
+                    $event.stopPropagation();
                     scope.$emit('playAlbum', scope.album);
                 };
-                scope.add = function() {
+
+                scope.add = function($event) {
+                    $event.stopPropagation();
                     scope.$emit('addAlbum', scope.album);
+                };
+
+                scope.select = function() {
+                    scope.$emit('selectAlbum', scope.album);
                 };
             }
 

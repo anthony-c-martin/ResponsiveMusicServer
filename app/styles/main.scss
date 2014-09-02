@@ -132,22 +132,45 @@ ul {
 
 .panes {
     height: 100%;
-    .pane-left {
+    display: flex;
+    flex-flow: row wrap;
+    .pane {
+        @include mq-large {
+            width: 33.3%;
+        }
+        @include mq-med {
+            width: 50%;
+        }
+        @include mq-small {
+            width: 100%;
+        }
+        @include mq-small-med {
+            padding-top: 2em;
+        }
         height: 100%;
+        flex: 1 100%;
         overflow-x: hidden;
         overflow-y: auto;
-        @include mq-large {
-            float: left;
-            width: 19em;
-        }
+    }
+    .pane-top {
+        @include hide-large;
+        height: 2em;
+        position: fixed;
+        background-color: #fef;
+        width: 100%;
+    }
+    .pane-left {
+        flex: 1 auto;
+    }
+    .pane-mid {
+        @include hide-small;
+        flex: 1 auto;
+        border-left: 1px solid $li-border;
     }
     .pane-right {
-        height: 100%;
-        overflow-x: hidden;
-        overflow-y: auto;
         @include hide-small-med;
-        margin-left: 19em;
-        border-left: $em2px solid #ddd;
+        flex: 1 auto;
+        border-left: 1px solid $li-border;
     }
     @include mq-large {
         position: relative;
@@ -178,118 +201,19 @@ ul {
 
 ul.artists {
     @include ul-main(artist, $li-border, $li-hover, $artist-color, $artist-color-selected);
-    li>.artist {
-        &:first-of-type {
-            border-top: $em1px solid $li-border;
-        }
-        &:last-of-type {
-            border-bottom: 0;
-        }
-    }
 }
 
 ul.albums {
     @include ul-main(album, $li-border, $li-hover, $album-color, $album-color-selected);
-        @include mq-med-large {
-        /*
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        */
-        &>li.album {
-            display: inline-block;
-            &>div.content {
-                margin: 1em;
-                text-align: left;
-                position: relative;
-                width: 12em;
-                &>img {
-                    width: 100%;
-                    padding: 0;
-                    margin: $em1px $em1px $em6px $em1px;
-                    border-radius: $em2px;
-                    border-width: $em1px;
-                    border-color: #111;
-                    border-style: solid;
-                    box-shadow: $em1px $em1px $em1px #888;
-                }
-            }
-        }
-    }
-    @include mq-small {
-        &>li.album {
-            &:first-of-type {
-                border-top: $em1px solid $li-border;
-            }
-            &:last-of-type {
-                border-bottom: 0;
-            }
-        }
-    }
-    li.album-tracks {
-        position: relative;
-        overflow: hidden;
-        width: 100%;
-        @include mq-large {
-            @include slide-down(.5s);
-            &>.inner {
-                div.close-tracks {
-                    display:block;
-                    margin-bottom: 1em;
-                }
-                text-align: left;
-                position: relative;
-                display: block;
-                padding: 1em;
-                margin-top: 1.5em;
-                margin-bottom: 1em;
-                background-color: $album-tracks-color;
-                border-top: $em1px solid $li-border;
-                border-bottom: $em1px solid $li-border;
-                ul.tracks {
-                    @include column-width(19em);
-                    @include column-gap(2.5em);
-                    li.track {
-                        @include avoid-column-break;
-                    }
-                }
-            }
-            &>.arrow {
-                @include arrow(1.5em) {
-                    &:after {
-                        background-color: $album-tracks-color;
-                        border: $em1px solid $li-border;
-                    }
-                }
-                z-index: 1;
-            }
-        }
-    }
 }
+
 ul.tracks {
     @include ul-main(track, $li-border, $li-hover, $track-color, $track-color-selected);
 }
 
-ul.search-albums {
-    @include ul-main(album, $li-border, $li-hover, $album-color, $album-color-selected);
-    &:first-of-type {
-        border-top: $em1px solid $li-border;
-    }
-    &:last-of-type {
-        border-bottom: 0;
-    }
-    &>li.album {
-        &>div.content {
-            &>img {
-                display: none;
-            }
-        }
-    }
-}
-
 .progress-container {
     @include noselect-pointer;
-    width: 300px;
+    width: 20em;
     .progress-bar {
         height: 1em;
         float: left;

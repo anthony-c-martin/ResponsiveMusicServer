@@ -1,25 +1,25 @@
 <div class="dropdown">
     <div class="arrow"></div>
-    <div ng-switch="searchInProgress" cancel-click-event class="inner">
+    <div ng-switch="searchInProgress" body-event-handler="search" class="inner">
         <div ng-switch-when="true">
             <ul class="search">
                 <li>Loading...</li>
             </ul>
         </div>
         <div ng-switch-default>
-            <ul ng-controller="TrackListController" ng-if="tracks.length > 0" class="search tracks">
+            <ul ng-if="search.tracks.length > 0" class="search tracks">
                 <li>Tracks<span class="link-right" ng-click="redirectToResults('tracks')">Show all</span></li>
-                <li track ng-repeat="track in tracks"></li>
+                <li track ng-repeat="track in search.tracks"></li>
             </ul>
-            <ul ng-controller="AlbumListController" ng-if="albums.length > 0" class="search search-albums">
+            <ul ng-if="search.albums.length > 0" class="search albums">
                 <li>Albums<span class="link-right" ng-click="redirectToResults('albums')">Show all</span></li>
-                <li album ng-repeat="album in albums" class="album"></li>
+                <li album ng-repeat="album in search.albums" class="album"></li>
             </ul>
-            <ul ng-controller="ArtistListController" ng-if="artists.length > 0" class="search artists">
+            <ul ng-if="search.artists.length > 0" class="search artists">
                 <li>Artists<span class="link-right" ng-click="redirectToResults('artists')">Show all</span></li>
-                <li artist ng-repeat="artist in artists"></li>
+                <li artist ng-repeat="artist in search.artists"></li>
             </ul>
-            <ul ng-if="artists.length + albums.length + tracks.length <= 0" class="search">
+            <ul ng-if="search.artists.length + search.albums.length + search.tracks.length <= 0" class="search">
                 <li>No results found</li>
             </ul>
         </div>

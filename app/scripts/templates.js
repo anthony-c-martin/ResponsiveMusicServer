@@ -1,89 +1,30 @@
-angular.module('musicServerViews', ['album-tracks.partial.html', 'album.partial.html', 'albums.html', 'artist.partial.html', 'artists.html', 'login.html', 'navbar.partial.html', 'playlist.partial.html', 'search.partial.html', 'track.partial.html', 'tracks.html']);
-
-angular.module("album-tracks.partial.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("album-tracks.partial.html",
-    "<li class=\"album-tracks\">\n" +
-    "    <div class=\"arrow\" ng-style=\"{ left: arrowLeft + 'px' }\"></div>\n" +
-    "    <div class=\"inner\">\n" +
-    "        <div class=\"close-tracks\">\n" +
-    "            <div class=\"controls controls-mini\">\n" +
-    "                <button type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-remove\"></span></button>\n" +
-    "            </div>\n" +
-    "        </div>\n" +
-    "        <ul class=\"tracks\">\n" +
-    "            <li track=\"track\" ng-repeat=\"track in tracks\">\n" +
-    "            </li>\n" +
-    "        </ul>\n" +
-    "    </div>\n" +
-    "</li>\n" +
-    "");
-}]);
+angular.module('musicServerViews', ['album.partial.html', 'artist.partial.html', 'login.html', 'main.html', 'navbar.partial.html', 'playlist.partial.html', 'search.partial.html', 'track.partial.html']);
 
 angular.module("album.partial.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("album.partial.html",
-    "<li class=\"album\">\n" +
+    "<li class=\"album\" ng-click=\"select()\">\n" +
     "    <div class=\"content\">\n" +
-    "        <img album-art=\"album\" class=\"hide-sm\" alt=\"\" src=\"/images/default-art.jpg\"/>\n" +
     "        <div class=\"controls controls-mini\">\n" +
-    "            <button ng-click=\"add()\" type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-plus\"></span></button>\n" +
-    "            <button ng-click=\"play()\" type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-play\"></span></button>\n" +
+    "            <button ng-click=\"add($event)\" type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-plus\"></span></button>\n" +
+    "            <button ng-click=\"play($event)\" type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-play\"></span></button>\n" +
     "        </div>\n" +
     "        <div class=\"desc\">{{ album.Name }}</div>\n" +
     "    </div>\n" +
-    "    <ul ng-if=\"showTracks && album.tracks\" am-scroll-loader=\"fetchMore()\" class=\"tracks\">\n" +
-    "        <li track=\"track\" ng-repeat=\"track in album.tracks\">\n" +
-    "        </li>\n" +
-    "    </ul>\n" +
     "</li>\n" +
-    "");
-}]);
-
-angular.module("albums.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("albums.html",
-    "<div class=\"panes\">\n" +
-    "    <div album-list scroll-loader=\"albumRequest.fetch()\" class=\"pane-span\">\n" +
-    "        <ul class=\"albums\">\n" +
-    "            <li album ng-repeat=\"album in albums\"></li>\n" +
-    "        </ul>\n" +
-    "    </div>\n" +
-    "</div>\n" +
     "");
 }]);
 
 angular.module("artist.partial.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("artist.partial.html",
-    "<li class=\"artist\">\n" +
+    "<li class=\"artist\" ng-click=\"select()\">\n" +
     "    <div class=\"content\">\n" +
     "        <div class=\"controls controls-mini\">\n" +
-    "            <button ng-click=\"add()\" type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-plus\"></span></button>\n" +
-    "            <button ng-click=\"play()\" type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-play\"></span></button>\n" +
+    "            <button ng-click=\"add($event)\" type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-plus\"></span></button>\n" +
+    "            <button ng-click=\"play($event)\" type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-play\"></span></button>\n" +
     "        </div>\n" +
     "        <div class=\"desc\">{{ artist.Name }}</div>\n" +
     "    </div>\n" +
-    "    <div ng-if=\"showAlbums && artist.albums\" album-list=\"albumRequest.fetch()\" scroll-loader=\"fetchMore()\">\n" +
-    "        <ul class=\"albums\">\n" +
-    "            <li album=\"album\" am-show-tracks=\"showTracks\" ng-repeat=\"album in artist.albums\">\n" +
-    "            </li>\n" +
-    "        </ul>\n" +
-    "    </div>\n" +
     "</li>\n" +
-    "");
-}]);
-
-angular.module("artists.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("artists.html",
-    "<div class=\"panes\">\n" +
-    "    <div artist-list scroll-loader=\"artistRequest.fetch()\" class=\"pane-left\">\n" +
-    "        <ul class=\"artists\">\n" +
-    "            <li artist ng-repeat=\"artist in artists\"></li>\n" +
-    "        </ul>\n" +
-    "    </div>\n" +
-    "    <div ng-if=\"isDesktop\" album-list scroll-loader=\"albumRequest.fetch()\" class=\"pane-right\">\n" +
-    "        <ul class=\"albums\">\n" +
-    "            <li album ng-repeat=\"album in albums\" class=\"album\"></li>\n" +
-    "        </ul>\n" +
-    "    </div>\n" +
-    "</div>\n" +
     "");
 }]);
 
@@ -100,13 +41,33 @@ angular.module("login.html", []).run(["$templateCache", function($templateCache)
     "");
 }]);
 
+angular.module("main.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("main.html",
+    "<div class=\"panes\">\n" +
+    "    <div class=\"pane-top\">ABC</div>\n" +
+    "    <div scroll-loader=\"artistRequest.fetch()\" class=\"pane pane-left\">\n" +
+    "        <ul class=\"artists\">\n" +
+    "            <li artist ng-repeat=\"artist in artists | limitTo: artists.length track by artist.ID\"></li>\n" +
+    "        </ul>\n" +
+    "    </div>\n" +
+    "    <div scroll-loader=\"albumRequest.fetch()\" class=\"pane pane-mid\">\n" +
+    "        <ul class=\"albums\">\n" +
+    "            <li album ng-repeat=\"album in albums | limitTo: albums.length track by album.ID\"></li>\n" +
+    "        </ul>\n" +
+    "    </div>\n" +
+    "    <div scroll-loader=\"trackRequest.fetch()\" class=\"pane pane-right\">\n" +
+    "        <ul class=\"tracks\">\n" +
+    "            <li track ng-repeat=\"track in tracks | limitTo: tracks.length track by track.ID\"></li>\n" +
+    "        </ul>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "");
+}]);
+
 angular.module("navbar.partial.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("navbar.partial.html",
     "<div class=\"navbar\">\n" +
     "    <div class=\"navbar-inner\">\n" +
-    "        <div ng-controller=\"NavController\" class=\"controls controls-nav hide-s\">\n" +
-    "            <button ng-repeat=\"nav in navs\" ng-click=\"changeLocation(nav.link)\" ng-class=\"{active:isActive(nav.link)}\" type=\"button\" class=\"control\">{{ nav.title }}</button>\n" +
-    "        </div>\n" +
     "        <div class=\"controls controls-nav\">\n" +
     "            <button type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-backward\"></span>\n" +
     "            </button>\n" +
@@ -122,7 +83,7 @@ angular.module("navbar.partial.html", []).run(["$templateCache", function($templ
     "            </div>\n" +
     "        </div>\n" +
     "        <div class=\"controls controls-nav\">\n" +
-    "            <button type=\"button\" ng-click=\"togglePlaylistHandler()\" cancel-click-event class=\"control\"><span class=\"glyphicon glyphicon-list\"></span>\n" +
+    "            <button type=\"button\" ng-click=\"togglePlaylistHandler()\" body-event-handler=\"playlist\" class=\"control\"><span class=\"glyphicon glyphicon-list\"></span>\n" +
     "            </button>\n" +
     "            <playlist></playlist>\n" +
     "        </div>\n" +
@@ -134,7 +95,7 @@ angular.module("navbar.partial.html", []).run(["$templateCache", function($templ
     "            <button type=\"button\" class=\"control\"><span class=\"lastfmicon\"></span>\n" +
     "            </button>\n" +
     "        </div>\n" +
-    "        <form ng-submit=\"search()\" ng-controller=\"SearchController\" cancel-click-event class=\"controls controls-nav\">\n" +
+    "        <form ng-submit=\"initSearch()\" ng-controller=\"SearchController\" body-event-handler=\"search\" class=\"controls controls-nav\">\n" +
     "            <input ng-model=\"searchText\" class=\"control\" type=\"text\" placeholder=\"search\" autocomplete=\"off\">\n" +
     "            <button type=\"submit\" class=\"control\"><span class=\"glyphicon glyphicon-search\"></span>\n" +
     "            </button>\n" +
@@ -149,7 +110,7 @@ angular.module("playlist.partial.html", []).run(["$templateCache", function($tem
   $templateCache.put("playlist.partial.html",
     "<div class=\"dropdown\">\n" +
     "    <div class=\"arrow\"></div>\n" +
-    "    <div cancel-click-event class=\"inner\">\n" +
+    "    <div body-event-handler=\"playlist\" class=\"inner\">\n" +
     "        <ul class=\"playlist tracks\">\n" +
     "            <li ng-if=\"playlist.length > 0\" class=\"desc\"><span class=\"link-left\" ng-click=\"clearAll()\">Clear All</span><span class=\"link-right\" ng-click=\"clearSelected()\">Clear Selected</span></li>\n" +
     "            <li track ng-repeat=\"track in playlist\"></li>\n" +
@@ -164,26 +125,26 @@ angular.module("search.partial.html", []).run(["$templateCache", function($templ
   $templateCache.put("search.partial.html",
     "<div class=\"dropdown\">\n" +
     "    <div class=\"arrow\"></div>\n" +
-    "    <div ng-switch=\"searchInProgress\" cancel-click-event class=\"inner\">\n" +
+    "    <div ng-switch=\"searchInProgress\" body-event-handler=\"search\" class=\"inner\">\n" +
     "        <div ng-switch-when=\"true\">\n" +
     "            <ul class=\"search\">\n" +
     "                <li>Loading...</li>\n" +
     "            </ul>\n" +
     "        </div>\n" +
     "        <div ng-switch-default>\n" +
-    "            <ul ng-controller=\"TrackListController\" ng-if=\"tracks.length > 0\" class=\"search tracks\">\n" +
+    "            <ul ng-if=\"search.tracks.length > 0\" class=\"search tracks\">\n" +
     "                <li>Tracks<span class=\"link-right\" ng-click=\"redirectToResults('tracks')\">Show all</span></li>\n" +
-    "                <li track ng-repeat=\"track in tracks\"></li>\n" +
+    "                <li track ng-repeat=\"track in search.tracks\"></li>\n" +
     "            </ul>\n" +
-    "            <ul ng-controller=\"AlbumListController\" ng-if=\"albums.length > 0\" class=\"search search-albums\">\n" +
+    "            <ul ng-if=\"search.albums.length > 0\" class=\"search albums\">\n" +
     "                <li>Albums<span class=\"link-right\" ng-click=\"redirectToResults('albums')\">Show all</span></li>\n" +
-    "                <li album ng-repeat=\"album in albums\" class=\"album\"></li>\n" +
+    "                <li album ng-repeat=\"album in search.albums\" class=\"album\"></li>\n" +
     "            </ul>\n" +
-    "            <ul ng-controller=\"ArtistListController\" ng-if=\"artists.length > 0\" class=\"search artists\">\n" +
+    "            <ul ng-if=\"search.artists.length > 0\" class=\"search artists\">\n" +
     "                <li>Artists<span class=\"link-right\" ng-click=\"redirectToResults('artists')\">Show all</span></li>\n" +
-    "                <li artist ng-repeat=\"artist in artists\"></li>\n" +
+    "                <li artist ng-repeat=\"artist in search.artists\"></li>\n" +
     "            </ul>\n" +
-    "            <ul ng-if=\"artists.length + albums.length + tracks.length <= 0\" class=\"search\">\n" +
+    "            <ul ng-if=\"search.artists.length + search.albums.length + search.tracks.length <= 0\" class=\"search\">\n" +
     "                <li>No results found</li>\n" +
     "            </ul>\n" +
     "        </div>\n" +
@@ -197,16 +158,11 @@ angular.module("track.partial.html", []).run(["$templateCache", function($templa
     "<li class=\"track\">\n" +
     "    <div class=\"content\">\n" +
     "        <div class=\"controls controls-mini\">\n" +
-    "            <button ng-click=\"add()\" type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-plus\"></span></button>\n" +
-    "            <button ng-click=\"play()\" type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-play\"></span></button>\n" +
+    "            <button ng-click=\"add($event)\" type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-plus\"></span></button>\n" +
+    "            <button ng-click=\"play($event)\" type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-play\"></span></button>\n" +
     "        </div>\n" +
     "        <div class=\"desc\">{{ track.Name }}</div>\n" +
     "    </div>\n" +
     "</li>\n" +
-    "");
-}]);
-
-angular.module("tracks.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("tracks.html",
     "");
 }]);

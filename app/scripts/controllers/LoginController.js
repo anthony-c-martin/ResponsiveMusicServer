@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .controller('LoginController', ['$scope', '$rootScope', 'LoginRequest',
-        function ($scope, $rootScope, LoginRequest) {
+    .controller('LoginController', ['$scope', '$rootScope', 'HttpRequest',
+        function ($scope, $rootScope, HttpRequest) {
             $scope.auth = {};
 
             $scope.login = function () {
-                LoginRequest.login($scope.auth.username, $scope.auth.password).then(function(data) {
+                HttpRequest.session.login($scope.auth.username, $scope.auth.password).then(function(data) {
                     $scope.$emit('loginSuccess', {
                         Key: data.Session,
                         Secret: data.Secret

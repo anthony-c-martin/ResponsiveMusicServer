@@ -18,41 +18,10 @@ angular
                 templateUrl: 'login.html',
                 title: 'Login'
             }).
-            when('/artists', {
-                controller: 'ArtistViewController',
-                activeTab: 'artists',
-                templateUrl: 'artists.html',
-                title: 'Artists'
-            }).
-            when('/artists/s/:search', {
-                controller: 'ArtistViewController',
-                activeTab: 'artists',
-                templateUrl: 'artists.html',
-                title: 'Artists: search'
-            }).
-            when('/albums', {
-                controller: 'AlbumViewController',
-                activeTab: 'albums',
-                templateUrl: 'albums.html',
-                title: 'Albums'
-            }).
-            when('/albums/s/:search', {
-                controller: 'AlbumViewController',
-                activeTab: 'albums',
-                templateUrl: 'albums.html',
-                title: 'Albums: search'
-            }).
             when('/tracks', {
-                controller: 'TrackViewController',
-                activeTab: 'tracks',
-                templateUrl: 'tracks.html',
-                title: 'Tracks'
-            }).
-            when('/tracks/s/:search', {
-                controller: 'TrackViewController',
-                activeTab: 'tracks',
-                templateUrl: 'tracks.html',
-                title: 'Tracks: search'
+                controller: 'MainController',
+                templateUrl: 'main.html',
+                title: 'Main'
             }).
             otherwise({
                 redirectTo: '/login'

@@ -3,9 +3,14 @@
 angular.module('musicServerApp')
     .directive('bodyEventHandler', ['$rootScope',
         function($rootScope) {
-            function linkFunction(scope, element) {
-                element.on('click.am', function() {
-                    $rootScope.$emit('hideDropdowns');
+            function linkFunction(scope, element, attrs) {
+                element.on('click.am', function(e) {
+                    if (attrs.bodyEventHandler) {
+                        $rootScope.$emit('hideDropdowns', attrs.bodyEventHandler);
+                        e.stopPropagation();
+                    } else {
+                        $rootScope.$emit('hideDropdowns');
+                    }
                 });
             }
 

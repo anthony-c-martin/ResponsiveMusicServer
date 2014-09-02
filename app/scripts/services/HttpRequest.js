@@ -71,7 +71,7 @@ angular.module('musicServerApp')
                 };
             }
 
-            return {
+            var httpRequests = {
                 fetchAll: function (command, withBounds) {
                     var request = withBounds ? fetchRequestWithBounds : fetchRequest;
                     return request(command, {});
@@ -99,6 +99,106 @@ angular.module('musicServerApp')
                             });
                         }
                     };
+                }
+            };
+
+            return {
+                session: {
+                    login: function (username, password) {
+                        var deferred = $q.defer();
+
+                        function getSession(token, username, password) {
+                            var pswdHash = md5(username + ':' + 'com.acm.AMMusicServer' + ':' + password);
+                            var authString = md5(token + ':' + username + ':' + pswdHash + ':' + token);
+                            httpRequests.unauthenticated('GetSession', {
+                                Token: token,
+                                Authentication: authString
+                            }).load().then(function (data) {
+                                deferred.resolve(data);
+                            }, function (message) {
+                                deferred.reject(message);
+                            });
+                        }
+
+                        httpRequests.unauthenticated('GetToken', {
+                        }).load().then(function (data) {
+                            getSession(data.Token, username, password);
+                        }, function (message) {
+                            deferred.reject(message);
+                        });
+                        return deferred.promise;
+                    },
+                    getUserPreferences: function() {
+                        return httpRequests.authenticated('GetUserPreferences', {});
+                    }
+                },
+                artist: {
+                    getAll: function () {
+                        return httpRequests.fetchAll('GetArtists', true);
+                    }
+                },
+                album: {
+                    getAll: function () {
+                        return httpRequests.fetchAll('GetAlbums', true);
+                    },
+                    getFromArtist: function (id) {
+                        return httpRequests.fetchByID('GetAlbumsByArtist', true, id);
+                    }
+                },
+                track: {
+                    getAll: function() {
+                        return httpRequests.fetchAll('GetTracks', true);
+                    },
+                    getFromArtist: function(id) {
+                        return httpRequests.fetchByID('GetTracksByArtist', true, id);
+                    },
+                    getFromAlbum: function(id) {
+                        return httpRequests.fetchByID('GetTracksByAlbum', true, id);
+                    },
+                    convert: function(id) {
+                        return httpRequests.fetchByString('ConvertTrackByID', false, id);
+                    },
+                    lastFMNowPlaying: function(id) {
+                        return httpRequests.fetchByString('LFMNowPlayingTrack', false, id);
+                    },
+                    lastFMScrobble: function(id) {
+                        return httpRequests.fetchByString('LFMScrobbleTrack', false, id);
+                    }
+                },
+                search: {
+                    all: function(limit, value) {
+                        var _this = this;
+                        var deferred = $q.defer();
+
+                        _this.artists(limit, value).then(function(artists) {
+                            _this.albums(limit, value).then(function(albums) {
+                                _this.tracks(limit, value).then(function(tracks) {
+                                    deferred.resolve({
+                                        artists: artists,
+                                        albums: albums,
+                                        tracks: tracks
+                                    });
+                                }, deferred.reject);
+                            }, deferred.reject);
+                        }, deferred.reject);
+
+                        return deferred.promise;
+                    },
+                    artists: function(limit, value) {
+                        var request = httpRequests.fetchByString('SearchArtists', true, value);
+                        request.limit = limit;
+                        return request.load();
+                    },
+                    albums: function(limit, value) {
+                        var request = httpRequests.fetchByString('SearchAlbums', true, value);
+                        request.limit = limit;
+                        return request.load();
+                    },
+                    tracks: function(limit, value) {
+                        var request = httpRequests.fetchByString('SearchTracks', true, value);
+                        request.limit = limit;
+                        return request.load();
+                    }
                 }
             };
         }]);

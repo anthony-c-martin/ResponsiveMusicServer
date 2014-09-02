@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .directive('audioPlayer', ['SessionData', 'TrackRequest',
-        function (SessionData, TrackRequest) {
+    .directive('audioPlayer', ['SessionData', 'HttpRequest',
+        function (SessionData, HttpRequest) {
             function trackTimer() {
                 function timerTick() {
                     if (!_paused && ++_counter > _duration) {
@@ -74,10 +74,10 @@ angular.module('musicServerApp')
                             audio.play();
 
                             if (scope.scrobblingEnabled) {
-                                TrackRequest.lastFMNowPlaying(track.ID).load();
+                                HttpRequest.track.lastFMNowPlaying(track.ID).load();
                                 scrobbleTimer.reset(function() {
                                     if (track === scope.track) {
-                                        TrackRequest.lastFMScrobble(track.ID).load();
+                                        HttpRequest.track.lastFMScrobble(track.ID).load();
                                     }
                                 }, track.Duration/2 < 240 ? track.Duration/2 : 240);
                             }

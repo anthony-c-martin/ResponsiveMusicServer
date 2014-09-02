@@ -1,14 +1,9 @@
-<li class="album">
+<li class="album" ng-click="select()">
     <div class="content">
-        <img album-art="album" class="hide-sm" alt="" src="/images/default-art.jpg"/>
         <div class="controls controls-mini">
-            <button ng-click="add()" type="button" class="control"><span class="glyphicon glyphicon-plus"></span></button>
-            <button ng-click="play()" type="button" class="control"><span class="glyphicon glyphicon-play"></span></button>
+            <button ng-click="add($event)" type="button" class="control"><span class="glyphicon glyphicon-plus"></span></button>
+            <button ng-click="play($event)" type="button" class="control"><span class="glyphicon glyphicon-play"></span></button>
         </div>
         <div class="desc">{{ album.Name }}</div>
     </div>
-    <ul ng-if="showTracks && album.tracks" am-scroll-loader="fetchMore()" class="tracks">
-        <li track="track" ng-repeat="track in album.tracks">
-        </li>
-    </ul>
 </li>

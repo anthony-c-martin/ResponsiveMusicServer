@@ -1,15 +1,20 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .controller('SearchController', ['$scope', 'SearchRequest',
-        function ($scope, SearchRequest) {
-            $scope.search = function() {
+    .controller('SearchController', ['$scope', 'HttpRequest',
+        function ($scope, HttpRequest) {
+            $scope.initSearch = function() {
                 $scope.searchInProgress = true;
+                $scope.search = {
+                    artists: [],
+                    albums: [],
+                    tracks: []
+                };
                 $scope.toggleSearch(true);
-                SearchRequest.all(5, $scope.searchText).then(function(results) {
-                    $scope.artists = results.artists;
-                    $scope.albums = results.albums;
-                    $scope.tracks = results.tracks;
+                HttpRequest.search.all(5, $scope.searchText).then(function(results) {
+                    $scope.search.artists = results.artists;
+                    $scope.search.albums = results.albums;
+                    $scope.search.tracks = results.tracks;
                     $scope.searchInProgress = false;
                 });
             };

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .controller('MainController', ['$scope', '$rootScope', '$location', 'matchmedia', 'SessionData', 'LoginRequest',
-        function ($scope, $rootScope, $location, matchmedia, SessionData, LoginRequest) {
+    .controller('ApplicationController', ['$scope', '$rootScope', '$location', 'matchmedia', 'SessionData', 'HttpRequest',
+        function ($scope, $rootScope, $location, matchmedia, SessionData, HttpRequest) {
             matchmedia.onDesktop(function(mql) {
                 $scope.isDesktop = mql.matches;
             });
@@ -42,8 +42,8 @@ angular.module('musicServerApp')
             $scope.$on('loginSuccess', function (event, sessionData) {
                 SessionData.setSession(sessionData);
                 $scope.loggedIn = true;
-                $location.path('/artists');
-                LoginRequest.getUserPreferences().load().then(function(data) {
+                $location.path('/tracks');
+                HttpRequest.session.getUserPreferences().load().then(function(data) {
                     SessionData.setUserPreferences(data);
                     $scope.scrobblingEnabled = SessionData.getUserPreference('ScrobblingEnabled');
                 });

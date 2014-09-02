@@ -1,0 +1,18 @@
+<div class="panes">
+    <div class="pane-top">ABC</div>
+    <div scroll-loader="artistRequest.fetch()" class="pane pane-left">
+        <ul class="artists">
+            <li artist ng-repeat="artist in artists | limitTo: artists.length track by artist.ID"></li>
+        </ul>
+    </div>
+    <div scroll-loader="albumRequest.fetch()" class="pane pane-mid">
+        <ul class="albums">
+            <li album ng-repeat="album in albums | limitTo: albums.length track by album.ID"></li>
+        </ul>
+    </div>
+    <div scroll-loader="trackRequest.fetch()" class="pane pane-right">
+        <ul class="tracks">
+            <li track ng-repeat="track in tracks | limitTo: tracks.length track by track.ID"></li>
+        </ul>
+    </div>
+</div>

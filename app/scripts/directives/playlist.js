@@ -7,8 +7,10 @@ angular.module('musicServerApp')
                 link: function(scope, element) {
                     element.hide();
 
-                    $rootScope.$on('hideDropdowns', function() {
-                        element.hide();
+                    $rootScope.$on('hideDropdowns', function(e, data) {
+                        if (!(data && data === 'playlist')) {
+                            element.hide();
+                        }
                     });
 
                     scope.togglePlaylistHandler = function(toggle) {
