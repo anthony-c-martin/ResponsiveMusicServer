@@ -1,16 +1,38 @@
-<div class="panes">
-    <div class="pane-top">ABC</div>
-    <div scroll-loader="artistRequest.fetch()" class="pane pane-left">
+<div ng-controller="PanelController" class="panes">
+    <div class="pane-top" ng-if="!isDesktop">
+        <div ng-if="isPhone">
+            <span ng-if="selectedAlbum">
+                <div class="history-item clickable" ng-click="deselectAlbum()">&lt;</div>
+                <div class="history-item">{{ selectedAlbum.Name }}</div>
+            </span>
+            <span ng-if="selectedArtist && !selectedAlbum">
+                <div class="history-item clickable" ng-click="deselectArtist()">&lt;</div>
+                <div class="history-item">{{ selectedArtist.Name }}</div>
+            </span>
+        </div>
+        <div ng-if="!isPhone">
+            <div class="history-item clickable" ng-click="deselectArtist()">Artists</div>
+            <span ng-if="selectedArtist">
+                <div class="history-item">&gt;</div>
+                <div class="history-item clickable" ng-click="deselectAlbum()">{{ selectedArtist.Name }}</div>
+            </span>
+            <span ng-if="selectedAlbum">
+                <div class="history-item">&gt;</div>
+                <div class="history-item">{{ selectedAlbum.Name }}</div>
+            </span>
+        </div>
+    </div>
+    <div ng-if="isArtistsShown()" scroll-loader="artistRequest.fetch()" class="pane pane-left">
         <ul class="artists">
             <li artist ng-repeat="artist in artists | limitTo: artists.length track by artist.ID"></li>
         </ul>
     </div>
-    <div scroll-loader="albumRequest.fetch()" class="pane pane-mid">
+    <div ng-if="isAlbumsShown()" scroll-loader="albumRequest.fetch()" class="pane pane-mid">
         <ul class="albums">
             <li album ng-repeat="album in albums | limitTo: albums.length track by album.ID"></li>
         </ul>
     </div>
-    <div scroll-loader="trackRequest.fetch()" class="pane pane-right">
+    <div ng-if="isTracksShown()" scroll-loader="trackRequest.fetch()" class="pane pane-right">
         <ul class="tracks">
             <li track ng-repeat="track in tracks | limitTo: tracks.length track by track.ID"></li>
         </ul>

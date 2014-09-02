@@ -6,6 +6,9 @@ angular.module('musicServerApp')
             matchmedia.onDesktop(function(mql) {
                 $scope.isDesktop = mql.matches;
             });
+            matchmedia.onPhone(function(mql) {
+                $scope.isPhone = mql.matches;
+            });
 
             window.onbeforeunload = function() {
                 if ($scope.loggedIn && !window.LiveReload) {
@@ -42,7 +45,7 @@ angular.module('musicServerApp')
             $scope.$on('loginSuccess', function (event, sessionData) {
                 SessionData.setSession(sessionData);
                 $scope.loggedIn = true;
-                $location.path('/tracks');
+                $location.path('/music');
                 HttpRequest.session.getUserPreferences().load().then(function(data) {
                     SessionData.setUserPreferences(data);
                     $scope.scrobblingEnabled = SessionData.getUserPreference('ScrobblingEnabled');

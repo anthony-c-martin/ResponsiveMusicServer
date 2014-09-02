@@ -54,6 +54,15 @@ ul {
     list-style-type: none;
 }
 
+.clickable {
+    @include noselect-pointer;
+}
+
+.history-item {
+    display: inline-block;
+    padding: 0.5em 0.25em;
+}
+
 .navbar {
     position: fixed;
     top: 0;
@@ -61,7 +70,9 @@ ul {
     right: 0;
     background-color: $navbar-bg;
     border-bottom: 0.063 solid $navbar-border;
+    text-align: center;
     .navbar-inner {
+        display:inline-block;
         padding: 0;
         @include mq-med-large {
             height: $navbar-height-med-large;
@@ -103,6 +114,7 @@ ul {
         }
     }
     &.controls-nav {
+        margin: 0 $em4px;
         &>.control {
             border: $em1px solid $btn-border;
             margin: 0;
@@ -163,12 +175,12 @@ ul {
         flex: 1 auto;
     }
     .pane-mid {
-        @include hide-small;
+        //@include hide-small;
         flex: 1 auto;
         border-left: 1px solid $li-border;
     }
     .pane-right {
-        @include hide-small-med;
+        //@include hide-small-med;
         flex: 1 auto;
         border-left: 1px solid $li-border;
     }
@@ -228,35 +240,13 @@ ul.tracks {
 }
 
 .dropdown {
-    position: absolute;
-    overflow: hidden;
-    left: 0;
-    width: 20em;
-    left: -10em + 0.5em;
-    z-index: 1;
-    @include slide-down(.2s);
-    @include mq-med-large {
-        top: $navbar-height-med-large;
-    }
-    @include mq-small {
-        top: $navbar-height-small;
-    }
-    &>.arrow {
-        @include arrow(1em) {
-            &:after {
-                background-color: $dropdown-color;
-                border: $em1px solid $dropdown-border;
-            }
-            left: 10em + $em4px;
-        }
-    }
+    @include dropdown(20em);
+}
+.dropdown-vol {
+    @include dropdown(2em);
+    left: 1.2em;
     &>.inner {
-        margin-top: 1em;
-        background-color: $dropdown-color;
-        border: $em1px solid $dropdown-border;
-        max-height: 30em;
-        overflow-x: hidden;
-        overflow-y: auto;
+        height: 10em;
     }
 }
 

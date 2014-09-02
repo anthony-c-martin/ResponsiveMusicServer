@@ -9,6 +9,7 @@ angular
     .config(['matchmediaProvider',
         function(matchmediaProvider) {
             matchmediaProvider.rules.desktop = '(min-width: 56em)';
+            matchmediaProvider.rules.phone = '(max-width: 40em)';
         }])
     .config(['$routeProvider',
         function ($routeProvider) {
@@ -18,7 +19,7 @@ angular
                 templateUrl: 'login.html',
                 title: 'Login'
             }).
-            when('/tracks', {
+            when('/music', {
                 controller: 'MainController',
                 templateUrl: 'main.html',
                 title: 'Main'

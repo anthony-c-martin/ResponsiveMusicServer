@@ -1,4 +1,4 @@
-angular.module('musicServerViews', ['album.partial.html', 'artist.partial.html', 'login.html', 'main.html', 'navbar.partial.html', 'playlist.partial.html', 'search.partial.html', 'track.partial.html']);
+angular.module('musicServerViews', ['album.partial.html', 'artist.partial.html', 'login.html', 'main.html', 'navbar.partial.html', 'playlist.partial.html', 'search.partial.html', 'track.partial.html', 'volume-control.partial.html']);
 
 angular.module("album.partial.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("album.partial.html",
@@ -43,19 +43,41 @@ angular.module("login.html", []).run(["$templateCache", function($templateCache)
 
 angular.module("main.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("main.html",
-    "<div class=\"panes\">\n" +
-    "    <div class=\"pane-top\">ABC</div>\n" +
-    "    <div scroll-loader=\"artistRequest.fetch()\" class=\"pane pane-left\">\n" +
+    "<div ng-controller=\"PanelController\" class=\"panes\">\n" +
+    "    <div class=\"pane-top\" ng-if=\"!isDesktop\">\n" +
+    "        <div ng-if=\"isPhone\">\n" +
+    "            <span ng-if=\"selectedAlbum\">\n" +
+    "                <div class=\"history-item clickable\" ng-click=\"deselectAlbum()\">&lt;</div>\n" +
+    "                <div class=\"history-item\">{{ selectedAlbum.Name }}</div>\n" +
+    "            </span>\n" +
+    "            <span ng-if=\"selectedArtist && !selectedAlbum\">\n" +
+    "                <div class=\"history-item clickable\" ng-click=\"deselectArtist()\">&lt;</div>\n" +
+    "                <div class=\"history-item\">{{ selectedArtist.Name }}</div>\n" +
+    "            </span>\n" +
+    "        </div>\n" +
+    "        <div ng-if=\"!isPhone\">\n" +
+    "            <div class=\"history-item clickable\" ng-click=\"deselectArtist()\">Artists</div>\n" +
+    "            <span ng-if=\"selectedArtist\">\n" +
+    "                <div class=\"history-item\">&gt;</div>\n" +
+    "                <div class=\"history-item clickable\" ng-click=\"deselectAlbum()\">{{ selectedArtist.Name }}</div>\n" +
+    "            </span>\n" +
+    "            <span ng-if=\"selectedAlbum\">\n" +
+    "                <div class=\"history-item\">&gt;</div>\n" +
+    "                <div class=\"history-item\">{{ selectedAlbum.Name }}</div>\n" +
+    "            </span>\n" +
+    "        </div>\n" +
+    "    </div>\n" +
+    "    <div ng-if=\"isArtistsShown()\" scroll-loader=\"artistRequest.fetch()\" class=\"pane pane-left\">\n" +
     "        <ul class=\"artists\">\n" +
     "            <li artist ng-repeat=\"artist in artists | limitTo: artists.length track by artist.ID\"></li>\n" +
     "        </ul>\n" +
     "    </div>\n" +
-    "    <div scroll-loader=\"albumRequest.fetch()\" class=\"pane pane-mid\">\n" +
+    "    <div ng-if=\"isAlbumsShown()\" scroll-loader=\"albumRequest.fetch()\" class=\"pane pane-mid\">\n" +
     "        <ul class=\"albums\">\n" +
     "            <li album ng-repeat=\"album in albums | limitTo: albums.length track by album.ID\"></li>\n" +
     "        </ul>\n" +
     "    </div>\n" +
-    "    <div scroll-loader=\"trackRequest.fetch()\" class=\"pane pane-right\">\n" +
+    "    <div ng-if=\"isTracksShown()\" scroll-loader=\"trackRequest.fetch()\" class=\"pane pane-right\">\n" +
     "        <ul class=\"tracks\">\n" +
     "            <li track ng-repeat=\"track in tracks | limitTo: tracks.length track by track.ID\"></li>\n" +
     "        </ul>\n" +
@@ -79,21 +101,17 @@ angular.module("navbar.partial.html", []).run(["$templateCache", function($templ
     "        <div class=\"controls controls-nav\">\n" +
     "            <div class=\"progress-container control\">\n" +
     "                <div class=\"progress-bar progress-position\"></div>\n" +
-    "                <div class=\"progress-bar progress-volume\"></div>\n" +
     "            </div>\n" +
     "        </div>\n" +
     "        <div class=\"controls controls-nav\">\n" +
     "            <button type=\"button\" ng-click=\"togglePlaylistHandler()\" body-event-handler=\"playlist\" class=\"control\"><span class=\"glyphicon glyphicon-list\"></span>\n" +
     "            </button>\n" +
-    "            <playlist></playlist>\n" +
-    "        </div>\n" +
-    "        <div class=\"controls controls-nav\">\n" +
-    "            <button type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-volume-up\"></span>\n" +
+    "            <button type=\"button\" ng-click=\"toggleVolumeHandler()\" body-event-handler=\"volume\" class=\"control\"><span class=\"glyphicon glyphicon-volume-up\"></span>\n" +
     "            </button>\n" +
-    "        </div>\n" +
-    "        <div class=\"controls controls-nav\">\n" +
+    "            <volume-control></volume-control>\n" +
     "            <button type=\"button\" class=\"control\"><span class=\"lastfmicon\"></span>\n" +
     "            </button>\n" +
+    "            <playlist></playlist>\n" +
     "        </div>\n" +
     "        <form ng-submit=\"initSearch()\" ng-controller=\"SearchController\" body-event-handler=\"search\" class=\"controls controls-nav\">\n" +
     "            <input ng-model=\"searchText\" class=\"control\" type=\"text\" placeholder=\"search\" autocomplete=\"off\">\n" +
@@ -164,5 +182,16 @@ angular.module("track.partial.html", []).run(["$templateCache", function($templa
     "        <div class=\"desc\">{{ track.Name }}</div>\n" +
     "    </div>\n" +
     "</li>\n" +
+    "");
+}]);
+
+angular.module("volume-control.partial.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("volume-control.partial.html",
+    "<div class=\"dropdown-vol\">\n" +
+    "    <div class=\"arrow\"></div>\n" +
+    "    <div body-event-handler=\"volume\" class=\"inner\">\n" +
+    "        <div class=\"progress-bar progress-volume\"></div>\n" +
+    "    </div>\n" +
+    "</div>\n" +
     "");
 }]);
