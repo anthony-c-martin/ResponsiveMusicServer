@@ -3,24 +3,24 @@
     <div ng-switch="searchInProgress" body-event-handler="search" class="inner">
         <div ng-switch-when="true">
             <ul class="search">
-                <li>Loading...</li>
+                <li class="desc">Loading...</li>
             </ul>
         </div>
         <div ng-switch-default>
             <ul ng-if="search.tracks.length > 0" class="search tracks">
-                <li>Tracks<span class="link-right" ng-click="redirectToResults('tracks')">Show all</span></li>
+                <li class="desc">Tracks<span class="link-right" ng-click="redirectToResults('tracks')">Show all</span></li>
                 <li track ng-repeat="track in search.tracks"></li>
             </ul>
             <ul ng-if="search.albums.length > 0" class="search albums">
-                <li>Albums<span class="link-right" ng-click="redirectToResults('albums')">Show all</span></li>
+                <li class="desc">Albums<span class="link-right" ng-click="redirectToResults('albums')">Show all</span></li>
                 <li album ng-repeat="album in search.albums" class="album"></li>
             </ul>
             <ul ng-if="search.artists.length > 0" class="search artists">
-                <li>Artists<span class="link-right" ng-click="redirectToResults('artists')">Show all</span></li>
+                <li class="desc">Artists<span class="link-right" ng-click="redirectToResults('artists')">Show all</span></li>
                 <li artist ng-repeat="artist in search.artists"></li>
             </ul>
             <ul ng-if="search.artists.length + search.albums.length + search.tracks.length <= 0" class="search">
-                <li>No results found</li>
+                <li class="desc">No results found</li>
             </ul>
         </div>
     </div>

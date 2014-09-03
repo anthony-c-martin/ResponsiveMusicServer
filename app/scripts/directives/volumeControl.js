@@ -16,6 +16,12 @@ angular.module('musicServerApp')
                     scope.toggleVolumeHandler = function(toggle) {
                         element.toggle(toggle);
                     };
+
+                    scope.volumeChange = function($event) {
+                        var height = $($event.currentTarget).height();
+                        var bottom = height - $event.offsetY;
+                        scope.setVolume = bottom / height;
+                    };
                 },
                 restrict: 'E',
                 replace: true,

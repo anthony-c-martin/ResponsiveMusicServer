@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .controller('MainController', ['$scope', 'DataLoader', 'Playlist', 'HttpRequest',
-        function($scope, DataLoader, Playlist, HttpRequest) {
+    .controller('MainController', ['$scope', '$rootScope', 'DataLoader', 'Playlist', 'HttpRequest',
+        function($scope, $rootScope, DataLoader, Playlist, HttpRequest) {
             function loadArtists() {
                 $scope.artists = [];
                 $scope.artistRequest = DataLoader.init(HttpRequest.artist.getAll(), $scope.artists);
@@ -62,43 +62,43 @@ angular.module('musicServerApp')
                 Playlist.addTracks([track]);
             }
 
-            $scope.$on('addArtist', function(e, artist) {
+            $rootScope.$on('addArtist', function(e, artist) {
                 e.stopPropagation();
                 addTracksByArtist(artist.ID);
             });
 
-            $scope.$on('playArtist', function(e, artist) {
+            $rootScope.$on('playArtist', function(e, artist) {
                 e.stopPropagation();
                 playTracksByArtist(artist.ID);
             });
 
-            $scope.$on('addAlbum', function(e, album) {
+            $rootScope.$on('addAlbum', function(e, album) {
                 e.stopPropagation();
                 addTracksByAlbum(album.ID);
             });
 
-            $scope.$on('playAlbum', function(e, album) {
+            $rootScope.$on('playAlbum', function(e, album) {
                 e.stopPropagation();
                 playTracksByAlbum(album.ID);
             });
 
-            $scope.$on('addTrack', function(e, track) {
+            $rootScope.$on('addTrack', function(e, track) {
                 e.stopPropagation();
                 addTrack(track);
             });
 
-            $scope.$on('playTrack', function(e, track) {
+            $rootScope.$on('playTrack', function(e, track) {
                 e.stopPropagation();
                 playTrack(track);
             });
 
-            $scope.$on('selectArtist', function(e, artist) {
+            $rootScope.$on('selectArtist', function(e, artist) {
                 loadAlbums(artist);
                 loadTracks(null);
                 $scope.albumRequest.fetch();
             });
 
-            $scope.$on('selectAlbum', function(e, album) {
+            $rootScope.$on('selectAlbum', function(e, album) {
                 loadTracks(album);
                 $scope.trackRequest.fetch();
             });

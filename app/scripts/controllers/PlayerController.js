@@ -33,23 +33,7 @@ angular.module('musicServerApp')
                 });
             };
 
-            $scope.setSlider = function (value) {
-                if ($scope.showPosition) {
-                    $scope.setPosition = value;
-                } else {
-                    $scope.setVolume = value;
-                }
-            };
-
             $scope.prev = function () {
                 $scope.setPosition = 0;
-            };
-
-            $scope.positionCSS = function () {
-                return 'width: ' + ($scope.position * 100) + '%';
-            };
-
-            $scope.volumeCSS = function () {
-                return 'width: ' + ($scope.volume * 100) + '%';
             };
         }]);

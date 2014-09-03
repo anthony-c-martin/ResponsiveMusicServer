@@ -1,17 +1,17 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .directive('track', [
-        function() {
+    .directive('track', ['$rootScope',
+        function($rootScope) {
             function linkFunction(scope) {
                 scope.play = function($event) {
                     $event.stopPropagation();
-                    scope.$emit('playTrack', scope.track);
+                    $rootScope.$emit('playTrack', scope.track);
                 };
 
                 scope.add = function($event) {
                     $event.stopPropagation();
-                    scope.$emit('addTrack', scope.track);
+                    $rootScope.$emit('addTrack', scope.track);
                 };
             }
 

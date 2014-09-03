@@ -89,7 +89,7 @@ angular.module("main.html", []).run(["$templateCache", function($templateCache) 
 angular.module("navbar.partial.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("navbar.partial.html",
     "<div class=\"navbar\">\n" +
-    "    <div class=\"navbar-inner\">\n" +
+    "    <div class=\"navbar-inner\" ng-controller=\"PlayerController\">\n" +
     "        <div class=\"controls controls-nav group1\">\n" +
     "            <button type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-backward\"></span>\n" +
     "            </button>\n" +
@@ -99,8 +99,8 @@ angular.module("navbar.partial.html", []).run(["$templateCache", function($templ
     "            </button>\n" +
     "        </div>\n" +
     "        <div ng-if=\"!isPhone\" class=\"controls controls-nav\">\n" +
-    "            <div class=\"progress-container control\">\n" +
-    "                <div class=\"progress-bar progress-position\"></div>\n" +
+    "            <div ng-click=\"positionChange($event)\" class=\"prog-container control\">\n" +
+    "                <div ng-style=\"{width: (position * 100) + '%'}\" class=\"prog-bar\"></div>\n" +
     "            </div>\n" +
     "        </div>\n" +
     "        <div class=\"controls controls-nav group1\">\n" +
@@ -119,6 +119,7 @@ angular.module("navbar.partial.html", []).run(["$templateCache", function($templ
     "            </button>\n" +
     "            <search></search>\n" +
     "        </form>\n" +
+    "        <audio-player></audio-player>\n" +
     "    </div>\n" +
     "    <div ng-if=\"isPhone\" class=\"navbar-inner\">\n" +
     "        <div class=\"controls controls-nav\">\n" +
@@ -153,24 +154,24 @@ angular.module("search.partial.html", []).run(["$templateCache", function($templ
     "    <div ng-switch=\"searchInProgress\" body-event-handler=\"search\" class=\"inner\">\n" +
     "        <div ng-switch-when=\"true\">\n" +
     "            <ul class=\"search\">\n" +
-    "                <li>Loading...</li>\n" +
+    "                <li class=\"desc\">Loading...</li>\n" +
     "            </ul>\n" +
     "        </div>\n" +
     "        <div ng-switch-default>\n" +
     "            <ul ng-if=\"search.tracks.length > 0\" class=\"search tracks\">\n" +
-    "                <li>Tracks<span class=\"link-right\" ng-click=\"redirectToResults('tracks')\">Show all</span></li>\n" +
+    "                <li class=\"desc\">Tracks<span class=\"link-right\" ng-click=\"redirectToResults('tracks')\">Show all</span></li>\n" +
     "                <li track ng-repeat=\"track in search.tracks\"></li>\n" +
     "            </ul>\n" +
     "            <ul ng-if=\"search.albums.length > 0\" class=\"search albums\">\n" +
-    "                <li>Albums<span class=\"link-right\" ng-click=\"redirectToResults('albums')\">Show all</span></li>\n" +
+    "                <li class=\"desc\">Albums<span class=\"link-right\" ng-click=\"redirectToResults('albums')\">Show all</span></li>\n" +
     "                <li album ng-repeat=\"album in search.albums\" class=\"album\"></li>\n" +
     "            </ul>\n" +
     "            <ul ng-if=\"search.artists.length > 0\" class=\"search artists\">\n" +
-    "                <li>Artists<span class=\"link-right\" ng-click=\"redirectToResults('artists')\">Show all</span></li>\n" +
+    "                <li class=\"desc\">Artists<span class=\"link-right\" ng-click=\"redirectToResults('artists')\">Show all</span></li>\n" +
     "                <li artist ng-repeat=\"artist in search.artists\"></li>\n" +
     "            </ul>\n" +
     "            <ul ng-if=\"search.artists.length + search.albums.length + search.tracks.length <= 0\" class=\"search\">\n" +
-    "                <li>No results found</li>\n" +
+    "                <li class=\"desc\">No results found</li>\n" +
     "            </ul>\n" +
     "        </div>\n" +
     "    </div>\n" +
@@ -197,7 +198,9 @@ angular.module("volume-control.partial.html", []).run(["$templateCache", functio
     "<div class=\"dropdown-vol\">\n" +
     "    <div class=\"arrow\"></div>\n" +
     "    <div body-event-handler=\"volume\" class=\"inner\">\n" +
-    "        <div class=\"progress-bar progress-volume\"></div>\n" +
+    "        <div ng-click=\"volumeChange($event)\" class=\"vol-container\">\n" +
+    "            <div ng-style=\"{height: (volume * 100) + '%'}\" class=\"vol-bar\"></div>\n" +
+    "        </div>\n" +
     "    </div>\n" +
     "</div>\n" +
     "");

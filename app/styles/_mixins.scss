@@ -15,6 +15,11 @@
     cursor: pointer;
 }
 
+@mixin noselect-default {
+    @include noselect;
+    cursor: default;
+}
+
 @mixin ul-main($li-name, $li-border, $li-hover, $li-color, $li-color-selected) {
     padding: 0;
     margin: 0;
@@ -70,7 +75,7 @@
     &>.arrow {
         @include arrow(1em) {
             &:after {
-                background-color: $dropdown-color;
+                background-color: $dark-background;
                 border: $em1px solid $dropdown-border;
             }
             left: ($width/2);
@@ -78,7 +83,7 @@
     }
     &>.inner {
         margin-top: 1em;
-        background-color: $dropdown-color;
+        background-color: $dark-background;
         border: $em1px solid $dropdown-border;
         max-height: 30em;
         overflow-x: hidden;
@@ -148,4 +153,8 @@
         transform: rotate(45deg);
         -webkit-transform: rotate(45deg);
     }
+}
+
+@mixin noevents {
+    pointer-events: none;
 }

@@ -151,6 +151,7 @@ ul {
 }
 
 .panes {
+    background-color: #fff;
     height: 100%;
     display: flex;
     flex-flow: row wrap;
@@ -231,30 +232,45 @@ ul.tracks {
     @include ul-main(track, $li-border, $li-hover, $track-color, $track-color-selected);
 }
 
-.progress-container {
+.prog-container {
+    background-color: #ccd;
+    position: relative;
     @include noselect-pointer;
     width: 20em;
-    .progress-bar {
-        height: 1em;
-        float: left;
+    &>div.prog-bar {
+        height: 100%;
+        background-color: #A2A2B8;
         position: absolute;
-        &.progress-position {
-            background-color: $slider-position-color;
-        }
-        &.progress-volume {
-            background-color: $slider-volume-color;
-        }
+        top: 0;
+        left: 0;
+        @include noevents;
     }
 }
 
 .dropdown {
     @include dropdown(20em);
 }
+
 .dropdown-vol {
     @include dropdown(2em);
     left: 1.2em;
     &>.inner {
         height: 10em;
+        padding: $em4px;
+        &>div.vol-container {
+            height: 100%;
+            width: 100%;
+            background-color: #ccd;
+            position: relative;
+            @include noselect-pointer;
+            &>div.vol-bar {
+                width: 100%;
+                background-color: #A2A2B8;
+                position: absolute;
+                bottom: 0;
+                @include noevents;
+            }
+        }
     }
 }
 
@@ -262,6 +278,11 @@ ul.playlist {
     margin: 0;
     padding: 0;
     li {
+        &.desc {
+            @include noselect-default;
+            background-color: $dark-background;
+            color: $dark-text;
+        }
         padding: 1em;
         @include noselect;
         &.track {
@@ -281,6 +302,11 @@ ul.search {
     margin: 0;
     padding: 0;
     li {
+        &.desc {
+            @include noselect-default;
+            background-color: $dark-background;
+            color: $dark-text;
+        }
         padding: 1em;
         @include noselect;
         &.track, &.artist, &.album {
