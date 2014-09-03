@@ -139,7 +139,7 @@ angular.module("playlist.partial.html", []).run(["$templateCache", function($tem
     "    <div body-event-handler=\"playlist\" class=\"inner\">\n" +
     "        <ul class=\"playlist tracks\">\n" +
     "            <li ng-if=\"playlist.length > 0\" class=\"desc\"><span class=\"link-left\" ng-click=\"clearAll()\">Clear All</span><span class=\"link-right\" ng-click=\"clearSelected()\">Clear Selected</span></li>\n" +
-    "            <li track ng-repeat=\"track in playlist\"></li>\n" +
+    "            <li track playlist-track=\"true\" ng-repeat=\"track in playlist\"></li>\n" +
     "            <li ng-if=\"playlist.length <= 0\" class=\"desc\">The playlist is empty!</li>\n" +
     "        </ul>\n" +
     "    </div>\n" +
@@ -183,9 +183,12 @@ angular.module("track.partial.html", []).run(["$templateCache", function($templa
   $templateCache.put("track.partial.html",
     "<li class=\"track\">\n" +
     "    <div class=\"content\">\n" +
-    "        <div class=\"controls controls-mini\">\n" +
+    "        <div ng-if=\"addable\" class=\"controls controls-mini\">\n" +
     "            <button ng-click=\"add($event)\" type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-plus\"></span></button>\n" +
     "            <button ng-click=\"play($event)\" type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-play\"></span></button>\n" +
+    "        </div>\n" +
+    "        <div ng-if=\"closable\" class=\"controls controls-mini\">\n" +
+    "            <button ng-click=\"remove($event)\" type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-remove\"></span></button>\n" +
     "        </div>\n" +
     "        <div class=\"desc\">{{ track.Name }}</div>\n" +
     "    </div>\n" +

@@ -1,8 +1,11 @@
 <li class="track">
     <div class="content">
-        <div class="controls controls-mini">
+        <div ng-if="addable" class="controls controls-mini">
             <button ng-click="add($event)" type="button" class="control"><span class="glyphicon glyphicon-plus"></span></button>
             <button ng-click="play($event)" type="button" class="control"><span class="glyphicon glyphicon-play"></span></button>
+        </div>
+        <div ng-if="closable" class="controls controls-mini">
+            <button ng-click="remove($event)" type="button" class="control"><span class="glyphicon glyphicon-remove"></span></button>
         </div>
         <div class="desc">{{ track.Name }}</div>
     </div>

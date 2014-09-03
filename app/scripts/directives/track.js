@@ -3,7 +3,14 @@
 angular.module('musicServerApp')
     .directive('track', ['$rootScope',
         function($rootScope) {
-            function linkFunction(scope) {
+            function linkFunction(scope, element, attrs) {
+                scope.addable = true;
+
+                if (attrs.playlistTrack) {
+                    scope.closable = true;
+                    scope.addable = false;
+                }
+
                 scope.play = function($event) {
                     $event.stopPropagation();
                     $rootScope.$emit('playTrack', scope.track);
@@ -12,6 +19,11 @@ angular.module('musicServerApp')
                 scope.add = function($event) {
                     $event.stopPropagation();
                     $rootScope.$emit('addTrack', scope.track);
+                };
+
+                scope.remove = function($event) {
+                    $event.stopPropagation();
+                    $rootScope.$emit('removeTrack', scope.track);
                 };
             }
 
