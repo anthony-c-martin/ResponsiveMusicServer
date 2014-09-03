@@ -90,7 +90,7 @@ angular.module("navbar.partial.html", []).run(["$templateCache", function($templ
   $templateCache.put("navbar.partial.html",
     "<div class=\"navbar\">\n" +
     "    <div class=\"navbar-inner\">\n" +
-    "        <div class=\"controls controls-nav\">\n" +
+    "        <div class=\"controls controls-nav group1\">\n" +
     "            <button type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-backward\"></span>\n" +
     "            </button>\n" +
     "            <button type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-play\"></span>\n" +
@@ -98,27 +98,34 @@ angular.module("navbar.partial.html", []).run(["$templateCache", function($templ
     "            <button type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-forward\"></span>\n" +
     "            </button>\n" +
     "        </div>\n" +
-    "        <div class=\"controls controls-nav\">\n" +
+    "        <div ng-if=\"!isPhone\" class=\"controls controls-nav\">\n" +
     "            <div class=\"progress-container control\">\n" +
     "                <div class=\"progress-bar progress-position\"></div>\n" +
     "            </div>\n" +
     "        </div>\n" +
-    "        <div class=\"controls controls-nav\">\n" +
+    "        <div class=\"controls controls-nav group1\">\n" +
     "            <button type=\"button\" ng-click=\"togglePlaylistHandler()\" body-event-handler=\"playlist\" class=\"control\"><span class=\"glyphicon glyphicon-list\"></span>\n" +
     "            </button>\n" +
     "            <button type=\"button\" ng-click=\"toggleVolumeHandler()\" body-event-handler=\"volume\" class=\"control\"><span class=\"glyphicon glyphicon-volume-up\"></span>\n" +
     "            </button>\n" +
     "            <volume-control></volume-control>\n" +
-    "            <button type=\"button\" class=\"control\"><span class=\"lastfmicon\"></span>\n" +
+    "            <button type=\"button\" ng-click=\"toggleScrobblingEnabled()\" ng-class=\"{active: scrobblingEnabled}\" class=\"control\"><span class=\"lastfmicon\"></span>\n" +
     "            </button>\n" +
     "            <playlist></playlist>\n" +
     "        </div>\n" +
-    "        <form ng-submit=\"initSearch()\" ng-controller=\"SearchController\" body-event-handler=\"search\" class=\"controls controls-nav\">\n" +
+    "        <form ng-submit=\"initSearch()\" ng-controller=\"SearchController\" body-event-handler=\"search\" class=\"controls controls-nav group2\">\n" +
     "            <input ng-model=\"searchText\" class=\"control\" type=\"text\" placeholder=\"search\" autocomplete=\"off\">\n" +
     "            <button type=\"submit\" class=\"control\"><span class=\"glyphicon glyphicon-search\"></span>\n" +
     "            </button>\n" +
     "            <search></search>\n" +
     "        </form>\n" +
+    "    </div>\n" +
+    "    <div ng-if=\"isPhone\" class=\"navbar-inner\">\n" +
+    "        <div class=\"controls controls-nav\">\n" +
+    "            <div class=\"progress-container control\">\n" +
+    "                <div class=\"progress-bar progress-position\"></div>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
     "    </div>\n" +
     "</div>\n" +
     "");

@@ -72,13 +72,11 @@ ul {
     border-bottom: 0.063 solid $navbar-border;
     text-align: center;
     .navbar-inner {
-        display:inline-block;
+        text-align: left;
+        display: inline-block;
         padding: 0;
-        @include mq-med-large {
-            height: $navbar-height-med-large;
-        }
         @include mq-small {
-            height: $navbar-height-small;
+            display: flex;
         }
     }
     z-index: 1;
@@ -116,7 +114,7 @@ ul {
     &.controls-nav {
         margin: 0 $em4px;
         &>.control {
-            border: $em1px solid $btn-border;
+            border: none;
             margin: 0;
             padding: $em4px;
             height: 2em - $em4px;
@@ -125,6 +123,16 @@ ul {
             }
             &.active {
                 background-color: $control-active-color;
+            }
+        }
+        @include mq-small {
+            display: flex;
+            margin: 0;
+            &.group1 {
+                @include vendor-prefix(box-ordinal-group, 1);
+            }
+            &.group2 {
+                @include vendor-prefix(box-ordinal-group, 2);
             }
         }
     }

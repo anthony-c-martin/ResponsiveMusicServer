@@ -1,6 +1,6 @@
 <div class="navbar">
     <div class="navbar-inner">
-        <div class="controls controls-nav">
+        <div class="controls controls-nav group1">
             <button type="button" class="control"><span class="glyphicon glyphicon-backward"></span>
             </button>
             <button type="button" class="control"><span class="glyphicon glyphicon-play"></span>
@@ -8,26 +8,33 @@
             <button type="button" class="control"><span class="glyphicon glyphicon-forward"></span>
             </button>
         </div>
-        <div class="controls controls-nav">
+        <div ng-if="!isPhone" class="controls controls-nav">
             <div class="progress-container control">
                 <div class="progress-bar progress-position"></div>
             </div>
         </div>
-        <div class="controls controls-nav">
+        <div class="controls controls-nav group1">
             <button type="button" ng-click="togglePlaylistHandler()" body-event-handler="playlist" class="control"><span class="glyphicon glyphicon-list"></span>
             </button>
             <button type="button" ng-click="toggleVolumeHandler()" body-event-handler="volume" class="control"><span class="glyphicon glyphicon-volume-up"></span>
             </button>
             <volume-control></volume-control>
-            <button type="button" class="control"><span class="lastfmicon"></span>
+            <button type="button" ng-click="toggleScrobblingEnabled()" ng-class="{active: scrobblingEnabled}" class="control"><span class="lastfmicon"></span>
             </button>
             <playlist></playlist>
         </div>
-        <form ng-submit="initSearch()" ng-controller="SearchController" body-event-handler="search" class="controls controls-nav">
+        <form ng-submit="initSearch()" ng-controller="SearchController" body-event-handler="search" class="controls controls-nav group2">
             <input ng-model="searchText" class="control" type="text" placeholder="search" autocomplete="off">
             <button type="submit" class="control"><span class="glyphicon glyphicon-search"></span>
             </button>
             <search></search>
         </form>
+    </div>
+    <div ng-if="isPhone" class="navbar-inner">
+        <div class="controls controls-nav">
+            <div class="progress-container control">
+                <div class="progress-bar progress-position"></div>
+            </div>
+        </div>
     </div>
 </div>
