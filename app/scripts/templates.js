@@ -32,7 +32,7 @@ angular.module("login.html", []).run(["$templateCache", function($templateCache)
   $templateCache.put("login.html",
     "<div class=\"container\">\n" +
     "    <form class=\"login\" autocomplete=\"off\">\n" +
-    "        <p class=\"title\">Please sign in</p>\n" +
+    "        <div class=\"title\">Please sign in</div>\n" +
     "        <input ng-model=\"auth.username\" class=\"login-control\" type=\"text\" placeholder=\"Username\" name=\"username\" required=\"\" autofocus=\"\">\n" +
     "        <input ng-model=\"auth.password\" class=\"login-control\" type=\"password\" placeholder=\"Password\" name=\"password\" required=\"\">\n" +
     "        <button ng-click=\"login()\" class=\"login-control\">Sign in</button>\n" +

@@ -367,32 +367,32 @@ form.login {
     color: $dark-text;
     @include mq-small {
         width: 100%;
-        padding-top: 1em;
-        padding-bottom: 1em;
+        padding: 1em;
     }
     @include mq-med-large {
         width: 20em;
         margin-left: auto;
         margin-right: auto;
+        padding: 0.25em;
     }
     &>.login-control {
         @include mq-small {
             font-size: 1.2em;
+            margin-top: 1em;
         }
         width: 100%;
         height: 2em;
+        margin-top: 0.25em;
     }
-    &>p.title {
+    &>.title {
         text-align: center;
         font-size: 1.5em;
+        margin: 0.25em 0;
     }
     &>button.login-control {
         @include noselect-pointer;
         background-color: $control-color;
         border: $em1px solid $btn-border;
-        @include mq-small {
-            margin-top: 1em;
-        }
         text-align: center;
         color: $control-text-color;
         &:hover {
