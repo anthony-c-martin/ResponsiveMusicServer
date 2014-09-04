@@ -21,6 +21,7 @@
         <div ng-if="!isPhone" class="controls controls-nav shrinkable">
             <div ng-click="positionChange($event)" class="prog-container control">
                 <div ng-style="{width: (position * 100) + '%'}" class="prog-bar"></div>
+                <div ng-if="track" class="track-info">{{ track.Name }} - {{ track.Artist.Name }}</div>
             </div>
         </div>
         <div class="controls controls-nav unshrinkable">

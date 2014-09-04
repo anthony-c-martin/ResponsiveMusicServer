@@ -37,7 +37,7 @@ body {
     min-height: 25em;
     &>div {
         height: 100%;
-        overflow: scroll;
+        overflow: hidden;
     }
 }
 
@@ -168,8 +168,8 @@ ul {
         height: 100%;
     }
     @include mq-large {
-        margin-left: 6em;
-        margin-right: 6em;
+        margin-left: 3em;
+        margin-right: 3em;
         padding: 1em;
     }
 }
@@ -210,20 +210,17 @@ ul {
         flex: 1 auto;
     }
     .pane-mid {
-        //@include hide-small;
         flex: 1 auto;
         border-left: 1px solid $light-border;
     }
     .pane-right {
-        //@include hide-small-med;
         flex: 1 auto;
         border-left: 1px solid $light-border;
     }
     @include mq-large {
         position: relative;
         border-radius: 0.25em;
-        border: 1px solid $light-border;
-        @include vendor-prefix(box-shadow, inset 0 0 0.2em 0 $light-border);
+        border: 2px solid $light-border;
     }
 }
 
@@ -271,6 +268,9 @@ ul.tracks {
         top: 0;
         left: 0;
         @include noevents;
+    }
+    &>.track-info {
+        text-align: center;
     }
 }
 

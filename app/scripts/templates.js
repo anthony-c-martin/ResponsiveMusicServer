@@ -2,7 +2,7 @@ angular.module('musicServerViews', ['album.partial.html', 'artist.partial.html',
 
 angular.module("album.partial.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("album.partial.html",
-    "<li class=\"album\" ng-click=\"select()\">\n" +
+    "<li class=\"album\">\n" +
     "    <div class=\"content\">\n" +
     "        <div class=\"controls controls-mini\">\n" +
     "            <button ng-click=\"add($event)\" type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-plus\"></span></button>\n" +
@@ -16,7 +16,7 @@ angular.module("album.partial.html", []).run(["$templateCache", function($templa
 
 angular.module("artist.partial.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("artist.partial.html",
-    "<li class=\"artist\" ng-click=\"select()\">\n" +
+    "<li class=\"artist\">\n" +
     "    <div class=\"content\">\n" +
     "        <div class=\"controls controls-mini\">\n" +
     "            <button ng-click=\"add($event)\" type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-plus\"></span></button>\n" +
@@ -69,12 +69,12 @@ angular.module("main.html", []).run(["$templateCache", function($templateCache) 
     "    </div>\n" +
     "    <div ng-if=\"isArtistsShown()\" scroll-loader=\"artistRequest.fetch()\" class=\"pane pane-left\">\n" +
     "        <ul class=\"artists\">\n" +
-    "            <li artist ng-repeat=\"artist in artists | limitTo: artists.length track by artist.ID\"></li>\n" +
+    "            <li artist ng-click=\"select()\" ng-repeat=\"artist in artists | limitTo: artists.length track by artist.ID\"></li>\n" +
     "        </ul>\n" +
     "    </div>\n" +
     "    <div ng-if=\"isAlbumsShown()\" scroll-loader=\"albumRequest.fetch()\" class=\"pane pane-mid\">\n" +
     "        <ul class=\"albums\">\n" +
-    "            <li album ng-repeat=\"album in albums | limitTo: albums.length track by album.ID\"></li>\n" +
+    "            <li album ng-click=\"select()\" ng-repeat=\"album in albums | limitTo: albums.length track by album.ID\"></li>\n" +
     "        </ul>\n" +
     "    </div>\n" +
     "    <div ng-if=\"isTracksShown()\" scroll-loader=\"trackRequest.fetch()\" class=\"pane pane-right\">\n" +
@@ -111,6 +111,7 @@ angular.module("navbar.partial.html", []).run(["$templateCache", function($templ
     "        <div ng-if=\"!isPhone\" class=\"controls controls-nav shrinkable\">\n" +
     "            <div ng-click=\"positionChange($event)\" class=\"prog-container control\">\n" +
     "                <div ng-style=\"{width: (position * 100) + '%'}\" class=\"prog-bar\"></div>\n" +
+    "                <div ng-if=\"track\" class=\"track-info\">{{ track.Name }} - {{ track.Artist.Name }}</div>\n" +
     "            </div>\n" +
     "        </div>\n" +
     "        <div class=\"controls controls-nav unshrinkable\">\n" +
