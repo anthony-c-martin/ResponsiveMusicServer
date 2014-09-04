@@ -24,13 +24,13 @@ html, body {
 body {
     overflow: auto;
     @include mq-med-large {
-        padding: $navbar-height-med-large 0 0 0;
+        padding: $navbar-height 0 0 0;
     }
     @include mq-small {
-        padding: $navbar-height-small 0 0 0;
+        padding: ($navbar-height * 2) 0 0 0;
     }
     margin: 0;
-    background-color: $main-bg;
+    background-color: $main-background;
     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
     font-weight: 300;
     font-size: 1em;
@@ -69,6 +69,7 @@ ul {
     top: 0;
     left: 0;
     right: 0;
+    @include vendor-prefix(box-shadow, 0 0 0.2em 0 $dark-border);
     background-color: $navbar-bg;
     border-bottom: 0.063 solid $navbar-border;
     .navbar-inner {
@@ -133,6 +134,12 @@ ul {
     }
     &.controls-nav {
         margin: 0 $em4px;
+        &:first-child {
+            margin-left: 0;
+        }
+        &:last-child {
+            margin-right: 0;
+        }
         &>.control {
             border: none;
             margin: 0;
@@ -151,12 +158,6 @@ ul {
         @include mq-small {
             display: flex;
             margin: 0;
-            &.group1 {
-                @include vendor-prefix(box-ordinal-group, 1);
-            }
-            &.group2 {
-                @include vendor-prefix(box-ordinal-group, 2);
-            }
         }
     }
 }
@@ -176,7 +177,7 @@ ul {
 .panes {
     max-width: 90em;
     margin: 0 auto;
-    background-color: #fff;
+    background-color: $light-background;
     height: 100%;
     display: flex;
     flex-flow: row wrap;
@@ -211,17 +212,18 @@ ul {
     .pane-mid {
         //@include hide-small;
         flex: 1 auto;
-        border-left: 1px solid $li-border;
+        border-left: 1px solid $light-border;
     }
     .pane-right {
         //@include hide-small-med;
         flex: 1 auto;
-        border-left: 1px solid $li-border;
+        border-left: 1px solid $light-border;
     }
     @include mq-large {
         position: relative;
-        border-radius: $em4px;
-        border: $em1px solid $content-border;
+        border-radius: 0.25em;
+        border: 1px solid $light-border;
+        @include vendor-prefix(box-shadow, inset 0 0 0.2em 0 $light-border);
     }
 }
 
@@ -246,15 +248,15 @@ ul {
 }
 
 ul.artists {
-    @include ul-main(artist, $li-border, $li-hover, $artist-color, $artist-color-selected);
+    @include ul-main(artist, $light-border, $light-background-hover, $light-background, $light-background-selected);
 }
 
 ul.albums {
-    @include ul-main(album, $li-border, $li-hover, $album-color, $album-color-selected);
+    @include ul-main(album, $light-border, $light-background-hover, $light-background, $light-background-selected);
 }
 
 ul.tracks {
-    @include ul-main(track, $li-border, $li-hover, $track-color, $track-color-selected);
+    @include ul-main(track, $light-border, $light-background-hover, $light-background, $light-background-selected);
 }
 
 .prog-container {
@@ -354,6 +356,7 @@ ul.search {
 
 form.login {
     @include noselect;
+    @include vendor-prefix(box-shadow, 0 0 0.2em 0 $dark-border);
     background-color: $dark-background;
     border: $em1px solid $dark-border;
     color: $dark-text;

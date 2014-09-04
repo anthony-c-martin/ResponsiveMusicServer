@@ -20,14 +20,14 @@
     cursor: default;
 }
 
-@mixin ul-main($li-name, $li-border, $li-hover, $li-color, $li-color-selected) {
+@mixin ul-main($class, $border, $hover, $background, $background-selected) {
     padding: 0;
     margin: 0;
-    &>li.#{$li-name} {
-        background-color: $li-color;
-        border-bottom: $em1px solid $li-border;
+    &>li.#{$class} {
+        background-color: $background;
+        border-bottom: $em1px solid $border;
         &:hover {
-            background-color: $li-hover;
+            background-color: $hover;
             @include mq-med-large {
                 .controls {
                     &.controls-mini {
@@ -40,9 +40,9 @@
         }
         @include noselect-pointer;
         &.selected {
-            background-color: $li-color-selected;
+            background-color: $background-selected;
             &:hover {
-                background-color: $li-hover;
+                background-color: $hover;
             }
         }
         &>div.content {
@@ -59,31 +59,31 @@
 }
 
 @mixin dropdown($width, $left) {
+    $shadowRadius: 0.3em;
+    $widthWithMargin: $width + (2 * $shadowRadius);
     position: absolute;
     overflow: hidden;
-    width: $width;
-    left: 1em - ($width/2) + $left;
+    width: $widthWithMargin;
+    left: 1em - ($widthWithMargin/2) + $left;
+    padding-top: 1em - $shadowRadius;
     z-index: 1;
     @include slide-down(.2s);
-    @include mq-med-large {
-        top: $navbar-height-med-large;
-    }
-    @include mq-small {
-        top: $navbar-height-small;
-    }
+    top: $navbar-height;
     &>.arrow {
         @include arrow(1em) {
             &:after {
                 background-color: $dark-background;
                 border: $em1px solid $dark-border;
+                    @include vendor-prefix(box-shadow, 0 0 $shadowRadius 0 $dark-border);
             }
-            left: ($width/2);
+            left: ($widthWithMargin/2);
         }
     }
     &>.inner {
-        margin-top: 1em;
+        margin: $shadowRadius;
         background-color: $dark-background;
         border: $em1px solid $dark-border;
+        @include vendor-prefix(box-shadow, 0 0 $shadowRadius 0 $dark-border);
         max-height: 30em;
         overflow-x: hidden;
         overflow-y: auto;

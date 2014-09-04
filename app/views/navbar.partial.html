@@ -1,4 +1,4 @@
-<div class="navbar">
+<div class="navbar" ng-controller="PlayerController">
     <div ng-if="isPhone" class="navbar-inner">
         <div class="width100 controls controls-nav">
             <div class="width100 progress-container control">
@@ -6,7 +6,7 @@
             </div>
         </div>
     </div>
-    <div class="navbar-inner" ng-controller="PlayerController">
+    <div class="navbar-inner">
         <div class="controls controls-nav unshrinkable">
             <button type="button" class="control">
                 <span class="glyphicon glyphicon-fast-backward"></span>
@@ -43,6 +43,6 @@
                 <search></search>
             </button>
         </form>
-        <audio-player></audio-player>
     </div>
+    <audio-player></audio-player>
 </div>

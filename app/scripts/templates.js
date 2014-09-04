@@ -88,7 +88,7 @@ angular.module("main.html", []).run(["$templateCache", function($templateCache) 
 
 angular.module("navbar.partial.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("navbar.partial.html",
-    "<div class=\"navbar\">\n" +
+    "<div class=\"navbar\" ng-controller=\"PlayerController\">\n" +
     "    <div ng-if=\"isPhone\" class=\"navbar-inner\">\n" +
     "        <div class=\"width100 controls controls-nav\">\n" +
     "            <div class=\"width100 progress-container control\">\n" +
@@ -96,7 +96,7 @@ angular.module("navbar.partial.html", []).run(["$templateCache", function($templ
     "            </div>\n" +
     "        </div>\n" +
     "    </div>\n" +
-    "    <div class=\"navbar-inner\" ng-controller=\"PlayerController\">\n" +
+    "    <div class=\"navbar-inner\">\n" +
     "        <div class=\"controls controls-nav unshrinkable\">\n" +
     "            <button type=\"button\" class=\"control\">\n" +
     "                <span class=\"glyphicon glyphicon-fast-backward\"></span>\n" +
@@ -133,8 +133,8 @@ angular.module("navbar.partial.html", []).run(["$templateCache", function($templ
     "                <search></search>\n" +
     "            </button>\n" +
     "        </form>\n" +
-    "        <audio-player></audio-player>\n" +
     "    </div>\n" +
+    "    <audio-player></audio-player>\n" +
     "</div>\n" +
     "");
 }]);

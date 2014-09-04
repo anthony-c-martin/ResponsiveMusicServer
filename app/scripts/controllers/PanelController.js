@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .controller('PanelController', ['$scope',
-        function($scope) {
-            $scope.$on('selectArtist', function(e, artist) {
+    .controller('PanelController', ['$scope', '$rootScope',
+        function($scope, $rootScope) {
+            $rootScope.$on('selectArtist', function(e, artist) {
                 $scope.selectedArtist = artist;
                 $scope.selectedAlbum = null;
             });
 
-            $scope.$on('selectAlbum', function(e, album) {
+            $rootScope.$on('selectAlbum', function(e, album) {
                 $scope.selectedAlbum = album;
             });
 
