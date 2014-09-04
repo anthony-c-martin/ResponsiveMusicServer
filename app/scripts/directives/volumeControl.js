@@ -9,12 +9,14 @@ angular.module('musicServerApp')
 
                     $rootScope.$on('hideDropdowns', function(e, data) {
                         if (!(data && data === 'volume')) {
+                            scope.volumeShown = false;
                             element.hide();
                         }
                     });
 
-                    scope.toggleVolumeHandler = function(toggle) {
-                        element.toggle(toggle);
+                    scope.toggleVolumeHandler = function() {
+                        scope.volumeShown = !scope.volumeShown;
+                        element.toggle(scope.volumeShown);
                     };
 
                     scope.volumeChange = function($event) {

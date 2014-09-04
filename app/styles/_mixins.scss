@@ -58,12 +58,11 @@
     }
 }
 
-@mixin dropdown($width) {
+@mixin dropdown($width, $left) {
     position: absolute;
     overflow: hidden;
-    left: 0;
     width: $width;
-    left: 0.5em - ($width/2);
+    left: 1em - ($width/2) + $left;
     z-index: 1;
     @include slide-down(.2s);
     @include mq-med-large {
@@ -76,7 +75,7 @@
         @include arrow(1em) {
             &:after {
                 background-color: $dark-background;
-                border: $em1px solid $dropdown-border;
+                border: $em1px solid $dark-border;
             }
             left: ($width/2);
         }
@@ -84,7 +83,7 @@
     &>.inner {
         margin-top: 1em;
         background-color: $dark-background;
-        border: $em1px solid $dropdown-border;
+        border: $em1px solid $dark-border;
         max-height: 30em;
         overflow-x: hidden;
         overflow-y: auto;

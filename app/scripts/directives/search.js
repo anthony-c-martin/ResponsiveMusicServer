@@ -9,12 +9,14 @@ angular.module('musicServerApp')
 
                     $rootScope.$on('hideDropdowns', function(e, data) {
                         if (!(data && data === 'search')) {
+                            scope.searchShown = false;
                             element.hide();
                         }
                     });
 
-                    scope.toggleSearch = function(toggle) {
-                        element.toggle(toggle);
+                    scope.toggleSearch = function() {
+                        scope.searchShown = !scope.searchShown;
+                        element.toggle(scope.searchShown);
                     };
                 },
                 restrict: 'E',
