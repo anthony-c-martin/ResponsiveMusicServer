@@ -45,24 +45,26 @@ angular.module("main.html", []).run(["$templateCache", function($templateCache) 
   $templateCache.put("main.html",
     "<div ng-controller=\"PanelController\" class=\"panes\">\n" +
     "    <div class=\"pane-top\" ng-if=\"!isDesktop\">\n" +
-    "        <div ng-if=\"isPhone\">\n" +
+    "        <div ng-if=\"isPhone\" class=\"history\">\n" +
     "            <span ng-if=\"selectedAlbum\">\n" +
-    "                <div class=\"history-item clickable\" ng-click=\"deselectAlbum()\">&lt;</div>\n" +
+    "                <div class=\"history-item clickable\" ng-click=\"deselectAlbum()\"><span class=\"glyphicon glyphicon-chevron-left\"></span></div>\n" +
     "                <div class=\"history-item\">{{ selectedAlbum.Name }}</div>\n" +
     "            </span>\n" +
     "            <span ng-if=\"selectedArtist && !selectedAlbum\">\n" +
-    "                <div class=\"history-item clickable\" ng-click=\"deselectArtist()\">&lt;</div>\n" +
+    "                <div class=\"history-item clickable\" ng-click=\"deselectArtist()\"><span class=\"glyphicon glyphicon-chevron-left\"></span></div>\n" +
     "                <div class=\"history-item\">{{ selectedArtist.Name }}</div>\n" +
     "            </span>\n" +
     "        </div>\n" +
-    "        <div ng-if=\"!isPhone\">\n" +
-    "            <div class=\"history-item clickable\" ng-click=\"deselectArtist()\">Artists</div>\n" +
+    "        <div ng-if=\"!isPhone\" class=\"history\">\n" +
+    "            <span>\n" +
+    "                <div class=\"history-item clickable\" ng-click=\"deselectArtist()\">Artists</div>\n" +
+    "            </span>\n" +
     "            <span ng-if=\"selectedArtist\">\n" +
-    "                <div class=\"history-item\">&gt;</div>\n" +
+    "                <div class=\"history-item\"><span class=\"glyphicon glyphicon-chevron-right\"></span></div>\n" +
     "                <div class=\"history-item clickable\" ng-click=\"deselectAlbum()\">{{ selectedArtist.Name }}</div>\n" +
     "            </span>\n" +
     "            <span ng-if=\"selectedAlbum\">\n" +
-    "                <div class=\"history-item\">&gt;</div>\n" +
+    "                <div class=\"history-item\"><span class=\"glyphicon glyphicon-chevron-right\"></span></div>\n" +
     "                <div class=\"history-item\">{{ selectedAlbum.Name }}</div>\n" +
     "            </span>\n" +
     "        </div>\n" +
@@ -128,10 +130,10 @@ angular.module("navbar.partial.html", []).run(["$templateCache", function($templ
     "            </button>\n" +
     "        </div>\n" +
     "        <form ng-submit=\"initSearch()\" ng-controller=\"SearchController\" body-event-handler=\"search\" class=\"controls controls-nav shrinkable controls-search\">\n" +
+    "            <search></search>\n" +
     "            <input ng-model=\"searchText\" class=\"control\" type=\"text\" placeholder=\"search\" autocomplete=\"off\">\n" +
     "            <button type=\"submit\" ng-class=\"{active: searchShown}\" class=\"control\">\n" +
     "                <span class=\"glyphicon glyphicon-search\"></span>\n" +
-    "                <search></search>\n" +
     "            </button>\n" +
     "        </form>\n" +
     "    </div>\n" +

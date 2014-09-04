@@ -38,10 +38,10 @@
             </button>
         </div>
         <form ng-submit="initSearch()" ng-controller="SearchController" body-event-handler="search" class="controls controls-nav shrinkable controls-search">
+            <search></search>
             <input ng-model="searchText" class="control" type="text" placeholder="search" autocomplete="off">
             <button type="submit" ng-class="{active: searchShown}" class="control">
                 <span class="glyphicon glyphicon-search"></span>
-                <search></search>
             </button>
         </form>
     </div>

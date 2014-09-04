@@ -58,15 +58,15 @@
     }
 }
 
-@mixin dropdown($width, $left) {
+@mixin dropdown($width, $left, $offset) {
     $shadowRadius: 0.3em;
     $widthWithMargin: $width + (2 * $shadowRadius);
     position: absolute;
     overflow: hidden;
     width: $widthWithMargin;
-    left: 1em - ($widthWithMargin/2) + $left;
+    left: 1em - ($widthWithMargin/2) + $left + $offset;
     padding-top: 1em - $shadowRadius;
-    z-index: 1;
+    z-index: 3;
     @include slide-down(.2s);
     top: $navbar-height;
     &>.arrow {
@@ -76,7 +76,7 @@
                 border: $em1px solid $dark-border;
                     @include vendor-prefix(box-shadow, 0 0 $shadowRadius 0 $dark-border);
             }
-            left: ($widthWithMargin/2);
+            left: ($widthWithMargin/2) - $offset;
         }
     }
     &>.inner {

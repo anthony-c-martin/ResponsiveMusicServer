@@ -30,7 +30,7 @@ body {
         padding: ($navbar-height * 2) 0 0 0;
     }
     margin: 0;
-    background-color: $main-background;
+    background-color: $med-background;
     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
     font-weight: 300;
     font-size: 1em;
@@ -59,9 +59,11 @@ ul {
     @include noselect-pointer;
 }
 
-.history-item {
-    display: inline-block;
-    padding: 0.5em 0.25em;
+.history {
+    .history-item {
+        display: inline-block;
+        padding: 0.5em 0.25em;
+    }
 }
 
 .navbar {
@@ -98,7 +100,7 @@ ul {
             }
         }
     }
-    z-index: 1;
+    z-index: 2;
 }
 
 .controls {
@@ -201,10 +203,13 @@ ul {
     }
     .pane-top {
         @include hide-large;
+        @include noselect-default;
         height: 2em;
         position: fixed;
-        background-color: #fef;
+        background-color: $med-background;
         width: 100%;
+        border-bottom: 2px solid $light-border;
+        z-index: 1;
     }
     .pane-left {
         flex: 1 auto;
@@ -275,19 +280,19 @@ ul.tracks {
 }
 
 .dropdown-playlist {
-    @include dropdown(30em, 0);
+    @include dropdown(30em, 0, 0);
 }
 
 .dropdown-search {
-    @include dropdown(30em, 0);
+    @include dropdown(30em, 0, -6em);
 }
 
 .dropdown-volume {
     @include mq-large {
-        @include dropdown(2em, 2.5em);
+        @include dropdown(2em, 2.5em, 0);
     }
     @include mq-small-med {
-        @include dropdown(2em, 1.75em);
+        @include dropdown(2em, 1.75em, 0);
     }
     &>.inner {
         height: 10em;

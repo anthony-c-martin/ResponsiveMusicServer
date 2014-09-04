@@ -14,8 +14,8 @@ angular.module('musicServerApp')
                         }
                     });
 
-                    scope.toggleSearch = function() {
-                        scope.searchShown = !scope.searchShown;
+                    scope.toggleSearch = function(toggle) {
+                        scope.searchShown = toggle
                         element.toggle(scope.searchShown);
                     };
                 },
