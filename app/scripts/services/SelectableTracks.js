@@ -54,6 +54,15 @@ angular.module('musicServerApp')
                         angular.forEach(this.allTracks, function(track) {
                             track.selected = false;
                         });
+                    },
+                    deleteSelection: function() {
+                        var tracks = this.listTracks();
+                        for (var i = 0; i < tracks.length; i++) {
+                            var index = this.allTracks.indexOf(tracks[i]);
+                            if (index > -1) {
+                                this.allTracks.splice(index, 1);
+                            }
+                        }
                     }
                 };
             };

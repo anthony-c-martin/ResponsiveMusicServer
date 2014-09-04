@@ -34,7 +34,7 @@
             <li album="album" ng-click="select()" ng-repeat="album in albums | limitTo: albums.length track by album.ID"></li>
         </ul>
     </div>
-    <div selectable-tracks ng-mousedown="deselectTracks($event)" ng-if="isTracksShown()" scroll-loader="trackRequest.fetch()" class="pane pane-right">
+    <div ng-mousedown="deselectTracks($event)" ng-if="isTracksShown()" scroll-loader="trackRequest.fetch()" class="pane pane-right">
         <ul class="tracks">
             <li track="track" track-area="trackArea" ng-repeat="track in tracks | limitTo: tracks.length track by track.ID"></li>
         </ul>

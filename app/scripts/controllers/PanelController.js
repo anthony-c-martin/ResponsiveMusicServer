@@ -26,7 +26,7 @@ angular.module('musicServerApp')
 
             $scope.deselectTracks = function(e) {
                 e.stopPropagation();
-                scope.trackArea.clearSelection();
+                $scope.trackArea.clearSelection();
             };
 
             $scope.isArtistsShown = function() {

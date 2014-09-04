@@ -79,7 +79,7 @@ angular.module("main.html", []).run(["$templateCache", function($templateCache) 
     "            <li album=\"album\" ng-click=\"select()\" ng-repeat=\"album in albums | limitTo: albums.length track by album.ID\"></li>\n" +
     "        </ul>\n" +
     "    </div>\n" +
-    "    <div selectable-tracks ng-mousedown=\"deselectTracks($event)\" ng-if=\"isTracksShown()\" scroll-loader=\"trackRequest.fetch()\" class=\"pane pane-right\">\n" +
+    "    <div ng-mousedown=\"deselectTracks($event)\" ng-if=\"isTracksShown()\" scroll-loader=\"trackRequest.fetch()\" class=\"pane pane-right\">\n" +
     "        <ul class=\"tracks\">\n" +
     "            <li track=\"track\" track-area=\"trackArea\" ng-repeat=\"track in tracks | limitTo: tracks.length track by track.ID\"></li>\n" +
     "        </ul>\n" +
@@ -149,7 +149,7 @@ angular.module("playlist.partial.html", []).run(["$templateCache", function($tem
     "    <div body-event-handler=\"playlist\" class=\"inner\">\n" +
     "        <ul class=\"playlist tracks\">\n" +
     "            <li ng-if=\"playlist.length > 0\" class=\"desc\"><span class=\"link-left\" ng-click=\"clearAll()\">Clear All</span><span class=\"link-right\" ng-click=\"clearSelected()\">Clear Selected</span></li>\n" +
-    "            <li track=\"track\" playlist-track=\"true\" ng-repeat=\"track in playlist\"></li>\n" +
+    "            <li track=\"track\" track-area=\"playlistArea\" playlist-track=\"true\" ng-repeat=\"track in playlist\"></li>\n" +
     "            <li ng-if=\"playlist.length <= 0\" class=\"desc\">The playlist is empty!</li>\n" +
     "        </ul>\n" +
     "    </div>\n" +
