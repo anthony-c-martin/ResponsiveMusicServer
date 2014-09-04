@@ -20,6 +20,9 @@ angular.module('musicServerApp')
             }
 
             return {
+                scope: {
+                    'artist': '='
+                },
                 restrict: 'A',
                 replace: true,
                 templateUrl: 'views/artist.partial.html',

@@ -26,13 +26,13 @@ angular.module('musicServerApp')
                     $rootScope.$emit('removeTrack', scope.track);
                 };
 
-                scope.selectTrack = function(e) {
+                scope.select = function(e) {
                     e.stopPropagation();
-                    scope.trackArea.trackSelected(scope[attrs.selectable], e.shiftKey, (e.ctrlKey || e.metaKey));
+                    scope.trackArea.trackSelected(scope.track, e.shiftKey, (e.ctrlKey || e.metaKey));
                 };
 
                 element.on('dragstart', function(e) {
-                    if (!scope[attrs.selectable].selected) {
+                    if (!scope.track.selected) {
                         e.preventDefault();
                         e.stopPropagation();
                         return;
@@ -50,6 +50,10 @@ angular.module('musicServerApp')
             }
 
             return {
+                scope: {
+                    'track': '=',
+                    'trackArea': '='
+                },
                 restrict: 'A',
                 replace: true,
                 templateUrl: 'views/track.partial.html',

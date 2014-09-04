@@ -40,7 +40,7 @@
         }
         @include noselect-pointer;
         &.selected {
-            background-color: $background-selected;
+            background-color: $light-background-selected;
             &:hover {
                 background-color: $hover;
             }

@@ -2,7 +2,7 @@ angular.module('musicServerViews', ['album.partial.html', 'artist.partial.html',
 
 angular.module("album.partial.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("album.partial.html",
-    "<li class=\"album\">\n" +
+    "<li class=\"album\" ng-click=\"select()\">\n" +
     "    <div class=\"content\">\n" +
     "        <div class=\"controls controls-mini\">\n" +
     "            <button ng-click=\"add($event)\" type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-plus\"></span></button>\n" +
@@ -16,7 +16,7 @@ angular.module("album.partial.html", []).run(["$templateCache", function($templa
 
 angular.module("artist.partial.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("artist.partial.html",
-    "<li class=\"artist\">\n" +
+    "<li class=\"artist\" ng-click=\"select()\">\n" +
     "    <div class=\"content\">\n" +
     "        <div class=\"controls controls-mini\">\n" +
     "            <button ng-click=\"add($event)\" type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-plus\"></span></button>\n" +
@@ -71,17 +71,17 @@ angular.module("main.html", []).run(["$templateCache", function($templateCache) 
     "    </div>\n" +
     "    <div ng-if=\"isArtistsShown()\" scroll-loader=\"artistRequest.fetch()\" class=\"pane pane-left\">\n" +
     "        <ul class=\"artists\">\n" +
-    "            <li artist ng-click=\"select()\" ng-repeat=\"artist in artists | limitTo: artists.length track by artist.ID\"></li>\n" +
+    "            <li artist=\"artist\" ng-repeat=\"artist in artists | limitTo: artists.length track by artist.ID\"></li>\n" +
     "        </ul>\n" +
     "    </div>\n" +
     "    <div ng-if=\"isAlbumsShown()\" scroll-loader=\"albumRequest.fetch()\" class=\"pane pane-mid\">\n" +
     "        <ul class=\"albums\">\n" +
-    "            <li album ng-click=\"select()\" ng-repeat=\"album in albums | limitTo: albums.length track by album.ID\"></li>\n" +
+    "            <li album=\"album\" ng-click=\"select()\" ng-repeat=\"album in albums | limitTo: albums.length track by album.ID\"></li>\n" +
     "        </ul>\n" +
     "    </div>\n" +
-    "    <div ng-if=\"isTracksShown()\" scroll-loader=\"trackRequest.fetch()\" class=\"pane pane-right\">\n" +
+    "    <div selectable-tracks ng-mousedown=\"deselectTracks($event)\" ng-if=\"isTracksShown()\" scroll-loader=\"trackRequest.fetch()\" class=\"pane pane-right\">\n" +
     "        <ul class=\"tracks\">\n" +
-    "            <li track ng-repeat=\"track in tracks | limitTo: tracks.length track by track.ID\"></li>\n" +
+    "            <li track=\"track\" track-area=\"trackArea\" ng-repeat=\"track in tracks | limitTo: tracks.length track by track.ID\"></li>\n" +
     "        </ul>\n" +
     "    </div>\n" +
     "</div>\n" +
@@ -149,7 +149,7 @@ angular.module("playlist.partial.html", []).run(["$templateCache", function($tem
     "    <div body-event-handler=\"playlist\" class=\"inner\">\n" +
     "        <ul class=\"playlist tracks\">\n" +
     "            <li ng-if=\"playlist.length > 0\" class=\"desc\"><span class=\"link-left\" ng-click=\"clearAll()\">Clear All</span><span class=\"link-right\" ng-click=\"clearSelected()\">Clear Selected</span></li>\n" +
-    "            <li track playlist-track=\"true\" ng-repeat=\"track in playlist\"></li>\n" +
+    "            <li track=\"track\" playlist-track=\"true\" ng-repeat=\"track in playlist\"></li>\n" +
     "            <li ng-if=\"playlist.length <= 0\" class=\"desc\">The playlist is empty!</li>\n" +
     "        </ul>\n" +
     "    </div>\n" +
@@ -170,15 +170,15 @@ angular.module("search.partial.html", []).run(["$templateCache", function($templ
     "        <div ng-switch-default>\n" +
     "            <ul ng-if=\"search.tracks.length > 0\" class=\"search tracks\">\n" +
     "                <li class=\"desc\">Tracks<span class=\"link-right\" ng-click=\"redirectToResults('tracks')\">Show all</span></li>\n" +
-    "                <li track ng-repeat=\"track in search.tracks\"></li>\n" +
+    "                <li track=\"track\" ng-repeat=\"track in search.tracks\"></li>\n" +
     "            </ul>\n" +
     "            <ul ng-if=\"search.albums.length > 0\" class=\"search albums\">\n" +
     "                <li class=\"desc\">Albums<span class=\"link-right\" ng-click=\"redirectToResults('albums')\">Show all</span></li>\n" +
-    "                <li album ng-repeat=\"album in search.albums\" class=\"album\"></li>\n" +
+    "                <li album=\"album\" ng-repeat=\"album in search.albums\" class=\"album\"></li>\n" +
     "            </ul>\n" +
     "            <ul ng-if=\"search.artists.length > 0\" class=\"search artists\">\n" +
     "                <li class=\"desc\">Artists<span class=\"link-right\" ng-click=\"redirectToResults('artists')\">Show all</span></li>\n" +
-    "                <li artist ng-repeat=\"artist in search.artists\"></li>\n" +
+    "                <li artist=\"artist\" ng-repeat=\"artist in search.artists\"></li>\n" +
     "            </ul>\n" +
     "            <ul ng-if=\"search.artists.length + search.albums.length + search.tracks.length <= 0\" class=\"search\">\n" +
     "                <li class=\"desc\">No results found</li>\n" +
@@ -191,7 +191,7 @@ angular.module("search.partial.html", []).run(["$templateCache", function($templ
 
 angular.module("track.partial.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("track.partial.html",
-    "<li class=\"track\" draggable>\n" +
+    "<li class=\"track\" ng-class=\"{selected: track.selected}\" ng-mousedown=\"select($event)\" draggable=\"true\">\n" +
     "    <div class=\"content\">\n" +
     "        <div ng-if=\"addable\" class=\"controls controls-mini\">\n" +
     "            <button ng-click=\"add($event)\" type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-plus\"></span></button>\n" +

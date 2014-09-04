@@ -3,13 +3,17 @@
 angular.module('musicServerApp')
     .controller('MainController', ['$scope', '$rootScope', 'DataLoader', 'Playlist', 'HttpRequest',
         function($scope, $rootScope, DataLoader, Playlist, HttpRequest) {
+            $scope.artists = [];
+            $scope.albums = [];
+            $scope.tracks = [];
+
             function loadArtists() {
-                $scope.artists = [];
+                $scope.artists.length = 0;
                 $scope.artistRequest = DataLoader.init(HttpRequest.artist.getAll(), $scope.artists);
             }
 
             function loadAlbums(artist) {
-                $scope.albums = [];
+                $scope.albums.length = 0;
                 if (artist) {
                     $scope.albumRequest = DataLoader.init(HttpRequest.album.getFromArtist(artist.ID), $scope.albums);
                 } else {
@@ -20,7 +24,7 @@ angular.module('musicServerApp')
             }
 
             function loadTracks(album) {
-                $scope.tracks = [];
+                $scope.tracks.length = 0;
                 if (album) {
                     $scope.trackRequest = DataLoader.init(HttpRequest.track.getFromAlbum(album.ID), $scope.tracks);
                 } else {

@@ -9,15 +9,15 @@
         <div ng-switch-default>
             <ul ng-if="search.tracks.length > 0" class="search tracks">
                 <li class="desc">Tracks<span class="link-right" ng-click="redirectToResults('tracks')">Show all</span></li>
-                <li track ng-repeat="track in search.tracks"></li>
+                <li track="track" ng-repeat="track in search.tracks"></li>
             </ul>
             <ul ng-if="search.albums.length > 0" class="search albums">
                 <li class="desc">Albums<span class="link-right" ng-click="redirectToResults('albums')">Show all</span></li>
-                <li album ng-repeat="album in search.albums" class="album"></li>
+                <li album="album" ng-repeat="album in search.albums" class="album"></li>
             </ul>
             <ul ng-if="search.artists.length > 0" class="search artists">
                 <li class="desc">Artists<span class="link-right" ng-click="redirectToResults('artists')">Show all</span></li>
-                <li artist ng-repeat="artist in search.artists"></li>
+                <li artist="artist" ng-repeat="artist in search.artists"></li>
             </ul>
             <ul ng-if="search.artists.length + search.albums.length + search.tracks.length <= 0" class="search">
                 <li class="desc">No results found</li>

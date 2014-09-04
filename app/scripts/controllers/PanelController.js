@@ -1,8 +1,11 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .controller('PanelController', ['$scope', '$rootScope',
-        function($scope, $rootScope) {
+    .controller('PanelController', ['$scope', '$rootScope', 'SelectableTracks',
+        function($scope, $rootScope, SelectableTracks) {
+            $scope.trackArea = new SelectableTracks();
+            $scope.trackArea.allTracks = $scope.tracks;
+
             $rootScope.$on('selectArtist', function(e, artist) {
                 $scope.selectedArtist = artist;
                 $scope.selectedAlbum = null;
@@ -19,6 +22,11 @@ angular.module('musicServerApp')
 
             $scope.deselectAlbum = function() {
                 $scope.selectedAlbum = null;
+            };
+
+            $scope.deselectTracks = function(e) {
+                e.stopPropagation();
+                scope.trackArea.clearSelection();
             };
 
             $scope.isArtistsShown = function() {
