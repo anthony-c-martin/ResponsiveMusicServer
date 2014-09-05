@@ -3,7 +3,6 @@
 angular.module('musicServerApp')
     .service('DraggableData', ['$q', 'HttpRequest', 'Playlist',
         function($q, HttpRequest, Playlist) {
-            var $dragDiv = false;
             var currentDeferred = $q.defer();
             currentDeferred.reject();
 
@@ -67,14 +66,10 @@ angular.module('musicServerApp')
             }
 
             function getDragImage(itemType, itemCount) {
-                if (!$dragDiv) {
-                    $dragDiv = $('<div/>');
-                    document.body.appendChild($dragDiv[0]);
-                    $dragDiv[0].setAttribute('style', 'position: absolute; display: block; top: -500; left: -500;');
-                }
+                var $dragImage = $('.drag-image');
 
-                $dragDiv.text(itemCount.toString() + ' ' + itemType + ((itemCount > 1) ? 's' : ''));
-                return $dragDiv[0];
+                $dragImage.text(itemCount.toString() + ' ' + itemType + ((itemCount > 1) ? 's' : ''));
+                return $dragImage[0];
             }
 
             function getTracks() {

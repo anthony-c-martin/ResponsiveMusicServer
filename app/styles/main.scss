@@ -405,11 +405,13 @@ form.login {
     width: 100%;
 }
 
-#drag-image {
+.drag-image {
     position: absolute;
     display: block;
-    top: -10em;
-    left: -10em;
     max-width: 10em;
-    max-height: 10em;
+    max-height: 2em;
+    background-color: #000;
+    color: #FFF;
+    border-radius: 0.25em;
+    padding: 0.25em;
 }
