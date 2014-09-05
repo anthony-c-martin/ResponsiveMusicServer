@@ -79,7 +79,7 @@ angular.module('musicServerApp')
 
             function getTracks() {
                 return currentDeferred.promise;
-            };
+            }
 
             this.bindDragEvents = function($element, item, itemType, itemListFunction, itemSelectedFunction) {
                 $element.on('dragstart', function($event) {
@@ -107,7 +107,6 @@ angular.module('musicServerApp')
             };
 
             this.bindDropEvents = function($element) {
-                var _this = this;
                 $element.on('dragover', function($event) {
                     $event.preventDefault();
                     $event.stopPropagation();
