@@ -26,15 +26,23 @@ angular.module('musicServerApp')
                     $rootScope.$emit('removeTrack', scope.track);
                 };
 
-                scope.select = function(e) {
-                    e.stopPropagation();
-                    scope.trackArea.trackSelected(scope.track, e.shiftKey, (e.ctrlKey || e.metaKey));
+                scope.select = function($event) {
+                    if (scope.trackArea) {
+                        $event.stopPropagation();
+                        scope.trackArea.trackSelected(scope.track, $event.shiftKey, ($event.ctrlKey || $event.metaKey));
+                    }
                 };
 
                 DraggableData.bindDragEvents(element, scope.track, 'Track', function() {
-                    return scope.trackArea.listTracks();
+                    if (scope.trackArea) {
+                        return scope.trackArea.listTracks();
+                    }
+                    return [scope.track];
                 }, function() {
-                    return scope.track.selected;
+                    if (scope.trackArea) {
+                        return scope.track.selected;
+                    }
+                    return true;
                 });
             }
 
