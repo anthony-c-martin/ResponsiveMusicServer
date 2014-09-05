@@ -107,11 +107,14 @@ ul {
     position: relative;
     display: inline-block;
     vertical-align: middle;
-    .control {
+    .control, .control-container {
         float: left;
         white-space: nowrap;
         vertical-align: middle;
         background-color: $control-color;
+        margin: 0;
+        padding: 0;
+        border: none;
     }
     button.control {
         @include noselect-pointer;
@@ -124,10 +127,7 @@ ul {
         }
     }
     &.controls-mini {
-        &>.control {
-            border: 0;
-            margin: 0;
-            padding: 0;
+        .control {
             background-color: transparent;
             @include mq-med-large {
                 opacity: 0;
@@ -142,9 +142,7 @@ ul {
         &:last-child {
             margin-right: 0;
         }
-        &>.control {
-            border: none;
-            margin: 0;
+        .control {
             padding: $em4px $em8px;
             height: 2em - $em4px;
             &:not(:first-child) {

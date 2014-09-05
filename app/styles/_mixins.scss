@@ -31,7 +31,7 @@
             @include mq-med-large {
                 .controls {
                     &.controls-mini {
-                        &>.control {
+                        .control {
                             opacity: 1;
                         }
                     }

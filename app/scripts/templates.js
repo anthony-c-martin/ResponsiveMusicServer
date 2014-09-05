@@ -117,14 +117,18 @@ angular.module("navbar.partial.html", []).run(["$templateCache", function($templ
     "            </div>\n" +
     "        </div>\n" +
     "        <div class=\"controls controls-nav unshrinkable\">\n" +
-    "            <button playlist-button ng-click=\"playlistShown = !playlistShown\" ng-class=\"{active: playlistShown}\" body-event-handler=\"playlist\" type=\"button\" class=\"control\">\n" +
-    "                <span class=\"glyphicon glyphicon-list\"></span>\n" +
+    "            <div class=\"control-container\">\n" +
+    "                <button playlist-button ng-click=\"playlistShown = !playlistShown\" ng-class=\"{active: playlistShown}\" body-event-handler=\"playlist\" type=\"button\" class=\"control\">\n" +
+    "                    <span class=\"glyphicon glyphicon-list\"></span>\n" +
+    "                </button>\n" +
     "                <playlist ng-show=\"playlistShown\"></playlist>\n" +
-    "            </button>\n" +
-    "            <button ng-click=\"volumeShown = !volumeShown\" ng-class=\"{active: volumeShown}\" body-event-handler=\"volume\" type=\"button\" class=\"control\">\n" +
-    "                <span class=\"glyphicon glyphicon-volume-up\"></span>\n" +
+    "            </div>\n" +
+    "            <div class=\"control-container\">\n" +
+    "                <button ng-click=\"volumeShown = !volumeShown\" ng-class=\"{active: volumeShown}\" body-event-handler=\"volume\" type=\"button\" class=\"control\">\n" +
+    "                    <span class=\"glyphicon glyphicon-volume-up\"></span>\n" +
+    "                </button>\n" +
     "                <volume-control ng-show=\"volumeShown\"></volume-control>\n" +
-    "            </button>\n" +
+    "            </div>\n" +
     "            <button ng-click=\"toggleScrobblingEnabled()\" ng-class=\"{active: scrobblingEnabled}\" type=\"button\" class=\"control\">\n" +
     "                <span class=\"lastfmicon\"></span>\n" +
     "            </button>\n" +
