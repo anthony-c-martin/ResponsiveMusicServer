@@ -20,15 +20,14 @@
     cursor: default;
 }
 
-@mixin ul-main($class, $border, $hover, $background, $background-selected) {
+@mixin ul-main($class, $border, $background, $background-selected) {
     padding: 0;
     margin: 0;
     &>li.#{$class} {
         background-color: $background;
         border-bottom: $em1px solid $border;
         &:hover {
-            background-color: $hover;
-            @include mq-med-large {
+            @include mq-large {
                 .controls {
                     &.controls-mini {
                         .control {
@@ -41,9 +40,6 @@
         @include noselect-pointer;
         &.selected {
             background-color: $light-background-selected;
-            &:hover {
-                background-color: $hover;
-            }
         }
         &>div.content {
             margin: 0;

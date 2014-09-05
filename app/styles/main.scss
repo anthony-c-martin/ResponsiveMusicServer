@@ -129,7 +129,7 @@ ul {
     &.controls-mini {
         .control {
             background-color: transparent;
-            @include mq-med-large {
+            @include mq-large {
                 opacity: 0;
             }
         }
@@ -142,7 +142,7 @@ ul {
         &:last-child {
             margin-right: 0;
         }
-        .control {
+        &>.control, &>.control-container {
             padding: $em4px $em8px;
             height: 2em - $em4px;
             &:not(:first-child) {
@@ -248,15 +248,15 @@ ul {
 }
 
 ul.artists {
-    @include ul-main(artist, $light-border, $light-background-hover, $light-background, $light-background-selected);
+    @include ul-main(artist, $light-border, $light-background, $light-background-selected);
 }
 
 ul.albums {
-    @include ul-main(album, $light-border, $light-background-hover, $light-background, $light-background-selected);
+    @include ul-main(album, $light-border, $light-background, $light-background-selected);
 }
 
 ul.tracks {
-    @include ul-main(track, $light-border, $light-background-hover, $light-background, $light-background-selected);
+    @include ul-main(track, $light-border, $light-background, $light-background-selected);
 }
 
 .prog-container {
