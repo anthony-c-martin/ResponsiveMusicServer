@@ -11,7 +11,8 @@ angular.module('musicServerApp')
                     tracks: []
                 };
 
-                $scope.toggleSearch(true);
+                $scope.searchShown = true;
+                
                 HttpRequest.search.all(5, $scope.searchText).then(function(results) {
                     $scope.search.artists = results.artists;
                     $scope.search.albums = results.albums;

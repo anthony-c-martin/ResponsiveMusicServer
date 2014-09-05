@@ -117,20 +117,20 @@ angular.module("navbar.partial.html", []).run(["$templateCache", function($templ
     "            </div>\n" +
     "        </div>\n" +
     "        <div class=\"controls controls-nav unshrinkable\">\n" +
-    "            <button playlist-button ng-click=\"togglePlaylistHandler()\" ng-class=\"{active: playlistShown}\" body-event-handler=\"playlist\" type=\"button\" class=\"control\">\n" +
+    "            <button playlist-button ng-click=\"playlistShown = !playlistShown\" ng-class=\"{active: playlistShown}\" body-event-handler=\"playlist\" type=\"button\" class=\"control\">\n" +
     "                <span class=\"glyphicon glyphicon-list\"></span>\n" +
-    "                <playlist></playlist>\n" +
+    "                <playlist ng-show=\"playlistShown\"></playlist>\n" +
     "            </button>\n" +
-    "            <button ng-click=\"toggleVolumeHandler()\" ng-class=\"{active: volumeShown}\" body-event-handler=\"volume\" type=\"button\" class=\"control\">\n" +
+    "            <button ng-click=\"volumeShown = !volumeShown\" ng-class=\"{active: volumeShown}\" body-event-handler=\"volume\" type=\"button\" class=\"control\">\n" +
     "                <span class=\"glyphicon glyphicon-volume-up\"></span>\n" +
-    "                <volume-control></volume-control>\n" +
+    "                <volume-control ng-show=\"volumeShown\"></volume-control>\n" +
     "            </button>\n" +
     "            <button ng-click=\"toggleScrobblingEnabled()\" ng-class=\"{active: scrobblingEnabled}\" type=\"button\" class=\"control\">\n" +
     "                <span class=\"lastfmicon\"></span>\n" +
     "            </button>\n" +
     "        </div>\n" +
     "        <form ng-submit=\"initSearch()\" ng-controller=\"SearchController\" body-event-handler=\"search\" class=\"controls controls-nav shrinkable controls-search\">\n" +
-    "            <search></search>\n" +
+    "            <search ng-show=\"searchShown\"></search>\n" +
     "            <input ng-model=\"searchText\" class=\"control\" type=\"text\" placeholder=\"search\" autocomplete=\"off\">\n" +
     "            <button ng-class=\"{active: searchShown}\" type=\"submit\" class=\"control\">\n" +
     "                <span class=\"glyphicon glyphicon-search\"></span>\n" +

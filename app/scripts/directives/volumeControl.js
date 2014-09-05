@@ -4,20 +4,12 @@ angular.module('musicServerApp')
     .directive('volumeControl', ['$rootScope',
         function($rootScope) {
             return {
-                link: function(scope, element) {
-                    element.hide();
-
+                link: function(scope) {
                     $rootScope.$on('hideDropdowns', function(e, data) {
                         if (!(data && data === 'volume')) {
                             scope.volumeShown = false;
-                            element.hide();
                         }
                     });
-
-                    scope.toggleVolumeHandler = function() {
-                        scope.volumeShown = !scope.volumeShown;
-                        element.toggle(scope.volumeShown);
-                    };
 
                     scope.volumeChange = function($event) {
                         var height = $($event.currentTarget).height();

@@ -67,7 +67,6 @@
     left: 1em - ($widthWithMargin/2) + $left + $offset;
     padding-top: 1em - $shadowRadius;
     z-index: 3;
-    @include slide-down(.2s);
     top: $navbar-height;
     &>.arrow {
         @include arrow(1em) {
@@ -120,8 +119,8 @@
     text-overflow: ellipsis;
 }
 
-@mixin slide-down($duration) {
-    @include vendor-prefix(transition-property, height);
+@mixin transition($property, $duration) {
+    @include vendor-prefix(transition-property, $property);
     @include vendor-prefix(transition-duration, $duration);
     @include vendor-prefix(transition-timing-function, linear);
 }
