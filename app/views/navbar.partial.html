@@ -25,22 +25,22 @@
             </div>
         </div>
         <div class="controls controls-nav unshrinkable">
-            <button type="button" ng-click="togglePlaylistHandler()" ng-class="{active: playlistShown}" body-event-handler="playlist" class="control">
+            <button playlist-button ng-click="togglePlaylistHandler()" ng-class="{active: playlistShown}" body-event-handler="playlist" type="button" class="control">
                 <span class="glyphicon glyphicon-list"></span>
                 <playlist></playlist>
             </button>
-            <button type="button" ng-click="toggleVolumeHandler()" ng-class="{active: volumeShown}" body-event-handler="volume" class="control">
+            <button ng-click="toggleVolumeHandler()" ng-class="{active: volumeShown}" body-event-handler="volume" type="button" class="control">
                 <span class="glyphicon glyphicon-volume-up"></span>
                 <volume-control></volume-control>
             </button>
-            <button type="button" ng-click="toggleScrobblingEnabled()" ng-class="{active: scrobblingEnabled}" class="control">
+            <button ng-click="toggleScrobblingEnabled()" ng-class="{active: scrobblingEnabled}" type="button" class="control">
                 <span class="lastfmicon"></span>
             </button>
         </div>
         <form ng-submit="initSearch()" ng-controller="SearchController" body-event-handler="search" class="controls controls-nav shrinkable controls-search">
             <search></search>
             <input ng-model="searchText" class="control" type="text" placeholder="search" autocomplete="off">
-            <button type="submit" ng-class="{active: searchShown}" class="control">
+            <button ng-class="{active: searchShown}" type="submit" class="control">
                 <span class="glyphicon glyphicon-search"></span>
             </button>
         </form>

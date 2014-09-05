@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .directive('album', [
-        function() {
-            function linkFunction(scope) {
+    .directive('album', ['DraggableData',
+        function(DraggableData) {
+            function linkFunction(scope, element) {
                 scope.play = function($event) {
                     $event.stopPropagation();
                     scope.$emit('playAlbum', scope.album);
@@ -17,6 +17,12 @@ angular.module('musicServerApp')
                 scope.select = function() {
                     scope.$emit('selectAlbum', scope.album);
                 };
+
+                DraggableData.bindDragEvents(element, scope.album, 'Album', function() {
+                    return [scope.album];
+                }, function() {
+                    return true;
+                });
             }
 
             return {

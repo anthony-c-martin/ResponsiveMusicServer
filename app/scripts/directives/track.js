@@ -31,21 +31,10 @@ angular.module('musicServerApp')
                     scope.trackArea.trackSelected(scope.track, e.shiftKey, (e.ctrlKey || e.metaKey));
                 };
 
-                element.on('dragstart', function(e) {
-                    if (!scope.track.selected) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        return;
-                    }
-                    $('.dropdown-playlist-container').addClass('button-highlighted');
-
-                    e.originalEvent.dataTransfer.setDragImage(DraggableData.getDragImage(), -10, -10);
-                    DraggableData.setTracks(scope.trackArea.listTracks());
-                });
-
-                element.on('dragend', function() {
-                    DraggableData.clear();
-                    $('.dropdown-playlist-container').removeClass('button-highlighted');
+                DraggableData.bindDragEvents(element, scope.track, 'Track', function() {
+                    return scope.trackArea.listTracks();
+                }, function() {
+                    return scope.track.selected;
                 });
             }
 

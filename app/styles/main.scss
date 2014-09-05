@@ -404,3 +404,12 @@ form.login {
 .width100 {
     width: 100%;
 }
+
+#drag-image {
+    position: absolute;
+    display: block;
+    top: -10em;
+    left: -10em;
+    max-width: 10em;
+    max-height: 10em;
+}

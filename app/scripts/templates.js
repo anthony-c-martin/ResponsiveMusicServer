@@ -2,7 +2,7 @@ angular.module('musicServerViews', ['album.partial.html', 'artist.partial.html',
 
 angular.module("album.partial.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("album.partial.html",
-    "<li class=\"album\" ng-click=\"select()\">\n" +
+    "<li class=\"album\" ng-click=\"select()\" draggable=\"true\">\n" +
     "    <div class=\"content\">\n" +
     "        <div class=\"controls controls-mini\">\n" +
     "            <button ng-click=\"add($event)\" type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-plus\"></span></button>\n" +
@@ -16,7 +16,7 @@ angular.module("album.partial.html", []).run(["$templateCache", function($templa
 
 angular.module("artist.partial.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("artist.partial.html",
-    "<li class=\"artist\" ng-click=\"select()\">\n" +
+    "<li class=\"artist\" ng-click=\"select()\" draggable=\"true\">\n" +
     "    <div class=\"content\">\n" +
     "        <div class=\"controls controls-mini\">\n" +
     "            <button ng-click=\"add($event)\" type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-plus\"></span></button>\n" +
@@ -117,22 +117,22 @@ angular.module("navbar.partial.html", []).run(["$templateCache", function($templ
     "            </div>\n" +
     "        </div>\n" +
     "        <div class=\"controls controls-nav unshrinkable\">\n" +
-    "            <button type=\"button\" ng-click=\"togglePlaylistHandler()\" ng-class=\"{active: playlistShown}\" body-event-handler=\"playlist\" class=\"control\">\n" +
+    "            <button playlist-button ng-click=\"togglePlaylistHandler()\" ng-class=\"{active: playlistShown}\" body-event-handler=\"playlist\" type=\"button\" class=\"control\">\n" +
     "                <span class=\"glyphicon glyphicon-list\"></span>\n" +
     "                <playlist></playlist>\n" +
     "            </button>\n" +
-    "            <button type=\"button\" ng-click=\"toggleVolumeHandler()\" ng-class=\"{active: volumeShown}\" body-event-handler=\"volume\" class=\"control\">\n" +
+    "            <button ng-click=\"toggleVolumeHandler()\" ng-class=\"{active: volumeShown}\" body-event-handler=\"volume\" type=\"button\" class=\"control\">\n" +
     "                <span class=\"glyphicon glyphicon-volume-up\"></span>\n" +
     "                <volume-control></volume-control>\n" +
     "            </button>\n" +
-    "            <button type=\"button\" ng-click=\"toggleScrobblingEnabled()\" ng-class=\"{active: scrobblingEnabled}\" class=\"control\">\n" +
+    "            <button ng-click=\"toggleScrobblingEnabled()\" ng-class=\"{active: scrobblingEnabled}\" type=\"button\" class=\"control\">\n" +
     "                <span class=\"lastfmicon\"></span>\n" +
     "            </button>\n" +
     "        </div>\n" +
     "        <form ng-submit=\"initSearch()\" ng-controller=\"SearchController\" body-event-handler=\"search\" class=\"controls controls-nav shrinkable controls-search\">\n" +
     "            <search></search>\n" +
     "            <input ng-model=\"searchText\" class=\"control\" type=\"text\" placeholder=\"search\" autocomplete=\"off\">\n" +
-    "            <button type=\"submit\" ng-class=\"{active: searchShown}\" class=\"control\">\n" +
+    "            <button ng-class=\"{active: searchShown}\" type=\"submit\" class=\"control\">\n" +
     "                <span class=\"glyphicon glyphicon-search\"></span>\n" +
     "            </button>\n" +
     "        </form>\n" +
