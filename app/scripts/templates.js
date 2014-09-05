@@ -71,12 +71,12 @@ angular.module("main.html", []).run(["$templateCache", function($templateCache) 
     "    </div>\n" +
     "    <div ng-if=\"isArtistsShown()\" scroll-loader=\"artistRequest.fetch()\" class=\"pane pane-left\">\n" +
     "        <ul class=\"artists\">\n" +
-    "            <li artist=\"artist\" ng-repeat=\"artist in artists | limitTo: artists.length track by artist.ID\"></li>\n" +
+    "            <li artist=\"artist\" ng-repeat=\"artist in artists | limitTo: artists.length track by artist.ID\" ng-class=\"{selected: (artist === selectedArtist)}\"></li>\n" +
     "        </ul>\n" +
     "    </div>\n" +
     "    <div ng-if=\"isAlbumsShown()\" scroll-loader=\"albumRequest.fetch()\" class=\"pane pane-mid\">\n" +
     "        <ul class=\"albums\">\n" +
-    "            <li album=\"album\" ng-click=\"select()\" ng-repeat=\"album in albums | limitTo: albums.length track by album.ID\"></li>\n" +
+    "            <li album=\"album\" ng-click=\"select()\" ng-repeat=\"album in albums | limitTo: albums.length track by album.ID\" ng-class=\"{selected: (album === selectedAlbum)}\"></li>\n" +
     "        </ul>\n" +
     "    </div>\n" +
     "    <div ng-mousedown=\"deselectTracks($event)\" ng-if=\"isTracksShown()\" scroll-loader=\"trackRequest.fetch()\" class=\"pane pane-right\">\n" +
