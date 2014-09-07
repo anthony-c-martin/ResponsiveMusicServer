@@ -2,7 +2,10 @@
     <div class="arrow"></div>
     <div body-event-handler="playlist" class="inner">
         <ul class="playlist tracks">
-            <li ng-if="playlist.length > 0" class="desc"><span class="link-left" ng-click="clearAll()">Clear All</span><span class="link-right" ng-click="clearSelected()">Clear Selected</span></li>
+            <li ng-if="playlist.length > 0" class="desc">
+                <span class="link-left" ng-click="removeAll()">Clear All</span>
+                <span class="link-right" ng-click="removeSelection()">Clear Selected</span>
+            </li>
             <li track="track" track-area="playlistArea" playlist-track="true" ng-repeat="track in playlist"></li>
             <li ng-if="playlist.length <= 0" class="desc">The playlist is empty!</li>
         </ul>

@@ -55,7 +55,7 @@ angular.module('musicServerApp')
                             track.selected = false;
                         });
                     },
-                    deleteSelection: function() {
+                    removeSelection: function() {
                         var tracks = this.listTracks();
                         for (var i = 0; i < tracks.length; i++) {
                             var index = this.allTracks.indexOf(tracks[i]);

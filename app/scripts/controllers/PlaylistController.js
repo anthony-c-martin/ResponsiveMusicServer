@@ -12,11 +12,11 @@ angular.module('musicServerApp')
                 Playlist.removeTrack(track);
             };
 
-            $scope.clearAll = function() {
+            $scope.removeAll = function() {
                 Playlist.clear();
             };
 
-            $scope.clearSelected = function() {
-                $scope.playlistArea.deleteSelection();
+            $scope.removeSelection = function() {
+                $scope.playlistArea.removeSelection();
             };
         }]);

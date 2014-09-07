@@ -24,8 +24,9 @@
     padding: 0;
     margin: 0;
     &>li.#{$class} {
-        background-color: $background;
-        border-bottom: $em1px solid $border;
+        &:not(:first-child) {
+            border-top: $em1px solid $border;
+        }
         &:hover {
             @include mq-large {
                 .controls {
@@ -39,9 +40,12 @@
         }
         @include noselect-pointer;
         &.selected {
-            background-color: $light-background-selected;
+            &>div.content {
+                background-color: $light-background-selected;
+            }
         }
         &>div.content {
+            background-color: $background;
             margin: 0;
             padding: $em10px;
             &>.desc {

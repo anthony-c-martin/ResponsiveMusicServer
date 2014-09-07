@@ -70,7 +70,7 @@ angular.module('musicServerApp')
                 addTracksByArtist: function(artistId) {
                     var deferred = $q.defer();
                     var _this = this;
-                    HttpRequest.track.getFromAlbum(artistId).load().then(function(tracks) {
+                    HttpRequest.track.getFromArtist(artistId).load().then(function(tracks) {
                         _this.addTracks(tracks);
                         deferred.resolve();
                     }, function() {

@@ -76,6 +76,27 @@ angular.module('musicServerApp')
                 return currentDeferred.promise;
             }
 
+            /* To ensure that $scope.$apply is called, but to avoid calling $scope.$apply unnecessarily,
+             * this function will only call $scope.$apply if changes have been made.
+            */
+            function changeScopeVariable(scope, dragoverPre, dragoverPost) {
+                var changed = false;
+
+                if (scope.dragoverPost !== dragoverPost) {
+                    scope.dragoverPost = dragoverPost;
+                    changed = true;
+                }
+                if (scope.dragoverPre !== dragoverPre) {
+                    scope.dragoverPre = dragoverPre;
+                    changed = true;
+                }
+
+                if (changed) {
+                    scope.$apply($.noop);
+                }
+            }
+
+            var currentHoverScope;
             this.bindDragEvents = function($element, item, itemType, itemListFunction, itemSelectedFunction) {
                 $element.on('dragstart', function($event) {
                     if (!itemSelectedFunction()) {
@@ -99,9 +120,17 @@ angular.module('musicServerApp')
                             break;
                     }
                 });
+
+                $element.on('dragend', function() {
+                    if (currentHoverScope) {
+                        changeScopeVariable(currentHoverScope, false, false);
+                    }
+                });
             };
 
-            this.bindDropEvents = function($element) {
+            this.bindPlaylistDropEvents = function($element) {
+                currentHoverScope = null;
+
                 $element.on('dragover', function($event) {
                     $event.preventDefault();
                     $event.stopPropagation();
@@ -110,10 +139,38 @@ angular.module('musicServerApp')
                 $element.on('drop', function($event) {
                     $event.preventDefault();
                     $event.stopPropagation();
+
                     getTracks().then(function(tracks) {
                         Playlist.addTracks(tracks);
                     });
                     Playlist.deselectAll();
+                });
+            };
+
+            this.bindTrackDropEvents = function($element, scope) {
+                $element.on('dragover', function($event) {
+                    $event.preventDefault();
+                    $event.stopPropagation();
+
+                    if (currentHoverScope !== scope) {
+                        if (currentHoverScope) {
+                            changeScopeVariable(currentHoverScope, false, false);
+                        }
+
+                        currentHoverScope = scope;
+                    }
+
+                    var dropAfter = ($element.height() < $event.originalEvent.offsetY * 2);
+                    changeScopeVariable(scope, !dropAfter, dropAfter);
+                });
+
+                $element.on('drop', function($event) {
+                    $event.preventDefault();
+                    $event.stopPropagation();
+
+                    getTracks().then(function(tracks) {
+                        Playlist.addTracks(tracks, scope.track, !scope.dragoverPre);
+                    });
                 });
             };
         }]);

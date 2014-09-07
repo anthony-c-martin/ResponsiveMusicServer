@@ -273,7 +273,9 @@ ul.tracks {
         @include noevents;
     }
     &>.track-info {
+        @include hide-overflow;
         text-align: center;
+        position: relative;
     }
 }
 
@@ -325,6 +327,22 @@ ul.playlist {
         @include noselect;
         &.track {
             padding: 0;
+            &.dropzone-pre {
+                padding-top: 1em;
+                background-color: $light-background-active;
+                .content {
+                    border-top: 1px solid $light-border;
+                    background-color: $light-background;
+                }
+            }
+            &.dropzone-post {
+                padding-bottom: 1em;
+                background-color: $light-background-active;
+                .content {
+                    border-bottom: 1px solid $light-border;
+                    background-color: $light-background;
+                }
+            }
         }
         &>span.link-left {
             @include noselect-pointer;
@@ -397,10 +415,6 @@ form.login {
             color: $control-hover-color;
         }
     }
-}
-
-.width100 {
-    width: 100%;
 }
 
 .drag-image {

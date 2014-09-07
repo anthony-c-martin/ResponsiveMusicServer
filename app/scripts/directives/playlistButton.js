@@ -6,7 +6,7 @@ angular.module('musicServerApp')
             return {
                 restrict: 'A',
                 link: function(scope, element) {
-                    DraggableData.bindDropEvents(element);
+                    DraggableData.bindPlaylistDropEvents(element);
                 }
             };
         }]);

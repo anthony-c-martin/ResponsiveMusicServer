@@ -92,25 +92,27 @@ angular.module("navbar.partial.html", []).run(["$templateCache", function($templ
   $templateCache.put("navbar.partial.html",
     "<div class=\"navbar\" ng-controller=\"PlayerController\">\n" +
     "    <div ng-if=\"isPhone\" class=\"navbar-inner\">\n" +
-    "        <div class=\"width100 controls controls-nav\">\n" +
-    "            <div class=\"width100 progress-container control\">\n" +
-    "                <div class=\"progress-bar progress-position\"></div>\n" +
+    "        <div progress-container class=\"controls controls-nav shrinkable\">\n" +
+    "            <div ng-click=\"positionChange($event)\" class=\"prog-container control\">\n" +
+    "                <div ng-style=\"{width: (position * 100) + '%'}\" class=\"prog-bar\"></div>\n" +
+    "                <div ng-if=\"track\" class=\"track-info\">{{ track.Name }} - {{ track.Artist.Name }}</div>\n" +
     "            </div>\n" +
     "        </div>\n" +
     "    </div>\n" +
     "    <div class=\"navbar-inner\">\n" +
     "        <div class=\"controls controls-nav unshrinkable\">\n" +
-    "            <button type=\"button\" class=\"control\">\n" +
+    "            <button ng-click=\"next()\" type=\"button\" class=\"control\">\n" +
     "                <span class=\"glyphicon glyphicon-fast-backward\"></span>\n" +
     "            </button>\n" +
-    "            <button type=\"button\" class=\"control\">\n" +
-    "                <span class=\"glyphicon glyphicon-play\"></span>\n" +
+    "            <button ng-click=\"togglePause()\" type=\"button\" class=\"control\">\n" +
+    "                <span ng-if=\"!playing\" class=\"glyphicon glyphicon-play\"></span>\n" +
+    "                <span ng-if=\"playing\" class=\"glyphicon glyphicon-pause\"></span>\n" +
     "            </button>\n" +
-    "            <button type=\"button\" class=\"control\">\n" +
+    "            <button ng-click=\"next()\" type=\"button\" class=\"control\">\n" +
     "                <span class=\"glyphicon glyphicon-fast-forward\"></span>\n" +
     "            </button>\n" +
     "        </div>\n" +
-    "        <div ng-if=\"!isPhone\" class=\"controls controls-nav shrinkable\">\n" +
+    "        <div ng-if=\"!isPhone\" progress-container class=\"controls controls-nav shrinkable\">\n" +
     "            <div ng-click=\"positionChange($event)\" class=\"prog-container control\">\n" +
     "                <div ng-style=\"{width: (position * 100) + '%'}\" class=\"prog-bar\"></div>\n" +
     "                <div ng-if=\"track\" class=\"track-info\">{{ track.Name }} - {{ track.Artist.Name }}</div>\n" +
@@ -152,7 +154,10 @@ angular.module("playlist.partial.html", []).run(["$templateCache", function($tem
     "    <div class=\"arrow\"></div>\n" +
     "    <div body-event-handler=\"playlist\" class=\"inner\">\n" +
     "        <ul class=\"playlist tracks\">\n" +
-    "            <li ng-if=\"playlist.length > 0\" class=\"desc\"><span class=\"link-left\" ng-click=\"clearAll()\">Clear All</span><span class=\"link-right\" ng-click=\"clearSelected()\">Clear Selected</span></li>\n" +
+    "            <li ng-if=\"playlist.length > 0\" class=\"desc\">\n" +
+    "                <span class=\"link-left\" ng-click=\"removeAll()\">Clear All</span>\n" +
+    "                <span class=\"link-right\" ng-click=\"removeSelection()\">Clear Selected</span>\n" +
+    "            </li>\n" +
     "            <li track=\"track\" track-area=\"playlistArea\" playlist-track=\"true\" ng-repeat=\"track in playlist\"></li>\n" +
     "            <li ng-if=\"playlist.length <= 0\" class=\"desc\">The playlist is empty!</li>\n" +
     "        </ul>\n" +
@@ -195,7 +200,7 @@ angular.module("search.partial.html", []).run(["$templateCache", function($templ
 
 angular.module("track.partial.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("track.partial.html",
-    "<li class=\"track\" ng-class=\"{selected: track.selected}\" ng-mousedown=\"select($event)\" draggable=\"true\">\n" +
+    "<li class=\"track\" ng-class=\"{selected: track.selected, 'dropzone-pre': dragoverPre, 'dropzone-post': dragoverPost}\" ng-mousedown=\"select($event)\" draggable=\"true\">\n" +
     "    <div class=\"content\">\n" +
     "        <div ng-if=\"addable\" class=\"controls controls-mini\">\n" +
     "            <button ng-click=\"add($event)\" type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-plus\"></span></button>\n" +

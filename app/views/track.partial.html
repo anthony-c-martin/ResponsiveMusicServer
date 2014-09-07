@@ -1,4 +1,4 @@
-<li class="track" ng-class="{selected: track.selected}" ng-mousedown="select($event)" draggable="true">
+<li class="track" ng-class="{selected: track.selected, 'dropzone-pre': dragoverPre, 'dropzone-post': dragoverPost}" ng-mousedown="select($event)" draggable="true">
     <div class="content">
         <div ng-if="addable" class="controls controls-mini">
             <button ng-click="add($event)" type="button" class="control"><span class="glyphicon glyphicon-plus"></span></button>

@@ -5,10 +5,15 @@ angular.module('musicServerApp')
         function($rootScope, DraggableData) {
             function linkFunction(scope, element, attrs) {
                 scope.addable = true;
+                scope.closable = false;
+                scope.dragoverPre = false;
+                scope.dragoeverPost = false;
 
                 if (attrs.playlistTrack) {
                     scope.closable = true;
                     scope.addable = false;
+
+                    DraggableData.bindTrackDropEvents(element, scope);
                 }
 
                 scope.play = function($event) {

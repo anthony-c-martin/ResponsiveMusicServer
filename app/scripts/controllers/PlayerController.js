@@ -13,6 +13,10 @@ angular.module('musicServerApp')
                 $scope.next(true);
             });
 
+            $scope.$on('SetPosition', function($event, position) {
+                $scope.setPosition = position;
+            });
+
             $scope.togglePause = function () {
                 if ($scope.track) {
                     $scope.setPlaying = !$scope.playing;
