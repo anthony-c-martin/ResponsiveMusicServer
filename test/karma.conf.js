@@ -28,6 +28,7 @@ module.exports = function(config) {
       'bower_components/angular-touch/angular-touch.js',
       'bower_components/matchmedia/matchMedia.js',
       'bower_components/matchmedia-ng/matchmedia-ng.js',
+      'bower_components/js-md5/js/md5.js',
       'app/scripts/**/*.js',
       'test/mock/**/*.js',
       'test/spec/**/*.js'

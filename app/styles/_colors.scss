@@ -1,18 +1,3 @@
-$navbar-bg: #555;
-$navbar-border: #ccc;
-
-$btn-border: #ccc;
-
-$content-border: #ccc;
-
-$control-color: #ccd;
-$control-active-color: #A2A2B8;
-$control-hover-color: #555;
-$control-text-color: #000;
-
-$slider-position-color: #abc;
-$slider-volume-color: #cba;
-
 $em1px: 1em / 16;
 $em2px: $em1px * 2;
 $em4px: $em2px * 2;
@@ -22,12 +7,6 @@ $em10px: $em8px + $em2px;
 $em12px: $em8px + $em4px;
 
 $navbar-height: 1.75em;
-
-$dropdown-color: #acb;
-$dropdown-border: #aaa;
-
-$login-bg-color: #acb;
-$login-border-color: #aaa;
 
 $dark-background: #555;
 $dark-border: #333;
@@ -39,3 +18,8 @@ $light-background-active: #D6E0F5;
 $light-border: #ccc;
 
 $med-background: #ddd;
+
+$control-background: #ccd;
+$control-background-active: #A2A2B8;
+$control-text-hover: #555;
+$control-text: #000;

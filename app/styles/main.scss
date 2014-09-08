@@ -72,8 +72,8 @@ ul {
     left: 0;
     right: 0;
     @include vendor-prefix(box-shadow, 0 0 0.2em 0 $dark-border);
-    background-color: $navbar-bg;
-    border-bottom: 0.063 solid $navbar-border;
+    background-color: $dark-background;
+    border-bottom: 0.063 solid $light-border;
     .navbar-inner {
         max-width: 80em;
         margin: 0 auto;
@@ -111,16 +111,16 @@ ul {
         float: left;
         white-space: nowrap;
         vertical-align: middle;
-        background-color: $control-color;
+        background-color: $control-background;
         margin: 0;
         padding: 0;
         border: none;
     }
     button.control {
         @include noselect-pointer;
-        color: $control-text-color;
+        color: $control-text;
         &:hover {
-            color: $control-hover-color;
+            color: $control-text-hover;
         }
         &>span {
             text-align: center;
@@ -142,17 +142,28 @@ ul {
         &:last-child {
             margin-right: 0;
         }
-        &>.control, &>.control-container {
+        &>.control {
             padding: $em4px $em8px;
+            @include mq-large {
+                padding: $em4px $em12px;
+            }
+        }
+        &>.control-container {
+            padding: 0;
+            &>.control {
+                padding: $em4px $em8px;
+                @include mq-large {
+                    padding: $em4px $em12px;
+                }
+            }
+        }
+        &>.control, &>.control-container {
             height: 2em - $em4px;
             &:not(:first-child) {
                 margin-left: -$em1px;
             }
             &.active {
-                background-color: $control-active-color;
-            }
-            @include mq-large {
-                padding: $em4px $em12px;
+                background-color: $control-background-active;
             }
         }
         @include mq-small {
@@ -407,12 +418,12 @@ form.login {
     }
     &>button.login-control {
         @include noselect-pointer;
-        background-color: $control-color;
-        border: $em1px solid $btn-border;
+        background-color: $control-background;
+        border: 0;
         text-align: center;
-        color: $control-text-color;
+        color: $control-text;
         &:hover {
-            color: $control-hover-color;
+            color: $control-text-hover;
         }
     }
 }
