@@ -122,6 +122,9 @@ ul {
         &:hover {
             color: $control-text-hover;
         }
+        &:active {
+            background-color: $control-background-active;
+        }
         &>span {
             text-align: center;
         }
@@ -142,6 +145,13 @@ ul {
         &:last-child {
             margin-right: 0;
         }
+        .control, .control-container {
+            height: 2em - $em4px;
+            &.active {
+                background-color: $control-background-active;
+            }
+        }
+
         &>.control {
             padding: $em4px $em8px;
             @include mq-large {
@@ -158,12 +168,8 @@ ul {
             }
         }
         &>.control, &>.control-container {
-            height: 2em - $em4px;
             &:not(:first-child) {
                 margin-left: -$em1px;
-            }
-            &.active {
-                background-color: $control-background-active;
             }
         }
         @include mq-small {
