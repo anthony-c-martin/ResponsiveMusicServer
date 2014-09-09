@@ -156,9 +156,6 @@ ul {
             @include mq-large {
                 padding: 0.25em 0.75em;
             }
-            &:active {
-                background-color: $control-background-active;
-            }
         }
         &>.control-container {
             padding: 0;
@@ -167,6 +164,11 @@ ul {
                 @include mq-large {
                     padding: 0.25em 0.75em;
                 }
+            }
+        }
+        &>button.control {
+            &:active {
+                background-color: $control-background-active;
             }
         }
         @include mq-small {
