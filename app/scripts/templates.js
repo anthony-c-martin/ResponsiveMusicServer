@@ -37,7 +37,6 @@ angular.module("errorModal.partial.html", []).run(["$templateCache", function($t
     "        {{ errorMessage }}\n" +
     "    </div>\n" +
     "</div>\n" +
-    "<div class=\"drag-image\"></div>\n" +
     "");
 }]);
 
