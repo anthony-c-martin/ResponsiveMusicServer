@@ -24,9 +24,7 @@
     padding: 0;
     margin: 0;
     &>li.#{$class} {
-        &:not(:first-child) {
-            border-top: $em1px solid $border;
-        }
+        border-bottom: 0.1em solid $border;
         &:hover {
             @include mq-large {
                 .controls {
@@ -47,7 +45,7 @@
         &>div.content {
             background-color: $background;
             margin: 0;
-            padding: $em10px;
+            padding: 0.7em;
             &>.desc {
                 @include hide-overflow;
             }
@@ -72,7 +70,7 @@
         @include arrow(1em) {
             &:after {
                 background-color: $dark-background;
-                border: $em1px solid $dark-border;
+                border: 0.1em solid $dark-border;
                     @include vendor-prefix(box-shadow, 0 0 $shadowRadius 0 $dark-border);
             }
             left: ($widthWithMargin/2) - $offset;
@@ -81,7 +79,7 @@
     &>.inner {
         margin: $shadowRadius;
         background-color: $dark-background;
-        border: $em1px solid $dark-border;
+        border: 0.1em solid $dark-border;
         @include vendor-prefix(box-shadow, 0 0 $shadowRadius 0 $dark-border);
         max-height: 30em;
         overflow-x: hidden;
@@ -139,7 +137,7 @@
     overflow-y: hidden;
     position: absolute;
     margin-left: -$width;
-    top: $em1px;
+    top: 0.1em;
     @content;
     &:after {
         content: "";

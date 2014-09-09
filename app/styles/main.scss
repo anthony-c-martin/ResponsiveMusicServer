@@ -4,6 +4,8 @@
 @import '_glyphicons';
 @import '_icons';
 
+$navbar-height: 1.75em;
+
 * {
     box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -122,9 +124,6 @@ ul {
         &:hover {
             color: $control-text-hover;
         }
-        &:active {
-            background-color: $control-background-active;
-        }
         &>span {
             text-align: center;
         }
@@ -138,7 +137,7 @@ ul {
         }
     }
     &.controls-nav {
-        margin: 0 $em4px;
+        margin: 0 0.25em;
         &:first-child {
             margin-left: 0;
         }
@@ -146,30 +145,28 @@ ul {
             margin-right: 0;
         }
         .control, .control-container {
-            height: 2em - $em4px;
+            height: 2em - 0.25em;
             &.active {
                 background-color: $control-background-active;
             }
         }
 
         &>.control {
-            padding: $em4px $em8px;
+            padding: 0.25em 0.5em;
             @include mq-large {
-                padding: $em4px $em12px;
+                padding: 0.25em 0.75em;
+            }
+            &:active {
+                background-color: $control-background-active;
             }
         }
         &>.control-container {
             padding: 0;
             &>.control {
-                padding: $em4px $em8px;
+                padding: 0.25em 0.5em;
                 @include mq-large {
-                    padding: $em4px $em12px;
+                    padding: 0.25em 0.75em;
                 }
-            }
-        }
-        &>.control, &>.control-container {
-            &:not(:first-child) {
-                margin-left: -$em1px;
             }
         }
         @include mq-small {
@@ -223,7 +220,7 @@ ul {
         position: fixed;
         background-color: $med-background;
         width: 100%;
-        border-bottom: 2px solid $light-border;
+        border-bottom: 0.15em solid $light-border;
         z-index: 1;
     }
     .pane-left {
@@ -231,16 +228,16 @@ ul {
     }
     .pane-mid {
         flex: 1 auto;
-        border-left: 1px solid $light-border;
+        border-left: 0.1em solid $light-border;
     }
     .pane-right {
         flex: 1 auto;
-        border-left: 1px solid $light-border;
+        border-left: 0.1em solid $light-border;
     }
     @include mq-large {
         position: relative;
         border-radius: 0.25em;
-        border: 2px solid $light-border;
+        border: 0.15em solid $light-border;
     }
 }
 
@@ -313,7 +310,7 @@ ul.tracks {
     }
     &>.inner {
         height: 10em;
-        padding: $em4px;
+        padding: 0.25em;
         &>div.vol-container {
             height: 100%;
             width: 100%;
@@ -348,7 +345,7 @@ ul.playlist {
                 padding-top: 1em;
                 background-color: $light-background-active;
                 .content {
-                    border-top: 1px solid $light-border;
+                    border-top: 0.1em solid $light-border;
                     background-color: $light-background;
                 }
             }
@@ -356,7 +353,7 @@ ul.playlist {
                 padding-bottom: 1em;
                 background-color: $light-background-active;
                 .content {
-                    border-bottom: 1px solid $light-border;
+                    border-bottom: 0.1em solid $light-border;
                     background-color: $light-background;
                 }
             }
@@ -396,7 +393,7 @@ form.login {
     @include noselect;
     @include vendor-prefix(box-shadow, 0 0 0.2em 0 $dark-border);
     background-color: $dark-background;
-    border: $em1px solid $dark-border;
+    border: 0.1em solid $dark-border;
     color: $dark-text;
     @include mq-small {
         width: 100%;
