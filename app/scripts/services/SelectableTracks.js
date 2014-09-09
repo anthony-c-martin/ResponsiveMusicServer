@@ -41,13 +41,23 @@ angular.module('musicServerApp')
                             this.lastSelected = track;
                         }
                     },
-                    listTracks: function() {
+                    listTracks: function(deleteOriginals) {
                         var tracks = [];
                         angular.forEach(this.allTracks, function(track) {
                             if (track.selected) {
                                 tracks.push(track);
                             }
                         });
+
+                        if (deleteOriginals) {
+                            for (var i = 0; i < tracks.length; i++) {
+                                var index = this.allTracks.indexOf(tracks[i]);
+                                if (index > -1) {
+                                    this.allTracks.splice(index, 1);
+                                }
+                            }
+                        }
+
                         return tracks;
                     },
                     clearSelection: function() {

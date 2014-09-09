@@ -4,12 +4,14 @@ angular.module('musicServerApp')
     .directive('track', ['$rootScope', 'DraggableData',
         function($rootScope, DraggableData) {
             function linkFunction(scope, element, attrs) {
+                var isPlaylistTrack = (attrs.playlistTrack !== undefined);
+
                 scope.addable = true;
                 scope.closable = false;
                 scope.dragoverPre = false;
                 scope.dragoeverPost = false;
 
-                if (attrs.playlistTrack) {
+                if (isPlaylistTrack) {
                     scope.closable = true;
                     scope.addable = false;
 
@@ -40,7 +42,8 @@ angular.module('musicServerApp')
 
                 DraggableData.bindDragEvents(element, scope.track, 'Track', function() {
                     if (scope.trackArea) {
-                        return scope.trackArea.listTracks();
+                        var deleteOriginalTracks = isPlaylistTrack;
+                        return scope.trackArea.listTracks(deleteOriginalTracks);
                     }
                     return [scope.track];
                 }, function() {

@@ -168,8 +168,10 @@ angular.module('musicServerApp')
                     $event.preventDefault();
                     $event.stopPropagation();
 
+                    var addAfter = !currentHoverScope.dragoverPre;
+                    changeScopeVariable(currentHoverScope, false, false);
                     getTracks().then(function(tracks) {
-                        Playlist.addTracks(tracks, scope.track, !scope.dragoverPre);
+                        Playlist.addTracks(tracks, currentHoverScope.track, addAfter);
                     });
                 });
             };
