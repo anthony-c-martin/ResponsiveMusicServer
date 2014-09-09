@@ -61,8 +61,18 @@ angular.module('musicServerApp')
             });
 
             $rootScope.$on('ResponseUnauthorised', function() {
-                $rootScope.$emit('Error.Display', 'Your session has timed out, and you have been logged out.');
+                $rootScope.$emit('errorDisplay', 'Your session has timed out, and you have been logged out.');
                 SessionData.clearSession();
                 $scope.verifyLoggedIn();
+            });
+
+            $rootScope.$on('hideDropdowns', function(e, data) {
+                if (!(data && data === 'error')) {
+                    $scope.errorMessage = null;
+                }
+            });
+
+            $rootScope.$on('errorDisplay', function(e, errorMessage) {
+                $scope.errorMessage = errorMessage;
             });
         }]);

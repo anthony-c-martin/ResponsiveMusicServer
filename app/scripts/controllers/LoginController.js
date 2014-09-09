@@ -13,7 +13,7 @@ angular.module('musicServerApp')
                     });
                 }, function (message) {
                     console.warn(message);
-                    $rootScope.$emit('Error.Display', 'Login attempt failed. Please try again.');
+                    $rootScope.$emit('errorDisplay', 'Login attempt failed. Please try again.');
                 });
             };
         }]);

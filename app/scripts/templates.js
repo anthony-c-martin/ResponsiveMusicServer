@@ -1,4 +1,4 @@
-angular.module('musicServerViews', ['album.partial.html', 'artist.partial.html', 'login.html', 'main.html', 'navbar.partial.html', 'playlist.partial.html', 'search.partial.html', 'track.partial.html', 'volume-control.partial.html']);
+angular.module('musicServerViews', ['album.partial.html', 'artist.partial.html', 'errorModal.partial.html', 'login.html', 'main.html', 'navbar.partial.html', 'playlist.partial.html', 'search.partial.html', 'track.partial.html', 'volumeControl.partial.html']);
 
 angular.module("album.partial.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("album.partial.html",
@@ -25,6 +25,19 @@ angular.module("artist.partial.html", []).run(["$templateCache", function($templ
     "        <div class=\"desc\">{{ artist.Name }}</div>\n" +
     "    </div>\n" +
     "</li>\n" +
+    "");
+}]);
+
+angular.module("errorModal.partial.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("errorModal.partial.html",
+    "<div ng-show=\"!!errorMessage\">\n" +
+    "    <div class=\"modal-backdrop\">\n" +
+    "    </div>\n" +
+    "    <div body-event-handler=\"error\" class=\"error-modal\">\n" +
+    "        {{ errorMessage }}\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "<div class=\"drag-image\"></div>\n" +
     "");
 }]);
 
@@ -159,7 +172,7 @@ angular.module("playlist.partial.html", []).run(["$templateCache", function($tem
     "                <span class=\"link-right\" ng-click=\"removeSelection()\">Clear Selected</span>\n" +
     "            </li>\n" +
     "            <li track=\"track\" track-area=\"playlistArea\" playlist-track=\"true\" ng-repeat=\"track in playlist\"></li>\n" +
-    "            <li ng-if=\"playlist.length <= 0\" class=\"desc\">The playlist is empty!</li>\n" +
+    "            <li ng-if=\"playlist.length <= 0\" class=\"desc\">This playlist is empty!</li>\n" +
     "        </ul>\n" +
     "    </div>\n" +
     "</div>\n" +
@@ -215,8 +228,8 @@ angular.module("track.partial.html", []).run(["$templateCache", function($templa
     "");
 }]);
 
-angular.module("volume-control.partial.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("volume-control.partial.html",
+angular.module("volumeControl.partial.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("volumeControl.partial.html",
     "<div class=\"dropdown-volume\">\n" +
     "    <div class=\"arrow\"></div>\n" +
     "    <div body-event-handler=\"volume\" class=\"inner\">\n" +

@@ -19,6 +19,6 @@ angular.module('musicServerApp')
                 },
                 restrict: 'E',
                 replace: true,
-                templateUrl: 'volume-control.partial.html'
+                templateUrl: 'volumeControl.partial.html'
             };
         }]);
