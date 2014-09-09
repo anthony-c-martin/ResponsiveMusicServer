@@ -168,21 +168,11 @@ angular.module('musicServerApp')
                 search: {
                     all: function(limit, value) {
                         var _this = this;
-                        var deferred = $q.defer();
-
-                        _this.artists(limit, value).then(function(artists) {
-                            _this.albums(limit, value).then(function(albums) {
-                                _this.tracks(limit, value).then(function(tracks) {
-                                    deferred.resolve({
-                                        artists: artists,
-                                        albums: albums,
-                                        tracks: tracks
-                                    });
-                                }, deferred.reject);
-                            }, deferred.reject);
-                        }, deferred.reject);
-
-                        return deferred.promise;
+                        return $q.all({
+                            artists: _this.artists(limit, value),
+                            albums: _this.albums(limit, value),
+                            tracks: _this.tracks(limit, value)
+                        });
                     },
                     artists: function(limit, value) {
                         var request = httpRequests.fetchByString('SearchArtists', true, value);

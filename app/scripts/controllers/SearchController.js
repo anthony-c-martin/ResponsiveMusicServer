@@ -12,11 +12,14 @@ angular.module('musicServerApp')
                 };
 
                 $scope.searchShown = true;
-                
+
                 HttpRequest.search.all(5, $scope.searchText).then(function(results) {
                     $scope.search.artists = results.artists;
                     $scope.search.albums = results.albums;
                     $scope.search.tracks = results.tracks;
+                    $scope.searchInProgress = false;
+                }, function() {
+                    $scope.searchShown = false;
                     $scope.searchInProgress = false;
                 });
             };

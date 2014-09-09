@@ -3,15 +3,16 @@
 describe('Controller: SearchController', function() {
 
     // load the controller's module
-    beforeEach(module('musicServerApp'));
+    beforeEach(module('musicServerAppDev'));
 
     var SearchController,
-        rootScope, scope, mockHttpRequest;
+        rootScope, scope, mockHttpRequest, q;
 
     // Initialize the controller and a mock scope
-    beforeEach(inject(function($controller, $rootScope, HttpRequest) {
+    beforeEach(inject(function($controller, $rootScope, $q, HttpRequest) {
         rootScope = $rootScope;
         scope = $rootScope.$new();
+        q = $q;
         mockHttpRequest = HttpRequest;
 
         SearchController = $controller('SearchController', {
@@ -51,39 +52,63 @@ describe('Controller: SearchController', function() {
     });
 
     it('should run a search and load the results into the scope when initSearch is called', function() {
+        var mockArtists = {};
+        var mockAlbums = {};
+        var mockTracks = {};
+
+        spyOn(mockHttpRequest.search, 'all').andCallFake(function() {
+            return q.when({
+                artists: mockArtists,
+                albums: mockAlbums,
+                tracks: mockTracks
+            });
+        });
+        scope.searchText = 'oaiuOUIFabsu89y8t';
+
         scope.searchInProgress = false;
         scope.initSearch();
 
-        expect(scope.searchInProgress).ToBeTruthy();
+        expect(scope.searchInProgress).toBeTruthy();
+        expect(scope.searchShown).toBeTruthy();
+
+        expect(scope.search.artists.length).toBe(0);
+        expect(scope.search.albums.length).toBe(0);
+        expect(scope.search.tracks.length).toBe(0);
+
+        expect(mockHttpRequest.search.all.callCount).toBe(1);
+        expect(mockHttpRequest.search.all).toHaveBeenCalledWith(5, 'oaiuOUIFabsu89y8t');
+
+        scope.$digest();
+
+        expect(scope.searchInProgress).toBeFalsy();
+        expect(scope.searchShown).toBeTruthy();
+        expect(scope.search.artists).toBe(mockArtists);
+        expect(scope.search.albums).toBe(mockAlbums);
+        expect(scope.search.tracks).toBe(mockTracks);
+    });
+
+    it('should cancel the search when  initSearch is called and the backend responds with a failure', function() {
+        spyOn(mockHttpRequest.search, 'all').andCallFake(function() {
+            return q.reject();
+        });
+        scope.searchText = 'oaiuOUIFabsu89y8t';
+
+        scope.searchInProgress = false;
+        scope.initSearch();
+
+        expect(scope.searchInProgress).toBeTruthy();
+        expect(scope.searchShown).toBeTruthy();
+
+        expect(scope.search.artists.length).toBe(0);
+        expect(scope.search.albums.length).toBe(0);
+        expect(scope.search.tracks.length).toBe(0);
+
+        expect(mockHttpRequest.search.all.callCount).toBe(1);
+        expect(mockHttpRequest.search.all).toHaveBeenCalledWith(5, 'oaiuOUIFabsu89y8t');
+
+        scope.$digest();
+
+        expect(scope.searchInProgress).toBeFalsy();
+        expect(scope.searchShown).toBeFalsy();
     });
 });
-/*
-'use strict';
-
-angular.module('musicServerApp')
-    .controller('SearchController', ['$scope', 'HttpRequest',
-        function ($scope, HttpRequest) {
-            $scope.initSearch = function() {
-                $scope.searchInProgress = true;
-                $scope.search = {
-                    artists: [],
-                    albums: [],
-                    tracks: []
-                };
-
-                $scope.searchShown = true;
-
-                HttpRequest.search.all(5, $scope.searchText).then(function(results) {
-                    $scope.search.artists = results.artists;
-                    $scope.search.albums = results.albums;
-                    $scope.search.tracks = results.tracks;
-                    $scope.searchInProgress = false;
-                });
-            };
-
-            $scope.redirectToResults = function(type) {
-                var redirect = '/' + type + '/s/' + encodeURIComponent($scope.searchText);
-                $scope.$emit('changeLocation', redirect);
-            };
-        }]);
-*/
