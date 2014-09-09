@@ -3,7 +3,7 @@
 describe('Controller: SearchController', function() {
 
     // load the controller's module
-    beforeEach(module('musicServerAppDev'));
+    beforeEach(module('musicServerApp'));
 
     var SearchController,
         rootScope, scope, mockHttpRequest, q;
