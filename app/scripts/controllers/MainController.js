@@ -18,7 +18,7 @@ angular.module('musicServerApp')
                     $scope.albumRequest = DataLoader.init(HttpRequest.album.getFromArtist(artist.ID), $scope.albums);
                 } else {
                     $scope.albumRequest = {
-                        fetch: $.noop
+                        fetch: function() { }
                     };
                 }
             }
@@ -29,7 +29,7 @@ angular.module('musicServerApp')
                     $scope.trackRequest = DataLoader.init(HttpRequest.track.getFromAlbum(album.ID), $scope.tracks);
                 } else {
                     $scope.trackRequest = {
-                        fetch: $.noop
+                        fetch: function() { }
                     };
                 }
             }

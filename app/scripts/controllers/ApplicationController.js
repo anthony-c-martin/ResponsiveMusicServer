@@ -23,19 +23,17 @@ angular.module('musicServerApp')
                 }
 
                 $scope.loggedIn = !!SessionData.getSession().Key;
-                $scope.scrobblingEnabled = SessionData.getUserPreference('ScrobblingEnabled');
 
                 if (!$scope.loggedIn && currentPath !== '/login') {
                     $location.path('/login');
                 }
+                $scope.scrobblingEnabled = SessionData.getUserPreference('ScrobblingEnabled');
             };
 
             $scope.toggleScrobblingEnabled = function() {
                 $scope.scrobblingEnabled = !$scope.scrobblingEnabled;
                 SessionData.setUserPreference('ScrobblingEnabled', $scope.scrobblingEnabled);
             };
-
-            $scope.verifyLoggedIn();
 
             $scope.$on('changeLocation', function (event, newLocation) {
                 $location.path(newLocation);
@@ -68,7 +66,7 @@ angular.module('musicServerApp')
 
             $rootScope.$on('hideDropdowns', function(e, data) {
                 if (!(data && data === 'error')) {
-                    $scope.errorMessage = null;
+                    $scope.errorMessage = '';
                 }
             });
 

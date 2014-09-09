@@ -92,7 +92,7 @@ angular.module('musicServerApp')
                 }
 
                 if (changed) {
-                    scope.$apply($.noop);
+                    scope.$apply(function() { });
                 }
             }
 

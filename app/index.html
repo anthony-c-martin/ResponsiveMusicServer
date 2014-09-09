@@ -19,7 +19,7 @@
     <!-- endbuild -->
 </head>
 
-<body body-event-handler ng-controller="ApplicationController">
+<body body-event-handler ng-controller="ApplicationController" ng-init="verifyLoggedIn()">
     <div>
         <div navbar ng-if="loggedIn"></div>
         <div class="container">
