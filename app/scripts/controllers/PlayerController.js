@@ -7,7 +7,6 @@ angular.module('musicServerApp')
             $scope.track = false;
             $scope.setVolume = 0.5;
             $scope.setPosition = 0;
-            $scope.showPosition = true;
 
             $rootScope.$on('StartPlaying', function() {
                 $scope.next(true);
