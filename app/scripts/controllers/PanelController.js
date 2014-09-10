@@ -6,12 +6,12 @@ angular.module('musicServerApp')
             $scope.trackArea = new SelectableTracks();
             $scope.trackArea.allTracks = $scope.tracks;
 
-            $rootScope.$on('selectArtist', function(e, artist) {
+            $rootScope.$on('selectArtist', function($event, artist) {
                 $scope.selectedArtist = artist;
                 $scope.selectedAlbum = null;
             });
 
-            $rootScope.$on('selectAlbum', function(e, album) {
+            $rootScope.$on('selectAlbum', function($event, album) {
                 $scope.selectedAlbum = album;
             });
 
@@ -24,8 +24,8 @@ angular.module('musicServerApp')
                 $scope.selectedAlbum = null;
             };
 
-            $scope.deselectTracks = function(e) {
-                e.stopPropagation();
+            $scope.deselectTracks = function($event) {
+                $event.stopPropagation();
                 $scope.trackArea.clearSelection();
             };
 
@@ -34,7 +34,7 @@ angular.module('musicServerApp')
                     return true;
                 }
                 if (!$scope.isPhone) {
-                    return !$scope.selectedAlbum;
+                    return !($scope.selectedAlbum && $scope.selectedArtist);
                 }
 
                 return !$scope.selectedArtist;
@@ -47,15 +47,14 @@ angular.module('musicServerApp')
                 if (!$scope.isPhone) {
                     return true;
                 }
-
-                return !$scope.selectedAlbum;
+                return !!$scope.selectedArtist && !$scope.selectedAlbum;
             };
 
             $scope.isTracksShown = function() {
                 if ($scope.isDesktop) {
                     return true;
                 }
-                if ($scope.selectedAlbum) {
+                if ($scope.selectedArtist && $scope.selectedAlbum) {
                     return true;
                 }
 
