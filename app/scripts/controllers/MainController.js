@@ -17,9 +17,7 @@ angular.module('musicServerApp')
                 if (artist) {
                     $scope.albumRequest = DataLoader.init(HttpRequest.album.getFromArtist(artist.ID), $scope.albums);
                 } else {
-                    $scope.albumRequest = {
-                        fetch: function() { }
-                    };
+                    $scope.albumRequest = null;
                 }
             }
 
@@ -28,9 +26,7 @@ angular.module('musicServerApp')
                 if (album) {
                     $scope.trackRequest = DataLoader.init(HttpRequest.track.getFromAlbum(album.ID), $scope.tracks);
                 } else {
-                    $scope.trackRequest = {
-                        fetch: function() { }
-                    };
+                    $scope.trackRequest = null;
                 }
             }
 

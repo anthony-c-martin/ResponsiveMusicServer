@@ -3,6 +3,10 @@
 describe('Controller: MainController', function() {
 
     beforeEach(module('musicServerApp'));
+    var artistGetAllOutput = {};
+    var dataLoaderInitOutput = {
+        fetch: function() {}
+    };
 
     var MainController,
         $scope, $rootScope, DataLoader, Playlist, HttpRequest, $q;
@@ -14,6 +18,13 @@ describe('Controller: MainController', function() {
         Playlist = _Playlist_;
         HttpRequest = _HttpRequest_;
         $q = _$q_;
+
+        spyOn(HttpRequest.artist, 'getAll').andCallFake(function() {
+            return artistGetAllOutput;
+        });
+        spyOn(DataLoader, 'init').andCallFake(function() {
+            return dataLoaderInitOutput;
+        });
 
         MainController = $controller('MainController', {
             $rootScope: $rootScope,
@@ -143,54 +154,66 @@ describe('Controller: MainController', function() {
         expect($scope.$emit).toHaveBeenCalledWith('StartPlaying');
         expect($scope.$emit.callCount).toBe(1);
     });
+
+    it('should set the artistRequest scope variable on start', function() {
+        expect(HttpRequest.artist.getAll).toHaveBeenCalledWith();
+        expect(HttpRequest.artist.getAll.callCount).toBe(1);
+
+        expect(DataLoader.init).toHaveBeenCalledWith(artistGetAllOutput, $scope.artists);
+        expect(DataLoader.init.callCount).toBe(1);
+
+        expect($scope.artistRequest).toBe(dataLoaderInitOutput);
+    });
+
+    it('should load albums by the given artist on the selectArtist event', function() {
+        DataLoader.init.reset();
+        var getFromArtistOutput = {};
+        spyOn(HttpRequest.album, 'getFromArtist').andCallFake(function() {
+            return getFromArtistOutput;
+        });
+        spyOn(dataLoaderInitOutput, 'fetch');
+        var mockArtist = {
+            ID: 12987
+        };
+
+        $scope.albumRequest = null;
+        $rootScope.$emit('selectArtist', mockArtist);
+
+        expect(HttpRequest.album.getFromArtist).toHaveBeenCalledWith(12987);
+        expect(HttpRequest.album.getFromArtist.callCount).toBe(1);
+
+        expect(DataLoader.init).toHaveBeenCalledWith(getFromArtistOutput, $scope.albums);
+        expect(DataLoader.init.callCount).toBe(1);
+
+        expect($scope.albumRequest).toBe(dataLoaderInitOutput);
+        expect(dataLoaderInitOutput.fetch).toHaveBeenCalledWith();
+        expect(dataLoaderInitOutput.fetch.callCount).toBe(1);
+
+        expect($scope.trackRequest).toBeNull();
+    });
+
+    it('should load tracks for the given album on the selectAlbum event', function() {
+        DataLoader.init.reset();
+        var getFromAlbumOutput = {};
+        spyOn(HttpRequest.track, 'getFromAlbum').andCallFake(function() {
+            return getFromAlbumOutput;
+        });
+        spyOn(dataLoaderInitOutput, 'fetch');
+        var mockAlbum = {
+            ID: 125225
+        };
+
+        $scope.trackRequest = null;
+        $rootScope.$emit('selectAlbum', mockAlbum);
+
+        expect(HttpRequest.track.getFromAlbum).toHaveBeenCalledWith(125225);
+        expect(HttpRequest.track.getFromAlbum.callCount).toBe(1);
+
+        expect(DataLoader.init).toHaveBeenCalledWith(getFromAlbumOutput, $scope.tracks);
+        expect(DataLoader.init.callCount).toBe(1);
+
+        expect($scope.trackRequest).toBe(dataLoaderInitOutput);
+        expect(dataLoaderInitOutput.fetch).toHaveBeenCalledWith();
+        expect(dataLoaderInitOutput.fetch.callCount).toBe(1);
+    });
 });
-
-/*
-'use strict';
-
-angular.module('musicServerApp')
-    .controller('MainController', ['$scope', '$rootScope', 'DataLoader', 'Playlist', 'HttpRequest',
-        function($scope, $rootScope, DataLoader, Playlist, HttpRequest) {
-            function loadArtists() {
-                $scope.artists.length = 0;
-                $scope.artistRequest = DataLoader.init(HttpRequest.artist.getAll(), $scope.artists);
-            }
-
-            function loadAlbums(artist) {
-                $scope.albums.length = 0;
-                if (artist) {
-                    $scope.albumRequest = DataLoader.init(HttpRequest.album.getFromArtist(artist.ID), $scope.albums);
-                } else {
-                    $scope.albumRequest = {
-                        fetch: function() { }
-                    };
-                }
-            }
-
-            function loadTracks(album) {
-                $scope.tracks.length = 0;
-                if (album) {
-                    $scope.trackRequest = DataLoader.init(HttpRequest.track.getFromAlbum(album.ID), $scope.tracks);
-                } else {
-                    $scope.trackRequest = {
-                        fetch: function() { }
-                    };
-                }
-            }
-
-            $rootScope.$on('selectArtist', function(e, artist) {
-                loadAlbums(artist);
-                loadTracks(null);
-                $scope.albumRequest.fetch();
-            });
-
-            $rootScope.$on('selectAlbum', function(e, album) {
-                loadTracks(album);
-                $scope.trackRequest.fetch();
-            });
-
-            loadArtists();
-        }
-    ]);
-
-*/
