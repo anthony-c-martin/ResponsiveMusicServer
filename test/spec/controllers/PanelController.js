@@ -2,16 +2,21 @@
 
 describe('Controller: PanelController', function() {
 
-    // load the controller's module
-    beforeEach(module('musicServerApp'));
+    var mockTracks = {};
+    var mockSelectableTracks = {};
+    beforeEach(module('musicServerApp', function($provide) {
+        $provide.value('SelectableTracks', jasmine.createSpy('SelectableTracksSpy').andCallFake(function() {
+            return mockSelectableTracks;
+        }));
+    }));
 
     var PanelController,
         $scope, $rootScope, SelectableTracks, $q;
 
-    // Initialize the controller and a mock scope
     beforeEach(inject(function($controller, _$rootScope_, _SelectableTracks_, _$q_) {
         $rootScope = _$rootScope_;
         $scope = _$rootScope_.$new();
+        $scope.tracks = mockTracks;
         $q = _$q_;
         SelectableTracks = _SelectableTracks_;
 
@@ -211,15 +216,12 @@ describe('Controller: PanelController', function() {
         expect($scope.selectedArtist).toBe(mockArtist);
         expect($scope.selectedAlbum).toBeNull();
     });
+
+    it('should create a new SelectableTracks object', function() {
+        expect(SelectableTracks).toHaveBeenCalledWith();
+        expect(SelectableTracks.callCount).toBe(1);
+
+        expect($scope.trackArea).toBe(mockSelectableTracks);
+        expect($scope.trackArea.allTracks).toBe(mockTracks);
+    });
 });
-
-/*
-'use strict';
-
-angular.module('musicServerApp')
-    .controller('PanelController', ['$scope', '$rootScope', 'SelectableTracks',
-        function($scope, $rootScope, SelectableTracks) {
-            $scope.trackArea = new SelectableTracks();
-            $scope.trackArea.allTracks = $scope.tracks;
-        }]);
-*/

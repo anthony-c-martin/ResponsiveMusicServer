@@ -2,13 +2,11 @@
 
 describe('Controller: LoginController', function() {
 
-    // load the controller's module
     beforeEach(module('musicServerApp'));
 
     var LoginController,
         $scope, $rootScope, HttpRequest, $q;
 
-    // Initialize the controller and a mock scope
     beforeEach(inject(function($controller, _$rootScope_, _$q_, _HttpRequest_) {
         $rootScope = _$rootScope_;
         $scope = _$rootScope_.$new();
@@ -23,7 +21,7 @@ describe('Controller: LoginController', function() {
     }));
 
     it('should initialise the auth object on start', function() {
-        //expect($scope.auth).toBe({});
+        expect($scope.auth).toEqual({});
     });
 
     it('should emit a loginSuccess event when the login request succeeds', function() {

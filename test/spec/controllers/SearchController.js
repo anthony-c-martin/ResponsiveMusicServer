@@ -2,13 +2,11 @@
 
 describe('Controller: SearchController', function() {
 
-    // load the controller's module
     beforeEach(module('musicServerApp'));
 
     var SearchController,
         $scope, HttpRequest, $q;
 
-    // Initialize the controller and a mock scope
     beforeEach(inject(function($controller, _$rootScope_, _$q_, _HttpRequest_) {
         $scope = _$rootScope_.$new();
         $q = _$q_;

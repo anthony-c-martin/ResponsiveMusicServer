@@ -26,13 +26,11 @@ function getMockMatchMedia() {
 
 describe('Controller: ApplicationController', function() {
 
-    // load the controller's module
     beforeEach(module('musicServerApp'));
 
     var ApplicationController,
         $rootScope, $scope, $location, mockMatchmedia, SessionData, HttpRequest, $q;
 
-    // Initialize the controller and a mock scope
     beforeEach(inject(function($controller, _$rootScope_, _$location_, _$q_, _SessionData_, _HttpRequest_) {
         $rootScope = _$rootScope_;
         $scope = _$rootScope_.$new();
