@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .filter('groupBy', [
+    .filter('groupByDisc', [
         function() {
             return function(items, group) {
-                return items.filter(function(element) {
-                    return element.DiscNumber === group;
+                return items.filter(function(item) {
+                    return item.DiscNumber === group;
                 });
             };
         }]);
