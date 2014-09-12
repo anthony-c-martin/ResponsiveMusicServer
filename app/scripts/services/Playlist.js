@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .factory('Playlist', ['$q', 'ApiRequest',
+    .service('Playlist', ['$q', 'ApiRequest',
         function($q, ApiRequest) {
             function convertTrack(track) {
                 if (track.ConversionPromise) {

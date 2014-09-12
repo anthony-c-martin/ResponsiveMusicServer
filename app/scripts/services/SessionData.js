@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .factory('SessionData', ['$window',
+    .service('SessionData', ['$window',
         function ($window) {
             return {
                 setSession: function(newSession) {
@@ -44,24 +44,6 @@ angular.module('musicServerApp')
                     var prefs = this.getUserPreferences();
                     return prefs[key];
                 },
-                jsonURL: '/api',
-                commands: {
-                    GetTrackByID: 'GetTrackByID',
-                    GetTracks: 'GetTracks',
-                    GetAlbums: 'GetAlbums',
-                    GetArtists: 'GetArtists',
-                    SearchTracks: 'SearchTracks',
-                    SearchAlbums: 'SearchAlbums',
-                    SearchArtists: 'SearchArtists',
-                    GetTracksByArtist: 'GetTracksByArtist',
-                    GetTracksByAlbum: 'GetTracksByAlbum',
-                    GetAlbumsByArtist: 'GetAlbumsByArtist',
-                    GetToken: 'GetToken',
-                    GetSession: 'GetSession',
-                    ConvertTrackByID: 'ConvertTrackByID',
-                    LFMNowPlayingTrack: 'LFMNowPlayingTrack',
-                    LFMScrobbleTrack: 'LFMScrobbleTrack',
-                    GetUserPreferences: 'GetUserPreferences'
-                }
+                jsonURL: '/api'
             };
         }]);

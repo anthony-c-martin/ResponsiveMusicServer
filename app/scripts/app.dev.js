@@ -6,13 +6,23 @@ angular.module('musicServerAppDev', ['musicServerApp', 'ngMockE2E'])
             $httpBackend.whenPOST('/api').respond(function(method, url, jsonData) {
                 var data = JSON.parse(jsonData);
                 var command = data.Command;
-                console.log(data);
                 delete data.Command;
 
                 if (requests[command] !== 'undefined') {
-                    return requests[command](data);
+                    var output = requests[command](data);
+                    console.log({
+                        command: command,
+                        input: data,
+                        output: output
+                    });
+                    return output;
                 }
 
+                console.warn({
+                    error: 404,
+                    command: command,
+                    input: data
+                })
                 return [404, {}, {}];
             });
 
