@@ -20,59 +20,112 @@ describe('Controller: LoginController', function() {
         });
     }));
 
-    it('should initialise the auth object on start', function() {
-        expect($scope.auth).toEqual({});
+    describe('Initialisation', function() {
+        it('should initialise the auth object on start', function() {
+            expect($scope.auth).toEqual({});
+        });
     });
 
-    it('should emit a loginSuccess event when the login request succeeds', function() {
-        spyOn(ApiRequest.session, 'login').andCallFake(function() {
-            return $q.when({
-                Session: 'asdouas8gs9f9',
-                Secret: 'asdgbsa87gs98hfj'
+    describe('loginFailed', function() {
+        it('should log an error and display an error when calling the loginFailed function', function() {
+            spyOn(console, 'warn');
+            spyOn($rootScope, '$emit');
+
+            LoginController.loginFailed('asdiabsiusavfusyavfuysd');
+            expect(console.warn).toHaveBeenCalledWith('asdiabsiusavfusyavfuysd');
+            expect(console.warn.callCount).toBe(1);
+            expect($rootScope.$emit).toHaveBeenCalledWith('errorDisplay', 'Login attempt failed. Please try again.');
+            expect($rootScope.$emit.callCount).toBe(1);
+        });
+    });
+
+    describe('authString', function() {
+        it('should correctly generate auth strings', function() {
+            expect(LoginController.authString('myUsername', 'myPassword', 'myToken')).toBe('c97cfcc0a13092b18d8dd3912112f71a');
+            expect(LoginController.authString('dfgsdf0ghi', 'asdfsubisd', 'myToksdd09hen')).toBe('d77d1465d59a51b60d9ec1e79a58c921');
+            expect(LoginController.authString('sdn9gfdg', 'sdfg08dh9g', 'sagasdg')).toBe('ef4de70da765515f55cf73ef462065e6');
+            expect(LoginController.authString('s0gh8hfd9gho', 'dfg0sdh89', 'myToken')).toBe('502fcedff4e12b59756e7a4c465e77cf');
+        });
+    });
+
+    describe('$scope.login', function() {
+        it('should call loginFailed if the getToken request fails', function() {
+            spyOn(ApiRequest.session, 'getToken').andCallFake(function() {
+                return {
+                    submit: function() { return $q.reject(); }
+                };
             });
+            spyOn(LoginController, 'loginFailed');
+
+            $scope.login();
+            $scope.$digest();
+
+            expect(LoginController.loginFailed).toHaveBeenCalledWith();
+            expect(LoginController.loginFailed.callCount).toBe(1);
         });
-        $scope.auth = {
-            username: 'asdfasf98h',
-            password: 'asdofuas9fdh'
-        };
 
-        spyOn($scope, '$emit');
+        it('should call loginFailed if the getSession request fails', function() {
+            spyOn(ApiRequest.session, 'getToken').andCallFake(function() {
+                return {
+                    submit: function() { return $q.when({
+                        Token: 'asdonasifdsf'
+                    }); }
+                };
+            });
+            spyOn(ApiRequest.session, 'getSession').andCallFake(function() {
+                return {
+                    submit: function() { return $q.reject(); }
+                };
+            });
+            spyOn(LoginController, 'loginFailed');
 
-        $scope.login();
-        $scope.$digest();
+            $scope.login();
+            $scope.$digest();
 
-        expect(ApiRequest.session.login).toHaveBeenCalledWith('asdfasf98h', 'asdofuas9fdh');
-        expect(ApiRequest.session.login.callCount).toBe(1);
+            expect(LoginController.loginFailed).toHaveBeenCalledWith();
+            expect(LoginController.loginFailed.callCount).toBe(1);
+        });
 
-        expect($scope.$emit).toHaveBeenCalled();
-        expect($scope.$emit.callCount).toBe(1);
-        expect($scope.$emit.mostRecentCall.args.length).toBe(2);
-        expect($scope.$emit.mostRecentCall.args[0]).toBe('loginSuccess');
-        expect($scope.$emit.mostRecentCall.args[1].Key).toBe('asdouas8gs9f9');
-        expect($scope.$emit.mostRecentCall.args[1].Secret).toBe('asdgbsa87gs98hfj');
+        it('should emit a loginSuccess event when the login request succeeds', function() {
+            spyOn(ApiRequest.session, 'getToken').andCallFake(function() {
+                return {
+                    submit: function() { return $q.when({
+                        Token: 'myToksdd09hen'
+                    }); }
+                };
+            });
+            spyOn(ApiRequest.session, 'getSession').andCallFake(function() {
+                return {
+                    submit: function() { return $q.when({
+                        Session: 'asdouas8gs9f9',
+                        Secret: 'asdgbsa87gs98hfj'
+                    }); }
+                };
+            });
+            $scope.auth = {
+                username: 'dfgsdf0ghi',
+                password: 'asdfsubisd'
+            };
+
+            var auth = LoginController.authString('dfgsdf0ghi', 'asdfsubisd', 'myToksdd09hen');
+
+            spyOn($scope, '$emit');
+
+            $scope.login();
+            $scope.$digest();
+
+            expect(ApiRequest.session.getToken).toHaveBeenCalledWith();
+            expect(ApiRequest.session.getToken.callCount).toBe(1);
+            expect(ApiRequest.session.getSession).toHaveBeenCalledWith('myToksdd09hen', auth);
+            expect(ApiRequest.session.getSession.callCount).toBe(1);
+
+            expect($scope.$emit).toHaveBeenCalled();
+            expect($scope.$emit.callCount).toBe(1);
+            expect($scope.$emit.mostRecentCall.args.length).toBe(2);
+            expect($scope.$emit.mostRecentCall.args[0]).toBe('loginSuccess');
+            expect($scope.$emit.mostRecentCall.args[1].Key).toBe('asdouas8gs9f9');
+            expect($scope.$emit.mostRecentCall.args[1].Secret).toBe('asdgbsa87gs98hfj');
+        });
     });
 
-    it('should log a console warning and emit an errorDisplay event when the login fails', function() {
-        spyOn(ApiRequest.session, 'login').andCallFake(function() {
-            return $q.reject('asdfiubsaifydoina');
-        });
-        spyOn(console, 'warn');
-        spyOn($rootScope, '$emit');
-        $scope.auth = {
-            username: 'asdfasf98h',
-            password: 'asdofuas9fdh'
-        };
-
-        $scope.login();
-        $scope.$digest();
-
-        expect(ApiRequest.session.login).toHaveBeenCalledWith('asdfasf98h', 'asdofuas9fdh');
-        expect(ApiRequest.session.login.callCount).toBe(1);
-
-        expect(console.warn).toHaveBeenCalledWith('asdfiubsaifydoina');
-        expect(console.warn.callCount).toBe(1);
-
-        expect($rootScope.$emit).toHaveBeenCalledWith('errorDisplay', 'Login attempt failed. Please try again.');
-        expect($rootScope.$emit.callCount).toBe(1);
-    });
 });

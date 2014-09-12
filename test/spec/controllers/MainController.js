@@ -4,9 +4,15 @@ describe('Controller: MainController', function() {
 
     beforeEach(module('musicServerApp'));
     var artistGetAllOutput = {};
-    var dataLoaderInitOutput = {
+    var mockDataLoader = {
         fetch: function() {}
     };
+
+    beforeEach(module('musicServerApp', function($provide) {
+        $provide.value('DataLoader', jasmine.createSpy('DataLoaderSpy').andCallFake(function() {
+            return mockDataLoader;
+        }));
+    }));
 
     var MainController,
         $scope, $rootScope, DataLoader, Playlist, ApiRequest, $q;
@@ -21,9 +27,6 @@ describe('Controller: MainController', function() {
 
         spyOn(ApiRequest.artist, 'getAll').andCallFake(function() {
             return artistGetAllOutput;
-        });
-        spyOn(DataLoader, 'init').andCallFake(function() {
-            return dataLoaderInitOutput;
         });
 
         MainController = $controller('MainController', {
@@ -159,19 +162,19 @@ describe('Controller: MainController', function() {
         expect(ApiRequest.artist.getAll).toHaveBeenCalledWith();
         expect(ApiRequest.artist.getAll.callCount).toBe(1);
 
-        expect(DataLoader.init).toHaveBeenCalledWith(artistGetAllOutput, $scope.artists);
-        expect(DataLoader.init.callCount).toBe(1);
+        expect(DataLoader).toHaveBeenCalledWith(artistGetAllOutput, $scope.artists, 100);
+        expect(DataLoader.callCount).toBe(1);
 
-        expect($scope.artistRequest).toBe(dataLoaderInitOutput);
+        expect($scope.artistRequest).toBe(mockDataLoader);
     });
 
     it('should load albums by the given artist on the selectArtist event', function() {
-        DataLoader.init.reset();
+        DataLoader.reset();
         var getFromArtistOutput = {};
         spyOn(ApiRequest.album, 'getFromArtist').andCallFake(function() {
             return getFromArtistOutput;
         });
-        spyOn(dataLoaderInitOutput, 'fetch');
+        spyOn(mockDataLoader, 'fetch');
         var mockArtist = {
             ID: 12987
         };
@@ -182,23 +185,23 @@ describe('Controller: MainController', function() {
         expect(ApiRequest.album.getFromArtist).toHaveBeenCalledWith(12987);
         expect(ApiRequest.album.getFromArtist.callCount).toBe(1);
 
-        expect(DataLoader.init).toHaveBeenCalledWith(getFromArtistOutput, $scope.albums);
-        expect(DataLoader.init.callCount).toBe(1);
+        expect(DataLoader).toHaveBeenCalledWith(getFromArtistOutput, $scope.albums, 100);
+        expect(DataLoader.callCount).toBe(1);
 
-        expect($scope.albumRequest).toBe(dataLoaderInitOutput);
-        expect(dataLoaderInitOutput.fetch).toHaveBeenCalledWith();
-        expect(dataLoaderInitOutput.fetch.callCount).toBe(1);
+        expect($scope.albumRequest).toBe(mockDataLoader);
+        expect(mockDataLoader.fetch).toHaveBeenCalledWith();
+        expect(mockDataLoader.fetch.callCount).toBe(1);
 
         expect($scope.trackRequest).toBeNull();
     });
 
     it('should load tracks for the given album on the selectAlbum event', function() {
-        DataLoader.init.reset();
+        DataLoader.reset();
         var getFromAlbumOutput = {};
         spyOn(ApiRequest.track, 'getFromAlbum').andCallFake(function() {
             return getFromAlbumOutput;
         });
-        spyOn(dataLoaderInitOutput, 'fetch');
+        spyOn(mockDataLoader, 'fetch');
         var mockAlbum = {
             ID: 125225
         };
@@ -209,11 +212,11 @@ describe('Controller: MainController', function() {
         expect(ApiRequest.track.getFromAlbum).toHaveBeenCalledWith(125225);
         expect(ApiRequest.track.getFromAlbum.callCount).toBe(1);
 
-        expect(DataLoader.init).toHaveBeenCalledWith(getFromAlbumOutput, $scope.tracks);
-        expect(DataLoader.init.callCount).toBe(1);
+        expect(DataLoader).toHaveBeenCalledWith(getFromAlbumOutput, $scope.tracks, 100);
+        expect(DataLoader.callCount).toBe(1);
 
-        expect($scope.trackRequest).toBe(dataLoaderInitOutput);
-        expect(dataLoaderInitOutput.fetch).toHaveBeenCalledWith();
-        expect(dataLoaderInitOutput.fetch.callCount).toBe(1);
+        expect($scope.trackRequest).toBe(mockDataLoader);
+        expect(mockDataLoader.fetch).toHaveBeenCalledWith();
+        expect(mockDataLoader.fetch.callCount).toBe(1);
     });
 });

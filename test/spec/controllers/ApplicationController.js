@@ -172,9 +172,7 @@ describe('Controller: ApplicationController', function() {
         });
         spyOn(ApiRequest.session, 'getUserPreferences').andCallFake(function() {
             return {
-                load: function() {
-                    return $q.when(userPreferencesData);
-                }
+                submit: function() { return $q.when(userPreferencesData); }
             };
         });
 
