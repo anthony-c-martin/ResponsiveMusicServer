@@ -147,7 +147,7 @@ angular.module("navbar.partial.html", []).run(["$templateCache", function($templ
     "                <span class=\"lastfmicon\"></span>\n" +
     "            </button>\n" +
     "        </div>\n" +
-    "        <form ng-submit=\"initSearch()\" ng-controller=\"SearchController\" body-event-handler=\"search\" class=\"controls controls-nav shrinkable controls-search\">\n" +
+    "        <form ng-submit=\"search()\" ng-controller=\"SearchController\" body-event-handler=\"search\" class=\"controls controls-nav shrinkable controls-search\">\n" +
     "            <search ng-show=\"searchShown\"></search>\n" +
     "            <input ng-model=\"searchText\" class=\"control\" type=\"text\" placeholder=\"search\" autocomplete=\"off\">\n" +
     "            <button ng-class=\"{active: searchShown}\" type=\"submit\" class=\"control\">\n" +
@@ -189,19 +189,19 @@ angular.module("search.partial.html", []).run(["$templateCache", function($templ
     "            </ul>\n" +
     "        </div>\n" +
     "        <div ng-switch-default>\n" +
-    "            <ul ng-if=\"search.tracks.length > 0\" class=\"search tracks\">\n" +
+    "            <ul ng-if=\"searchResults.tracks.length > 0\" class=\"search tracks\">\n" +
     "                <li class=\"desc\">Tracks<span class=\"link-right\" ng-click=\"redirectToResults('tracks')\">Show all</span></li>\n" +
-    "                <li track=\"track\" ng-repeat=\"track in search.tracks\"></li>\n" +
+    "                <li track=\"track\" ng-repeat=\"track in searchResults.tracks\"></li>\n" +
     "            </ul>\n" +
-    "            <ul ng-if=\"search.albums.length > 0\" class=\"search albums\">\n" +
+    "            <ul ng-if=\"searchResults.albums.length > 0\" class=\"search albums\">\n" +
     "                <li class=\"desc\">Albums<span class=\"link-right\" ng-click=\"redirectToResults('albums')\">Show all</span></li>\n" +
-    "                <li album=\"album\" ng-repeat=\"album in search.albums\" class=\"album\"></li>\n" +
+    "                <li album=\"album\" ng-repeat=\"album in searchResults.albums\" class=\"album\"></li>\n" +
     "            </ul>\n" +
-    "            <ul ng-if=\"search.artists.length > 0\" class=\"search artists\">\n" +
+    "            <ul ng-if=\"searchResults.artists.length > 0\" class=\"search artists\">\n" +
     "                <li class=\"desc\">Artists<span class=\"link-right\" ng-click=\"redirectToResults('artists')\">Show all</span></li>\n" +
-    "                <li artist=\"artist\" ng-repeat=\"artist in search.artists\"></li>\n" +
+    "                <li artist=\"artist\" ng-repeat=\"artist in searchResults.artists\"></li>\n" +
     "            </ul>\n" +
-    "            <ul ng-if=\"search.artists.length + search.albums.length + search.tracks.length <= 0\" class=\"search\">\n" +
+    "            <ul ng-if=\"searchResults.artists.length + searchResults.albums.length + searchResults.tracks.length <= 0\" class=\"search\">\n" +
     "                <li class=\"desc\">No results found</li>\n" +
     "            </ul>\n" +
     "        </div>\n" +

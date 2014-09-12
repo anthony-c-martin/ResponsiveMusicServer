@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .service('DraggableData', ['$q', 'HttpRequest', 'Playlist',
-        function($q, HttpRequest, Playlist) {
+    .service('DraggableData', ['$q', 'ApiRequest', 'Playlist',
+        function($q, ApiRequest, Playlist) {
             var currentDeferred = $q.defer();
             currentDeferred.reject();
 
@@ -24,7 +24,7 @@ angular.module('musicServerApp')
                 var promises = [];
                 angular.forEach(artists, function(artist) {
                     var deferred = $q.defer();
-                    promises.push(HttpRequest.track.getFromArtist(artist.ID).load().then(function(tracks) {
+                    promises.push(ApiRequest.track.getFromArtist(artist.ID).submit().then(function(tracks) {
                         angular.forEach(tracks, function(track) {
                             this.push(track);
                         }, trackList);
@@ -48,7 +48,7 @@ angular.module('musicServerApp')
                 var promises = [];
                 angular.forEach(albums, function(album) {
                     var deferred = $q.defer();
-                    promises.push(HttpRequest.track.getFromAlbum(album.ID).load().then(function(tracks) {
+                    promises.push(ApiRequest.track.getFromAlbum(album.ID).submit().then(function(tracks) {
                         angular.forEach(tracks, function(track) {
                             this.push(track);
                         }, trackList);

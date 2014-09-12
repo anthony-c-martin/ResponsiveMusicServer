@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .directive('audioPlayer', ['SessionData', 'HttpRequest', 'TrackTimer',
-        function (SessionData, HttpRequest, TrackTimer) {
+    .directive('audioPlayer', ['SessionData', 'ApiRequest', 'TrackTimer',
+        function (SessionData, ApiRequest, TrackTimer) {
             function getSourceParams(track) {
                 var params = '?FileName=' + encodeURIComponent(track.FileName);
                 params += '&Session=' + encodeURIComponent(SessionData.getSession().Key);
@@ -30,10 +30,10 @@ angular.module('musicServerApp')
                             audio.play();
 
                             if (scope.scrobblingEnabled) {
-                                HttpRequest.track.lastFMNowPlaying(track.ID).load();
+                                ApiRequest.track.lastFMNowPlaying(track.ID).submit();
                                 scrobbleTimer.reset(function() {
                                     if (track === scope.track) {
-                                        HttpRequest.track.lastFMScrobble(track.ID).load();
+                                        ApiRequest.track.lastFMScrobble(track.ID).submit();
                                     }
                                 }, track.Duration/2 < 240 ? track.Duration/2 : 240);
                             }

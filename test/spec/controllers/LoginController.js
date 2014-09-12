@@ -5,18 +5,18 @@ describe('Controller: LoginController', function() {
     beforeEach(module('musicServerApp'));
 
     var LoginController,
-        $scope, $rootScope, HttpRequest, $q;
+        $scope, $rootScope, ApiRequest, $q;
 
-    beforeEach(inject(function($controller, _$rootScope_, _$q_, _HttpRequest_) {
+    beforeEach(inject(function($controller, _$rootScope_, _$q_, _ApiRequest_) {
         $rootScope = _$rootScope_;
         $scope = _$rootScope_.$new();
         $q = _$q_;
-        HttpRequest = _HttpRequest_;
+        ApiRequest = _ApiRequest_;
 
         LoginController = $controller('LoginController', {
             $rootScope: $rootScope,
             $scope: $scope,
-            HttpRequest: _HttpRequest_
+            ApiRequest: _ApiRequest_
         });
     }));
 
@@ -25,7 +25,7 @@ describe('Controller: LoginController', function() {
     });
 
     it('should emit a loginSuccess event when the login request succeeds', function() {
-        spyOn(HttpRequest.session, 'login').andCallFake(function() {
+        spyOn(ApiRequest.session, 'login').andCallFake(function() {
             return $q.when({
                 Session: 'asdouas8gs9f9',
                 Secret: 'asdgbsa87gs98hfj'
@@ -41,8 +41,8 @@ describe('Controller: LoginController', function() {
         $scope.login();
         $scope.$digest();
 
-        expect(HttpRequest.session.login).toHaveBeenCalledWith('asdfasf98h', 'asdofuas9fdh');
-        expect(HttpRequest.session.login.callCount).toBe(1);
+        expect(ApiRequest.session.login).toHaveBeenCalledWith('asdfasf98h', 'asdofuas9fdh');
+        expect(ApiRequest.session.login.callCount).toBe(1);
 
         expect($scope.$emit).toHaveBeenCalled();
         expect($scope.$emit.callCount).toBe(1);
@@ -53,7 +53,7 @@ describe('Controller: LoginController', function() {
     });
 
     it('should log a console warning and emit an errorDisplay event when the login fails', function() {
-        spyOn(HttpRequest.session, 'login').andCallFake(function() {
+        spyOn(ApiRequest.session, 'login').andCallFake(function() {
             return $q.reject('asdfiubsaifydoina');
         });
         spyOn(console, 'warn');
@@ -66,8 +66,8 @@ describe('Controller: LoginController', function() {
         $scope.login();
         $scope.$digest();
 
-        expect(HttpRequest.session.login).toHaveBeenCalledWith('asdfasf98h', 'asdofuas9fdh');
-        expect(HttpRequest.session.login.callCount).toBe(1);
+        expect(ApiRequest.session.login).toHaveBeenCalledWith('asdfasf98h', 'asdofuas9fdh');
+        expect(ApiRequest.session.login.callCount).toBe(1);
 
         expect(console.warn).toHaveBeenCalledWith('asdfiubsaifydoina');
         expect(console.warn.callCount).toBe(1);

@@ -43,7 +43,7 @@
                 <span class="lastfmicon"></span>
             </button>
         </div>
-        <form ng-submit="initSearch()" ng-controller="SearchController" body-event-handler="search" class="controls controls-nav shrinkable controls-search">
+        <form ng-submit="search()" ng-controller="SearchController" body-event-handler="search" class="controls controls-nav shrinkable controls-search">
             <search ng-show="searchShown"></search>
             <input ng-model="searchText" class="control" type="text" placeholder="search" autocomplete="off">
             <button ng-class="{active: searchShown}" type="submit" class="control">

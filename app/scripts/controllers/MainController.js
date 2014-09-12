@@ -1,21 +1,21 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .controller('MainController', ['$scope', '$rootScope', 'DataLoader', 'Playlist', 'HttpRequest',
-        function($scope, $rootScope, DataLoader, Playlist, HttpRequest) {
+    .controller('MainController', ['$scope', '$rootScope', 'DataLoader', 'Playlist', 'ApiRequest',
+        function($scope, $rootScope, DataLoader, Playlist, ApiRequest) {
             $scope.artists = [];
             $scope.albums = [];
             $scope.tracks = [];
 
             function loadArtists() {
                 $scope.artists.length = 0;
-                $scope.artistRequest = DataLoader.init(HttpRequest.artist.getAll(), $scope.artists);
+                $scope.artistRequest = new DataLoader(ApiRequest.artist.getAll(), $scope.artists, 100);
             }
 
             function loadAlbums(artist) {
                 $scope.albums.length = 0;
                 if (artist) {
-                    $scope.albumRequest = DataLoader.init(HttpRequest.album.getFromArtist(artist.ID), $scope.albums);
+                    $scope.albumRequest = new DataLoader(ApiRequest.album.getFromArtist(artist.ID), $scope.albums, 100);
                 } else {
                     $scope.albumRequest = null;
                 }
@@ -24,7 +24,7 @@ angular.module('musicServerApp')
             function loadTracks(album) {
                 $scope.tracks.length = 0;
                 if (album) {
-                    $scope.trackRequest = DataLoader.init(HttpRequest.track.getFromAlbum(album.ID), $scope.tracks);
+                    $scope.trackRequest = new DataLoader(ApiRequest.track.getFromAlbum(album.ID), $scope.tracks, 100);
                 } else {
                     $scope.trackRequest = null;
                 }

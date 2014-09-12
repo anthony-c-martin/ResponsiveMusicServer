@@ -29,14 +29,14 @@ describe('Controller: ApplicationController', function() {
     beforeEach(module('musicServerApp'));
 
     var ApplicationController,
-        $rootScope, $scope, $location, mockMatchmedia, SessionData, HttpRequest, $q;
+        $rootScope, $scope, $location, mockMatchmedia, SessionData, ApiRequest, $q;
 
-    beforeEach(inject(function($controller, _$rootScope_, _$location_, _$q_, _SessionData_, _HttpRequest_) {
+    beforeEach(inject(function($controller, _$rootScope_, _$location_, _$q_, _SessionData_, _ApiRequest_) {
         $rootScope = _$rootScope_;
         $scope = _$rootScope_.$new();
         $location = _$location_;
         $q = _$q_;
-        HttpRequest = _HttpRequest_;
+        ApiRequest = _ApiRequest_;
         mockMatchmedia = getMockMatchMedia();
         SessionData = _SessionData_;
 
@@ -46,7 +46,7 @@ describe('Controller: ApplicationController', function() {
             $location: $location,
             matchmedia: mockMatchmedia,
             SessionData: SessionData,
-            HttpRequest: HttpRequest
+            ApiRequest: ApiRequest
         });
     }));
 
@@ -170,7 +170,7 @@ describe('Controller: ApplicationController', function() {
         spyOn(SessionData, 'getUserPreference').andCallFake(function() {
             return 'asdgsdagu8as7gf';
         });
-        spyOn(HttpRequest.session, 'getUserPreferences').andCallFake(function() {
+        spyOn(ApiRequest.session, 'getUserPreferences').andCallFake(function() {
             return {
                 load: function() {
                     return $q.when(userPreferencesData);
@@ -184,8 +184,8 @@ describe('Controller: ApplicationController', function() {
         expect($location.path).toHaveBeenCalledWith('/music');
         expect(SessionData.setSession).toHaveBeenCalledWith(loginSuccessData);
 
-        expect(HttpRequest.session.getUserPreferences).toHaveBeenCalled();
-        expect(HttpRequest.session.getUserPreferences.callCount).toBe(1);
+        expect(ApiRequest.session.getUserPreferences).toHaveBeenCalled();
+        expect(ApiRequest.session.getUserPreferences.callCount).toBe(1);
 
         $scope.$digest();
 

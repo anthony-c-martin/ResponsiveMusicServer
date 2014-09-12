@@ -1,36 +1,27 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .factory('DataLoader', ['$q',
-        function ($q) {
-            return {
-                init: function (request, array) {
-                    return {
-                        loadMore: true,
-                        fetch: function () {
-                            var deferred = $q.defer();
-                            if (request && this.loadMore) {
-                                this.loadMore = false;
-                                var _this = this;
-                                request.load().then(function (data) {
-                                    for (var i = 0; i < data.length; i++) {
-                                        array.push(data[i]);
-                                    }
-                                    if (data.length > 0) {
-                                        _this.loadMore = true;
-                                    }
-                                    deferred.resolve();
-                                }, function (message) {
-                                    console.warn(message);
-                                    deferred.reject();
-                                });
+    .factory('DataLoader', [
+        function () {
+            return function(request, array, limit) {
+                var loadMore = true;
+                var currentPos = 0;
+
+                this.fetch = function() {
+                    if (request && loadMore) {
+                        loadMore = false;
+                        request.bound(currentPos, limit).submit().then(function(data) {
+                            for (var i = 0; i < data.length; i++) {
+                                array.push(data[i]);
                             }
-                            else {
-                                deferred.reject();
+                            if (data.length > 0) {
+                                currentPos += data.length;
+                                loadMore = true;
                             }
-                            return deferred.promise;
-                        }
-                    };
-                }
+                        }, function(message) {
+                            console.warn(message);
+                        });
+                    }
+                };
             };
         }]);
