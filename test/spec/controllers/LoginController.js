@@ -107,8 +107,6 @@ describe('Controller: LoginController', function() {
                 password: 'asdfsubisd'
             };
 
-            var auth = LoginController.authString('dfgsdf0ghi', 'asdfsubisd', 'myToksdd09hen');
-
             spyOn($scope, '$emit');
 
             $scope.login();
@@ -116,7 +114,7 @@ describe('Controller: LoginController', function() {
 
             expect(ApiRequest.session.getToken).toHaveBeenCalledWith();
             expect(ApiRequest.session.getToken.callCount).toBe(1);
-            expect(ApiRequest.session.getSession).toHaveBeenCalledWith('myToksdd09hen', auth);
+            expect(ApiRequest.session.getSession).toHaveBeenCalledWith('myToksdd09hen', 'd77d1465d59a51b60d9ec1e79a58c921');
             expect(ApiRequest.session.getSession.callCount).toBe(1);
 
             expect($scope.$emit).toHaveBeenCalled();

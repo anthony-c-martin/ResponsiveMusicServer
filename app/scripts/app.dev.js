@@ -22,7 +22,7 @@ angular.module('musicServerAppDev', ['musicServerApp', 'ngMockE2E'])
                     error: 404,
                     command: command,
                     input: data
-                })
+                });
                 return [404, {}, {}];
             });
 
