@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .service('ApiRequest', ['$http', '$q', '$rootScope', 'HttpRequest', 'SessionData',
-        function($http, $q, $rootScope, HttpRequest, SessionData) {
+    .service('ApiRequest', ['HttpRequest', 'SessionData',
+        function(HttpRequest, SessionData) {
             function authRequest(command) {
                 var session = SessionData.getSession();
 
