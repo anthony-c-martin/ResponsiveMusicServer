@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Factory: HttpRequest', function() {
+describe('Factory: ApiRequest', function() {
 
     var service,
         $httpBackend,

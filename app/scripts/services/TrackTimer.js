@@ -4,45 +4,45 @@ angular.module('musicServerApp')
     .factory('TrackTimer', [
         function() {
             return function () {
-                var _callback;
-                var _duration;
-                var _counter;
-                var _paused;
-                var _intervalTimer;
+                var callback;
+                var duration;
+                var counter;
+                var isPaused;
+                var intervalTimer;
 
                 function timerTick() {
-                    if (!_paused && ++_counter > _duration) {
-                        clearInterval(_intervalTimer);
-                        _callback();
+                    if (!isPaused && ++counter >= duration) {
+                        clearInterval(intervalTimer);
+                        callback();
                         timerCancel();
                     }
                 }
 
                 function timerCancel() {
-                    clearInterval(_intervalTimer);
-                    _callback = false;
-                    _duration = 0;
-                    _counter = 0;
-                    _paused = true;
+                    clearInterval(intervalTimer);
+                    callback = false;
+                    duration = 0;
+                    counter = 0;
+                    isPaused = true;
                 }
 
                 return {
-                    reset: function(callback, duration) {
+                    reset: function(newCallback, newDuration) {
                         timerCancel();
-                        _paused = false;
-                        _counter = 0;
-                        _callback = callback;
-                        _duration = duration;
-                        _intervalTimer = setInterval(timerTick, 1000);
+                        isPaused = false;
+                        counter = 0;
+                        callback = newCallback;
+                        duration = newDuration;
+                        intervalTimer = setInterval(timerTick, 1000);
                     },
                     cancel: function() {
                         timerCancel();
                     },
                     pause: function() {
-                        _paused = true;
+                        isPaused = true;
                     },
                     resume: function() {
-                        _paused = false;
+                        isPaused = false;
                     }
                 };
             };
