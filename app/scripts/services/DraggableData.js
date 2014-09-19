@@ -6,7 +6,7 @@ angular.module('musicServerApp')
             var currentDeferred = $q.defer();
             currentDeferred.reject();
 
-            function setTracks(tracks) {
+            this.setTracks = function(tracks) {
                 currentDeferred = $q.defer();
                 var trackList = [];
 
@@ -15,9 +15,9 @@ angular.module('musicServerApp')
                 }, trackList);
 
                 currentDeferred.resolve(trackList);
-            }
+            };
 
-            function setArtists(artists) {
+            this.setArtists = function(artists) {
                 currentDeferred = $q.defer();
                 var trackList = [];
 
@@ -39,9 +39,9 @@ angular.module('musicServerApp')
                 }, function() {
                     currentDeferred.reject();
                 });
-            }
+            };
 
-            function setAlbums(albums) {
+            this.setAlbums = function(albums) {
                 currentDeferred = $q.defer();
                 var trackList = [];
 
@@ -63,14 +63,7 @@ angular.module('musicServerApp')
                 }, function() {
                     currentDeferred.reject();
                 });
-            }
-
-            function getDragImage(itemType, itemCount) {
-                var $dragImage = $('.drag-image');
-
-                $dragImage.text(itemCount.toString() + ' ' + itemType + ((itemCount > 1) ? 's' : ''));
-                return $dragImage[0];
-            }
+            };
 
             function getTracks() {
                 return currentDeferred.promise;
@@ -81,7 +74,6 @@ angular.module('musicServerApp')
             */
             function changeScopeVariable(scope, dragoverPre, dragoverPost) {
                 var changed = false;
-
                 if (scope.dragoverPost !== dragoverPost) {
                     scope.dragoverPost = dragoverPost;
                     changed = true;
@@ -96,8 +88,8 @@ angular.module('musicServerApp')
                 }
             }
 
-            var currentHoverScope;
             this.bindDragEvents = function($element, item, itemType, itemListFunction, itemSelectedFunction) {
+                var _this = this;
                 $element.on('dragstart', function($event) {
                     if (!itemSelectedFunction()) {
                         $event.preventDefault();
@@ -106,30 +98,32 @@ angular.module('musicServerApp')
                     }
 
                     var itemList = itemListFunction();
-                    $event.originalEvent.dataTransfer.setDragImage(getDragImage(itemType, itemList.length), -10, -10);
+                    if (_this.getDragElement) {
+                        $event.originalEvent.dataTransfer.setDragImage(_this.getDragElement(itemList.length, itemType), -10, -10);
+                    }
 
                     switch (itemType) {
                         case 'Track':
-                            setTracks(itemList);
+                            _this.setTracks(itemList);
                             break;
                         case 'Artist':
-                            setArtists(itemList);
+                            _this.setArtists(itemList);
                             break;
                         case 'Album':
-                            setAlbums(itemList);
+                            _this.setAlbums(itemList);
                             break;
                     }
                 });
 
                 $element.on('dragend', function() {
-                    if (currentHoverScope) {
-                        changeScopeVariable(currentHoverScope, false, false);
+                    if (_this.currentHoverScope) {
+                        changeScopeVariable(_this.currentHoverScope, false, false);
                     }
                 });
             };
 
             this.bindPlaylistDropEvents = function($element) {
-                currentHoverScope = null;
+                this.currentHoverScope = null;
 
                 $element.on('dragover', function($event) {
                     $event.preventDefault();
@@ -148,16 +142,17 @@ angular.module('musicServerApp')
             };
 
             this.bindTrackDropEvents = function($element, scope) {
+                var _this = this;
                 $element.on('dragover', function($event) {
                     $event.preventDefault();
                     $event.stopPropagation();
 
-                    if (currentHoverScope !== scope) {
-                        if (currentHoverScope) {
-                            changeScopeVariable(currentHoverScope, false, false);
+                    if (_this.currentHoverScope !== scope) {
+                        if (_this.currentHoverScope) {
+                            changeScopeVariable(_this.currentHoverScope, false, false);
                         }
 
-                        currentHoverScope = scope;
+                        _this.currentHoverScope = scope;
                     }
 
                     var dropAfter = ($element.height() < $event.originalEvent.offsetY * 2);
@@ -168,11 +163,15 @@ angular.module('musicServerApp')
                     $event.preventDefault();
                     $event.stopPropagation();
 
-                    var addAfter = !currentHoverScope.dragoverPre;
-                    changeScopeVariable(currentHoverScope, false, false);
+                    var addAfter = !_this.currentHoverScope.dragoverPre;
+                    changeScopeVariable(_this.currentHoverScope, false, false);
                     getTracks().then(function(tracks) {
-                        Playlist.addTracks(tracks, currentHoverScope.track, addAfter);
+                        Playlist.addTracks(tracks, _this.currentHoverScope.track, addAfter);
                     });
                 });
             };
+
+            this.getDragElement = null;
+
+            this.currentHoverScope = null;
         }]);

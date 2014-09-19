@@ -109,9 +109,7 @@ describe('Controller: PlayerController', function() {
     });
 
     it('should reset the position if scope.next is called and there is no next track', function() {
-        spyOn(Playlist, 'getTrack').andCallFake(function() {
-            return $q.reject();
-        });
+        spyOn(Playlist, 'getTrack').andReturn($q.reject());
         $scope.setPlaying = false;
         $scope.setPosition = 0.8;
 

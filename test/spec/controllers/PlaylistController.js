@@ -6,9 +6,7 @@ describe('Controller: PlaylistController', function() {
         removeSelection: function() {}
     };
     beforeEach(module('musicServerApp', function($provide) {
-        $provide.value('SelectableTracks', jasmine.createSpy('SelectableTracksSpy').andCallFake(function() {
-            return mockSelectableTracks;
-        }));
+        $provide.value('SelectableTracks', jasmine.createSpy('SelectableTracksSpy').andReturn(mockSelectableTracks));
     }));
 
     var PlaylistController,

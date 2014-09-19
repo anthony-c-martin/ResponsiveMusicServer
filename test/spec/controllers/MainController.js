@@ -9,9 +9,7 @@ describe('Controller: MainController', function() {
     };
 
     beforeEach(module('musicServerApp', function($provide) {
-        $provide.value('DataLoader', jasmine.createSpy('DataLoaderSpy').andCallFake(function() {
-            return mockDataLoader;
-        }));
+        $provide.value('DataLoader', jasmine.createSpy('DataLoaderSpy').andReturn(mockDataLoader));
     }));
 
     var MainController,
@@ -25,9 +23,7 @@ describe('Controller: MainController', function() {
         ApiRequest = _ApiRequest_;
         $q = _$q_;
 
-        spyOn(ApiRequest.artist, 'getAll').andCallFake(function() {
-            return artistGetAllOutput;
-        });
+        spyOn(ApiRequest.artist, 'getAll').andReturn(artistGetAllOutput);
 
         MainController = $controller('MainController', {
             $rootScope: $rootScope,
@@ -61,9 +57,7 @@ describe('Controller: MainController', function() {
             ID: 12525
         };
         spyOn(Playlist, 'clear');
-        spyOn(Playlist, 'addTracksByArtist').andCallFake(function() {
-            return $q.when();
-        });
+        spyOn(Playlist, 'addTracksByArtist').andReturn($q.when());
         spyOn($scope, '$emit');
 
         $rootScope.$emit('playArtist', mockArtist);
@@ -96,9 +90,7 @@ describe('Controller: MainController', function() {
             ID: 43764
         };
         spyOn(Playlist, 'clear');
-        spyOn(Playlist, 'addTracksByAlbum').andCallFake(function() {
-            return $q.when();
-        });
+        spyOn(Playlist, 'addTracksByAlbum').andReturn($q.when());
         spyOn($scope, '$emit');
 
         $rootScope.$emit('playAlbum', mockAlbum);
@@ -171,9 +163,7 @@ describe('Controller: MainController', function() {
     it('should load albums by the given artist on the selectArtist event', function() {
         DataLoader.reset();
         var getFromArtistOutput = {};
-        spyOn(ApiRequest.album, 'getFromArtist').andCallFake(function() {
-            return getFromArtistOutput;
-        });
+        spyOn(ApiRequest.album, 'getFromArtist').andReturn(getFromArtistOutput);
         spyOn(mockDataLoader, 'fetch');
         var mockArtist = {
             ID: 12987
@@ -198,9 +188,7 @@ describe('Controller: MainController', function() {
     it('should load tracks for the given album on the selectAlbum event', function() {
         DataLoader.reset();
         var getFromAlbumOutput = {};
-        spyOn(ApiRequest.track, 'getFromAlbum').andCallFake(function() {
-            return getFromAlbumOutput;
-        });
+        spyOn(ApiRequest.track, 'getFromAlbum').andReturn(getFromAlbumOutput);
         spyOn(mockDataLoader, 'fetch');
         var mockAlbum = {
             ID: 125225

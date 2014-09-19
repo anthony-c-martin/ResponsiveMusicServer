@@ -167,13 +167,11 @@ describe('Controller: ApplicationController', function() {
         spyOn($location, 'path');
         spyOn(SessionData, 'setSession');
         spyOn(SessionData, 'setUserPreferences');
-        spyOn(SessionData, 'getUserPreference').andCallFake(function() {
-            return 'asdgsdagu8as7gf';
-        });
-        spyOn(ApiRequest.session, 'getUserPreferences').andCallFake(function() {
-            return {
-                submit: function() { return $q.when(userPreferencesData); }
-            };
+        spyOn(SessionData, 'getUserPreference').andReturn('asdgsdagu8as7gf');
+        spyOn(ApiRequest.session, 'getUserPreferences').andReturn({
+            submit: function() {
+                return $q.when(userPreferencesData);
+            }
         });
 
         $scope.$emit('loginSuccess', loginSuccessData);
@@ -195,17 +193,11 @@ describe('Controller: ApplicationController', function() {
     });
 
     it('should not redirect the user and load preferences if verifyLoggedIn is called and a session key is set', function() {
-        spyOn(SessionData, 'getSession').andCallFake(function() {
-            return {
-                Key: 'adbssadf'
-            };
+        spyOn(SessionData, 'getSession').andReturn({
+            Key: 'adbssadf'
         });
-        spyOn(SessionData, 'getUserPreference').andCallFake(function() {
-            return true;
-        });
-        spyOn($location, 'path').andCallFake(function() {
-            return '/asdfbiuasbfi';
-        });
+        spyOn(SessionData, 'getUserPreference').andReturn(true);
+        spyOn($location, 'path').andReturn('/asdfbiuasbfi');
 
         $scope.verifyLoggedIn();
 
@@ -219,17 +211,11 @@ describe('Controller: ApplicationController', function() {
     });
 
     it('should set the scrobblingEnabled scope variable when the verifyLoggedIn function is called', function() {
-        spyOn(SessionData, 'getSession').andCallFake(function() {
-            return {
-                Key: 'adbssadf'
-            };
+        spyOn(SessionData, 'getSession').andReturn({
+            Key: 'adbssadf'
         });
-        spyOn(SessionData, 'getUserPreference').andCallFake(function() {
-            return false;
-        });
-        spyOn($location, 'path').andCallFake(function() {
-            return '/asdfbiuasbfi';
-        });
+        spyOn(SessionData, 'getUserPreference').andReturn(false);
+        spyOn($location, 'path').andReturn('/asdfbiuasbfi');
 
         $scope.verifyLoggedIn();
 
@@ -240,17 +226,11 @@ describe('Controller: ApplicationController', function() {
     });
 
     it('should redirect the user to /login if verifyLoggedIn is called and a session key is not set', function() {
-        spyOn(SessionData, 'getSession').andCallFake(function() {
-            return {
-                Key: null
-            };
+        spyOn(SessionData, 'getSession').andReturn({
+            Key: null
         });
-        spyOn(SessionData, 'getUserPreference').andCallFake(function() {
-            return true;
-        });
-        spyOn($location, 'path').andCallFake(function() {
-            return '/asdfbiuasbfi';
-        });
+        spyOn(SessionData, 'getUserPreference').andReturn(true);
+        spyOn($location, 'path').andReturn('/asdfbiuasbfi');
 
         $scope.verifyLoggedIn();
 
@@ -262,17 +242,11 @@ describe('Controller: ApplicationController', function() {
 
     it('should clear the session data and not redirect if verifyLoggedIn is called and the location is /login', function() {
         spyOn(SessionData, 'clearSession');
-        spyOn(SessionData, 'getSession').andCallFake(function() {
-            return {
-                Key: null
-            };
+        spyOn(SessionData, 'getSession').andReturn({
+            Key: null
         });
-        spyOn(SessionData, 'getUserPreference').andCallFake(function() {
-            return true;
-        });
-        spyOn($location, 'path').andCallFake(function() {
-            return '/login';
-        });
+        spyOn(SessionData, 'getUserPreference').andReturn(true);
+        spyOn($location, 'path').andReturn('/login');
 
         $scope.verifyLoggedIn();
 

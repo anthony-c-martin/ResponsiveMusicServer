@@ -50,10 +50,10 @@ describe('Controller: LoginController', function() {
 
     describe('$scope.login', function() {
         it('should call loginFailed if the getToken request fails', function() {
-            spyOn(ApiRequest.session, 'getToken').andCallFake(function() {
-                return {
-                    submit: function() { return $q.reject(); }
-                };
+            spyOn(ApiRequest.session, 'getToken').andReturn({
+                submit: function() {
+                    return $q.reject();
+                }
             });
             spyOn(LoginController, 'loginFailed');
 
@@ -65,17 +65,17 @@ describe('Controller: LoginController', function() {
         });
 
         it('should call loginFailed if the getSession request fails', function() {
-            spyOn(ApiRequest.session, 'getToken').andCallFake(function() {
-                return {
-                    submit: function() { return $q.when({
+            spyOn(ApiRequest.session, 'getToken').andReturn({
+                submit: function() {
+                    return $q.when({
                         Token: 'asdonasifdsf'
-                    }); }
-                };
+                    });
+                }
             });
-            spyOn(ApiRequest.session, 'getSession').andCallFake(function() {
-                return {
-                    submit: function() { return $q.reject(); }
-                };
+            spyOn(ApiRequest.session, 'getSession').andReturn({
+                submit: function() {
+                    return $q.reject();
+                }
             });
             spyOn(LoginController, 'loginFailed');
 
@@ -87,20 +87,20 @@ describe('Controller: LoginController', function() {
         });
 
         it('should emit a loginSuccess event when the login request succeeds', function() {
-            spyOn(ApiRequest.session, 'getToken').andCallFake(function() {
-                return {
-                    submit: function() { return $q.when({
+            spyOn(ApiRequest.session, 'getToken').andReturn({
+                submit: function() {
+                    return $q.when({
                         Token: 'myToksdd09hen'
-                    }); }
-                };
+                    });
+                }
             });
-            spyOn(ApiRequest.session, 'getSession').andCallFake(function() {
-                return {
-                    submit: function() { return $q.when({
+            spyOn(ApiRequest.session, 'getSession').andReturn({
+                submit: function() {
+                    return $q.when({
                         Session: 'asdouas8gs9f9',
                         Secret: 'asdgbsa87gs98hfj'
-                    }); }
-                };
+                    });
+                }
             });
             $scope.auth = {
                 username: 'dfgsdf0ghi',

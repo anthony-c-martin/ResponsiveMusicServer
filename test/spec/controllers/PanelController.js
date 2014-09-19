@@ -5,9 +5,7 @@ describe('Controller: PanelController', function() {
     var mockTracks = {};
     var mockSelectableTracks = {};
     beforeEach(module('musicServerApp', function($provide) {
-        $provide.value('SelectableTracks', jasmine.createSpy('SelectableTracksSpy').andCallFake(function() {
-            return mockSelectableTracks;
-        }));
+        $provide.value('SelectableTracks', jasmine.createSpy('SelectableTracksSpy').andReturn(mockSelectableTracks));
     }));
 
     var PanelController,
