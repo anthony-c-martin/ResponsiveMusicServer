@@ -291,22 +291,152 @@ describe('Service: Playlist', function() {
     });
 
     describe('getTrack', function() {
-        
+        it('should return a promise and reject it if the playlist is empty', function() {
+            var rejectTest = jasmine.createSpy('rejectTest');
+            service.trackArray = [];
+
+            service.getTrack().then(function() {}, rejectTest);
+            $rootScope.$digest();
+
+            expect(rejectTest).toHaveBeenCalled();
+        });
+
+        it('should return the first track in the array, and return a promsise containing it', function() {
+            var successTest = jasmine.createSpy('successTest');
+            spyOn(window, 'setTimeout');
+            spyOn(ApiRequest.track, 'convert').andCallFake(function() {
+                return {
+                    submit: function() {
+                        return $q.when({
+                            Result: 'Success',
+                            FileName: 'asdfysa8fyvs8fh89'
+                        });
+                    }
+                };
+            });
+            service.trackArray = [{
+                ID: 12358
+            }, {
+                ID: 98638
+            }];
+
+            service.getTrack().then(successTest, function() {});
+            $rootScope.$digest();
+
+            expect(successTest).toHaveBeenCalled();
+            expect(successTest.mostRecentCall.args[0]).toEqual({
+                ID: 12358,
+                FileName: 'asdfysa8fyvs8fh89'
+            });
+            expect(service.trackArray).toEqual([{
+                ID: 98638
+            }]);
+        });
+
+        it('should schedule the next track in the array to start converting in 5s time', function() {
+            var successTest = jasmine.createSpy('successTest');
+            spyOn(window, 'setTimeout');
+            spyOn(ApiRequest.track, 'convert').andCallFake(function(id) {
+                return {
+                    submit: function() {
+                        if (id === 37578) {
+                            return $q.when({
+                                Result: 'Success',
+                                FileName: 'saf97agsf8gsa7fiu'
+                            });
+                        }
+                        return $q.defer().promise;
+                    }
+                };
+            });
+            service.trackArray = [{
+                ID: 15363
+            }, {
+                ID: 37578
+            }];
+
+            service.getTrack().then(successTest, function() {});
+            $rootScope.$digest();
+
+            expect(window.setTimeout).toHaveBeenCalled();
+            expect(window.setTimeout.callCount).toBe(1);
+            expect(window.setTimeout.mostRecentCall.args[1]).toBe(5000);
+            window.setTimeout.mostRecentCall.args[0]();
+            $rootScope.$digest();
+            expect(service.trackArray).toEqual([{
+                ID: 37578,
+                FileName: 'saf97agsf8gsa7fiu'
+            }]);
+        });
     });
 
     describe('removeTrack', function() {
+        it('should remove a track which exists in the playlist', function() {
+            service.trackArray = [{
+                ID: 18272
+            }, {
+                ID: 21525
+            }];
 
+            var track1 = service.trackArray[1];
+            service.removeTrack(track1);
+
+            expect(service.trackArray).toEqual([{
+                ID: 18272
+            }]);
+        });
+
+        it('should not remove a different track object with the same ID as a track in the playlist', function() {
+            service.trackArray = [{
+                ID: 32632
+            }, {
+                ID: 35983
+            }];
+
+            service.removeTrack({
+                ID: 32632
+            });
+
+            expect(service.trackArray).toEqual([{
+                ID: 32632
+            }, {
+                ID: 35983
+            }]);
+        });
     });
 
     describe('removeTracks', function() {
+        it('should call the removeTracks method for each track in the input array', function() {
+            spyOn(service, 'removeTrack');
+            var trackList = [{}, {}, {}];
 
+            service.removeTracks(trackList);
+
+            expect(service.removeTrack).toHaveBeenCalledWith(trackList[0]);
+            expect(service.removeTrack).toHaveBeenCalledWith(trackList[1]);
+            expect(service.removeTrack).toHaveBeenCalledWith(trackList[2]);
+        });
     });
 
     describe('clear', function() {
+        it('should remove all the items from the track array', function() {
+            service.trackArray = [{}, {}, {}];
 
+            service.clear();
+
+            expect(service.trackArray.length).toBe(0);
+        });
     });
 
     describe('deselectAll', function() {
+        it('should set the selected property on every item in the track array to false', function() {
+            service.trackArray = [{}, {}, {}];
 
+            service.deselectAll();
+
+            expect(service.trackArray[0].selected).toBeFalsy();
+            expect(service.trackArray[1].selected).toBeFalsy();
+            expect(service.trackArray[2].selected).toBeFalsy();
+        });
     });
 });
