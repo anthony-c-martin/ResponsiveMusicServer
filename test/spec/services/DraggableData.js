@@ -179,6 +179,77 @@ describe('Service: DraggableData', function() {
 
         beforeEach(function() {
             $event = jasmine.createSpyObj('$event', ['preventDefault', 'stopPropagation']);
+            $element = jasmine.createSpyObj('$element', ['on']);
+            scope = jasmine.createSpyObj('scope', ['$apply']);
+        });
+
+        function dragOverFunction($event) {
+            service.bindPlaylistDropEvents($element, scope);
+            return $element.on.argsForCall[0][1]($event);
+        }
+
+        function dropFunction($event) {
+            service.bindPlaylistDropEvents($element, scope);
+            return $element.on.argsForCall[1][1]($event);
+        }
+
+        describe('dragover', function() {
+            it('should bind a dragover event to the element passed in', function() {
+                service.bindPlaylistDropEvents($element, scope);
+
+                expect($element.on).toHaveBeenCalled();
+                expect($element.on.callCount).toBe(2);
+
+                expect($element.on.argsForCall[0][0]).toBe('dragover');
+            });
+
+            it('should call preventDefault and stopPropagation on the event', function() {
+                dragOverFunction($event);
+
+                expect($event.preventDefault).toHaveBeenCalledWith();
+                expect($event.stopPropagation).toHaveBeenCalledWith();
+            });
+        });
+
+        describe('drop', function() {
+            it('should bind a dragover event to the element passed in', function() {
+                service.bindPlaylistDropEvents($element, scope);
+
+                expect($element.on).toHaveBeenCalled();
+                expect($element.on.callCount).toBe(2);
+
+                expect($element.on.argsForCall[1][0]).toBe('drop');
+            });
+
+            it('should call preventDefault and stopPropagation on the event', function() {
+                dropFunction($event);
+
+                expect($event.preventDefault).toHaveBeenCalledWith();
+                expect($event.stopPropagation).toHaveBeenCalledWith();
+            });
+
+            it('should add the tracks to the playlist then deselect them', function() {
+                var mockTracks = [{}, {}, {}];
+                spyOn(Playlist, 'addTracks');
+                spyOn(Playlist, 'deselectAll');
+                service.setTracks(mockTracks);
+
+                dropFunction($event);
+                $rootScope.$digest();
+
+                expect(Playlist.addTracks).toHaveBeenCalledWith(mockTracks);
+                expect(Playlist.deselectAll).toHaveBeenCalledWith();
+            });
+        });
+    });
+
+    describe('bindTrackDropEvents', function() {
+        var $element;
+        var $event;
+        var scope;
+
+        beforeEach(function() {
+            $event = jasmine.createSpyObj('$event', ['preventDefault', 'stopPropagation']);
             $event.originalEvent = {
                 offsetY: 0
             };
@@ -202,7 +273,7 @@ describe('Service: DraggableData', function() {
             });
 
             it('should bind a dragend event to the element passed in', function() {
-                service.bindPlaylistDropEvents($element, scope);
+                service.bindTrackDropEvents($element, scope);
 
                 expect($element.on).toHaveBeenCalled();
                 expect($element.on.callCount).toBe(2);
@@ -254,7 +325,7 @@ describe('Service: DraggableData', function() {
                 $element.height.andReturn(156);
                 $event.originalEvent.offsetY = 94;
                 scope.dragoverPost = true;
-                scope.draoverPre = false;
+                scope.dragoverPre = false;
 
                 dragOverFunction($event);
 
@@ -270,7 +341,7 @@ describe('Service: DraggableData', function() {
             });
 
             it('should bind a drop event to the element passed in', function() {
-                service.bindPlaylistDropEvents($element, scope);
+                service.bindTrackDropEvents($element, scope);
 
                 expect($element.on).toHaveBeenCalled();
                 expect($element.on.callCount).toBe(2);
@@ -284,22 +355,193 @@ describe('Service: DraggableData', function() {
                 expect($event.preventDefault).toHaveBeenCalledWith();
                 expect($event.stopPropagation).toHaveBeenCalledWith();
             });
+
+            it('should add the track after the hovered track if dragoverPre is false', function() {
+                var mockTracks = [{}, {}, {}];
+                var mockTrack = {};
+                spyOn(Playlist, 'addTracks');
+                service.setTracks(mockTracks);
+                service.currentHoverScope.dragoverPre = false;
+                service.currentHoverScope.track = mockTrack;
+
+                dropFunction($event);
+                $rootScope.$digest();
+
+                expect(Playlist.addTracks).toHaveBeenCalledWith(mockTracks, mockTrack, true);
+            });
+
+            it('should add the track before the hovered track if dragoverPre is true', function() {
+                var mockTracks = [{}, {}, {}];
+                var mockTrack = {};
+                spyOn(Playlist, 'addTracks');
+                service.setTracks(mockTracks);
+                service.currentHoverScope.dragoverPre = true;
+                service.currentHoverScope.track = mockTrack;
+
+                dropFunction($event);
+                $rootScope.$digest();
+
+                expect(Playlist.addTracks).toHaveBeenCalledWith(mockTracks, mockTrack, false);
+            });
         });
     });
 
-    describe('bindTrackDropEvents', function() {
-
-    });
-
     describe('setTracks', function() {
+        it('should allow getTracks to be called and return a promise containing the tracks added', function() {
+            var mockTracks = [{sadf:'asdf'}, {vdiun:'9ashi'}];
+            var outputTracks;
 
+            service.setTracks(mockTracks);
+            service.getTracks().then(function(tracks) {
+                outputTracks = tracks;
+            });
+            $rootScope.$digest();
+
+            expect(outputTracks).toEqual(mockTracks);
+        });
     });
 
     describe('setArtists', function() {
+        var submitFunction = jasmine.createSpy('submitFunction');
+        beforeEach(function() {
+            spyOn(ApiRequest.track, 'getFromArtist').andCallFake(function(id) {
+                return {
+                    submit: function() {
+                        return submitFunction(id);
+                    }
+                };
+            });
+        });
 
+        it('should call ApiRequest.track.getFromArtist for each artist passed in', function() {
+            submitFunction.andCallFake(function(id) {
+                return $q.when([{
+                    ID: id + 4
+                }, {
+                    ID: id + 5
+                }]);
+            });
+            var outputTracks;
+
+            service.setArtists([{ID: 12384}, {ID: 12049}]);
+            service.getTracks().then(function(tracks) {
+                outputTracks = tracks;
+            });
+            $rootScope.$digest();
+
+            expect(ApiRequest.track.getFromArtist).toHaveBeenCalledWith(12384);
+            expect(ApiRequest.track.getFromArtist).toHaveBeenCalledWith(12049);
+            expect(outputTracks).toEqual([{ID: 12388}, {ID: 12389}, {ID: 12053}, {ID: 12054}]);
+        });
+
+        it('should not allow getTracks to return tracks until all ApiRequests have been completed', function() {
+            var unresolvedPromise = $q.defer();
+            submitFunction.andCallFake(function(id) {
+                if (id === 38984) {
+                    return unresolvedPromise.promise;
+                }
+                return $q.when([]);
+            });
+            var outputTracks;
+
+            service.setArtists([{ID: 38984}, {ID: 12424}]);
+            service.getTracks().then(function(tracks) {
+                outputTracks = tracks;
+            });
+            $rootScope.$digest();
+
+            expect(outputTracks).toBeUndefined();
+            unresolvedPromise.resolve([{ID: 12329}]);
+            $rootScope.$digest();
+            expect(outputTracks).toEqual([{ID: 12329}]);
+        });
+
+        it('should reject getTracks if any of the ApiRequests fail', function() {
+            submitFunction.andCallFake(function(id) {
+                if (id === 23539) {
+                    return $q.reject();
+                }
+                return $q.when(['adc']);
+            });
+            var rejectSpy = jasmine.createSpy('rejectSpy');
+
+            service.setArtists([{ID: 23539}, {ID: 29832}]);
+            service.getTracks().then(function() {}, rejectSpy);
+            $rootScope.$digest();
+
+            expect(rejectSpy).toHaveBeenCalled();
+        });
     });
 
     describe('setAlbums', function() {
+        var submitFunction = jasmine.createSpy('submitFunction');
+        beforeEach(function() {
+            spyOn(ApiRequest.track, 'getFromAlbum').andCallFake(function(id) {
+                return {
+                    submit: function() {
+                        return submitFunction(id);
+                    }
+                };
+            });
+        });
 
+        it('should call ApiRequest.track.getFromAlbum for each album passed in', function() {
+            submitFunction.andCallFake(function(id) {
+                return $q.when([{
+                    ID: id + 4
+                }, {
+                    ID: id + 5
+                }]);
+            });
+            var outputTracks;
+
+            service.setAlbums([{ID: 12384}, {ID: 12049}]);
+            service.getTracks().then(function(tracks) {
+                outputTracks = tracks;
+            });
+            $rootScope.$digest();
+
+            expect(ApiRequest.track.getFromAlbum).toHaveBeenCalledWith(12384);
+            expect(ApiRequest.track.getFromAlbum).toHaveBeenCalledWith(12049);
+            expect(outputTracks).toEqual([{ID: 12388}, {ID: 12389}, {ID: 12053}, {ID: 12054}]);
+        });
+
+        it('should not allow getTracks to return tracks until all ApiRequests have been completed', function() {
+            var unresolvedPromise = $q.defer();
+            submitFunction.andCallFake(function(id) {
+                if (id === 38984) {
+                    return unresolvedPromise.promise;
+                }
+                return $q.when([]);
+            });
+            var outputTracks;
+
+            service.setAlbums([{ID: 38984}, {ID: 12424}]);
+            service.getTracks().then(function(tracks) {
+                outputTracks = tracks;
+            });
+            $rootScope.$digest();
+
+            expect(outputTracks).toBeUndefined();
+            unresolvedPromise.resolve([{ID: 12329}]);
+            $rootScope.$digest();
+            expect(outputTracks).toEqual([{ID: 12329}]);
+        });
+
+        it('should reject getTracks if any of the ApiRequests fail', function() {
+            submitFunction.andCallFake(function(id) {
+                if (id === 23539) {
+                    return $q.reject();
+                }
+                return $q.when(['adc']);
+            });
+            var rejectSpy = jasmine.createSpy('rejectSpy');
+
+            service.setAlbums([{ID: 23539}, {ID: 29832}]);
+            service.getTracks().then(function() {}, rejectSpy);
+            $rootScope.$digest();
+
+            expect(rejectSpy).toHaveBeenCalled();
+        });
     });
 });

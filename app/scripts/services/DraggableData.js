@@ -18,23 +18,17 @@ angular.module('musicServerApp')
             };
 
             this.setArtists = function(artists) {
-                currentDeferred = $q.defer();
-                var trackList = [];
-
                 var promises = [];
                 angular.forEach(artists, function(artist) {
-                    var deferred = $q.defer();
-                    promises.push(ApiRequest.track.getFromArtist(artist.ID).submit().then(function(tracks) {
-                        angular.forEach(tracks, function(track) {
-                            this.push(track);
-                        }, trackList);
-                        deferred.resolve();
-                    }, function() {
-                        deferred.reject();
-                    }));
+                    promises.push(ApiRequest.track.getFromArtist(artist.ID).submit());
                 });
 
-                $q.all(promises).then(function() {
+                currentDeferred = $q.defer();
+                $q.all(promises).then(function(data) {
+                    var trackList = [];
+                    for (var i = 0; i < data.length; i++) {
+                        trackList = trackList.concat(data[i]);
+                    }
                     currentDeferred.resolve(trackList);
                 }, function() {
                     currentDeferred.reject();
@@ -42,32 +36,26 @@ angular.module('musicServerApp')
             };
 
             this.setAlbums = function(albums) {
-                currentDeferred = $q.defer();
-                var trackList = [];
-
                 var promises = [];
                 angular.forEach(albums, function(album) {
-                    var deferred = $q.defer();
-                    promises.push(ApiRequest.track.getFromAlbum(album.ID).submit().then(function(tracks) {
-                        angular.forEach(tracks, function(track) {
-                            this.push(track);
-                        }, trackList);
-                        deferred.resolve();
-                    }, function() {
-                        deferred.reject();
-                    }));
+                    promises.push(ApiRequest.track.getFromAlbum(album.ID).submit());
                 });
 
-                $q.all(promises).then(function() {
+                currentDeferred = $q.defer();
+                $q.all(promises).then(function(data) {
+                    var trackList = [];
+                    for (var i = 0; i < data.length; i++) {
+                        trackList = trackList.concat(data[i]);
+                    }
                     currentDeferred.resolve(trackList);
                 }, function() {
                     currentDeferred.reject();
                 });
             };
 
-            function getTracks() {
+            this.getTracks = function() {
                 return currentDeferred.promise;
-            }
+            };
 
             /* To ensure that $scope.$apply is called, but to avoid calling $scope.$apply unnecessarily,
              * this function will only call $scope.$apply if changes have been made.
@@ -123,6 +111,7 @@ angular.module('musicServerApp')
             };
 
             this.bindPlaylistDropEvents = function($element) {
+                var _this = this;
                 this.currentHoverScope = null;
 
                 $element.on('dragover', function($event) {
@@ -134,7 +123,7 @@ angular.module('musicServerApp')
                     $event.preventDefault();
                     $event.stopPropagation();
 
-                    getTracks().then(function(tracks) {
+                    _this.getTracks().then(function(tracks) {
                         Playlist.addTracks(tracks);
                     });
                     Playlist.deselectAll();
@@ -165,7 +154,7 @@ angular.module('musicServerApp')
 
                     var addAfter = !_this.currentHoverScope.dragoverPre;
                     changeScopeVariable(_this.currentHoverScope, false, false);
-                    getTracks().then(function(tracks) {
+                    _this.getTracks().then(function(tracks) {
                         Playlist.addTracks(tracks, _this.currentHoverScope.track, addAfter);
                     });
                 });
