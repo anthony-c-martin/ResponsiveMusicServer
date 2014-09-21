@@ -23,7 +23,7 @@ angular.module('musicServerApp')
                     scope.$watch('track', function (track) {
                         element.empty();
                         if (track.FileName) {
-                            element.append($('<source/>').attr({
+                            element.append(angular.element('<source/>').attr({
                                 src: '/stream' + getSourceParams(track),
                                 type: 'audio/mp4'
                             }));

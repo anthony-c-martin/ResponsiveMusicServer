@@ -1,8 +1,8 @@
-<li class="album" ng-click="select()" draggable="true">
+<li class="album" ng-click="albumCtrl.select()" draggable="true">
     <div class="content">
         <div class="controls controls-mini">
-            <button ng-click="add($event)" type="button" class="control"><span class="glyphicon glyphicon-plus"></span></button>
-            <button ng-click="play($event)" type="button" class="control"><span class="glyphicon glyphicon-play"></span></button>
+            <button ng-click="albumCtrl.add($event)" type="button" class="control control-add"><span class="glyphicon glyphicon-plus"></span></button>
+            <button ng-click="albumCtrl.play($event)" type="button" class="control control-play"><span class="glyphicon glyphicon-play"></span></button>
         </div>
         <div class="desc">{{ album.Name }}</div>
     </div>

@@ -1,12 +1,12 @@
-angular.module('musicServerViews', ['album.partial.html', 'artist.partial.html', 'errorModal.partial.html', 'login.html', 'main.html', 'navbar.partial.html', 'playlist.partial.html', 'search.partial.html', 'track.partial.html', 'volumeControl.partial.html']);
+angular.module('musicServerViews', ['views/album.partial.html', 'views/artist.partial.html', 'views/errorModal.partial.html', 'views/login.html', 'views/main.html', 'views/navbar.partial.html', 'views/playlist.partial.html', 'views/search.partial.html', 'views/track.partial.html', 'views/volumeControl.partial.html']);
 
-angular.module("album.partial.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("album.partial.html",
-    "<li class=\"album\" ng-click=\"select()\" draggable=\"true\">\n" +
+angular.module("views/album.partial.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("views/album.partial.html",
+    "<li class=\"album\" ng-click=\"albumCtrl.select()\" draggable=\"true\">\n" +
     "    <div class=\"content\">\n" +
     "        <div class=\"controls controls-mini\">\n" +
-    "            <button ng-click=\"add($event)\" type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-plus\"></span></button>\n" +
-    "            <button ng-click=\"play($event)\" type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-play\"></span></button>\n" +
+    "            <button ng-click=\"albumCtrl.add($event)\" type=\"button\" class=\"control control-add\"><span class=\"glyphicon glyphicon-plus\"></span></button>\n" +
+    "            <button ng-click=\"albumCtrl.play($event)\" type=\"button\" class=\"control control-play\"><span class=\"glyphicon glyphicon-play\"></span></button>\n" +
     "        </div>\n" +
     "        <div class=\"desc\">{{ album.Name }}</div>\n" +
     "    </div>\n" +
@@ -14,13 +14,13 @@ angular.module("album.partial.html", []).run(["$templateCache", function($templa
     "");
 }]);
 
-angular.module("artist.partial.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("artist.partial.html",
-    "<li class=\"artist\" ng-click=\"select()\" draggable=\"true\">\n" +
+angular.module("views/artist.partial.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("views/artist.partial.html",
+    "<li class=\"artist\" ng-click=\"artistCtrl.select()\" draggable=\"true\">\n" +
     "    <div class=\"content\">\n" +
     "        <div class=\"controls controls-mini\">\n" +
-    "            <button ng-click=\"add($event)\" type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-plus\"></span></button>\n" +
-    "            <button ng-click=\"play($event)\" type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-play\"></span></button>\n" +
+    "            <button ng-click=\"artistCtrl.add($event)\" type=\"button\" class=\"control control-add\"><span class=\"glyphicon glyphicon-plus\"></span></button>\n" +
+    "            <button ng-click=\"artistCtrl.play($event)\" type=\"button\" class=\"control control-play\"><span class=\"glyphicon glyphicon-play\"></span></button>\n" +
     "        </div>\n" +
     "        <div class=\"desc\">{{ artist.Name }}</div>\n" +
     "    </div>\n" +
@@ -28,8 +28,8 @@ angular.module("artist.partial.html", []).run(["$templateCache", function($templ
     "");
 }]);
 
-angular.module("errorModal.partial.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("errorModal.partial.html",
+angular.module("views/errorModal.partial.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("views/errorModal.partial.html",
     "<div ng-show=\"!!errorMessage\">\n" +
     "    <div class=\"modal-backdrop\">\n" +
     "    </div>\n" +
@@ -40,8 +40,8 @@ angular.module("errorModal.partial.html", []).run(["$templateCache", function($t
     "");
 }]);
 
-angular.module("login.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("login.html",
+angular.module("views/login.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("views/login.html",
     "<div class=\"container\">\n" +
     "    <form class=\"login\" autocomplete=\"off\">\n" +
     "        <div class=\"title\">Please sign in</div>\n" +
@@ -53,8 +53,8 @@ angular.module("login.html", []).run(["$templateCache", function($templateCache)
     "");
 }]);
 
-angular.module("main.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("main.html",
+angular.module("views/main.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("views/main.html",
     "<div ng-controller=\"PanelController\" class=\"panes\">\n" +
     "    <div class=\"pane-top\" ng-if=\"!isDesktop\">\n" +
     "        <div ng-if=\"isPhone\" class=\"history\">\n" +
@@ -88,7 +88,7 @@ angular.module("main.html", []).run(["$templateCache", function($templateCache) 
     "    </div>\n" +
     "    <div ng-if=\"isAlbumsShown()\" scroll-loader=\"albumRequest.fetch()\" class=\"pane pane-mid\">\n" +
     "        <ul class=\"albums\">\n" +
-    "            <li album=\"album\" ng-click=\"select()\" ng-repeat=\"album in albums | limitTo: albums.length track by album.ID\" ng-class=\"{selected: (album === selectedAlbum)}\"></li>\n" +
+    "            <li album=\"album\" ng-repeat=\"album in albums | limitTo: albums.length track by album.ID\" ng-class=\"{selected: (album === selectedAlbum)}\"></li>\n" +
     "        </ul>\n" +
     "    </div>\n" +
     "    <div ng-mousedown=\"deselectTracks($event)\" ng-if=\"isTracksShown()\" scroll-loader=\"trackRequest.fetch()\" class=\"pane pane-right\">\n" +
@@ -100,8 +100,8 @@ angular.module("main.html", []).run(["$templateCache", function($templateCache) 
     "");
 }]);
 
-angular.module("navbar.partial.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("navbar.partial.html",
+angular.module("views/navbar.partial.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("views/navbar.partial.html",
     "<div class=\"navbar\" ng-controller=\"PlayerController\">\n" +
     "    <div ng-if=\"isPhone\" class=\"navbar-inner\">\n" +
     "        <div progress-container class=\"controls controls-nav shrinkable\">\n" +
@@ -160,8 +160,8 @@ angular.module("navbar.partial.html", []).run(["$templateCache", function($templ
     "");
 }]);
 
-angular.module("playlist.partial.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("playlist.partial.html",
+angular.module("views/playlist.partial.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("views/playlist.partial.html",
     "<div class=\"dropdown-playlist\">\n" +
     "    <div class=\"arrow\"></div>\n" +
     "    <div body-event-handler=\"playlist\" class=\"inner\">\n" +
@@ -178,8 +178,8 @@ angular.module("playlist.partial.html", []).run(["$templateCache", function($tem
     "");
 }]);
 
-angular.module("search.partial.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("search.partial.html",
+angular.module("views/search.partial.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("views/search.partial.html",
     "<div class=\"dropdown-search\">\n" +
     "    <div class=\"arrow\"></div>\n" +
     "    <div ng-switch=\"searchInProgress\" body-event-handler=\"search\" class=\"inner\">\n" +
@@ -210,8 +210,8 @@ angular.module("search.partial.html", []).run(["$templateCache", function($templ
     "");
 }]);
 
-angular.module("track.partial.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("track.partial.html",
+angular.module("views/track.partial.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("views/track.partial.html",
     "<li class=\"track\" ng-class=\"{selected: track.selected, 'dropzone-pre': dragoverPre, 'dropzone-post': dragoverPost}\" ng-mousedown=\"select($event)\" draggable=\"true\">\n" +
     "    <div class=\"content\">\n" +
     "        <div ng-if=\"addable\" class=\"controls controls-mini\">\n" +
@@ -227,8 +227,8 @@ angular.module("track.partial.html", []).run(["$templateCache", function($templa
     "");
 }]);
 
-angular.module("volumeControl.partial.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("volumeControl.partial.html",
+angular.module("views/volumeControl.partial.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("views/volumeControl.partial.html",
     "<div class=\"dropdown-volume\">\n" +
     "    <div class=\"arrow\"></div>\n" +
     "    <div body-event-handler=\"volume\" class=\"inner\">\n" +

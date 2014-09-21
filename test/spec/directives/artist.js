@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Directive: album', function() {
+describe('Directive: artist', function() {
 
     var element,
         controller,
@@ -19,27 +19,27 @@ describe('Directive: album', function() {
             $compile = $injector.get('$compile');
 
             element = angular.element(
-                '<li album="album"></li>'
+                '<li artist="artist"></li>'
             );
 
-            $scope.album = {
+            $scope.artist = {
                 'ID' : 1,
-                'Name' : 'Album 1'
+                'Name' : 'Artist 1'
             };
 
             $compile(element)($scope);
             $scope.$digest();
 
-            controller = element.controller('album');
+            controller = element.controller('artist');
         });
     });
 
     describe('Initialisation', function() {
-        it('should display the album Name property', function() {
-            expect(element.find('.content').find('.desc').text()).toBe('Album 1');
+        it('should display the artist Name property', function() {
+            expect(element.find('.content').find('.desc').text()).toBe('Artist 1');
         });
 
-        it('should call AlbumController.select when clicked', function() {
+        it('should call ArtistController.select when clicked', function() {
             spyOn(controller, 'select');
 
             element.trigger('click');
@@ -47,7 +47,7 @@ describe('Directive: album', function() {
             expect(controller.select).toHaveBeenCalled();
         });
 
-        it('should call AlbumController.add when the add button is clicked', function() {
+        it('should call ArtistController.add when the add button is clicked', function() {
             spyOn(controller, 'add');
 
             element.find('button.control-add').trigger('click');
@@ -55,7 +55,7 @@ describe('Directive: album', function() {
             expect(controller.add).toHaveBeenCalled();
         });
 
-        it('should call AlbumController.play when the play button is clicked', function() {
+        it('should call ArtistController.play when the play button is clicked', function() {
             spyOn(controller, 'play');
 
             element.find('button.control-play').trigger('click');

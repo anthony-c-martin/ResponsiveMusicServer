@@ -10,7 +10,7 @@ angular.module('musicServerApp')
                 restrict: 'A',
                 replace: true,
                 templateUrl: 'views/album.partial.html',
-                controller: 'AlbumController',
+                controller: 'AlbumController as albumCtrl',
                 link: function(scope, element) {
                     DraggableData.bindDragEvents(element, scope.album, 'Album', function() {
                         return [scope.album];

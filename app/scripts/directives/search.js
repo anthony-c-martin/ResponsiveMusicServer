@@ -13,6 +13,6 @@ angular.module('musicServerApp')
                 },
                 restrict: 'E',
                 replace: true,
-                templateUrl: 'search.partial.html'
+                templateUrl: 'views/search.partial.html'
             };
         }]);

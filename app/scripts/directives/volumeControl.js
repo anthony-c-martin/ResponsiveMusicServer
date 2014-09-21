@@ -12,13 +12,13 @@ angular.module('musicServerApp')
                     });
 
                     scope.volumeChange = function($event) {
-                        var height = $($event.currentTarget).height();
+                        var height = angular.element($event.currentTarget).height();
                         var bottom = height - $event.offsetY;
                         scope.setVolume = bottom / height;
                     };
                 },
                 restrict: 'E',
                 replace: true,
-                templateUrl: 'volumeControl.partial.html'
+                templateUrl: 'views/volumeControl.partial.html'
             };
         }]);

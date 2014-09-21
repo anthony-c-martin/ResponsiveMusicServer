@@ -14,6 +14,6 @@ angular.module('musicServerApp')
                 restrict: 'E',
                 replace: true,
                 controller: 'PlaylistController',
-                templateUrl: 'playlist.partial.html'
+                templateUrl: 'views/playlist.partial.html'
             };
         }]);

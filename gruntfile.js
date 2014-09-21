@@ -167,7 +167,7 @@ module.exports = function(grunt) {
         // Automatically inject Bower components into the app
         wiredep: {
             options: {
-                
+
             },
             dev: {
                 devDependencies: true,
@@ -399,7 +399,7 @@ module.exports = function(grunt) {
         html2js: {
             options: {
                 module: 'musicServerViews',
-                base: '<%= yeoman.app %>/views'
+                base: '<%= yeoman.app %>'
             },
             main: {
                 src: ['<%= yeoman.app %>/views/{,*/}*.html'],
