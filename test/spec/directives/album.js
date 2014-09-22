@@ -4,8 +4,9 @@ describe('Directive: album', function() {
 
     var element,
         controller,
+        scope,
         $rootScope,
-        $scope,
+        $parentScope,
         $q,
         $compile;
 
@@ -14,7 +15,7 @@ describe('Directive: album', function() {
 
         inject(function($injector) {
             $rootScope = $injector.get('$rootScope');
-            $scope = $rootScope.$new();
+            $parentScope = $rootScope.$new();
             $q = $injector.get('$q');
             $compile = $injector.get('$compile');
 
@@ -22,15 +23,16 @@ describe('Directive: album', function() {
                 '<li album="album"></li>'
             );
 
-            $scope.album = {
+            $parentScope.album = {
                 'ID' : 1,
                 'Name' : 'Album 1'
             };
 
-            $compile(element)($scope);
-            $scope.$digest();
+            $compile(element)($parentScope);
+            $parentScope.$digest();
 
             controller = element.controller('album');
+            scope = element.isolateScope();
         });
     });
 

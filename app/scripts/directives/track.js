@@ -40,7 +40,7 @@ angular.module('musicServerApp')
                 restrict: 'A',
                 replace: true,
                 templateUrl: 'views/track.partial.html',
-                controller: 'TrackController',
+                controller: 'TrackController as trackCtrl',
                 link: linkFunction
             };
         }]);

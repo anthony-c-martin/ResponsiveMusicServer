@@ -212,14 +212,14 @@ angular.module("views/search.partial.html", []).run(["$templateCache", function(
 
 angular.module("views/track.partial.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("views/track.partial.html",
-    "<li class=\"track\" ng-class=\"{selected: track.selected, 'dropzone-pre': dragoverPre, 'dropzone-post': dragoverPost}\" ng-mousedown=\"select($event)\" draggable=\"true\">\n" +
+    "<li class=\"track\" ng-class=\"{selected: track.selected, 'dropzone-pre': dragoverPre, 'dropzone-post': dragoverPost}\" ng-mousedown=\"trackCtrl.select($event)\" draggable=\"true\">\n" +
     "    <div class=\"content\">\n" +
     "        <div ng-if=\"addable\" class=\"controls controls-mini\">\n" +
-    "            <button ng-click=\"add($event)\" type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-plus\"></span></button>\n" +
-    "            <button ng-click=\"play($event)\" type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-play\"></span></button>\n" +
+    "            <button ng-click=\"trackCtrl.add($event)\" type=\"button\" class=\"control control-add\"><span class=\"glyphicon glyphicon-plus\"></span></button>\n" +
+    "            <button ng-click=\"trackCtrl.play($event)\" type=\"button\" class=\"control control-play\"><span class=\"glyphicon glyphicon-play\"></span></button>\n" +
     "        </div>\n" +
     "        <div ng-if=\"closable\" class=\"controls controls-mini\">\n" +
-    "            <button ng-click=\"remove($event)\" type=\"button\" class=\"control\"><span class=\"glyphicon glyphicon-remove\"></span></button>\n" +
+    "            <button ng-click=\"trackCtrl.remove($event)\" type=\"button\" class=\"control control-remove\"><span class=\"glyphicon glyphicon-remove\"></span></button>\n" +
     "        </div>\n" +
     "        <div class=\"desc\">{{ track.Name }}</div>\n" +
     "    </div>\n" +

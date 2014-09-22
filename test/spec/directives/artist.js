@@ -4,8 +4,9 @@ describe('Directive: artist', function() {
 
     var element,
         controller,
+        scope,
         $rootScope,
-        $scope,
+        $parentScope,
         $q,
         $compile;
 
@@ -14,7 +15,7 @@ describe('Directive: artist', function() {
 
         inject(function($injector) {
             $rootScope = $injector.get('$rootScope');
-            $scope = $rootScope.$new();
+            $parentScope = $rootScope.$new();
             $q = $injector.get('$q');
             $compile = $injector.get('$compile');
 
@@ -22,15 +23,16 @@ describe('Directive: artist', function() {
                 '<li artist="artist"></li>'
             );
 
-            $scope.artist = {
+            $parentScope.artist = {
                 'ID' : 1,
                 'Name' : 'Artist 1'
             };
 
-            $compile(element)($scope);
-            $scope.$digest();
+            $compile(element)($parentScope);
+            $parentScope.$digest();
 
             controller = element.controller('artist');
+            scope = element.isolateScope();
         });
     });
 
