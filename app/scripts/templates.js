@@ -183,19 +183,19 @@ angular.module("views/search.partial.html", []).run(["$templateCache", function(
     "<div class=\"dropdown-search\">\n" +
     "    <div class=\"arrow\"></div>\n" +
     "    <div ng-switch=\"searchInProgress\" body-event-handler=\"search\" class=\"inner\">\n" +
-    "        <div ng-switch-when=\"true\">\n" +
+    "        <div ng-switch-when=\"true\" class=\"search-loading\">\n" +
     "            <ul class=\"search\">\n" +
     "                <li class=\"desc\">Loading...</li>\n" +
     "            </ul>\n" +
     "        </div>\n" +
-    "        <div ng-switch-default>\n" +
+    "        <div ng-switch-default class=\"search-results\">\n" +
     "            <ul ng-if=\"searchResults.tracks.length > 0\" class=\"search tracks\">\n" +
     "                <li class=\"desc\">Tracks<span class=\"link-right\" ng-click=\"redirectToResults('tracks')\">Show all</span></li>\n" +
     "                <li track=\"track\" ng-repeat=\"track in searchResults.tracks\"></li>\n" +
     "            </ul>\n" +
     "            <ul ng-if=\"searchResults.albums.length > 0\" class=\"search albums\">\n" +
     "                <li class=\"desc\">Albums<span class=\"link-right\" ng-click=\"redirectToResults('albums')\">Show all</span></li>\n" +
-    "                <li album=\"album\" ng-repeat=\"album in searchResults.albums\" class=\"album\"></li>\n" +
+    "                <li album=\"album\" ng-repeat=\"album in searchResults.albums\"></li>\n" +
     "            </ul>\n" +
     "            <ul ng-if=\"searchResults.artists.length > 0\" class=\"search artists\">\n" +
     "                <li class=\"desc\">Artists<span class=\"link-right\" ng-click=\"redirectToResults('artists')\">Show all</span></li>\n" +
