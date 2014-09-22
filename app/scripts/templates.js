@@ -33,9 +33,7 @@ angular.module("views/errorModal.partial.html", []).run(["$templateCache", funct
     "<div ng-show=\"!!errorMessage\">\n" +
     "    <div class=\"modal-backdrop\">\n" +
     "    </div>\n" +
-    "    <div body-event-handler=\"error\" class=\"error-modal\">\n" +
-    "        {{ errorMessage }}\n" +
-    "    </div>\n" +
+    "    <div body-event-handler=\"error\" class=\"error-modal\">{{ errorMessage }}</div>\n" +
     "</div>\n" +
     "");
 }]);
