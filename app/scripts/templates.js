@@ -111,7 +111,7 @@ angular.module("views/navbar.partial.html", []).run(["$templateCache", function(
     "    </div>\n" +
     "    <div class=\"navbar-inner\">\n" +
     "        <div class=\"controls controls-nav unshrinkable\">\n" +
-    "            <button ng-click=\"playerCtrl.next()\" type=\"button\" class=\"control\">\n" +
+    "            <button ng-click=\"playerCtrl.prev()\" type=\"button\" class=\"control\">\n" +
     "                <span class=\"glyphicon glyphicon-fast-backward\"></span>\n" +
     "            </button>\n" +
     "            <button ng-click=\"playerCtrl.togglePause()\" type=\"button\" class=\"control\">\n" +

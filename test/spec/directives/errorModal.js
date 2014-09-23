@@ -10,7 +10,7 @@ describe('Directive: errorModal', function() {
         $compile;
 
     beforeEach(function() {
-        module('musicServerApp', 'musicServerViews');
+        module('musicServerApp');
 
         inject(function($injector) {
             $rootScope = $injector.get('$rootScope');

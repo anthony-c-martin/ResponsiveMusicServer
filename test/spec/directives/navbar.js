@@ -9,8 +9,18 @@ describe('Directive: navbar', function() {
         $q,
         $compile;
 
+    angular.module('musicServerAppMocks', ['musicServerApp'])
+        .controller('PlayerController', [
+            function() {
+
+            }])
+        .controller('SearchController', [
+            function() {
+
+            }]);
+
     beforeEach(function() {
-        module('musicServerApp', 'musicServerViews');
+        module('musicServerApp');
 
         inject(function($injector) {
             $rootScope = $injector.get('$rootScope');
@@ -19,7 +29,7 @@ describe('Directive: navbar', function() {
             $compile = $injector.get('$compile');
 
             element = angular.element(
-                '<navbar></navbar>'
+                '<div navbar></div>'
             );
 
             $compile(element)($parentScope);
@@ -30,7 +40,9 @@ describe('Directive: navbar', function() {
     });
 
     describe('Initialisation', function() {
-        
+        /*it('should display properly', function() {
+
+        });*/
     });
 });
 /*
