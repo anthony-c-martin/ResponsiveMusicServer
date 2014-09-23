@@ -1,4 +1,53 @@
-<div class="navbar" ng-controller="PlayerController as playerCtrl">
+'use strict';
+
+describe('Directive: navbar', function() {
+
+    var element,
+        scope,
+        $rootScope,
+        $parentScope,
+        $q,
+        $compile;
+
+    beforeEach(function() {
+        module('musicServerApp', 'musicServerViews');
+
+        inject(function($injector) {
+            $rootScope = $injector.get('$rootScope');
+            $parentScope = $rootScope.$new();
+            $q = $injector.get('$q');
+            $compile = $injector.get('$compile');
+
+            element = angular.element(
+                '<navbar></navbar>'
+            );
+
+            $compile(element)($parentScope);
+            $parentScope.$digest();
+
+            scope = element.scope();
+        });
+    });
+
+    describe('Initialisation', function() {
+        
+    });
+});
+/*
+'use strict';
+
+angular.module('musicServerApp')
+    .directive('navbar', [
+        function() {
+            return {
+                restrict: 'A',
+                replace: true,
+                templateUrl: 'views/navbar.partial.html'
+            };
+        }]);
+*/
+/*
+<div class="navbar" ng-controller="PlayerController">
     <div ng-if="isPhone" class="navbar-inner">
         <div progress-container class="controls controls-nav shrinkable">
             <div ng-click="positionChange($event)" class="prog-container control">
@@ -9,14 +58,14 @@
     </div>
     <div class="navbar-inner">
         <div class="controls controls-nav unshrinkable">
-            <button ng-click="playerCtrl.next()" type="button" class="control">
+            <button ng-click="next()" type="button" class="control">
                 <span class="glyphicon glyphicon-fast-backward"></span>
             </button>
-            <button ng-click="playerCtrl.togglePause()" type="button" class="control">
+            <button ng-click="togglePause()" type="button" class="control">
                 <span ng-if="!playing" class="glyphicon glyphicon-play"></span>
                 <span ng-if="playing" class="glyphicon glyphicon-pause"></span>
             </button>
-            <button ng-click="playerCtrl.next()" type="button" class="control">
+            <button ng-click="next()" type="button" class="control">
                 <span class="glyphicon glyphicon-fast-forward"></span>
             </button>
         </div>
@@ -53,3 +102,4 @@
     </div>
     <audio-player></audio-player>
 </div>
+*/

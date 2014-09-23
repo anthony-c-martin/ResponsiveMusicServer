@@ -100,7 +100,7 @@ angular.module("views/main.html", []).run(["$templateCache", function($templateC
 
 angular.module("views/navbar.partial.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("views/navbar.partial.html",
-    "<div class=\"navbar\" ng-controller=\"PlayerController\">\n" +
+    "<div class=\"navbar\" ng-controller=\"PlayerController as playerCtrl\">\n" +
     "    <div ng-if=\"isPhone\" class=\"navbar-inner\">\n" +
     "        <div progress-container class=\"controls controls-nav shrinkable\">\n" +
     "            <div ng-click=\"positionChange($event)\" class=\"prog-container control\">\n" +
@@ -111,14 +111,14 @@ angular.module("views/navbar.partial.html", []).run(["$templateCache", function(
     "    </div>\n" +
     "    <div class=\"navbar-inner\">\n" +
     "        <div class=\"controls controls-nav unshrinkable\">\n" +
-    "            <button ng-click=\"next()\" type=\"button\" class=\"control\">\n" +
+    "            <button ng-click=\"playerCtrl.next()\" type=\"button\" class=\"control\">\n" +
     "                <span class=\"glyphicon glyphicon-fast-backward\"></span>\n" +
     "            </button>\n" +
-    "            <button ng-click=\"togglePause()\" type=\"button\" class=\"control\">\n" +
+    "            <button ng-click=\"playerCtrl.togglePause()\" type=\"button\" class=\"control\">\n" +
     "                <span ng-if=\"!playing\" class=\"glyphicon glyphicon-play\"></span>\n" +
     "                <span ng-if=\"playing\" class=\"glyphicon glyphicon-pause\"></span>\n" +
     "            </button>\n" +
-    "            <button ng-click=\"next()\" type=\"button\" class=\"control\">\n" +
+    "            <button ng-click=\"playerCtrl.next()\" type=\"button\" class=\"control\">\n" +
     "                <span class=\"glyphicon glyphicon-fast-forward\"></span>\n" +
     "            </button>\n" +
     "        </div>\n" +

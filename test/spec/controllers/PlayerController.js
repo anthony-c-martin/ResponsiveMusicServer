@@ -2,31 +2,36 @@
 
 describe('Controller: PlayerController', function() {
 
+    var controller,
+        Playlist,
+        $scope,
+        $rootScope,
+        $q;
+
     var mockTrack = {};
     var mockPlaylist = {
         getTrack: function() {
             return $q.when(mockTrack);
         }
     };
-    beforeEach(module('musicServerApp', function($provide) {
-        $provide.value('Playlist', mockPlaylist);
-    }));
 
-    var PlayerController,
-        $scope, $rootScope, Playlist, $q;
+    beforeEach(function() {
+        module('musicServerApp');
 
-    beforeEach(inject(function($controller, _$rootScope_, _Playlist_, _$q_) {
-        $rootScope = _$rootScope_;
-        $scope = _$rootScope_.$new();
-        $q = _$q_;
-        Playlist = _Playlist_;
+        inject(function($injector) {
+            $q = $injector.get('$q');
+            $rootScope = $injector.get('$rootScope');
+            $scope = $rootScope.$new();
+            Playlist = mockPlaylist;
+            var $controller = $injector.get('$controller');
 
-        PlayerController = $controller('PlayerController', {
-            $rootScope: $rootScope,
-            $scope: $scope,
-            Playlist: _Playlist_
+            controller = $controller('PlayerController', {
+                $rootScope: $rootScope,
+                $scope: $scope,
+                Playlist: Playlist
+            });
         });
-    }));
+    });
 
     it('should initialise settings correctly', function() {
         expect($scope.playing).toBeFalsy();
@@ -36,12 +41,12 @@ describe('Controller: PlayerController', function() {
     });
 
     it('should call next on the StartPlaying event', function() {
-        spyOn($scope, 'next');
+        spyOn(controller, 'next');
 
         $rootScope.$emit('StartPlaying');
 
-        expect($scope.next).toHaveBeenCalledWith(true);
-        expect($scope.next.callCount).toBe(1);
+        expect(controller.next).toHaveBeenCalledWith(true);
+        expect(controller.next.callCount).toBe(1);
     });
 
     it('should update the position on the SetPosition event', function() {
@@ -57,7 +62,7 @@ describe('Controller: PlayerController', function() {
         $scope.playing = false;
         $scope.track = {};
 
-        $scope.togglePause();
+        controller.togglePause();
 
         expect($scope.setPlaying).toBeTruthy();
     });
@@ -67,26 +72,26 @@ describe('Controller: PlayerController', function() {
         $scope.playing = true;
         $scope.track = {};
 
-        $scope.togglePause();
+        controller.togglePause();
 
         expect($scope.setPlaying).toBeFalsy();
     });
 
     it('should call next if a togglePause is called when no track is loaded', function() {
-        spyOn($scope, 'next');
+        spyOn(controller, 'next');
         $scope.track = null;
 
-        $scope.togglePause();
+        controller.togglePause();
 
-        expect($scope.next).toHaveBeenCalledWith(true);
-        expect($scope.next.callCount).toBe(1);
+        expect(controller.next).toHaveBeenCalledWith(true);
+        expect(controller.next.callCount).toBe(1);
     });
 
     it('should load the next track and start playing when scope.next is called with startPlaying set to true', function() {
         spyOn(Playlist, 'getTrack').andCallThrough();
         $scope.setPlaying = false;
 
-        $scope.next(true);
+        controller.next(true);
 
         expect(Playlist.getTrack).toHaveBeenCalledWith();
         expect(Playlist.getTrack.callCount).toBe(1);
@@ -99,7 +104,7 @@ describe('Controller: PlayerController', function() {
         spyOn(Playlist, 'getTrack').andCallThrough();
         $scope.setPlaying = false;
 
-        $scope.next(false);
+        controller.next(false);
 
         expect(Playlist.getTrack).toHaveBeenCalledWith();
         expect(Playlist.getTrack.callCount).toBe(1);
@@ -113,7 +118,7 @@ describe('Controller: PlayerController', function() {
         $scope.setPlaying = false;
         $scope.setPosition = 0.8;
 
-        $scope.next(true);
+        controller.next(true);
 
         expect(Playlist.getTrack).toHaveBeenCalledWith();
         expect(Playlist.getTrack.callCount).toBe(1);
@@ -124,7 +129,7 @@ describe('Controller: PlayerController', function() {
     it('should reset the position when scope.prev is called', function() {
         $scope.setPosition = 0.5;
 
-        $scope.prev();
+        controller.prev();
 
         expect($scope.setPosition).toBe(0);
     });

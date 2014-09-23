@@ -3,29 +3,30 @@
 angular.module('musicServerApp')
     .controller('PlayerController', ['$scope', '$rootScope', 'Playlist',
         function ($scope, $rootScope, Playlist) {
+            var _this = this;
             $scope.playing = false;
             $scope.track = false;
             $scope.setVolume = 0.5;
             $scope.setPosition = 0;
 
             $rootScope.$on('StartPlaying', function() {
-                $scope.next(true);
+                _this.next(true);
             });
 
             $scope.$on('SetPosition', function($event, position) {
                 $scope.setPosition = position;
             });
 
-            $scope.togglePause = function () {
+            this.togglePause = function () {
                 if ($scope.track) {
                     $scope.setPlaying = !$scope.playing;
                 }
                 else {
-                    $scope.next(true);
+                    _this.next(true);
                 }
             };
 
-            $scope.next = function (startPlaying) {
+            this.next = function (startPlaying) {
                 Playlist.getTrack().then(function(track) {
                     $scope.track = track;
                     if (startPlaying) {
@@ -36,7 +37,7 @@ angular.module('musicServerApp')
                 });
             };
 
-            $scope.prev = function () {
+            this.prev = function () {
                 $scope.setPosition = 0;
             };
         }]);
