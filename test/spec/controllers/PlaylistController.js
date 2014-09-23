@@ -2,29 +2,36 @@
 
 describe('Controller: PlaylistController', function() {
 
+    var controller,
+        SelectableTracks,
+        Playlist,
+        $scope,
+        $rootScope,
+        $q;
+
     var mockSelectableTracks = {
         removeSelection: function() {}
     };
-    beforeEach(module('musicServerApp', function($provide) {
-        $provide.value('SelectableTracks', jasmine.createSpy('SelectableTracksSpy').andReturn(mockSelectableTracks));
-    }));
 
-    var PlaylistController,
-        $scope, $rootScope, SelectableTracks, Playlist, $q;
+    beforeEach(function() {
+        module('musicServerApp');
 
-    beforeEach(inject(function($controller, _$rootScope_, _SelectableTracks_, _Playlist_, _$q_) {
-        $rootScope = _$rootScope_;
-        $scope = _$rootScope_.$new();
-        $q = _$q_;
-        SelectableTracks = _SelectableTracks_;
-        Playlist = _Playlist_;
+        inject(function($injector) {
+            $q = $injector.get('$q');
+            $rootScope = $injector.get('$rootScope');
+            $scope = $rootScope.$new();
+            SelectableTracks = jasmine.createSpy('SelectableTracksSpy').andReturn(mockSelectableTracks);
+            Playlist = $injector.get('Playlist');
 
-        PlaylistController = $controller('PlaylistController', {
-            $scope: $scope,
-            Playlist: _Playlist_,
-            SelectableTracks: _SelectableTracks_
+            var $controller = $injector.get('$controller');
+
+            controller = $controller('PlaylistController', {
+                $scope: $scope,
+                Playlist: Playlist,
+                SelectableTracks: SelectableTracks
+            });
         });
-    }));
+    });
 
     it('should create a new SelectableTracks object and set the allTracks array to the playlist trackArray', function() {
         expect(SelectableTracks).toHaveBeenCalledWith();
@@ -42,7 +49,7 @@ describe('Controller: PlaylistController', function() {
         spyOn(Playlist, 'removeTrack');
         var mockTrack = {};
 
-        $scope.removeTrack(mockTrack);
+        controller.removeTrack(mockTrack);
 
         expect(Playlist.removeTrack).toHaveBeenCalledWith(mockTrack);
         expect(Playlist.removeTrack.callCount).toBe(1);
@@ -51,7 +58,7 @@ describe('Controller: PlaylistController', function() {
     it('should call Playlist.clear when removeAll is called', function() {
         spyOn(Playlist, 'clear');
 
-        $scope.removeAll();
+        controller.removeAll();
 
         expect(Playlist.clear).toHaveBeenCalledWith();
         expect(Playlist.clear.callCount).toBe(1);
@@ -60,7 +67,7 @@ describe('Controller: PlaylistController', function() {
     it('should call playlistArea.removeSelection when removeSelection is called', function() {
         spyOn($scope.playlistArea, 'removeSelection');
 
-        $scope.removeSelection();
+        controller.removeSelection();
 
         expect($scope.playlistArea.removeSelection).toHaveBeenCalledWith();
         expect($scope.playlistArea.removeSelection.callCount).toBe(1);

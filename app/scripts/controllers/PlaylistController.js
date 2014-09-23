@@ -8,15 +8,15 @@ angular.module('musicServerApp')
 
             $scope.playlist = Playlist.trackArray;
 
-            $scope.removeTrack = function(track) {
+            this.removeTrack = function(track) {
                 Playlist.removeTrack(track);
             };
 
-            $scope.removeAll = function() {
+            this.removeAll = function() {
                 Playlist.clear();
             };
 
-            $scope.removeSelection = function() {
+            this.removeSelection = function() {
                 $scope.playlistArea.removeSelection();
             };
         }]);

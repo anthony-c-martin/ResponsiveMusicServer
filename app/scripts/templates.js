@@ -165,8 +165,8 @@ angular.module("views/playlist.partial.html", []).run(["$templateCache", functio
     "    <div body-event-handler=\"playlist\" class=\"inner\">\n" +
     "        <ul class=\"playlist tracks\">\n" +
     "            <li ng-if=\"playlist.length > 0\" class=\"desc\">\n" +
-    "                <span class=\"link-left\" ng-click=\"removeAll()\">Clear All</span>\n" +
-    "                <span class=\"link-right\" ng-click=\"removeSelection()\">Clear Selected</span>\n" +
+    "                <span class=\"link-left\" ng-click=\"playlistCtrl.removeAll()\">Clear All</span>\n" +
+    "                <span class=\"link-right\" ng-click=\"playlistCtrl.removeSelection()\">Clear Selected</span>\n" +
     "            </li>\n" +
     "            <li track=\"track\" track-area=\"playlistArea\" playlist-track=\"true\" ng-repeat=\"track in playlist\"></li>\n" +
     "            <li ng-if=\"playlist.length <= 0\" class=\"desc\">This playlist is empty!</li>\n" +
