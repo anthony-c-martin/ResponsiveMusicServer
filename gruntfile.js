@@ -51,10 +51,6 @@ module.exports = function(grunt) {
             gruntfile: {
                 files: ['gruntfile.js']
             },
-            html2js: {
-                files: ['<%= yeoman.app %>/{,*/}*.html'],
-                tasks: ['html2js']
-            },
             livereload: {
                 options: {
                     livereload: '<%= connect.options.livereload %>'
@@ -382,8 +378,7 @@ module.exports = function(grunt) {
             dist: [
                 'compass:dist',
                 'imagemin',
-                'svgmin',
-                'html2js'
+                'svgmin'
             ]
         },
 
@@ -398,12 +393,12 @@ module.exports = function(grunt) {
         // Generate angular templates
         html2js: {
             options: {
-                module: 'musicServerViews',
+                module: 'musicServerApp.views',
                 base: '<%= yeoman.app %>'
             },
             main: {
                 src: ['<%= yeoman.app %>/views/{,*/}*.html'],
-                dest: '<%= yeoman.app %>/scripts/templates.js'
+                dest: '.tmp/scripts/app.views.js'
             },
         },
     });
@@ -435,6 +430,7 @@ module.exports = function(grunt) {
     grunt.registerTask('build', [
         'clean:dist',
         'wiredep',
+        'html2js',
         'useminPrepare',
         'concurrent:dist',
         'autoprefixer',

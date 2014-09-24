@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('musicServerAppDev', ['musicServerApp', 'ngMockE2E'])
+angular.module('musicServerApp.dev', ['musicServerApp', 'ngMockE2E'])
     .run(['$httpBackend',
         function($httpBackend) {
             $httpBackend.whenPOST('/api').respond(function(method, url, jsonData) {

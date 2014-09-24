@@ -1,0 +1,2 @@
+angular
+    .module('musicServerApp.views', []);

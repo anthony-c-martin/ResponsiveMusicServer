@@ -2,7 +2,7 @@
 
 angular
     .module('musicServerApp', [
-        'musicServerViews',
+        'musicServerApp.views',
         'ngRoute',
         'matchmedia-ng'
     ])
