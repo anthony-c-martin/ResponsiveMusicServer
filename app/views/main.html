@@ -2,11 +2,11 @@
     <div class="pane-top" ng-if="!isDesktop">
         <div ng-if="isPhone" class="history">
             <span ng-if="selectedAlbum">
-                <div class="history-item clickable" ng-click="deselectAlbum()"><span class="glyphicon glyphicon-chevron-left"></span></div>
+                <div class="history-item clickable" ng-click="deselectAlbum()"><i class="fa fa-chevron-left"></i></div>
                 <div class="history-item">{{ selectedAlbum.Name }}</div>
             </span>
             <span ng-if="selectedArtist && !selectedAlbum">
-                <div class="history-item clickable" ng-click="deselectArtist()"><span class="glyphicon glyphicon-chevron-left"></span></div>
+                <div class="history-item clickable" ng-click="deselectArtist()"><i class="fa fa-chevron-left"></i></div>
                 <div class="history-item">{{ selectedArtist.Name }}</div>
             </span>
         </div>
@@ -15,11 +15,11 @@
                 <div class="history-item clickable" ng-click="deselectArtist()">Artists</div>
             </span>
             <span ng-if="selectedArtist">
-                <div class="history-item"><span class="glyphicon glyphicon-chevron-right"></span></div>
+                <div class="history-item"><i class="fa fa-chevron-right"></i></div>
                 <div class="history-item clickable" ng-click="deselectAlbum()">{{ selectedArtist.Name }}</div>
             </span>
             <span ng-if="selectedAlbum">
-                <div class="history-item"><span class="glyphicon glyphicon-chevron-right"></span></div>
+                <div class="history-item"><i class="fa fa-chevron-right"></i></div>
                 <div class="history-item">{{ selectedAlbum.Name }}</div>
             </span>
         </div>

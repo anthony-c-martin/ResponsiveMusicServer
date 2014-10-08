@@ -87,7 +87,7 @@ angular.module('musicServerApp')
 
                     var itemList = itemListFunction();
                     if (_this.getDragElement) {
-                        $event.originalEvent.dataTransfer.setDragImage(_this.getDragElement(itemList.length, itemType), -10, -10);
+                        $event.dataTransfer.setDragImage(_this.getDragElement(itemList.length, itemType), -10, -10);
                     }
 
                     switch (itemType) {
@@ -144,7 +144,7 @@ angular.module('musicServerApp')
                         _this.currentHoverScope = scope;
                     }
 
-                    var dropAfter = ($element.height() < $event.originalEvent.offsetY * 2);
+                    var dropAfter = ($element[0].clientHeight < $event.offsetY * 2);
                     changeScopeVariable(scope, !dropAfter, dropAfter);
                 });
 

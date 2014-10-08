@@ -10,14 +10,14 @@
     <div class="navbar-inner">
         <div class="controls controls-nav unshrinkable">
             <button ng-click="playerCtrl.prev()" type="button" class="control">
-                <span class="glyphicon glyphicon-fast-backward"></span>
+                <i class="fa fa-fast-backward"></i>
             </button>
             <button ng-click="playerCtrl.togglePause()" type="button" class="control">
-                <span ng-if="!playing" class="glyphicon glyphicon-play"></span>
-                <span ng-if="playing" class="glyphicon glyphicon-pause"></span>
+                <i ng-if="!playing" class="fa fa-play"></i>
+                <i ng-if="playing" class="fa fa-pause"></i>
             </button>
             <button ng-click="playerCtrl.next()" type="button" class="control">
-                <span class="glyphicon glyphicon-fast-forward"></span>
+                <i class="fa fa-fast-forward"></i>
             </button>
         </div>
         <div ng-if="!isPhone" progress-container class="controls controls-nav shrinkable">
@@ -29,25 +29,25 @@
         <div class="controls controls-nav unshrinkable">
             <div class="control-container">
                 <button playlist-button ng-click="playlistShown = !playlistShown" ng-class="{active: playlistShown}" body-event-handler="playlist" type="button" class="control">
-                    <span class="glyphicon glyphicon-list"></span>
+                    <i class="fa fa-list"></i>
                 </button>
                 <playlist ng-show="playlistShown"></playlist>
             </div>
             <div class="control-container">
                 <button ng-click="volumeShown = !volumeShown" ng-class="{active: volumeShown}" body-event-handler="volume" type="button" class="control">
-                    <span class="glyphicon glyphicon-volume-up"></span>
+                    <i class="fa fa-volume-up"></i>
                 </button>
                 <volume-control ng-show="volumeShown"></volume-control>
             </div>
             <button ng-click="toggleScrobblingEnabled()" ng-class="{active: scrobblingEnabled}" type="button" class="control">
-                <span class="lastfmicon"></span>
+                <i class="fa fa-lastfm"></i>
             </button>
         </div>
         <form ng-submit="search()" ng-controller="SearchController" body-event-handler="search" class="controls controls-nav shrinkable controls-search">
             <search ng-show="searchShown"></search>
             <input ng-model="searchText" class="control" type="text" placeholder="search" autocomplete="off">
             <button ng-class="{active: searchShown}" type="submit" class="control">
-                <span class="glyphicon glyphicon-search"></span>
+                <i class="fa fa-search"></i>
             </button>
         </form>
     </div>

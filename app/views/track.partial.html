@@ -1,11 +1,11 @@
 <li class="track" ng-class="{selected: track.selected, 'dropzone-pre': dragoverPre, 'dropzone-post': dragoverPost}" ng-mousedown="trackCtrl.select($event)" draggable="true">
     <div class="content">
         <div ng-if="addable" class="controls controls-mini">
-            <button ng-click="trackCtrl.add($event)" type="button" class="control control-add"><span class="glyphicon glyphicon-plus"></span></button>
-            <button ng-click="trackCtrl.play($event)" type="button" class="control control-play"><span class="glyphicon glyphicon-play"></span></button>
+            <button ng-click="trackCtrl.add($event)" type="button" class="control control-add"><i class="fa fa-plus"></i></button>
+            <button ng-click="trackCtrl.play($event)" type="button" class="control control-play"><i class="fa fa-play"></i></button>
         </div>
         <div ng-if="closable" class="controls controls-mini">
-            <button ng-click="trackCtrl.remove($event)" type="button" class="control control-remove"><span class="glyphicon glyphicon-remove"></span></button>
+            <button ng-click="trackCtrl.remove($event)" type="button" class="control control-remove"><i class="fa fa-remove"></i></button>
         </div>
         <div class="desc">{{ track.Name }}</div>
     </div>

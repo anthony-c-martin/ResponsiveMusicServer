@@ -1,8 +1,6 @@
-@import '_colors';
-@import '_mixins';
-@import '_mq-mixins';
-@import '_glyphicons';
-@import '_icons';
+@import 'colors';
+@import 'mixins';
+@import 'mq-mixins';
 
 $navbar-height: 1.75em;
 
@@ -130,6 +128,7 @@ ul {
     }
     &.controls-mini {
         .control {
+            margin-right: 0.25em;
             background-color: transparent;
             @include mq-large {
                 opacity: 0;
@@ -144,7 +143,7 @@ ul {
         &:last-child {
             margin-right: 0;
         }
-        .control, .control-container {
+        &>.control, &>.control-container {
             height: 2em - 0.25em;
             &.active {
                 background-color: $control-background-active;

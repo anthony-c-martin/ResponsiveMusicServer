@@ -167,6 +167,7 @@ module.exports = function(grunt) {
             },
             dev: {
                 devDependencies: true,
+                exclude: [ /jquery/],
                 src: ['<%= yeoman.app %>/index.html'],
                 ignorePath: /\.\.\//
             },
@@ -349,9 +350,13 @@ module.exports = function(grunt) {
                         '.htaccess',
                         '*.html',
                         'views/{,*/}*.html',
-                        'images/{,*/}*.{webp}',
-                        'fonts/*'
+                        'images/{,*/}*.{webp}'
                     ]
+                }, {
+                    expand: true,
+                    cwd: './bower_components/fontawesome/fonts/',
+                    dest: '<%= yeoman.dist %>/fonts',
+                    src: ['*.{eot,svg,ttf,woff,otf}']
                 }, {
                     expand: true,
                     cwd: '.tmp/images',
