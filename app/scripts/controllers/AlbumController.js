@@ -3,17 +3,19 @@
 angular.module('musicServerApp')
     .controller('AlbumController', ['$scope',
         function ($scope) {
+            var ctrl = this;
+
             this.play = function($event) {
                 $event.stopPropagation();
-                $scope.$emit('playAlbum', $scope.album);
+                $scope.$emit('playAlbum', ctrl.album);
             };
 
             this.add = function($event) {
                 $event.stopPropagation();
-                $scope.$emit('addAlbum', $scope.album);
+                $scope.$emit('addAlbum', ctrl.album);
             };
 
             this.select = function() {
-                $scope.$emit('selectAlbum', $scope.album);
+                $scope.$emit('selectAlbum', ctrl.album);
             };
         }]);

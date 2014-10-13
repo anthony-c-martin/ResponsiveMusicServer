@@ -10,10 +10,14 @@ angular.module('musicServerApp')
                 restrict: 'A',
                 replace: true,
                 templateUrl: 'views/artist.partial.html',
-                controller: 'ArtistController as artistCtrl',
+                controller: 'ArtistController',
+                controllerAs: 'artistCtrl',
+                bindToController: true,
                 link: function(scope, element) {
-                    DraggableData.bindDragEvents(element, scope.artist, 'Artist', function() {
-                        return [scope.artist];
+                    var ctrl = scope.artistCtrl;
+
+                    DraggableData.bindDragEvents(element, ctrl.artist, 'Artist', function() {
+                        return [ctrl.artist];
                     }, function() {
                         return true;
                     });

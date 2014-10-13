@@ -13,7 +13,8 @@ angular.module('musicServerApp')
                 },
                 restrict: 'E',
                 replace: true,
-                controller: 'PlaylistController as playlistCtrl',
+                controller: 'PlaylistController',
+                controllerAs: 'playlistCtrl',
                 templateUrl: 'views/playlist.partial.html'
             };
         }]);

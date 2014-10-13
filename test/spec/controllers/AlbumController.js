@@ -26,7 +26,7 @@ describe('Controller: AlbumController', function() {
         it('should emit an addAlbum event and stop event propagation', function() {
             spyOn($scope, '$emit');
             var mockAlbum = {};
-            $scope.album = mockAlbum;
+            controller.album = mockAlbum;
             var mockEvent = {
                 stopPropagation: function() {}
             };
@@ -44,7 +44,7 @@ describe('Controller: AlbumController', function() {
         it('should emit a playAlbum event and stop event propagation', function() {
             spyOn($scope, '$emit');
             var mockAlbum = {};
-            $scope.album = mockAlbum;
+            controller.album = mockAlbum;
             var mockEvent = {
                 stopPropagation: function() {}
             };
@@ -63,7 +63,7 @@ describe('Controller: AlbumController', function() {
         it('should emit a selectAlbum event', function() {
             spyOn($scope, '$emit');
             var mockAlbum = {};
-            $scope.album = mockAlbum;
+            controller.album = mockAlbum;
 
             controller.select();
 

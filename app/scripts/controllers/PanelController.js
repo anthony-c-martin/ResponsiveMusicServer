@@ -3,58 +3,59 @@
 angular.module('musicServerApp')
     .controller('PanelController', ['$scope', '$rootScope', 'SelectableTracks',
         function($scope, $rootScope, SelectableTracks) {
-            $scope.trackArea = new SelectableTracks();
-            $scope.trackArea.allTracks = $scope.tracks;
+            var ctrl = this;
+            this.trackArea = new SelectableTracks();
+            this.trackArea.allTracks = $scope.tracks;
 
             $rootScope.$on('selectArtist', function($event, artist) {
-                $scope.selectedArtist = artist;
-                $scope.selectedAlbum = null;
+                ctrl.selectedArtist = artist;
+                ctrl.selectedAlbum = null;
             });
 
             $rootScope.$on('selectAlbum', function($event, album) {
-                $scope.selectedAlbum = album;
+                ctrl.selectedAlbum = album;
             });
 
-            $scope.deselectArtist = function() {
-                $scope.selectedAlbum = null;
-                $scope.selectedArtist = null;
+            this.deselectArtist = function() {
+                ctrl.selectedAlbum = null;
+                ctrl.selectedArtist = null;
             };
 
-            $scope.deselectAlbum = function() {
-                $scope.selectedAlbum = null;
+            this.deselectAlbum = function() {
+                ctrl.selectedAlbum = null;
             };
 
-            $scope.deselectTracks = function($event) {
+            this.deselectTracks = function($event) {
                 $event.stopPropagation();
-                $scope.trackArea.clearSelection();
+                ctrl.trackArea.clearSelection();
             };
 
-            $scope.isArtistsShown = function() {
+            this.isArtistsShown = function() {
                 if ($scope.isDesktop) {
                     return true;
                 }
                 if (!$scope.isPhone) {
-                    return !($scope.selectedAlbum && $scope.selectedArtist);
+                    return !(ctrl.selectedAlbum && ctrl.selectedArtist);
                 }
 
-                return !$scope.selectedArtist;
+                return !ctrl.selectedArtist;
             };
 
-            $scope.isAlbumsShown = function() {
+            this.isAlbumsShown = function() {
                 if ($scope.isDesktop) {
                     return true;
                 }
                 if (!$scope.isPhone) {
                     return true;
                 }
-                return !!$scope.selectedArtist && !$scope.selectedAlbum;
+                return !!ctrl.selectedArtist && !ctrl.selectedAlbum;
             };
 
-            $scope.isTracksShown = function() {
+            this.isTracksShown = function() {
                 if ($scope.isDesktop) {
                     return true;
                 }
-                if ($scope.selectedArtist && $scope.selectedAlbum) {
+                if (ctrl.selectedArtist && ctrl.selectedAlbum) {
                     return true;
                 }
 

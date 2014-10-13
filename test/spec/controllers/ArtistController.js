@@ -26,7 +26,7 @@ describe('Controller: ArtistController', function() {
         it('should emit an addArtist event and stop event propagation', function() {
             spyOn($scope, '$emit');
             var mockArtist = {};
-            $scope.artist = mockArtist;
+            controller.artist = mockArtist;
             var mockEvent = {
                 stopPropagation: function() {}
             };
@@ -44,7 +44,7 @@ describe('Controller: ArtistController', function() {
         it('should emit a playArtist event and stop event propagation', function() {
             spyOn($scope, '$emit');
             var mockArtist = {};
-            $scope.artist = mockArtist;
+            controller.artist = mockArtist;
             var mockEvent = {
                 stopPropagation: function() {}
             };
@@ -63,7 +63,7 @@ describe('Controller: ArtistController', function() {
         it('should emit a selectArtist event', function() {
             spyOn($scope, '$emit');
             var mockArtist = {};
-            $scope.artist = mockArtist;
+            controller.artist = mockArtist;
 
             controller.select();
 

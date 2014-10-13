@@ -4,6 +4,6 @@
             <button ng-click="artistCtrl.add($event)" type="button" class="control control-add"><i class="fa fa-plus"></i></button>
             <button ng-click="artistCtrl.play($event)" type="button" class="control control-play"><i class="fa fa-play"></i></button>
         </div>
-        <div class="desc">{{ artist.Name }}</div>
+        <div class="desc">{{ ::artistCtrl.artist.Name }}</div>
     </div>
 </li>

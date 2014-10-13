@@ -1,42 +1,42 @@
-<div ng-controller="PanelController" class="panes">
+<div ng-controller="PanelController as panel" class="panes">
     <div class="pane-top" ng-if="!isDesktop">
         <div ng-if="isPhone" class="history">
-            <span ng-if="selectedAlbum">
-                <div class="history-item clickable" ng-click="deselectAlbum()"><i class="fa fa-chevron-left"></i></div>
-                <div class="history-item">{{ selectedAlbum.Name }}</div>
+            <span ng-if="panel.selectedAlbum">
+                <div class="history-item clickable" ng-click="panel.deselectAlbum()"><i class="fa fa-chevron-left"></i></div>
+                <div class="history-item">{{ panel.selectedAlbum.Name }}</div>
             </span>
-            <span ng-if="selectedArtist && !selectedAlbum">
-                <div class="history-item clickable" ng-click="deselectArtist()"><i class="fa fa-chevron-left"></i></div>
-                <div class="history-item">{{ selectedArtist.Name }}</div>
+            <span ng-if="panel.selectedArtist && !panel.selectedAlbum">
+                <div class="history-item clickable" ng-click="panel.deselectArtist()"><i class="fa fa-chevron-left"></i></div>
+                <div class="history-item">{{ panel.selectedArtist.Name }}</div>
             </span>
         </div>
         <div ng-if="!isPhone" class="history">
             <span>
-                <div class="history-item clickable" ng-click="deselectArtist()">Artists</div>
+                <div class="history-item clickable" ng-click="panel.deselectArtist()">Artists</div>
             </span>
-            <span ng-if="selectedArtist">
+            <span ng-if="panel.selectedArtist">
                 <div class="history-item"><i class="fa fa-chevron-right"></i></div>
-                <div class="history-item clickable" ng-click="deselectAlbum()">{{ selectedArtist.Name }}</div>
+                <div class="history-item clickable" ng-click="panel.deselectAlbum()">{{ panel.selectedArtist.Name }}</div>
             </span>
-            <span ng-if="selectedAlbum">
+            <span ng-if="panel.selectedAlbum">
                 <div class="history-item"><i class="fa fa-chevron-right"></i></div>
-                <div class="history-item">{{ selectedAlbum.Name }}</div>
+                <div class="history-item">{{ panel.selectedAlbum.Name }}</div>
             </span>
         </div>
     </div>
-    <div ng-if="isArtistsShown()" scroll-loader="artistRequest.fetch()" class="pane pane-left">
+    <div ng-if="panel.isArtistsShown()" scroll-loader="artistRequest.fetch()" class="pane pane-left">
         <ul class="artists">
-            <li artist="artist" ng-repeat="artist in artists | limitTo: artists.length track by artist.ID" ng-class="{selected: (artist === selectedArtist)}"></li>
+            <li artist="artist" ng-repeat="artist in artists | limitTo: artists.length track by artist.ID" ng-class="{selected: (artist === panel.selectedArtist)}"></li>
         </ul>
     </div>
-    <div ng-if="isAlbumsShown()" scroll-loader="albumRequest.fetch()" class="pane pane-mid">
+    <div ng-if="panel.isAlbumsShown()" scroll-loader="albumRequest.fetch()" class="pane pane-mid">
         <ul class="albums">
-            <li album="album" ng-repeat="album in albums | limitTo: albums.length track by album.ID" ng-class="{selected: (album === selectedAlbum)}"></li>
+            <li album="album" ng-repeat="album in albums | limitTo: albums.length track by album.ID" ng-class="{selected: (album === panel.selectedAlbum)}"></li>
         </ul>
     </div>
-    <div ng-mousedown="deselectTracks($event)" ng-if="isTracksShown()" scroll-loader="trackRequest.fetch()" class="pane pane-right">
+    <div ng-mousedown="panel.deselectTracks($event)" ng-if="panel.isTracksShown()" scroll-loader="trackRequest.fetch()" class="pane pane-right">
         <ul class="tracks">
-            <li track="track" track-area="trackArea" ng-repeat="track in tracks | limitTo: tracks.length track by track.ID"></li>
+            <li track="track" track-area="panel.trackArea" ng-repeat="track in tracks | limitTo: tracks.length track by track.ID"></li>
         </ul>
     </div>
 </div>

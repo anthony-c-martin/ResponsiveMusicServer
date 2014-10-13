@@ -26,7 +26,7 @@ describe('Controller: TrackController', function() {
         it('should emit a playTrack event and stop event propagation when the play function is called', function() {
             spyOn($scope, '$emit');
             var mockTrack = {};
-            $scope.track = mockTrack;
+            controller.track = mockTrack;
             var mockEvent = {
                 stopPropagation: function() {}
             };
@@ -45,7 +45,7 @@ describe('Controller: TrackController', function() {
         it('should emit an addTrack event and stop event propagation when the add function is called', function() {
             spyOn($scope, '$emit');
             var mockTrack = {};
-            $scope.track = mockTrack;
+            controller.track = mockTrack;
             var mockEvent = {
                 stopPropagation: function() {}
             };
@@ -63,7 +63,7 @@ describe('Controller: TrackController', function() {
         it('should emit an removeTrack event and stop event propagation when the remove function is called', function() {
             spyOn($scope, '$emit');
             var mockTrack = {};
-            $scope.track = mockTrack;
+            controller.track = mockTrack;
             var mockEvent = {
                 stopPropagation: function() {}
             };
@@ -81,7 +81,7 @@ describe('Controller: TrackController', function() {
         it('should call trackSelected on the trackArea when the select function is called', function() {
             spyOn($scope, '$emit');
             var mockTrack = {};
-            $scope.track = mockTrack;
+            controller.track = mockTrack;
             var mockEvent = {
                 stopPropagation: function() {},
                 shiftKey: true,
@@ -93,7 +93,7 @@ describe('Controller: TrackController', function() {
                 trackSelected: function() {}
             };
             spyOn(mockTrackArea, 'trackSelected');
-            $scope.trackArea = mockTrackArea;
+            controller.trackArea = mockTrackArea;
 
             controller.select(mockEvent);
 
@@ -105,12 +105,12 @@ describe('Controller: TrackController', function() {
         it('should do nothing when the select function is called if the trackArea is not set', function() {
             spyOn($scope, '$emit');
             var mockTrack = {};
-            $scope.track = mockTrack;
+            controller.track = mockTrack;
             var mockEvent = {
                 stopPropagation: function() {}
             };
             spyOn(mockEvent, 'stopPropagation');
-            $scope.trackArea = null;
+            controller.trackArea = null;
 
             controller.select(mockEvent);
 
