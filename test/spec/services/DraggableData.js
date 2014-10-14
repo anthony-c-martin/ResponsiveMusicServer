@@ -34,10 +34,8 @@ describe('Service: DraggableData', function() {
             itemListFunction = jasmine.createSpy('itemListFunction');
             itemSelectedFunction = jasmine.createSpy('itemSelectedFunction');
             $event = jasmine.createSpyObj('$event', ['preventDefault', 'stopPropagation']);
-            $event.originalEvent = {
-                dataTransfer: {
-                    setDragImage: jasmine.createSpy('setDragImage')
-                }
+            $event.dataTransfer = {
+                setDragImage: jasmine.createSpy('setDragImage')
             };
             $element = jasmine.createSpyObj('$element', ['on']);
         });
@@ -91,7 +89,7 @@ describe('Service: DraggableData', function() {
                 dragStartFunction('asdfuasdhui', $event);
 
                 expect(service.getDragElement).toHaveBeenCalledWith(3, 'asdfuasdhui');
-                expect($event.originalEvent.dataTransfer.setDragImage).toHaveBeenCalledWith(dragElement, -10, -10);
+                expect($event.dataTransfer.setDragImage).toHaveBeenCalledWith(dragElement, -10, -10);
             });
 
             it('should not call setDragImage on the dataTransfer object of the dragstart event if getDragElement is not set', function() {
@@ -100,7 +98,7 @@ describe('Service: DraggableData', function() {
 
                 dragStartFunction('asdf9usad98fh', $event);
 
-                expect($event.originalEvent.dataTransfer.setDragImage).not.toHaveBeenCalled();
+                expect($event.dataTransfer.setDragImage).not.toHaveBeenCalled();
             });
 
             it('should call setTracks if itemType is set to "Track"', function() {
