@@ -67,7 +67,7 @@ gulp.task('wiredep:serve', function() {
     return gulp.src([appConfig.app + '/index.html'])
         .pipe(wiredep({
             ignorePath: /\.\.\//,
-            exclude: [/es5-shim/, /json3/],
+            exclude: [/es5-shim/, /json3/, /jquery/],
             dependencies: true,
             devDependencies: true
         }))
