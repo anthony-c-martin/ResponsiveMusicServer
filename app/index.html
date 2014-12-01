@@ -1,9 +1,5 @@
 <!doctype html>
-<!-- build:dev({.tmp,dist,app}) -->
-<html ng-app="musicServerApp.dev">
-<!-- endbuild-->
-<html ng-app="musicServerApp">
-
+<html data-main-app>
 <head>
     <meta charset="utf-8">
     <title ng-bind="'MusicServer - ' + $root.title">MusicServer</title>
@@ -20,7 +16,7 @@
     <!-- endbuild -->
 </head>
 
-<body body-event-handler ng-controller="ApplicationController" ng-init="verifyLoggedIn()">
+<body body-event-handler ng-controller="ApplicationController">
     <div>
         <div navbar ng-if="loggedIn"></div>
         <div class="container">
@@ -42,18 +38,19 @@
     <script src="bower_components/matchmedia/matchMedia.js"></script>
     <script src="bower_components/matchmedia-ng/matchmedia-ng.js"></script>
     <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
-    <script src="bower_components/angular-mocks/angular-mocks.js"></script>
-    <script src="bower_components/angular-scenario/angular-scenario.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
-    <!-- build:dev({.tmp,dist,app}) -->
-    <script src="scripts/app.dev.js"></script>
+    <!-- build:remove -->
+    <script src="bower_components/angular-mocks/angular-mocks.js"></script>
+    <script src="bower_components/angular-scenario/angular-scenario.js"></script>
+    <script src="test/mock/api.js"></script>
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
-    <script src="scripts/app.js"></script>
-    <script src="scripts/app.views.js"></script>
+    <script src="scripts/init.js"></script>
+    <script src="scripts/app/main.js"></script>
+    <script src="scripts/app/views.js"></script>
     <script src="scripts/services/HttpRequest.js"></script>
     <script src="scripts/services/ApiRequest.js"></script>
     <script src="scripts/services/Playlist.js"></script>
@@ -89,5 +86,4 @@
     <script src="scripts/filters/groupByDisc.js"></script>
     <!-- endbuild -->
 </body>
-
 </html>

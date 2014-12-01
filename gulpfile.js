@@ -23,6 +23,7 @@ server.use(require('connect-livereload')({
 }));
 server.use(express.static('.tmp'));
 server.use('/bower_components', express.static('./bower_components'));
+server.use('/test', express.static('./test'));
 server.use(express.static(appConfig.app));
 
 function getErrorHandler(prefix) {
@@ -63,22 +64,11 @@ gulp.task('clean:dist', function() {
     ]);
 });
 
-gulp.task('wiredep:serve', function() {
+gulp.task('wiredep', function() {
     return gulp.src([appConfig.app + '/index.html'])
         .pipe(wiredep({
             ignorePath: /\.\.\//,
-            exclude: [/es5-shim/, /json3/, /jquery/],
-            dependencies: true,
-            devDependencies: true
-        }))
-        .pipe(gulp.dest(appConfig.app));
-});
-
-gulp.task('wiredep:dist', function() {
-    return gulp.src([appConfig.app + '/index.html'])
-        .pipe(wiredep({
-            ignorePath: /\.\.\//,
-            exclude: [/es5-shim/, /json3/],
+            exclude: [/es5-shim/, /json3/, /angular-mocks/, /angular-scenario/],
             dependencies: true,
             devDependencies: false
         }))
@@ -95,7 +85,7 @@ gulp.task('jshint:all', function() {
 });
 
 gulp.task('jshint:test', function() {
-    return gulp.src(['test/spec/{,*/}*.js'])
+    return gulp.src([appConfig.app + '/tests/spec/{,*/}*.js'])
         .pipe($.jshint())
         .pipe($.jshint.reporter(jshintStylish));
 });
@@ -105,7 +95,7 @@ gulp.task('usemin', function() {
         .pipe($.usemin({
             css: [$.minifyCss(), $.rev(), $.rename({suffix: '.min'})],
             js: [$.uglify(), $.rev(), $.rename({suffix: '.min'})],
-            outputRelativePath: '../dist/'
+            outputRelativePath: '../' + appConfig.dist + '/'
         }))
         .pipe(gulp.dest(appConfig.dist));
 });
@@ -127,8 +117,8 @@ gulp.task('html2js', function() {
             moduleName: 'musicServerApp.views',
             prefix: 'views/'
         }))
-        .pipe($.concat('app.views.js'))
-        .pipe(gulp.dest(appConfig.app + '/scripts'));
+        .pipe($.concat('views.js'))
+        .pipe(gulp.dest('.tmp/scripts/app'));
 });
 
 gulp.task('htmlmin', function() {
@@ -141,6 +131,7 @@ gulp.task('copy:dist', function() {
     return gulp.src([
         appConfig.app + '/*.{ico,png,txt}',
         appConfig.app + '/.htaccess',
+        appConfig.app + '/index.php',
         appConfig.app + '/*.html',
         appConfig.app + '/views/{,*/}*.html',
         appConfig.app + '/images/{,*/}*.{webp}',
@@ -188,7 +179,7 @@ gulp.task('sass', function() {
 });
 
 gulp.task('watch', function() {
-    gulp.watch('bower.json', ['wiredep:serve']);
+    gulp.watch('bower.json', ['wiredep']);
     gulp.watch(appConfig.app + '/scripts/{,*/}*.js', ['jshint:all']);
     gulp.watch('test/spec/{,*/}*.js', ['jshint:test', 'karma']);
     gulp.watch(appConfig.app + '/styles/{,*/}*.scss', ['sass']);
@@ -201,15 +192,15 @@ gulp.task('watch', function() {
 
 gulp.task('serve', function() {
     return runSequence(
-        ['clean:server', 'wiredep:serve'],
-        ['sass', 'html2js', 'express'],
+        ['clean:server', 'wiredep'],
+        ['sass', 'express'],
         'watch'
     );
 });
 
 gulp.task('build', function() {
     runSequence(
-        ['clean:dist', 'wiredep:dist'],
+        ['clean:dist', 'wiredep'],
         ['sass', 'copy:fontawesome', 'copy:bootstrap', 'copy:dist'],
         ['imagemin', 'htmlmin', 'html2js'],
         'usemin'

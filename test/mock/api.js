@@ -1,6 +1,10 @@
 'use strict';
 
-angular.module('musicServerApp.dev', ['musicServerApp', 'ngMockE2E'])
+angular.module('mock.api', ['musicServerApp', 'ngMockE2E'])
+    .run(['$httpBackend',
+        function($httpBackend) {
+            $httpBackend.whenGET(/^views\//).passThrough();
+        }])
     .run(['$httpBackend',
         function($httpBackend) {
             $httpBackend.whenPOST('/api').respond(function(method, url, jsonData) {
@@ -25,8 +29,6 @@ angular.module('musicServerApp.dev', ['musicServerApp', 'ngMockE2E'])
                 });
                 return [404, {}, {}];
             });
-
-            $httpBackend.whenGET(/^/).passThrough();
 
             var requests = {
                 GetTrackByID: function() {

@@ -73,4 +73,6 @@ angular.module('musicServerApp')
             $rootScope.$on('errorDisplay', function(e, errorMessage) {
                 $scope.errorMessage = errorMessage;
             });
+
+            $scope.verifyLoggedIn();
         }]);

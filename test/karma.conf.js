@@ -16,6 +16,15 @@ module.exports = function(config) {
     // testing framework to use (jasmine/mocha/qunit/...)
     frameworks: ['jasmine'],
 
+    preprocessors: {
+        'app/views/*.html': ['ng-html2js']
+    },
+
+    ngHtml2JsPreprocessor: {
+        stripPrefix: 'app/',
+        moduleName: 'musicServerApp.views'
+    },
+
     // list of files / patterns to load in the browser
     files: [
       'bower_components/jquery/dist/jquery.js',
@@ -30,6 +39,7 @@ module.exports = function(config) {
       'bower_components/matchmedia/matchMedia.js',
       'bower_components/matchmedia-ng/matchmedia-ng.js',
       'bower_components/js-md5/js/md5.js',
+      'app/views/*.html',
       'app/scripts/**/*.js',
       'test/mock/**/*.js',
       'test/spec/**/*.js'
@@ -56,7 +66,8 @@ module.exports = function(config) {
     // Which plugins to enable
     plugins: [
       'karma-phantomjs-launcher',
-      'karma-jasmine'
+      'karma-jasmine',
+      'karma-ng-html2js-preprocessor'
     ],
 
     // Continuous Integration mode
