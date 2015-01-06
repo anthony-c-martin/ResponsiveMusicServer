@@ -401,9 +401,14 @@ describe('Service: DraggableData', function() {
 
     describe('setArtists', function() {
         var submitFunction = jasmine.createSpy('submitFunction');
+        var boundFunction = jasmine.createSpy('boundFunction');
         beforeEach(function() {
             spyOn(ApiRequest.track, 'getFromArtist').and.callFake(function(id) {
                 return {
+                    bound: function(start, limit) {
+                        boundFunction(start, limit);
+                        return this;
+                    },
                     submit: function() {
                         return submitFunction(id);
                     }
@@ -473,9 +478,14 @@ describe('Service: DraggableData', function() {
 
     describe('setAlbums', function() {
         var submitFunction = jasmine.createSpy('submitFunction');
+        var boundFunction = jasmine.createSpy('boundFunction');
         beforeEach(function() {
             spyOn(ApiRequest.track, 'getFromAlbum').and.callFake(function(id) {
                 return {
+                    bound: function(start, limit) {
+                        boundFunction(start, limit);
+                        return this;
+                    },
                     submit: function() {
                         return submitFunction(id);
                     }

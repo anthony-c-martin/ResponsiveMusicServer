@@ -5,7 +5,7 @@ describe('Controller: MainController', function() {
     beforeEach(module('musicServerApp'));
     var artistGetAllOutput = {};
     var mockDataLoader = {
-        fetch: function() {}
+        fetch: function() {},
     };
 
     beforeEach(module('musicServerApp', function($provide) {
@@ -161,7 +161,7 @@ describe('Controller: MainController', function() {
     });
 
     it('should load albums by the given artist on the selectArtist event', function() {
-        DataLoader.reset();
+        DataLoader.calls.reset();
         var getFromArtistOutput = {};
         spyOn(ApiRequest.album, 'getFromArtist').and.returnValue(getFromArtistOutput);
         spyOn(mockDataLoader, 'fetch');
@@ -186,7 +186,7 @@ describe('Controller: MainController', function() {
     });
 
     it('should load tracks for the given album on the selectAlbum event', function() {
-        DataLoader.reset();
+        DataLoader.calls.reset();
         var getFromAlbumOutput = {};
         spyOn(ApiRequest.track, 'getFromAlbum').and.returnValue(getFromAlbumOutput);
         spyOn(mockDataLoader, 'fetch');

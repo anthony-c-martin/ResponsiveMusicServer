@@ -251,6 +251,9 @@ describe('Service: Playlist', function() {
             spyOn(service, 'addTracks');
             spyOn(ApiRequest.track, 'getFromAlbum').and.callFake(function() {
                 return {
+                    bound: function() {
+                        return this;
+                    },
                     submit: function() {
                         return $q.when(mockTracks);
                     }
@@ -276,6 +279,9 @@ describe('Service: Playlist', function() {
             spyOn(service, 'addTracks');
             spyOn(ApiRequest.track, 'getFromAlbum').and.callFake(function() {
                 return {
+                    bound: function() {
+                        return this;
+                    },
                     submit: function() {
                         return $q.when(mockTracks);
                     }
