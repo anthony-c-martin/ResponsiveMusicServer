@@ -35,7 +35,7 @@ describe('Controller: AlbumController', function() {
             controller.add(mockEvent);
 
             expect($scope.$emit).toHaveBeenCalledWith('addAlbum', mockAlbum);
-            expect($scope.$emit.callCount).toBe(1);
+            expect($scope.$emit.calls.count()).toBe(1);
             expect(mockEvent.stopPropagation).toHaveBeenCalled();
         });
     });
@@ -53,7 +53,7 @@ describe('Controller: AlbumController', function() {
             controller.play(mockEvent);
 
             expect($scope.$emit).toHaveBeenCalledWith('playAlbum', mockAlbum);
-            expect($scope.$emit.callCount).toBe(1);
+            expect($scope.$emit.calls.count()).toBe(1);
             expect(mockEvent.stopPropagation).toHaveBeenCalled();
 
         });
@@ -68,7 +68,7 @@ describe('Controller: AlbumController', function() {
             controller.select();
 
             expect($scope.$emit).toHaveBeenCalledWith('selectAlbum', mockAlbum);
-            expect($scope.$emit.callCount).toBe(1);
+            expect($scope.$emit.calls.count()).toBe(1);
         });
     });
 });

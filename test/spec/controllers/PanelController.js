@@ -15,7 +15,7 @@ describe('Controller: PanelController', function() {
         mockSelectableTracks = {};
 
         module('musicServerApp', function($provide) {
-            $provide.value('SelectableTracks', jasmine.createSpy('SelectableTracksSpy').andReturn(mockSelectableTracks));
+            $provide.value('SelectableTracks', jasmine.createSpy('SelectableTracksSpy').and.returnValue(mockSelectableTracks));
         });
 
         inject(function($injector) {
@@ -179,9 +179,9 @@ describe('Controller: PanelController', function() {
         controller.deselectTracks(mockEvent);
 
         expect(mockEvent.stopPropagation).toHaveBeenCalledWith();
-        expect(mockEvent.stopPropagation.callCount).toBe(1);
+        expect(mockEvent.stopPropagation.calls.count()).toBe(1);
         expect(mockTrackArea.clearSelection).toHaveBeenCalledWith();
-        expect(mockTrackArea.clearSelection.callCount).toBe(1);
+        expect(mockTrackArea.clearSelection.calls.count()).toBe(1);
     });
 
     it('should clear the selected album when deselectAlbum is called', function() {
@@ -226,7 +226,7 @@ describe('Controller: PanelController', function() {
 
     it('should create a new SelectableTracks object', function() {
         expect(SelectableTracks).toHaveBeenCalledWith();
-        expect(SelectableTracks.callCount).toBe(1);
+        expect(SelectableTracks.calls.count()).toBe(1);
 
         expect(controller.trackArea).toBe(mockSelectableTracks);
         expect(controller.trackArea.allTracks).toBe(mockTracks);

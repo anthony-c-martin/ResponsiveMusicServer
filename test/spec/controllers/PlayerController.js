@@ -46,7 +46,7 @@ describe('Controller: PlayerController', function() {
         $rootScope.$emit('StartPlaying');
 
         expect(controller.next).toHaveBeenCalledWith(true);
-        expect(controller.next.callCount).toBe(1);
+        expect(controller.next.calls.count()).toBe(1);
     });
 
     it('should update the position on the SetPosition event', function() {
@@ -84,44 +84,44 @@ describe('Controller: PlayerController', function() {
         controller.togglePause();
 
         expect(controller.next).toHaveBeenCalledWith(true);
-        expect(controller.next.callCount).toBe(1);
+        expect(controller.next.calls.count()).toBe(1);
     });
 
     it('should load the next track and start playing when scope.next is called with startPlaying set to true', function() {
-        spyOn(Playlist, 'getTrack').andCallThrough();
+        spyOn(Playlist, 'getTrack').and.callThrough();
         $scope.setPlaying = false;
 
         controller.next(true);
 
         expect(Playlist.getTrack).toHaveBeenCalledWith();
-        expect(Playlist.getTrack.callCount).toBe(1);
+        expect(Playlist.getTrack.calls.count()).toBe(1);
         $scope.$digest();
         expect($scope.track).toBe(mockTrack);
         expect($scope.setPlaying).toBeTruthy();
     });
 
     it('should load the next track and not change the playing state when scope.next is called with startPlaying set to false', function() {
-        spyOn(Playlist, 'getTrack').andCallThrough();
+        spyOn(Playlist, 'getTrack').and.callThrough();
         $scope.setPlaying = false;
 
         controller.next(false);
 
         expect(Playlist.getTrack).toHaveBeenCalledWith();
-        expect(Playlist.getTrack.callCount).toBe(1);
+        expect(Playlist.getTrack.calls.count()).toBe(1);
         $scope.$digest();
         expect($scope.track).toBe(mockTrack);
         expect($scope.setPlaying).toBeFalsy();
     });
 
     it('should reset the position if scope.next is called and there is no next track', function() {
-        spyOn(Playlist, 'getTrack').andReturn($q.reject());
+        spyOn(Playlist, 'getTrack').and.returnValue($q.reject());
         $scope.setPlaying = false;
         $scope.setPosition = 0.8;
 
         controller.next(true);
 
         expect(Playlist.getTrack).toHaveBeenCalledWith();
-        expect(Playlist.getTrack.callCount).toBe(1);
+        expect(Playlist.getTrack.calls.count()).toBe(1);
         $scope.$digest();
         expect($scope.setPosition).toBe(0);
     });

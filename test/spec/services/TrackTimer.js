@@ -17,12 +17,12 @@ describe('Factory: TrackTimer', function() {
             service = new Factory();
         });
 
-        spyOn(window, 'setInterval').andCallFake(function(timerTick) {
+        spyOn(window, 'setInterval').and.callFake(function(timerTick) {
             currentTimerTick = timerTick;
             currentTimer.active = true;
             return currentTimer;
         });
-        spyOn(window, 'clearInterval').andCallFake(function(timer) {
+        spyOn(window, 'clearInterval').and.callFake(function(timer) {
             currentTimerTick = undefined;
             if (timer) {
                 timer.active = false;

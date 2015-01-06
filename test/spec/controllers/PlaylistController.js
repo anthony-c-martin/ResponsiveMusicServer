@@ -20,7 +20,7 @@ describe('Controller: PlaylistController', function() {
             $q = $injector.get('$q');
             $rootScope = $injector.get('$rootScope');
             $scope = $rootScope.$new();
-            SelectableTracks = jasmine.createSpy('SelectableTracksSpy').andReturn(mockSelectableTracks);
+            SelectableTracks = jasmine.createSpy('SelectableTracksSpy').and.returnValue(mockSelectableTracks);
             Playlist = $injector.get('Playlist');
 
             var $controller = $injector.get('$controller');
@@ -35,7 +35,7 @@ describe('Controller: PlaylistController', function() {
 
     it('should create a new SelectableTracks object and set the allTracks array to the playlist trackArray', function() {
         expect(SelectableTracks).toHaveBeenCalledWith();
-        expect(SelectableTracks.callCount).toBe(1);
+        expect(SelectableTracks.calls.count()).toBe(1);
 
         expect($scope.playlistArea).toBe(mockSelectableTracks);
         expect($scope.playlistArea.allTracks).toBe(Playlist.trackArray);
@@ -52,7 +52,7 @@ describe('Controller: PlaylistController', function() {
         controller.removeTrack(mockTrack);
 
         expect(Playlist.removeTrack).toHaveBeenCalledWith(mockTrack);
-        expect(Playlist.removeTrack.callCount).toBe(1);
+        expect(Playlist.removeTrack.calls.count()).toBe(1);
     });
 
     it('should call Playlist.clear when removeAll is called', function() {
@@ -61,7 +61,7 @@ describe('Controller: PlaylistController', function() {
         controller.removeAll();
 
         expect(Playlist.clear).toHaveBeenCalledWith();
-        expect(Playlist.clear.callCount).toBe(1);
+        expect(Playlist.clear.calls.count()).toBe(1);
     });
 
     it('should call playlistArea.removeSelection when removeSelection is called', function() {
@@ -70,6 +70,6 @@ describe('Controller: PlaylistController', function() {
         controller.removeSelection();
 
         expect($scope.playlistArea.removeSelection).toHaveBeenCalledWith();
-        expect($scope.playlistArea.removeSelection.callCount).toBe(1);
+        expect($scope.playlistArea.removeSelection.calls.count()).toBe(1);
     });
 });

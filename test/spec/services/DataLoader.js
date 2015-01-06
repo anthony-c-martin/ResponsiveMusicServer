@@ -22,7 +22,7 @@ describe('Factory: DataLoader', function() {
             service = new Factory(mockRequest, loadedData, 3);
         });
 
-        spyOn(mockRequest, 'bound').andCallFake(function() {
+        spyOn(mockRequest, 'bound').and.callFake(function() {
             return mockRequest;
         });
         loadedData.length = 0;
@@ -31,7 +31,7 @@ describe('Factory: DataLoader', function() {
     describe('fetch', function() {
         it('should log a console warning if fetch is called and the request fails', function() {
             spyOn(console, 'warn');
-            spyOn(mockRequest, 'submit').andCallFake(function() {
+            spyOn(mockRequest, 'submit').and.callFake(function() {
                 return $q.reject('asdufadsgf78asgf8uihjo');
             });
 
@@ -43,7 +43,7 @@ describe('Factory: DataLoader', function() {
 
         it('should initiate a new request when fetch is called, and add the data to the given array', function() {
             var mockData = ['test1', 'test2', 'test3'];
-            spyOn(mockRequest, 'submit').andCallFake(function() {
+            spyOn(mockRequest, 'submit').and.callFake(function() {
                 return $q.when(mockData);
             });
 
@@ -56,7 +56,7 @@ describe('Factory: DataLoader', function() {
 
         it('should initiate a second request when fetch is called again, and append the data to the array', function() {
             var mockData = ['test1', 'test2', 'test3'];
-            spyOn(mockRequest, 'submit').andCallFake(function() {
+            spyOn(mockRequest, 'submit').and.callFake(function() {
                 return $q.when(mockData);
             });
 
@@ -72,7 +72,7 @@ describe('Factory: DataLoader', function() {
 
         it('should not submit a new request if no data is returned in the previous call', function() {
             var mockData = [];
-            spyOn(mockRequest, 'submit').andCallFake(function() {
+            spyOn(mockRequest, 'submit').and.callFake(function() {
                 return $q.when(mockData);
             });
 
@@ -81,11 +81,11 @@ describe('Factory: DataLoader', function() {
             service.fetch();
             $rootScope.$digest();
 
-            expect(mockRequest.submit.callCount).toBe(1);
+            expect(mockRequest.submit.calls.count()).toBe(1);
         });
 
         it('should not submit a new request if another request is still in progress', function() {
-            spyOn(mockRequest, 'submit').andCallFake(function() {
+            spyOn(mockRequest, 'submit').and.callFake(function() {
                 return $q.defer().promise;
             });
 
@@ -94,7 +94,7 @@ describe('Factory: DataLoader', function() {
             service.fetch();
             $rootScope.$digest();
 
-            expect(mockRequest.submit.callCount).toBe(1);
+            expect(mockRequest.submit.calls.count()).toBe(1);
         });
     });
 });

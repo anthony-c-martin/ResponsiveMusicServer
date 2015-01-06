@@ -81,7 +81,7 @@ describe('Service: Playlist', function() {
                 ID: 16437,
                 Name: 'asduasg087asdfiusdabfjds'
             };
-            spyOn(ApiRequest.track, 'convert').andCallFake(function() {
+            spyOn(ApiRequest.track, 'convert').and.callFake(function() {
                 return {
                     submit: function() {
                         return $q.when({
@@ -108,7 +108,7 @@ describe('Service: Playlist', function() {
                 Name: 'asdf9a8sgf98asdfh9saphoij'
             };
             spyOn(console, 'warn');
-            spyOn(ApiRequest.track, 'convert').andCallFake(function() {
+            spyOn(ApiRequest.track, 'convert').and.callFake(function() {
                 return {
                     submit: function() {
                         return $q.reject('asdofuasdf9gsadfubsadiyfugho');
@@ -131,7 +131,7 @@ describe('Service: Playlist', function() {
                 ID: 16437,
                 Name: 'asduasg087asdfiusdabfjds'
             };
-            spyOn(ApiRequest.track, 'convert').andCallFake(function() {
+            spyOn(ApiRequest.track, 'convert').and.callFake(function() {
                 return {
                     submit: function() {
                         return $q.defer().promise;
@@ -146,7 +146,7 @@ describe('Service: Playlist', function() {
             service.addTrack(newTrack);
             $rootScope.$digest();
 
-            expect(ApiRequest.track.convert.callCount).toBe(1);
+            expect(ApiRequest.track.convert.calls.count()).toBe(1);
         });
     });
 
@@ -170,7 +170,7 @@ describe('Service: Playlist', function() {
             expect(service.addTrack).toHaveBeenCalledWith(mockTracks[1], 1);
             expect(service.addTrack).toHaveBeenCalledWith(mockTracks[2], 2);
             expect(service.addTrack).toHaveBeenCalledWith(mockTracks[3], 3);
-            expect(service.addTrack.callCount).toBe(4);
+            expect(service.addTrack.calls.count()).toBe(4);
         });
 
         it('should add the tracks after a given track in the array', function() {
@@ -192,7 +192,7 @@ describe('Service: Playlist', function() {
             expect(service.addTrack).toHaveBeenCalledWith(mockTracks[1], 2);
             expect(service.addTrack).toHaveBeenCalledWith(mockTracks[2], 3);
             expect(service.addTrack).toHaveBeenCalledWith(mockTracks[3], 4);
-            expect(service.addTrack.callCount).toBe(4);
+            expect(service.addTrack.calls.count()).toBe(4);
         });
 
         it('should add the tracks before a given track in the array', function() {
@@ -214,7 +214,7 @@ describe('Service: Playlist', function() {
             expect(service.addTrack).toHaveBeenCalledWith(mockTracks[1], 2);
             expect(service.addTrack).toHaveBeenCalledWith(mockTracks[2], 3);
             expect(service.addTrack).toHaveBeenCalledWith(mockTracks[3], 4);
-            expect(service.addTrack.callCount).toBe(4);
+            expect(service.addTrack.calls.count()).toBe(4);
         });
 
         it('should add the tracks at the end if an unknown relativeTrack is specified', function() {
@@ -236,7 +236,7 @@ describe('Service: Playlist', function() {
             expect(service.addTrack).toHaveBeenCalledWith(mockTracks[1], 3);
             expect(service.addTrack).toHaveBeenCalledWith(mockTracks[2], 4);
             expect(service.addTrack).toHaveBeenCalledWith(mockTracks[3], 5);
-            expect(service.addTrack.callCount).toBe(4);
+            expect(service.addTrack.calls.count()).toBe(4);
         });
     });
 
@@ -249,7 +249,7 @@ describe('Service: Playlist', function() {
                 Name: 'Track 2'
             }];
             spyOn(service, 'addTracks');
-            spyOn(ApiRequest.track, 'getFromAlbum').andCallFake(function() {
+            spyOn(ApiRequest.track, 'getFromAlbum').and.callFake(function() {
                 return {
                     submit: function() {
                         return $q.when(mockTracks);
@@ -274,7 +274,7 @@ describe('Service: Playlist', function() {
                 Name: 'Track 2'
             }];
             spyOn(service, 'addTracks');
-            spyOn(ApiRequest.track, 'getFromAlbum').andCallFake(function() {
+            spyOn(ApiRequest.track, 'getFromAlbum').and.callFake(function() {
                 return {
                     submit: function() {
                         return $q.when(mockTracks);
@@ -304,7 +304,7 @@ describe('Service: Playlist', function() {
         it('should return the first track in the array, and return a promsise containing it', function() {
             var successTest = jasmine.createSpy('successTest');
             spyOn(window, 'setTimeout');
-            spyOn(ApiRequest.track, 'convert').andCallFake(function() {
+            spyOn(ApiRequest.track, 'convert').and.callFake(function() {
                 return {
                     submit: function() {
                         return $q.when({
@@ -324,7 +324,7 @@ describe('Service: Playlist', function() {
             $rootScope.$digest();
 
             expect(successTest).toHaveBeenCalled();
-            expect(successTest.mostRecentCall.args[0]).toEqual({
+            expect(successTest.calls.mostRecent().args[0]).toEqual({
                 ID: 12358,
                 FileName: 'asdfysa8fyvs8fh89'
             });
@@ -336,7 +336,7 @@ describe('Service: Playlist', function() {
         it('should schedule the next track in the array to start converting in 5s time', function() {
             var successTest = jasmine.createSpy('successTest');
             spyOn(window, 'setTimeout');
-            spyOn(ApiRequest.track, 'convert').andCallFake(function(id) {
+            spyOn(ApiRequest.track, 'convert').and.callFake(function(id) {
                 return {
                     submit: function() {
                         if (id === 37578) {
@@ -359,9 +359,9 @@ describe('Service: Playlist', function() {
             $rootScope.$digest();
 
             expect(window.setTimeout).toHaveBeenCalled();
-            expect(window.setTimeout.callCount).toBe(1);
-            expect(window.setTimeout.mostRecentCall.args[1]).toBe(5000);
-            window.setTimeout.mostRecentCall.args[0]();
+            expect(window.setTimeout.calls.count()).toBe(1);
+            expect(window.setTimeout.calls.mostRecent().args[1]).toBe(5000);
+            window.setTimeout.calls.mostRecent().args[0]();
             $rootScope.$digest();
             expect(service.trackArray).toEqual([{
                 ID: 37578,

@@ -78,7 +78,7 @@ describe('Factory: HttpRequest', function() {
                 Signature: '7c3b450e3d5e6c8ec3f89384d9666882'
             });
             expect($rootScope.$emit).toHaveBeenCalledWith('ResponseUnauthorised');
-            expect($rootScope.$emit.callCount).toBe(1);
+            expect($rootScope.$emit.calls.count()).toBe(1);
         });
     });
 

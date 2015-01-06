@@ -59,7 +59,7 @@ angular.module('musicServerApp')
                 addTracksByAlbum: function(albumId) {
                     var deferred = $q.defer();
                     var _this = this;
-                    ApiRequest.track.getFromAlbum(albumId).submit().then(function(tracks) {
+                    ApiRequest.track.getFromAlbum(albumId).bound(0, 1000).submit().then(function(tracks) {
                         _this.addTracks(tracks);
                         deferred.resolve();
                     }, function() {
@@ -70,7 +70,7 @@ angular.module('musicServerApp')
                 addTracksByArtist: function(artistId) {
                     var deferred = $q.defer();
                     var _this = this;
-                    ApiRequest.track.getFromArtist(artistId).submit().then(function(tracks) {
+                    ApiRequest.track.getFromArtist(artistId).bound(0, 1000).submit().then(function(tracks) {
                         _this.addTracks(tracks);
                         deferred.resolve();
                     }, function() {

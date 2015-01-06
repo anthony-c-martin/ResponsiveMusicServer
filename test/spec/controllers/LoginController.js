@@ -33,9 +33,9 @@ describe('Controller: LoginController', function() {
 
             LoginController.loginFailed('asdiabsiusavfusyavfuysd');
             expect(console.warn).toHaveBeenCalledWith('asdiabsiusavfusyavfuysd');
-            expect(console.warn.callCount).toBe(1);
+            expect(console.warn.calls.count()).toBe(1);
             expect($rootScope.$emit).toHaveBeenCalledWith('errorDisplay', 'Login attempt failed. Please try again.');
-            expect($rootScope.$emit.callCount).toBe(1);
+            expect($rootScope.$emit.calls.count()).toBe(1);
         });
     });
 
@@ -50,7 +50,7 @@ describe('Controller: LoginController', function() {
 
     describe('$scope.login', function() {
         it('should call loginFailed if the getToken request fails', function() {
-            spyOn(ApiRequest.session, 'getToken').andReturn({
+            spyOn(ApiRequest.session, 'getToken').and.returnValue({
                 submit: function() {
                     return $q.reject();
                 }
@@ -61,18 +61,18 @@ describe('Controller: LoginController', function() {
             $scope.$digest();
 
             expect(LoginController.loginFailed).toHaveBeenCalledWith();
-            expect(LoginController.loginFailed.callCount).toBe(1);
+            expect(LoginController.loginFailed.calls.count()).toBe(1);
         });
 
         it('should call loginFailed if the getSession request fails', function() {
-            spyOn(ApiRequest.session, 'getToken').andReturn({
+            spyOn(ApiRequest.session, 'getToken').and.returnValue({
                 submit: function() {
                     return $q.when({
                         Token: 'asdonasifdsf'
                     });
                 }
             });
-            spyOn(ApiRequest.session, 'getSession').andReturn({
+            spyOn(ApiRequest.session, 'getSession').and.returnValue({
                 submit: function() {
                     return $q.reject();
                 }
@@ -83,18 +83,18 @@ describe('Controller: LoginController', function() {
             $scope.$digest();
 
             expect(LoginController.loginFailed).toHaveBeenCalledWith();
-            expect(LoginController.loginFailed.callCount).toBe(1);
+            expect(LoginController.loginFailed.calls.count()).toBe(1);
         });
 
         it('should emit a loginSuccess event when the login request succeeds', function() {
-            spyOn(ApiRequest.session, 'getToken').andReturn({
+            spyOn(ApiRequest.session, 'getToken').and.returnValue({
                 submit: function() {
                     return $q.when({
                         Token: 'myToksdd09hen'
                     });
                 }
             });
-            spyOn(ApiRequest.session, 'getSession').andReturn({
+            spyOn(ApiRequest.session, 'getSession').and.returnValue({
                 submit: function() {
                     return $q.when({
                         Session: 'asdouas8gs9f9',
@@ -113,16 +113,16 @@ describe('Controller: LoginController', function() {
             $scope.$digest();
 
             expect(ApiRequest.session.getToken).toHaveBeenCalledWith();
-            expect(ApiRequest.session.getToken.callCount).toBe(1);
+            expect(ApiRequest.session.getToken.calls.count()).toBe(1);
             expect(ApiRequest.session.getSession).toHaveBeenCalledWith('myToksdd09hen', 'd77d1465d59a51b60d9ec1e79a58c921');
-            expect(ApiRequest.session.getSession.callCount).toBe(1);
+            expect(ApiRequest.session.getSession.calls.count()).toBe(1);
 
             expect($scope.$emit).toHaveBeenCalled();
-            expect($scope.$emit.callCount).toBe(1);
-            expect($scope.$emit.mostRecentCall.args.length).toBe(2);
-            expect($scope.$emit.mostRecentCall.args[0]).toBe('loginSuccess');
-            expect($scope.$emit.mostRecentCall.args[1].Key).toBe('asdouas8gs9f9');
-            expect($scope.$emit.mostRecentCall.args[1].Secret).toBe('asdgbsa87gs98hfj');
+            expect($scope.$emit.calls.count()).toBe(1);
+            expect($scope.$emit.calls.mostRecent().args.length).toBe(2);
+            expect($scope.$emit.calls.mostRecent().args[0]).toBe('loginSuccess');
+            expect($scope.$emit.calls.mostRecent().args[1].Key).toBe('asdouas8gs9f9');
+            expect($scope.$emit.calls.mostRecent().args[1].Secret).toBe('asdgbsa87gs98hfj');
         });
     });
 

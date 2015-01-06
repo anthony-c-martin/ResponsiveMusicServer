@@ -35,7 +35,7 @@ describe('Controller: TrackController', function() {
             controller.play(mockEvent);
 
             expect($scope.$emit).toHaveBeenCalledWith('playTrack', mockTrack);
-            expect($scope.$emit.callCount).toBe(1);
+            expect($scope.$emit.calls.count()).toBe(1);
             expect(mockEvent.stopPropagation).toHaveBeenCalled();
 
         });
@@ -54,7 +54,7 @@ describe('Controller: TrackController', function() {
             controller.add(mockEvent);
 
             expect($scope.$emit).toHaveBeenCalledWith('addTrack', mockTrack);
-            expect($scope.$emit.callCount).toBe(1);
+            expect($scope.$emit.calls.count()).toBe(1);
             expect(mockEvent.stopPropagation).toHaveBeenCalled();
         });
     });
@@ -72,7 +72,7 @@ describe('Controller: TrackController', function() {
             controller.remove(mockEvent);
 
             expect($scope.$emit).toHaveBeenCalledWith('removeTrack', mockTrack);
-            expect($scope.$emit.callCount).toBe(1);
+            expect($scope.$emit.calls.count()).toBe(1);
             expect(mockEvent.stopPropagation).toHaveBeenCalled();
         });
     });
@@ -99,7 +99,7 @@ describe('Controller: TrackController', function() {
 
             expect(mockEvent.stopPropagation).toHaveBeenCalled();
             expect(mockTrackArea.trackSelected).toHaveBeenCalledWith(mockTrack, true, true);
-            expect(mockTrackArea.trackSelected.callCount).toBe(1);
+            expect(mockTrackArea.trackSelected.calls.count()).toBe(1);
         });
 
         it('should do nothing when the select function is called if the trackArea is not set', function() {

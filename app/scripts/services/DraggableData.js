@@ -20,7 +20,7 @@ angular.module('musicServerApp')
             this.setArtists = function(artists) {
                 var promises = [];
                 angular.forEach(artists, function(artist) {
-                    promises.push(ApiRequest.track.getFromArtist(artist.ID).submit());
+                    promises.push(ApiRequest.track.getFromArtist(artist.ID).bound(0, 1000).submit());
                 });
 
                 currentDeferred = $q.defer();
@@ -38,7 +38,7 @@ angular.module('musicServerApp')
             this.setAlbums = function(albums) {
                 var promises = [];
                 angular.forEach(albums, function(album) {
-                    promises.push(ApiRequest.track.getFromAlbum(album.ID).submit());
+                    promises.push(ApiRequest.track.getFromAlbum(album.ID).bound(0, 1000).submit());
                 });
 
                 currentDeferred = $q.defer();

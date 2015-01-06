@@ -31,7 +31,7 @@ describe('Controller: SearchController', function() {
         $scope.searchText = 'sf9ga8fd78G';
         $scope.redirectToResults('artists');
 
-        expect($scope.$emit.callCount).toBe(1);
+        expect($scope.$emit.calls.count()).toBe(1);
         expect($scope.$emit).toHaveBeenCalledWith('changeLocation', '/artists/s/sf9ga8fd78G');
     });
 
@@ -41,7 +41,7 @@ describe('Controller: SearchController', function() {
         $scope.searchText = 'asdgsaldndsgjib';
         $scope.redirectToResults('albums');
 
-        expect($scope.$emit.callCount).toBe(1);
+        expect($scope.$emit.calls.count()).toBe(1);
         expect($scope.$emit).toHaveBeenCalledWith('changeLocation', '/albums/s/asdgsaldndsgjib');
     });
 
@@ -51,7 +51,7 @@ describe('Controller: SearchController', function() {
         $scope.searchText = 'asdgasgasege3r23';
         $scope.redirectToResults('tracks');
 
-        expect($scope.$emit.callCount).toBe(1);
+        expect($scope.$emit.calls.count()).toBe(1);
         expect($scope.$emit).toHaveBeenCalledWith('changeLocation', '/tracks/s/asdgasgasege3r23');
     });
 
@@ -60,13 +60,13 @@ describe('Controller: SearchController', function() {
         var mockAlbums = {};
         var mockTracks = {};
 
-        spyOn(ApiRequest.artist, 'search').andCallFake(function() {
+        spyOn(ApiRequest.artist, 'search').and.callFake(function() {
             return mockApiSearchResponse(mockArtists, false);
         });
-        spyOn(ApiRequest.album, 'search').andCallFake(function() {
+        spyOn(ApiRequest.album, 'search').and.callFake(function() {
             return mockApiSearchResponse(mockAlbums, false);
         });
-        spyOn(ApiRequest.track, 'search').andCallFake(function() {
+        spyOn(ApiRequest.track, 'search').and.callFake(function() {
             return mockApiSearchResponse(mockTracks, false);
         });
 
@@ -82,11 +82,11 @@ describe('Controller: SearchController', function() {
         expect($scope.searchResults.albums.length).toBe(0);
         expect($scope.searchResults.tracks.length).toBe(0);
 
-        expect(ApiRequest.artist.search.callCount).toBe(1);
+        expect(ApiRequest.artist.search.calls.count()).toBe(1);
         expect(ApiRequest.artist.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
-        expect(ApiRequest.album.search.callCount).toBe(1);
+        expect(ApiRequest.album.search.calls.count()).toBe(1);
         expect(ApiRequest.album.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
-        expect(ApiRequest.track.search.callCount).toBe(1);
+        expect(ApiRequest.track.search.calls.count()).toBe(1);
         expect(ApiRequest.track.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
 
         $scope.$digest();
@@ -99,13 +99,13 @@ describe('Controller: SearchController', function() {
     });
 
     it('should cancel the search when  search is called and the backend artist search responds with a failure', function() {
-        spyOn(ApiRequest.artist, 'search').andCallFake(function() {
+        spyOn(ApiRequest.artist, 'search').and.callFake(function() {
             return mockApiSearchResponse({}, true);
         });
-        spyOn(ApiRequest.album, 'search').andCallFake(function() {
+        spyOn(ApiRequest.album, 'search').and.callFake(function() {
             return mockApiSearchResponse({}, false);
         });
-        spyOn(ApiRequest.track, 'search').andCallFake(function() {
+        spyOn(ApiRequest.track, 'search').and.callFake(function() {
             return mockApiSearchResponse({}, false);
         });
         $scope.searchText = 'oaiuOUIFabsu89y8t';
@@ -120,7 +120,7 @@ describe('Controller: SearchController', function() {
         expect($scope.searchResults.albums.length).toBe(0);
         expect($scope.searchResults.tracks.length).toBe(0);
 
-        expect(ApiRequest.artist.search.callCount).toBe(1);
+        expect(ApiRequest.artist.search.calls.count()).toBe(1);
         expect(ApiRequest.artist.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
 
         $scope.$digest();
@@ -130,13 +130,13 @@ describe('Controller: SearchController', function() {
     });
 
     it('should cancel the search when  search is called and the backend album search responds with a failure', function() {
-        spyOn(ApiRequest.artist, 'search').andCallFake(function() {
+        spyOn(ApiRequest.artist, 'search').and.callFake(function() {
             return mockApiSearchResponse({}, false);
         });
-        spyOn(ApiRequest.album, 'search').andCallFake(function() {
+        spyOn(ApiRequest.album, 'search').and.callFake(function() {
             return mockApiSearchResponse({}, true);
         });
-        spyOn(ApiRequest.track, 'search').andCallFake(function() {
+        spyOn(ApiRequest.track, 'search').and.callFake(function() {
             return mockApiSearchResponse({}, false);
         });
         $scope.searchText = 'oaiuOUIFabsu89y8t';
@@ -151,7 +151,7 @@ describe('Controller: SearchController', function() {
         expect($scope.searchResults.albums.length).toBe(0);
         expect($scope.searchResults.tracks.length).toBe(0);
 
-        expect(ApiRequest.artist.search.callCount).toBe(1);
+        expect(ApiRequest.artist.search.calls.count()).toBe(1);
         expect(ApiRequest.artist.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
 
         $scope.$digest();
@@ -161,13 +161,13 @@ describe('Controller: SearchController', function() {
     });
 
     it('should cancel the search when  search is called and the backend track search responds with a failure', function() {
-        spyOn(ApiRequest.artist, 'search').andCallFake(function() {
+        spyOn(ApiRequest.artist, 'search').and.callFake(function() {
             return mockApiSearchResponse({}, false);
         });
-        spyOn(ApiRequest.album, 'search').andCallFake(function() {
+        spyOn(ApiRequest.album, 'search').and.callFake(function() {
             return mockApiSearchResponse({}, false);
         });
-        spyOn(ApiRequest.track, 'search').andCallFake(function() {
+        spyOn(ApiRequest.track, 'search').and.callFake(function() {
             return mockApiSearchResponse({}, true);
         });
         $scope.searchText = 'oaiuOUIFabsu89y8t';
@@ -182,7 +182,7 @@ describe('Controller: SearchController', function() {
         expect($scope.searchResults.albums.length).toBe(0);
         expect($scope.searchResults.tracks.length).toBe(0);
 
-        expect(ApiRequest.artist.search.callCount).toBe(1);
+        expect(ApiRequest.artist.search.calls.count()).toBe(1);
         expect(ApiRequest.artist.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
 
         $scope.$digest();

@@ -42,12 +42,12 @@ describe('Service: DraggableData', function() {
 
         function dragStartFunction(type, $event) {
             service.bindDragEvents($element, {}, type, itemListFunction, itemSelectedFunction);
-            return $element.on.argsForCall[0][1]($event);
+            return $element.on.calls.argsFor(0)[1]($event);
         }
 
         function dragEndFunction(type, $event) {
             service.bindDragEvents($element, {}, type, itemListFunction, itemSelectedFunction);
-            return $element.on.argsForCall[1][1]($event);
+            return $element.on.calls.argsFor(1)[1]($event);
         }
 
         describe('dragstart', function() {
@@ -55,13 +55,13 @@ describe('Service: DraggableData', function() {
                 service.bindDragEvents($element, {}, 'asdf87sg87gui', itemListFunction, itemSelectedFunction);
 
                 expect($element.on).toHaveBeenCalled();
-                expect($element.on.callCount).toBe(2);
+                expect($element.on.calls.count()).toBe(2);
 
-                expect($element.on.argsForCall[0][0]).toBe('dragstart');
+                expect($element.on.calls.argsFor(0)[0]).toBe('dragstart');
             });
 
             it('should call preventDefault and stopPropagation on the event if the itemSelectedFunction returns false', function() {
-                itemSelectedFunction.andReturn(false);
+                itemSelectedFunction.and.returnValue(false);
 
                 dragStartFunction('asdfgas87fg', $event);
 
@@ -70,8 +70,8 @@ describe('Service: DraggableData', function() {
             });
 
             it('should not call preventDefault and stopPropagation if the itemSelectedFunction doesnt return false', function() {
-                itemSelectedFunction.andReturn(true);
-                itemListFunction.andReturn([]);
+                itemSelectedFunction.and.returnValue(true);
+                itemListFunction.and.returnValue([]);
 
                 dragStartFunction('asdfgas87fg', $event);
 
@@ -82,9 +82,9 @@ describe('Service: DraggableData', function() {
             it('should call setDragImage on the dataTransfer object of the dragstart event if getDragElement is set', function() {
                 var mockData = [{}, {}, {}];
                 var dragElement = {};
-                itemSelectedFunction.andReturn(true);
-                itemListFunction.andReturn(mockData);
-                service.getDragElement = jasmine.createSpy('getDragElement').andReturn(dragElement);
+                itemSelectedFunction.and.returnValue(true);
+                itemListFunction.and.returnValue(mockData);
+                service.getDragElement = jasmine.createSpy('getDragElement').and.returnValue(dragElement);
 
                 dragStartFunction('asdfuasdhui', $event);
 
@@ -93,8 +93,8 @@ describe('Service: DraggableData', function() {
             });
 
             it('should not call setDragImage on the dataTransfer object of the dragstart event if getDragElement is not set', function() {
-                itemSelectedFunction.andReturn(true);
-                itemListFunction.andReturn([]);
+                itemSelectedFunction.and.returnValue(true);
+                itemListFunction.and.returnValue([]);
 
                 dragStartFunction('asdf9usad98fh', $event);
 
@@ -103,8 +103,8 @@ describe('Service: DraggableData', function() {
 
             it('should call setTracks if itemType is set to "Track"', function() {
                 var mockData = [];
-                itemSelectedFunction.andReturn(true);
-                itemListFunction.andReturn(mockData);
+                itemSelectedFunction.and.returnValue(true);
+                itemListFunction.and.returnValue(mockData);
                 spyOn(service, 'setTracks');
 
                 dragStartFunction('Track', $event);
@@ -114,8 +114,8 @@ describe('Service: DraggableData', function() {
 
             it('should call setArtists if itemType is set to "Track"', function() {
                 var mockData = [];
-                itemSelectedFunction.andReturn(true);
-                itemListFunction.andReturn(mockData);
+                itemSelectedFunction.and.returnValue(true);
+                itemListFunction.and.returnValue(mockData);
                 spyOn(service, 'setArtists');
 
                 dragStartFunction('Artist', $event);
@@ -125,8 +125,8 @@ describe('Service: DraggableData', function() {
 
             it('should call setAlbums if itemType is set to "Track"', function() {
                 var mockData = [];
-                itemSelectedFunction.andReturn(true);
-                itemListFunction.andReturn(mockData);
+                itemSelectedFunction.and.returnValue(true);
+                itemListFunction.and.returnValue(mockData);
                 spyOn(service, 'setAlbums');
 
                 dragStartFunction('Album', $event);
@@ -147,9 +147,9 @@ describe('Service: DraggableData', function() {
                 service.bindDragEvents($element, {}, 'asdf87sg87gui', itemListFunction, itemSelectedFunction);
 
                 expect($element.on).toHaveBeenCalled();
-                expect($element.on.callCount).toBe(2);
+                expect($element.on.calls.count()).toBe(2);
 
-                expect($element.on.argsForCall[1][0]).toBe('dragend');
+                expect($element.on.calls.argsFor(1)[0]).toBe('dragend');
             });
 
             it('should not error if currentHoverScope is not set', function() {
@@ -183,12 +183,12 @@ describe('Service: DraggableData', function() {
 
         function dragOverFunction($event) {
             service.bindPlaylistDropEvents($element, scope);
-            return $element.on.argsForCall[0][1]($event);
+            return $element.on.calls.argsFor(0)[1]($event);
         }
 
         function dropFunction($event) {
             service.bindPlaylistDropEvents($element, scope);
-            return $element.on.argsForCall[1][1]($event);
+            return $element.on.calls.argsFor(1)[1]($event);
         }
 
         describe('dragover', function() {
@@ -196,9 +196,9 @@ describe('Service: DraggableData', function() {
                 service.bindPlaylistDropEvents($element, scope);
 
                 expect($element.on).toHaveBeenCalled();
-                expect($element.on.callCount).toBe(2);
+                expect($element.on.calls.count()).toBe(2);
 
-                expect($element.on.argsForCall[0][0]).toBe('dragover');
+                expect($element.on.calls.argsFor(0)[0]).toBe('dragover');
             });
 
             it('should call preventDefault and stopPropagation on the event', function() {
@@ -214,9 +214,9 @@ describe('Service: DraggableData', function() {
                 service.bindPlaylistDropEvents($element, scope);
 
                 expect($element.on).toHaveBeenCalled();
-                expect($element.on.callCount).toBe(2);
+                expect($element.on.calls.count()).toBe(2);
 
-                expect($element.on.argsForCall[1][0]).toBe('drop');
+                expect($element.on.calls.argsFor(1)[0]).toBe('drop');
             });
 
             it('should call preventDefault and stopPropagation on the event', function() {
@@ -257,12 +257,12 @@ describe('Service: DraggableData', function() {
 
         function dragOverFunction($event) {
             service.bindTrackDropEvents($element, scope);
-            return $element.on.argsForCall[0][1]($event);
+            return $element.on.calls.argsFor(0)[1]($event);
         }
 
         function dropFunction($event) {
             service.bindTrackDropEvents($element, scope);
-            return $element.on.argsForCall[1][1]($event);
+            return $element.on.calls.argsFor(1)[1]($event);
         }
 
         describe('dragover', function() {
@@ -274,9 +274,9 @@ describe('Service: DraggableData', function() {
                 service.bindTrackDropEvents($element, scope);
 
                 expect($element.on).toHaveBeenCalled();
-                expect($element.on.callCount).toBe(2);
+                expect($element.on.calls.count()).toBe(2);
 
-                expect($element.on.argsForCall[0][0]).toBe('dragover');
+                expect($element.on.calls.argsFor(0)[0]).toBe('dragover');
             });
 
             it('should call preventDefault and stopPropagation on the event', function() {
@@ -298,7 +298,7 @@ describe('Service: DraggableData', function() {
             });
 
             it('should set dragoverPre if the y offset of the event is less than half the height of the element', function() {
-                $element.height.andReturn(123);
+                $element.height.and.returnValue(123);
                 $event.originalEvent.offsetY = 50;
 
                 dragOverFunction($event);
@@ -309,7 +309,7 @@ describe('Service: DraggableData', function() {
             });
 
             it('should set dragoverPost if the y offset of the event is more than half the height of the element', function() {
-                $element.height.andReturn(156);
+                $element.height.and.returnValue(156);
                 $event.originalEvent.offsetY = 94;
 
                 dragOverFunction($event);
@@ -320,7 +320,7 @@ describe('Service: DraggableData', function() {
             });
 
             it('should not call apply on the scope if the values of dragoverPre and dragoverPost are unchanged', function() {
-                $element.height.andReturn(156);
+                $element.height.and.returnValue(156);
                 $event.originalEvent.offsetY = 94;
                 scope.dragoverPost = true;
                 scope.dragoverPre = false;
@@ -342,9 +342,9 @@ describe('Service: DraggableData', function() {
                 service.bindTrackDropEvents($element, scope);
 
                 expect($element.on).toHaveBeenCalled();
-                expect($element.on.callCount).toBe(2);
+                expect($element.on.calls.count()).toBe(2);
 
-                expect($element.on.argsForCall[1][0]).toBe('drop');
+                expect($element.on.calls.argsFor(1)[0]).toBe('drop');
             });
 
             it('should call preventDefault and stopPropagation on the event', function() {
@@ -402,7 +402,7 @@ describe('Service: DraggableData', function() {
     describe('setArtists', function() {
         var submitFunction = jasmine.createSpy('submitFunction');
         beforeEach(function() {
-            spyOn(ApiRequest.track, 'getFromArtist').andCallFake(function(id) {
+            spyOn(ApiRequest.track, 'getFromArtist').and.callFake(function(id) {
                 return {
                     submit: function() {
                         return submitFunction(id);
@@ -412,7 +412,7 @@ describe('Service: DraggableData', function() {
         });
 
         it('should call ApiRequest.track.getFromArtist for each artist passed in', function() {
-            submitFunction.andCallFake(function(id) {
+            submitFunction.and.callFake(function(id) {
                 return $q.when([{
                     ID: id + 4
                 }, {
@@ -434,7 +434,7 @@ describe('Service: DraggableData', function() {
 
         it('should not allow getTracks to return tracks until all ApiRequests have been completed', function() {
             var unresolvedPromise = $q.defer();
-            submitFunction.andCallFake(function(id) {
+            submitFunction.and.callFake(function(id) {
                 if (id === 38984) {
                     return unresolvedPromise.promise;
                 }
@@ -455,7 +455,7 @@ describe('Service: DraggableData', function() {
         });
 
         it('should reject getTracks if any of the ApiRequests fail', function() {
-            submitFunction.andCallFake(function(id) {
+            submitFunction.and.callFake(function(id) {
                 if (id === 23539) {
                     return $q.reject();
                 }
@@ -474,7 +474,7 @@ describe('Service: DraggableData', function() {
     describe('setAlbums', function() {
         var submitFunction = jasmine.createSpy('submitFunction');
         beforeEach(function() {
-            spyOn(ApiRequest.track, 'getFromAlbum').andCallFake(function(id) {
+            spyOn(ApiRequest.track, 'getFromAlbum').and.callFake(function(id) {
                 return {
                     submit: function() {
                         return submitFunction(id);
@@ -484,7 +484,7 @@ describe('Service: DraggableData', function() {
         });
 
         it('should call ApiRequest.track.getFromAlbum for each album passed in', function() {
-            submitFunction.andCallFake(function(id) {
+            submitFunction.and.callFake(function(id) {
                 return $q.when([{
                     ID: id + 4
                 }, {
@@ -506,7 +506,7 @@ describe('Service: DraggableData', function() {
 
         it('should not allow getTracks to return tracks until all ApiRequests have been completed', function() {
             var unresolvedPromise = $q.defer();
-            submitFunction.andCallFake(function(id) {
+            submitFunction.and.callFake(function(id) {
                 if (id === 38984) {
                     return unresolvedPromise.promise;
                 }
@@ -527,7 +527,7 @@ describe('Service: DraggableData', function() {
         });
 
         it('should reject getTracks if any of the ApiRequests fail', function() {
-            submitFunction.andCallFake(function(id) {
+            submitFunction.and.callFake(function(id) {
                 if (id === 23539) {
                     return $q.reject();
                 }
