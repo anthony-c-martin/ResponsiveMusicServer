@@ -5,6 +5,7 @@ describe('Service: DraggableData', function() {
     var service,
         $q,
         $rootScope,
+        $document,
         ApiRequest,
         Playlist;
 
@@ -14,6 +15,7 @@ describe('Service: DraggableData', function() {
         inject(function($injector) {
             $q = $injector.get('$q');
             $rootScope = $injector.get('$rootScope');
+            $document = $injector.get('$document');
             ApiRequest = $injector.get('ApiRequest');
             Playlist = $injector.get('Playlist');
 
@@ -37,7 +39,10 @@ describe('Service: DraggableData', function() {
             $event.dataTransfer = {
                 setDragImage: jasmine.createSpy('setDragImage')
             };
-            $element = jasmine.createSpyObj('$element', ['on']);
+            $element = angular.element('<div/>');
+            $element.height('400px');
+            angular.element($document[0].body).append($element);
+            spyOn($element, 'on');
         });
 
         function dragStartFunction(type, $event) {
@@ -177,7 +182,11 @@ describe('Service: DraggableData', function() {
 
         beforeEach(function() {
             $event = jasmine.createSpyObj('$event', ['preventDefault', 'stopPropagation']);
-            $element = jasmine.createSpyObj('$element', ['on']);
+            $element = angular.element('<div/>');
+            $element.height('400px');
+            angular.element($document[0].body).append($element);
+            spyOn($element, 'on');
+
             scope = jasmine.createSpyObj('scope', ['$apply']);
         });
 
@@ -253,8 +262,9 @@ describe('Service: DraggableData', function() {
             };
             $element = angular.element('<div/>');
             $element.height('400px');
+            angular.element($document[0].body).append($element);
             spyOn($element, 'on');
-            spyOn($element, 'height');
+
             scope = jasmine.createSpyObj('scope', ['$apply']);
         });
 
@@ -301,7 +311,6 @@ describe('Service: DraggableData', function() {
             });
 
             it('should set dragoverPre if the y offset of the event is less than half the height of the element', function() {
-                $element.height.and.returnValue(123);
                 $event.offsetY = 50;
 
                 dragOverFunction($event);
@@ -312,8 +321,7 @@ describe('Service: DraggableData', function() {
             });
 
             it('should set dragoverPost if the y offset of the event is more than half the height of the element', function() {
-                $element.height.and.returnValue(156);
-                $event.offsetY = 94;
+                $event.offsetY = 250;
 
                 dragOverFunction($event);
 
@@ -323,8 +331,7 @@ describe('Service: DraggableData', function() {
             });
 
             it('should not call apply on the scope if the values of dragoverPre and dragoverPost are unchanged', function() {
-                $element.height.and.returnValue(156);
-                $event.offsetY = 94;
+                $event.offsetY = 250;
                 scope.dragoverPost = true;
                 scope.dragoverPre = false;
 
