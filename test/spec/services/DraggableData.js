@@ -251,7 +251,10 @@ describe('Service: DraggableData', function() {
             $event.originalEvent = {
                 offsetY: 0
             };
-            $element = jasmine.createSpyObj('$element', ['on', 'height']);
+            $element = angular.element('<div/>');
+            $element.height('400px');
+            spyOn($element, 'on');
+            spyOn($element, 'height');
             scope = jasmine.createSpyObj('scope', ['$apply']);
         });
 
@@ -299,7 +302,7 @@ describe('Service: DraggableData', function() {
 
             it('should set dragoverPre if the y offset of the event is less than half the height of the element', function() {
                 $element.height.and.returnValue(123);
-                $event.originalEvent.offsetY = 50;
+                $event.offsetY = 50;
 
                 dragOverFunction($event);
 
@@ -310,7 +313,7 @@ describe('Service: DraggableData', function() {
 
             it('should set dragoverPost if the y offset of the event is more than half the height of the element', function() {
                 $element.height.and.returnValue(156);
-                $event.originalEvent.offsetY = 94;
+                $event.offsetY = 94;
 
                 dragOverFunction($event);
 
@@ -321,7 +324,7 @@ describe('Service: DraggableData', function() {
 
             it('should not call apply on the scope if the values of dragoverPre and dragoverPost are unchanged', function() {
                 $element.height.and.returnValue(156);
-                $event.originalEvent.offsetY = 94;
+                $event.offsetY = 94;
                 scope.dragoverPost = true;
                 scope.dragoverPre = false;
 

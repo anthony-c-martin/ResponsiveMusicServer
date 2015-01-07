@@ -39,7 +39,7 @@ describe('Directive: scrollLoader', function() {
 
     describe('scroll', function() {
         it('should call the scope function on scroll if close to the bottom of the container', function() {
-            scope.testFunction.reset();
+            scope.testFunction.calls.reset();
 
             element.trigger('scroll');
 

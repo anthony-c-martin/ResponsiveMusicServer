@@ -46,6 +46,7 @@ input, button, select, textarea {
     font-family: inherit;
     font-size: inherit;
     line-height: inherit;
+    border-radius: 0;
     &:focus {
         outline: 0;
     }
