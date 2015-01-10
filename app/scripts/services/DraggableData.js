@@ -3,10 +3,12 @@
 angular.module('musicServerApp')
     .service('DraggableData', ['$q', 'ApiRequest', 'Playlist',
         function($q, ApiRequest, Playlist) {
+            var service = this;
+
             var currentDeferred = $q.defer();
             currentDeferred.reject();
 
-            this.setTracks = function(tracks) {
+            function setTracks(tracks) {
                 currentDeferred = $q.defer();
                 var trackList = [];
 
@@ -15,9 +17,9 @@ angular.module('musicServerApp')
                 }, trackList);
 
                 currentDeferred.resolve(trackList);
-            };
+            }
 
-            this.setArtists = function(artists) {
+            function setArtists(artists) {
                 var promises = [];
                 angular.forEach(artists, function(artist) {
                     promises.push(ApiRequest.track.getFromArtist(artist.ID).bound(0, 1000).submit());
@@ -33,9 +35,9 @@ angular.module('musicServerApp')
                 }, function() {
                     currentDeferred.reject();
                 });
-            };
+            }
 
-            this.setAlbums = function(albums) {
+            function setAlbums(albums) {
                 var promises = [];
                 angular.forEach(albums, function(album) {
                     promises.push(ApiRequest.track.getFromAlbum(album.ID).bound(0, 1000).submit());
@@ -51,11 +53,11 @@ angular.module('musicServerApp')
                 }, function() {
                     currentDeferred.reject();
                 });
-            };
+            }
 
-            this.getTracks = function() {
+            function getTracks() {
                 return currentDeferred.promise;
-            };
+            }
 
             /* To ensure that $scope.$apply is called, but to avoid calling $scope.$apply unnecessarily,
              * this function will only call $scope.$apply if changes have been made.
@@ -76,8 +78,7 @@ angular.module('musicServerApp')
                 }
             }
 
-            this.bindDragEvents = function($element, item, itemType, itemListFunction, itemSelectedFunction) {
-                var _this = this;
+            function bindDragEvents($element, item, itemType, itemListFunction, itemSelectedFunction) {
                 $element.on('dragstart', function($event) {
                     if (!itemSelectedFunction()) {
                         $event.preventDefault();
@@ -86,33 +87,32 @@ angular.module('musicServerApp')
                     }
 
                     var itemList = itemListFunction();
-                    if (_this.getDragElement) {
-                        $event.dataTransfer.setDragImage(_this.getDragElement(itemList.length, itemType), -10, -10);
+                    if (service.getDragElement) {
+                        $event.dataTransfer.setDragImage(service.getDragElement(itemList.length, itemType), -10, -10);
                     }
 
                     switch (itemType) {
                         case 'Track':
-                            _this.setTracks(itemList);
+                            service.setTracks(itemList);
                             break;
                         case 'Artist':
-                            _this.setArtists(itemList);
+                            service.setArtists(itemList);
                             break;
                         case 'Album':
-                            _this.setAlbums(itemList);
+                            service.setAlbums(itemList);
                             break;
                     }
                 });
 
                 $element.on('dragend', function() {
-                    if (_this.currentHoverScope) {
-                        changeScopeVariable(_this.currentHoverScope, false, false);
+                    if (service.currentHoverScope) {
+                        changeScopeVariable(service.currentHoverScope, false, false);
                     }
                 });
-            };
+            }
 
-            this.bindPlaylistDropEvents = function($element) {
-                var _this = this;
-                this.currentHoverScope = null;
+            function bindPlaylistDropEvents($element) {
+                service.currentHoverScope = null;
 
                 $element.on('dragover', function($event) {
                     $event.preventDefault();
@@ -123,25 +123,24 @@ angular.module('musicServerApp')
                     $event.preventDefault();
                     $event.stopPropagation();
 
-                    _this.getTracks().then(function(tracks) {
+                    getTracks().then(function(tracks) {
                         Playlist.addTracks(tracks);
                     });
                     Playlist.deselectAll();
                 });
-            };
+            }
 
-            this.bindTrackDropEvents = function($element, scope) {
-                var _this = this;
+            function bindTrackDropEvents($element, scope) {
                 $element.on('dragover', function($event) {
                     $event.preventDefault();
                     $event.stopPropagation();
 
-                    if (_this.currentHoverScope !== scope) {
-                        if (_this.currentHoverScope) {
-                            changeScopeVariable(_this.currentHoverScope, false, false);
+                    if (service.currentHoverScope !== scope) {
+                        if (service.currentHoverScope) {
+                            changeScopeVariable(service.currentHoverScope, false, false);
                         }
 
-                        _this.currentHoverScope = scope;
+                        service.currentHoverScope = scope;
                     }
 
                     var dropAfter = ($element[0].clientHeight < $event.offsetY * 2);
@@ -152,15 +151,24 @@ angular.module('musicServerApp')
                     $event.preventDefault();
                     $event.stopPropagation();
 
-                    var addAfter = !_this.currentHoverScope.dragoverPre;
-                    changeScopeVariable(_this.currentHoverScope, false, false);
-                    _this.getTracks().then(function(tracks) {
-                        Playlist.addTracks(tracks, _this.currentHoverScope.track, addAfter);
+                    var addAfter = !service.currentHoverScope.dragoverPre;
+                    changeScopeVariable(service.currentHoverScope, false, false);
+                    getTracks().then(function(tracks) {
+                        Playlist.addTracks(tracks, service.currentHoverScope.track, addAfter);
                     });
                 });
-            };
+            }
 
-            this.getDragElement = null;
 
-            this.currentHoverScope = null;
+            angular.extend(this, {
+                getDragElement: null,
+                currentHoverScope: null,
+                bindTrackDropEvents: bindTrackDropEvents,
+                bindPlaylistDropEvents: bindPlaylistDropEvents,
+                bindDragEvents: bindDragEvents,
+                getTracks: getTracks,
+                setAlbums: setAlbums,
+                setArtists: setArtists,
+                setTracks: setTracks
+            });
         }]);

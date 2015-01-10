@@ -7,7 +7,7 @@ angular.module('musicServerApp')
                 var loadMore = true;
                 var currentPos = 0;
 
-                this.fetch = function() {
+                function fetch() {
                     if (request && loadMore) {
                         loadMore = false;
                         request.bound(currentPos, limit).submit().then(function(data) {
@@ -22,6 +22,10 @@ angular.module('musicServerApp')
                             console.warn(message);
                         });
                     }
-                };
+                }
+
+                angular.extend(this, {
+                    fetch: fetch
+                });
             };
         }]);
