@@ -7,12 +7,14 @@ angular.module('musicServerApp')
                 link: function(scope) {
                     $rootScope.$on('hideDropdowns', function(e, data) {
                         if (!(data && data === 'search')) {
-                            scope.searchShown = false;
+                            scope.searchCtrl.searchShown = false;
                         }
                     });
                 },
                 restrict: 'E',
                 replace: true,
-                templateUrl: 'views/search.partial.html'
+                templateUrl: 'views/search.partial.html',
+                controller: 'SearchController',
+                controllerAs: 'searchCtrl'
             };
         }]);

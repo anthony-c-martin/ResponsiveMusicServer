@@ -43,13 +43,7 @@
                 <i class="fa fa-lastfm"></i>
             </button>
         </div>
-        <form ng-submit="search()" ng-controller="SearchController" body-event-handler="search" class="controls controls-nav shrinkable controls-search">
-            <search ng-show="searchShown"></search>
-            <input ng-model="searchText" class="control" type="text" placeholder="search" autocomplete="off">
-            <button ng-class="{active: searchShown}" type="submit" class="control">
-                <i class="fa fa-search"></i>
-            </button>
-        </form>
+        <search></search>
     </div>
     <audio-player></audio-player>
 </div>

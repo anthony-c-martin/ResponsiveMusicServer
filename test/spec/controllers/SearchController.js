@@ -28,8 +28,8 @@ describe('Controller: SearchController', function() {
     it('should emit a changeLocation event when the redirectToResults function is called', function() {
         spyOn($scope, '$emit');
 
-        $scope.searchText = 'sf9ga8fd78G';
-        $scope.redirectToResults('artists');
+        SearchController.searchText = 'sf9ga8fd78G';
+        SearchController.redirectToResults('artists');
 
         expect($scope.$emit.calls.count()).toBe(1);
         expect($scope.$emit).toHaveBeenCalledWith('changeLocation', '/artists/s/sf9ga8fd78G');
@@ -38,8 +38,8 @@ describe('Controller: SearchController', function() {
     it('should emit a changeLocation event when the redirectToResults function is called', function() {
         spyOn($scope, '$emit');
 
-        $scope.searchText = 'asdgsaldndsgjib';
-        $scope.redirectToResults('albums');
+        SearchController.searchText = 'asdgsaldndsgjib';
+        SearchController.redirectToResults('albums');
 
         expect($scope.$emit.calls.count()).toBe(1);
         expect($scope.$emit).toHaveBeenCalledWith('changeLocation', '/albums/s/asdgsaldndsgjib');
@@ -48,8 +48,8 @@ describe('Controller: SearchController', function() {
     it('should emit a changeLocation event when the redirectToResults function is called', function() {
         spyOn($scope, '$emit');
 
-        $scope.searchText = 'asdgasgasege3r23';
-        $scope.redirectToResults('tracks');
+        SearchController.searchText = 'asdgasgasege3r23';
+        SearchController.redirectToResults('tracks');
 
         expect($scope.$emit.calls.count()).toBe(1);
         expect($scope.$emit).toHaveBeenCalledWith('changeLocation', '/tracks/s/asdgasgasege3r23');
@@ -70,17 +70,17 @@ describe('Controller: SearchController', function() {
             return mockApiSearchResponse(mockTracks, false);
         });
 
-        $scope.searchText = 'oaiuOUIFabsu89y8t';
+        SearchController.searchText = 'oaiuOUIFabsu89y8t';
 
-        $scope.searchInProgress = false;
-        $scope.search();
+        SearchController.inProgress = false;
+        SearchController.search();
 
-        expect($scope.searchInProgress).toBeTruthy();
-        expect($scope.searchShown).toBeTruthy();
+        expect(SearchController.inProgress).toBeTruthy();
+        expect(SearchController.searchShown).toBeTruthy();
 
-        expect($scope.searchResults.artists.length).toBe(0);
-        expect($scope.searchResults.albums.length).toBe(0);
-        expect($scope.searchResults.tracks.length).toBe(0);
+        expect(SearchController.searchResults.artists.length).toBe(0);
+        expect(SearchController.searchResults.albums.length).toBe(0);
+        expect(SearchController.searchResults.tracks.length).toBe(0);
 
         expect(ApiRequest.artist.search.calls.count()).toBe(1);
         expect(ApiRequest.artist.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
@@ -91,11 +91,11 @@ describe('Controller: SearchController', function() {
 
         $scope.$digest();
 
-        expect($scope.searchInProgress).toBeFalsy();
-        expect($scope.searchShown).toBeTruthy();
-        expect($scope.searchResults.artists).toBe(mockArtists);
-        expect($scope.searchResults.albums).toBe(mockAlbums);
-        expect($scope.searchResults.tracks).toBe(mockTracks);
+        expect(SearchController.inProgress).toBeFalsy();
+        expect(SearchController.searchShown).toBeTruthy();
+        expect(SearchController.searchResults.artists).toBe(mockArtists);
+        expect(SearchController.searchResults.albums).toBe(mockAlbums);
+        expect(SearchController.searchResults.tracks).toBe(mockTracks);
     });
 
     it('should cancel the search when  search is called and the backend artist search responds with a failure', function() {
@@ -108,25 +108,25 @@ describe('Controller: SearchController', function() {
         spyOn(ApiRequest.track, 'search').and.callFake(function() {
             return mockApiSearchResponse({}, false);
         });
-        $scope.searchText = 'oaiuOUIFabsu89y8t';
+        SearchController.searchText = 'oaiuOUIFabsu89y8t';
 
-        $scope.searchInProgress = false;
-        $scope.search();
+        SearchController.inProgress = false;
+        SearchController.search();
 
-        expect($scope.searchInProgress).toBeTruthy();
-        expect($scope.searchShown).toBeTruthy();
+        expect(SearchController.inProgress).toBeTruthy();
+        expect(SearchController.searchShown).toBeTruthy();
 
-        expect($scope.searchResults.artists.length).toBe(0);
-        expect($scope.searchResults.albums.length).toBe(0);
-        expect($scope.searchResults.tracks.length).toBe(0);
+        expect(SearchController.searchResults.artists.length).toBe(0);
+        expect(SearchController.searchResults.albums.length).toBe(0);
+        expect(SearchController.searchResults.tracks.length).toBe(0);
 
         expect(ApiRequest.artist.search.calls.count()).toBe(1);
         expect(ApiRequest.artist.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
 
         $scope.$digest();
 
-        expect($scope.searchInProgress).toBeFalsy();
-        expect($scope.searchShown).toBeFalsy();
+        expect(SearchController.inProgress).toBeFalsy();
+        expect(SearchController.searchShown).toBeFalsy();
     });
 
     it('should cancel the search when  search is called and the backend album search responds with a failure', function() {
@@ -139,25 +139,25 @@ describe('Controller: SearchController', function() {
         spyOn(ApiRequest.track, 'search').and.callFake(function() {
             return mockApiSearchResponse({}, false);
         });
-        $scope.searchText = 'oaiuOUIFabsu89y8t';
+        SearchController.searchText = 'oaiuOUIFabsu89y8t';
 
-        $scope.searchInProgress = false;
-        $scope.search();
+        SearchController.inProgress = false;
+        SearchController.search();
 
-        expect($scope.searchInProgress).toBeTruthy();
-        expect($scope.searchShown).toBeTruthy();
+        expect(SearchController.inProgress).toBeTruthy();
+        expect(SearchController.searchShown).toBeTruthy();
 
-        expect($scope.searchResults.artists.length).toBe(0);
-        expect($scope.searchResults.albums.length).toBe(0);
-        expect($scope.searchResults.tracks.length).toBe(0);
+        expect(SearchController.searchResults.artists.length).toBe(0);
+        expect(SearchController.searchResults.albums.length).toBe(0);
+        expect(SearchController.searchResults.tracks.length).toBe(0);
 
         expect(ApiRequest.artist.search.calls.count()).toBe(1);
         expect(ApiRequest.artist.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
 
         $scope.$digest();
 
-        expect($scope.searchInProgress).toBeFalsy();
-        expect($scope.searchShown).toBeFalsy();
+        expect(SearchController.inProgress).toBeFalsy();
+        expect(SearchController.searchShown).toBeFalsy();
     });
 
     it('should cancel the search when  search is called and the backend track search responds with a failure', function() {
@@ -170,24 +170,24 @@ describe('Controller: SearchController', function() {
         spyOn(ApiRequest.track, 'search').and.callFake(function() {
             return mockApiSearchResponse({}, true);
         });
-        $scope.searchText = 'oaiuOUIFabsu89y8t';
+        SearchController.searchText = 'oaiuOUIFabsu89y8t';
 
-        $scope.searchInProgress = false;
-        $scope.search();
+        SearchController.inProgress = false;
+        SearchController.search();
 
-        expect($scope.searchInProgress).toBeTruthy();
-        expect($scope.searchShown).toBeTruthy();
+        expect(SearchController.inProgress).toBeTruthy();
+        expect(SearchController.searchShown).toBeTruthy();
 
-        expect($scope.searchResults.artists.length).toBe(0);
-        expect($scope.searchResults.albums.length).toBe(0);
-        expect($scope.searchResults.tracks.length).toBe(0);
+        expect(SearchController.searchResults.artists.length).toBe(0);
+        expect(SearchController.searchResults.albums.length).toBe(0);
+        expect(SearchController.searchResults.tracks.length).toBe(0);
 
         expect(ApiRequest.artist.search.calls.count()).toBe(1);
         expect(ApiRequest.artist.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
 
         $scope.$digest();
 
-        expect($scope.searchInProgress).toBeFalsy();
-        expect($scope.searchShown).toBeFalsy();
+        expect(SearchController.inProgress).toBeFalsy();
+        expect(SearchController.searchShown).toBeFalsy();
     });
 });

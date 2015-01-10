@@ -5,25 +5,32 @@ angular.module('musicServerApp')
         function ($scope) {
             var ctrl = this;
 
-            this.play = function($event) {
+            function play($event) {
                 $event.stopPropagation();
                 $scope.$emit('playTrack', ctrl.track);
-            };
+            }
 
-            this.add = function($event) {
+            function add($event) {
                 $event.stopPropagation();
                 $scope.$emit('addTrack', ctrl.track);
-            };
+            }
 
-            this.remove = function($event) {
+            function remove($event) {
                 $event.stopPropagation();
                 $scope.$emit('removeTrack', ctrl.track);
-            };
+            }
 
-            this.select = function($event) {
+            function select($event) {
                 if (ctrl.trackArea) {
                     $event.stopPropagation();
                     ctrl.trackArea.trackSelected(ctrl.track, $event.shiftKey, ($event.ctrlKey || $event.metaKey));
                 }
-            };
+            }
+
+            angular.extend(this, {
+                play: play,
+                add: add,
+                remove: remove,
+                select: select
+            });
         }]);

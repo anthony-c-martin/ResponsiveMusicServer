@@ -3,33 +3,43 @@
 angular.module('musicServerApp')
     .controller('SearchController', ['$scope', 'ApiRequest', '$q',
         function ($scope, ApiRequest, $q) {
-            $scope.searchResults = {
+            var ctrl = this;
+
+            var searchResults = {
                 artists: [],
                 albums: [],
                 tracks: []
             };
 
-            $scope.search = function() {
-                $scope.searchInProgress = true;
-                $scope.searchShown = true;
+            function search() {
+                ctrl.inProgress = true;
+                ctrl.searchShown = true;
 
                 $q.all({
-                    artists: ApiRequest.artist.search($scope.searchText).bound(0, 5).submit(),
-                    albums: ApiRequest.album.search($scope.searchText).bound(0, 5).submit(),
-                    tracks: ApiRequest.track.search($scope.searchText).bound(0, 5).submit()
+                    artists: ApiRequest.artist.search(ctrl.searchText).bound(0, 5).submit(),
+                    albums: ApiRequest.album.search(ctrl.searchText).bound(0, 5).submit(),
+                    tracks: ApiRequest.track.search(ctrl.searchText).bound(0, 5).submit()
                 }).then(function(results) {
-                    $scope.searchResults.artists = results.artists;
-                    $scope.searchResults.albums = results.albums;
-                    $scope.searchResults.tracks = results.tracks;
-                    $scope.searchInProgress = false;
+                    searchResults.artists = results.artists;
+                    searchResults.albums = results.albums;
+                    searchResults.tracks = results.tracks;
+                    ctrl.inProgress = false;
                 }, function() {
-                    $scope.searchShown = false;
-                    $scope.searchInProgress = false;
+                    ctrl.searchShown = false;
+                    ctrl.inProgress = false;
                 });
-            };
+            }
 
-            $scope.redirectToResults = function(type) {
-                var redirect = '/' + type + '/s/' + encodeURIComponent($scope.searchText);
+            function redirectToResults(type) {
+                var redirect = '/' + type + '/s/' + encodeURIComponent(ctrl.searchText);
                 $scope.$emit('changeLocation', redirect);
-            };
+            }
+
+            angular.extend(this, {
+                inProgress: false,
+                searchShown: false,
+                searchResults: searchResults,
+                redirectToResults: redirectToResults,
+                search: search
+            });
         }]);
