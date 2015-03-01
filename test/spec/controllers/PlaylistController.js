@@ -37,12 +37,12 @@ describe('Controller: PlaylistController', function() {
         expect(SelectableTracks).toHaveBeenCalledWith();
         expect(SelectableTracks.calls.count()).toBe(1);
 
-        expect($scope.playlistArea).toBe(mockSelectableTracks);
-        expect($scope.playlistArea.allTracks).toBe(Playlist.trackArray);
+        expect(controller.area).toBe(mockSelectableTracks);
+        expect(controller.area.allTracks).toBe(Playlist.trackArray);
     });
 
     it('should set the playlist scope variable to the playlist trackArray', function() {
-        expect($scope.playlist).toBe(Playlist.trackArray);
+        expect(controller.playlist).toBe(Playlist.trackArray);
     });
 
     it('should call Playlist.removeTrack when removeTrack is called', function() {
@@ -65,11 +65,11 @@ describe('Controller: PlaylistController', function() {
     });
 
     it('should call playlistArea.removeSelection when removeSelection is called', function() {
-        spyOn($scope.playlistArea, 'removeSelection');
+        spyOn(controller.area, 'removeSelection');
 
         controller.removeSelection();
 
-        expect($scope.playlistArea.removeSelection).toHaveBeenCalledWith();
-        expect($scope.playlistArea.removeSelection.calls.count()).toBe(1);
+        expect(controller.area.removeSelection).toHaveBeenCalledWith();
+        expect(controller.area.removeSelection.calls.count()).toBe(1);
     });
 });

@@ -7,8 +7,8 @@ angular.module('musicServerApp')
                 restrict: 'A',
                 link: function(scope, element) {
                     scope.positionChange = function($event) {
-                        var width = element.width();
-                        var left = $event.clientX - element.offset().left;
+                        var width = element[0].clientWidth;
+                        var left = $event.clientX - element[0].offsetLeft;
                         scope.$emit('SetPosition', left/width);
                     };
                 }

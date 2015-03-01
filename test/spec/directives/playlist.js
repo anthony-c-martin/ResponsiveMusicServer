@@ -59,7 +59,7 @@ describe('Directive: playlist', function() {
 
     describe('display', function() {
         beforeEach(function() {
-            scope.playlist.push({
+            controller.playlist.push({
                 ID: 18726,
                 Name: 'asdf87gas8'
             }, {
@@ -70,7 +70,7 @@ describe('Directive: playlist', function() {
         });
 
         it('should only show a message "This playlist is empty!" if there are no tracks', function() {
-            scope.playlist.length = 0;
+            controller.playlist.length = 0;
             scope.$digest();
 
             expect(element.find('ul.playlist.tracks').children().length).toBe(1);
