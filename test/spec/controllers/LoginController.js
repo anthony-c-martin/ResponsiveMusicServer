@@ -2,27 +2,33 @@
 
 describe('Controller: LoginController', function() {
 
-    beforeEach(module('musicServerApp'));
+    var controller,
+        ApiRequest,
+        $scope,
+        $rootScope,
+        $q;
 
-    var LoginController,
-        $scope, $rootScope, ApiRequest, $q;
+    beforeEach(function() {
+        module('musicServerApp');
 
-    beforeEach(inject(function($controller, _$rootScope_, _$q_, _ApiRequest_) {
-        $rootScope = _$rootScope_;
-        $scope = _$rootScope_.$new();
-        $q = _$q_;
-        ApiRequest = _ApiRequest_;
+        inject(function($injector) {
+            $q = $injector.get('$q');
+            $rootScope = $injector.get('$rootScope');
+            $scope = $rootScope.$new();
+            ApiRequest = $injector.get('ApiRequest');
+            var $controller = $injector.get('$controller');
 
-        LoginController = $controller('LoginController', {
-            $rootScope: $rootScope,
-            $scope: $scope,
-            ApiRequest: _ApiRequest_
+            controller = $controller('LoginController', {
+                $rootScope: $rootScope,
+                $scope: $scope,
+                ApiRequest: ApiRequest
+            });
         });
-    }));
+    });
 
     describe('Initialisation', function() {
         it('should initialise the auth object on start', function() {
-            expect($scope.auth).toEqual({});
+            expect(controller.auth).toEqual({});
         });
     });
 
@@ -31,7 +37,7 @@ describe('Controller: LoginController', function() {
             spyOn(console, 'warn');
             spyOn($rootScope, '$emit');
 
-            LoginController.loginFailed('asdiabsiusavfusyavfuysd');
+            controller.loginFailed('asdiabsiusavfusyavfuysd');
             expect(console.warn).toHaveBeenCalledWith('asdiabsiusavfusyavfuysd');
             expect(console.warn.calls.count()).toBe(1);
             expect($rootScope.$emit).toHaveBeenCalledWith('errorDisplay', 'Login attempt failed. Please try again.');
@@ -41,27 +47,27 @@ describe('Controller: LoginController', function() {
 
     describe('authString', function() {
         it('should correctly generate auth strings', function() {
-            expect(LoginController.authString('myUsername', 'myPassword', 'myToken')).toBe('c97cfcc0a13092b18d8dd3912112f71a');
-            expect(LoginController.authString('dfgsdf0ghi', 'asdfsubisd', 'myToksdd09hen')).toBe('d77d1465d59a51b60d9ec1e79a58c921');
-            expect(LoginController.authString('sdn9gfdg', 'sdfg08dh9g', 'sagasdg')).toBe('ef4de70da765515f55cf73ef462065e6');
-            expect(LoginController.authString('s0gh8hfd9gho', 'dfg0sdh89', 'myToken')).toBe('502fcedff4e12b59756e7a4c465e77cf');
+            expect(controller.authString('myUsername', 'myPassword', 'myToken')).toBe('c97cfcc0a13092b18d8dd3912112f71a');
+            expect(controller.authString('dfgsdf0ghi', 'asdfsubisd', 'myToksdd09hen')).toBe('d77d1465d59a51b60d9ec1e79a58c921');
+            expect(controller.authString('sdn9gfdg', 'sdfg08dh9g', 'sagasdg')).toBe('ef4de70da765515f55cf73ef462065e6');
+            expect(controller.authString('s0gh8hfd9gho', 'dfg0sdh89', 'myToken')).toBe('502fcedff4e12b59756e7a4c465e77cf');
         });
     });
 
-    describe('$scope.login', function() {
+    describe('login', function() {
         it('should call loginFailed if the getToken request fails', function() {
             spyOn(ApiRequest.session, 'getToken').and.returnValue({
                 submit: function() {
                     return $q.reject();
                 }
             });
-            spyOn(LoginController, 'loginFailed');
+            spyOn(controller, 'loginFailed');
 
-            $scope.login();
+            controller.login();
             $scope.$digest();
 
-            expect(LoginController.loginFailed).toHaveBeenCalledWith();
-            expect(LoginController.loginFailed.calls.count()).toBe(1);
+            expect(controller.loginFailed).toHaveBeenCalledWith();
+            expect(controller.loginFailed.calls.count()).toBe(1);
         });
 
         it('should call loginFailed if the getSession request fails', function() {
@@ -77,13 +83,13 @@ describe('Controller: LoginController', function() {
                     return $q.reject();
                 }
             });
-            spyOn(LoginController, 'loginFailed');
+            spyOn(controller, 'loginFailed');
 
-            $scope.login();
+            controller.login();
             $scope.$digest();
 
-            expect(LoginController.loginFailed).toHaveBeenCalledWith();
-            expect(LoginController.loginFailed.calls.count()).toBe(1);
+            expect(controller.loginFailed).toHaveBeenCalledWith();
+            expect(controller.loginFailed.calls.count()).toBe(1);
         });
 
         it('should emit a loginSuccess event when the login request succeeds', function() {
@@ -102,14 +108,14 @@ describe('Controller: LoginController', function() {
                     });
                 }
             });
-            $scope.auth = {
+            controller.auth = {
                 username: 'dfgsdf0ghi',
                 password: 'asdfsubisd'
             };
 
             spyOn($scope, '$emit');
 
-            $scope.login();
+            controller.login();
             $scope.$digest();
 
             expect(ApiRequest.session.getToken).toHaveBeenCalledWith();

@@ -4,8 +4,9 @@ angular.module('musicServerApp')
     .controller('PanelController', ['$scope', '$rootScope', 'SelectableTracks',
         function($scope, $rootScope, SelectableTracks) {
             var ctrl = this;
-            this.trackArea = new SelectableTracks();
-            this.trackArea.allTracks = $scope.tracks;
+
+            var trackArea = new SelectableTracks();
+            trackArea.allTracks = $scope.tracks;
 
             $rootScope.$on('selectArtist', function($event, artist) {
                 ctrl.selectedArtist = artist;
@@ -16,21 +17,21 @@ angular.module('musicServerApp')
                 ctrl.selectedAlbum = album;
             });
 
-            this.deselectArtist = function() {
+            function deselectArtist() {
                 ctrl.selectedAlbum = null;
                 ctrl.selectedArtist = null;
-            };
+            }
 
-            this.deselectAlbum = function() {
+            function deselectAlbum() {
                 ctrl.selectedAlbum = null;
-            };
+            }
 
-            this.deselectTracks = function($event) {
+            function deselectTracks($event) {
                 $event.stopPropagation();
                 ctrl.trackArea.clearSelection();
-            };
+            }
 
-            this.isArtistsShown = function() {
+            function isArtistsShown() {
                 if ($scope.isDesktop) {
                     return true;
                 }
@@ -39,9 +40,9 @@ angular.module('musicServerApp')
                 }
 
                 return !ctrl.selectedArtist;
-            };
+            }
 
-            this.isAlbumsShown = function() {
+            function isAlbumsShown() {
                 if ($scope.isDesktop) {
                     return true;
                 }
@@ -49,9 +50,9 @@ angular.module('musicServerApp')
                     return true;
                 }
                 return !!ctrl.selectedArtist && !ctrl.selectedAlbum;
-            };
+            }
 
-            this.isTracksShown = function() {
+            function isTracksShown() {
                 if ($scope.isDesktop) {
                     return true;
                 }
@@ -60,5 +61,17 @@ angular.module('musicServerApp')
                 }
 
                 return false;
-            };
+            }
+
+            angular.extend(this, {
+                selectedArtist: null,
+                selectedAlbum: null,
+                trackArea: trackArea,
+                deselectArtist: deselectArtist,
+                deselectAlbum: deselectAlbum,
+                deselectTracks: deselectTracks,
+                isArtistsShown: isArtistsShown,
+                isAlbumsShown: isAlbumsShown,
+                isTracksShown: isTracksShown
+            });
         }]);
