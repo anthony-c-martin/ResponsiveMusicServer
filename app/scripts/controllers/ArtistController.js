@@ -5,17 +5,23 @@ angular.module('musicServerApp')
         function ($scope) {
             var ctrl = this;
 
-            this.play = function($event) {
+            function play($event) {
                 $event.stopPropagation();
                 $scope.$emit('playArtist', ctrl.artist);
-            };
+            }
 
-            this.add = function($event) {
+            function add($event) {
                 $event.stopPropagation();
                 $scope.$emit('addArtist', ctrl.artist);
-            };
+            }
 
-            this.select = function() {
+            function select() {
                 $scope.$emit('selectArtist', ctrl.artist);
-            };
+            }
+
+            angular.extend(this, {
+                play: play,
+                add: add,
+                select: select
+            });
         }]);
