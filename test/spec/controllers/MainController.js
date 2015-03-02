@@ -1,43 +1,50 @@
 'use strict';
 
-describe('Controller: MainController', function() {
+describe('Controller: controller', function() {
 
-    beforeEach(module('musicServerApp'));
+    var controller,
+        DataLoader,
+        Playlist,
+        ApiRequest,
+        $rootScope,
+        $scope,
+        $q;
+
     var artistGetAllOutput = {};
     var mockDataLoader = {
         fetch: function() {},
     };
 
-    beforeEach(module('musicServerApp', function($provide) {
-        $provide.value('DataLoader', jasmine.createSpy('DataLoaderSpy').and.returnValue(mockDataLoader));
-    }));
-
-    var MainController,
-        $scope, $rootScope, DataLoader, Playlist, ApiRequest, $q;
-
-    beforeEach(inject(function($controller, _$rootScope_, _DataLoader_, _Playlist_, _ApiRequest_, _$q_) {
-        $rootScope = _$rootScope_;
-        $scope = _$rootScope_.$new();
-        DataLoader = _DataLoader_;
-        Playlist = _Playlist_;
-        ApiRequest = _ApiRequest_;
-        $q = _$q_;
-
-        spyOn(ApiRequest.artist, 'getAll').and.returnValue(artistGetAllOutput);
-
-        MainController = $controller('MainController', {
-            $rootScope: $rootScope,
-            $scope: $scope,
-            DataLoader: _DataLoader_,
-            Playlist: _Playlist_,
-            ApiRequest: _ApiRequest_
+    beforeEach(function() {
+        module('musicServerApp', function($provide) {
+            $provide.value('DataLoader', jasmine.createSpy('DataLoaderSpy').and.returnValue(mockDataLoader));
         });
-    }));
+
+        inject(function($injector) {
+            $rootScope = $injector.get('$rootScope');
+            $q = $injector.get('$q');
+            $scope = $rootScope.$new();
+            DataLoader = $injector.get('DataLoader');
+            Playlist = $injector.get('Playlist');
+            ApiRequest = $injector.get('ApiRequest');
+            var $controller = $injector.get('$controller');
+
+            spyOn(ApiRequest.artist, 'getAll').and.returnValue(artistGetAllOutput);
+
+            controller = $controller('MainController', {
+                $rootScope: $rootScope,
+                $scope: $scope,
+                DataLoader: DataLoader,
+                Playlist: Playlist,
+                ApiRequest: ApiRequest
+            });
+        });
+    });
 
     it('should initialise artists, albums and tracks on start', function() {
-        expect($scope.artists).toEqual([]);
-        expect($scope.albums).toEqual([]);
-        expect($scope.tracks).toEqual([]);
+        expect(controller.artists).toEqual([]);
+        expect(controller.albums).toEqual([]);
+        expect(controller.tracks).toEqual([]);
     });
 
     it('should add tracks to the playlist on the addArtist event', function() {
@@ -154,7 +161,7 @@ describe('Controller: MainController', function() {
         expect(ApiRequest.artist.getAll).toHaveBeenCalledWith();
         expect(ApiRequest.artist.getAll.calls.count()).toBe(1);
 
-        expect(DataLoader).toHaveBeenCalledWith(artistGetAllOutput, $scope.artists, 100);
+        expect(DataLoader).toHaveBeenCalledWith(artistGetAllOutput, controller.artists, 100);
         expect(DataLoader.calls.count()).toBe(1);
 
         expect($scope.artistRequest).toBe(mockDataLoader);
@@ -175,7 +182,7 @@ describe('Controller: MainController', function() {
         expect(ApiRequest.album.getFromArtist).toHaveBeenCalledWith(12987);
         expect(ApiRequest.album.getFromArtist.calls.count()).toBe(1);
 
-        expect(DataLoader).toHaveBeenCalledWith(getFromArtistOutput, $scope.albums, 100);
+        expect(DataLoader).toHaveBeenCalledWith(getFromArtistOutput, controller.albums, 100);
         expect(DataLoader.calls.count()).toBe(1);
 
         expect($scope.albumRequest).toBe(mockDataLoader);
@@ -200,7 +207,7 @@ describe('Controller: MainController', function() {
         expect(ApiRequest.track.getFromAlbum).toHaveBeenCalledWith(125225);
         expect(ApiRequest.track.getFromAlbum.calls.count()).toBe(1);
 
-        expect(DataLoader).toHaveBeenCalledWith(getFromAlbumOutput, $scope.tracks, 100);
+        expect(DataLoader).toHaveBeenCalledWith(getFromAlbumOutput, controller.tracks, 100);
         expect(DataLoader.calls.count()).toBe(1);
 
         expect($scope.trackRequest).toBe(mockDataLoader);

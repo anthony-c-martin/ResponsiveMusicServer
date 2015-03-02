@@ -15,11 +15,13 @@ angular
             $routeProvider.
             when('/login', {
                 controller: 'LoginController',
+                controllerAs: 'loginCtrl',
                 templateUrl: 'views/login.html',
                 title: 'Login'
             }).
             when('/music', {
                 controller: 'MainController',
+                controllerAs: 'mainCtrl',
                 templateUrl: 'views/main.html',
                 title: 'Main'
             }).
