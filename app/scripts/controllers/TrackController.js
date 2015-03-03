@@ -23,7 +23,7 @@ angular.module('musicServerApp')
             function select($event) {
                 if (ctrl.trackArea) {
                     $event.stopPropagation();
-                    ctrl.trackArea.trackSelected(ctrl.track, $event.shiftKey, ($event.ctrlKey || $event.metaKey));
+                    $scope.trackArea.trackSelected(ctrl.track, $event.shiftKey, ($event.ctrlKey || $event.metaKey));
                 }
             }
 

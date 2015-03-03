@@ -39,7 +39,7 @@
                 </button>
                 <volume-control ng-show="volumeShown"></volume-control>
             </div>
-            <button ng-click="toggleScrobblingEnabled()" ng-class="{active: scrobblingEnabled}" type="button" class="control">
+            <button ng-click="appCtrl.toggleScrobblingEnabled()" ng-class="{active: appCtrl.scrobblingEnabled}" type="button" class="control">
                 <i class="fa fa-lastfm"></i>
             </button>
         </div>

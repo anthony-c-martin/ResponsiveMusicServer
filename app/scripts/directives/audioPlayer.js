@@ -29,7 +29,7 @@ angular.module('musicServerApp')
                             }));
                             audio.play();
 
-                            if (scope.scrobblingEnabled) {
+                            if (scope.appCtrl.scrobblingEnabled) {
                                 ApiRequest.track.lastFMNowPlaying(track.ID).submit();
                                 scrobbleTimer.reset(function() {
                                     if (track === scope.track) {
