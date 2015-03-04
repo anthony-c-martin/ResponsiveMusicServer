@@ -33,7 +33,7 @@ describe('Directive: track', function() {
             $parentScope.$digest();
 
             controller = element.controller('track');
-            scope = element.isolateScope();
+            scope = element.scope();
         });
     });
 
