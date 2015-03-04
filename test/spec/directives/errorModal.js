@@ -26,12 +26,15 @@ describe('Directive: errorModal', function() {
             $compile(element)($parentScope);
             $parentScope.$digest();
 
-            scope = element.scope();
+            scope = element.isolateScope();
         });
     });
 
     describe('Initialisation', function() {
         it('should be hidden if there is no error message', function() {
+            scope.errorMessage = '';
+            scope.$digest();
+
             expect(element.find('.error-modal').is(':visible')).toBeFalsy();
         });
 
