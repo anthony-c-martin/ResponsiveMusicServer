@@ -29,7 +29,7 @@ angular.module('musicServerApp')
                 }, function() {
                     ctrl.loginFailed();
                 });
-            };
+            }
 
             angular.extend(this, {
                 auth: {},
