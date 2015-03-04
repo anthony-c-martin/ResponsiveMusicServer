@@ -21,12 +21,11 @@ angular.module('musicServerApp')
 
                     var audio = element[0];
                     scope.$watch('track', function (track) {
-                        element.empty();
                         if (track && track.FileName) {
-                            element.append(angular.element('<source/>').attr({
+                            element.attr({
                                 src: '/stream' + getSourceParams(track),
                                 type: 'audio/mp4'
-                            }));
+                            });
                             audio.play();
 
                             if (scope.appCtrl.scrobblingEnabled) {
@@ -37,6 +36,10 @@ angular.module('musicServerApp')
                                     }
                                 }, track.Duration/2 < 240 ? track.Duration/2 : 240);
                             }
+                        } else {
+                            element.removeAttr('src').removeAttr('type');
+                            scope.playing = false;
+                            scope.position = 0;
                         }
                     });
 
