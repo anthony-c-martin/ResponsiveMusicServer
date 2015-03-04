@@ -36,7 +36,7 @@
     </div>
     <div ng-mousedown="panel.deselectTracks($event)" ng-if="panel.isTracksShown()" scroll-loader="trackRequest.fetch()" class="pane pane-right">
         <ul class="tracks">
-            <li track="track" track-area="panel.trackArea" ng-repeat="track in mainCtrl.tracks | limitTo: mainCtrl.tracks.length track by track.ID"></li>
+            <li track="track" track-area="trackArea" ng-repeat="track in mainCtrl.tracks | limitTo: mainCtrl.tracks.length track by track.ID"></li>
         </ul>
     </div>
 </div>

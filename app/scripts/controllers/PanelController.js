@@ -5,8 +5,8 @@ angular.module('musicServerApp')
         function($scope, $rootScope, SelectableTracks) {
             var ctrl = this;
 
-            var trackArea = new SelectableTracks();
-            trackArea.allTracks = $scope.tracks;
+            $scope.trackArea = new SelectableTracks();
+            $scope.trackArea.allTracks = $scope.tracks;
 
             $rootScope.$on('selectArtist', function($event, artist) {
                 ctrl.selectedArtist = artist;
@@ -28,7 +28,7 @@ angular.module('musicServerApp')
 
             function deselectTracks($event) {
                 $event.stopPropagation();
-                ctrl.trackArea.clearSelection();
+                $scope.trackArea.clearSelection();
             }
 
             function isArtistsShown() {
@@ -66,7 +66,6 @@ angular.module('musicServerApp')
             angular.extend(this, {
                 selectedArtist: null,
                 selectedAlbum: null,
-                trackArea: trackArea,
                 deselectArtist: deselectArtist,
                 deselectAlbum: deselectAlbum,
                 deselectTracks: deselectTracks,

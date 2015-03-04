@@ -93,7 +93,7 @@ describe('Controller: TrackController', function() {
                 trackSelected: function() {}
             };
             spyOn(mockTrackArea, 'trackSelected');
-            controller.trackArea = mockTrackArea;
+            $scope.trackArea = mockTrackArea;
 
             controller.select(mockEvent);
 
@@ -110,7 +110,7 @@ describe('Controller: TrackController', function() {
                 stopPropagation: function() {}
             };
             spyOn(mockEvent, 'stopPropagation');
-            controller.trackArea = null;
+            $scope.trackArea = null;
 
             controller.select(mockEvent);
 

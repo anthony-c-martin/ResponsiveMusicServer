@@ -174,7 +174,7 @@ describe('Controller: PanelController', function() {
             clearSelection: function() { }
         };
         spyOn(mockTrackArea, 'clearSelection');
-        controller.trackArea = mockTrackArea;
+        $scope.trackArea = mockTrackArea;
 
         controller.deselectTracks(mockEvent);
 
@@ -228,7 +228,7 @@ describe('Controller: PanelController', function() {
         expect(SelectableTracks).toHaveBeenCalledWith();
         expect(SelectableTracks.calls.count()).toBe(1);
 
-        expect(controller.trackArea).toBe(mockSelectableTracks);
-        expect(controller.trackArea.allTracks).toBe(mockTracks);
+        expect($scope.trackArea).toBe(mockSelectableTracks);
+        expect($scope.trackArea.allTracks).toBe(mockTracks);
     });
 });

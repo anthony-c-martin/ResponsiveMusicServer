@@ -88,6 +88,7 @@ angular.module('musicServerApp')
                 tracks: []
             });
 
+            $scope.tracks = this.tracks;
             loadArtists();
         }
     ]);

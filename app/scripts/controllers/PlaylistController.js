@@ -3,8 +3,8 @@
 angular.module('musicServerApp')
     .controller('PlaylistController', ['$scope', 'Playlist', 'SelectableTracks',
         function ($scope, Playlist, SelectableTracks) {
-            var area = new SelectableTracks();
-            area.allTracks = Playlist.trackArray;
+            $scope.trackArea = new SelectableTracks();
+            $scope.trackArea.allTracks = Playlist.trackArray;
 
             var playlist = Playlist.trackArray;
 
@@ -17,11 +17,10 @@ angular.module('musicServerApp')
             }
 
             function removeSelection() {
-                area.removeSelection();
+                $scope.trackArea.removeSelection();
             }
 
             angular.extend(this, {
-                area: area,
                 playlist: playlist,
                 removeTrack: removeTrack,
                 removeAll: removeAll,

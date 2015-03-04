@@ -1,4 +1,4 @@
-<li class="track" ng-class="{selected: trackCtrl.track.selected, 'dropzone-pre': dragoverPre, 'dropzone-post': dragoverPost}" ng-mousedown="trackCtrl.select($event)" draggable="true">
+<li class="track" ng-class="{selected: track.selected, 'dropzone-pre': dragoverPre, 'dropzone-post': dragoverPost}" ng-mousedown="trackCtrl.select($event)" draggable="true">
     <div class="content">
         <div ng-if="addable" class="controls controls-mini">
             <button ng-click="trackCtrl.add($event)" type="button" class="control control-add"><i class="fa fa-plus"></i></button>
@@ -7,6 +7,6 @@
         <div ng-if="closable" class="controls controls-mini">
             <button ng-click="trackCtrl.remove($event)" type="button" class="control control-remove"><i class="fa fa-remove"></i></button>
         </div>
-        <div class="desc">{{ ::trackCtrl.track.Name }}</div>
+        <div class="desc">{{ ::track.Name }}</div>
     </div>
 </li>
