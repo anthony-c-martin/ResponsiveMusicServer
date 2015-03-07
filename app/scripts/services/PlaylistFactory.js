@@ -25,7 +25,9 @@ angular.module('musicServerApp')
                     var endChunk = tracks.slice(index, tracks.length);
                     tracks.length = index;
                     angular.forEach(tracksToAdd, function(track) {
-                        tracks.push(angular.copy(track));
+                        var copiedTrack = angular.copy(track);
+                        delete copiedTrack.selected;
+                        tracks.push(copiedTrack);
                     });
                     angular.forEach(endChunk, function(track) {
                         tracks.push(track);
