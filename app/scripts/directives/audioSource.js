@@ -58,10 +58,15 @@ angular.module('musicServerApp')
                         audio.currentTime = audio.duration * position;
                     }
                 };
+                PlayerService.audioUpdateCallback = function(src, type) {
+                    audio.src = src;
+                    audio.type = type;
+                };
 
                 scope.$on('destroy', function() {
                     PlayerService.volumeUpdateCallback = null;
                     PlayerService.positionUpdateCallback = null;
+                    PlayerService.audioUpdateCallback = null;
                 });
             }
 

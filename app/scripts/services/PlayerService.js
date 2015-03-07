@@ -16,12 +16,10 @@ angular.module('musicServerApp')
 
             function changeTrack(track) {
                 if(track && track.FileName) {
-                    service.current.src = '/stream' + getSourceParams(track);
-                    service.current.type = 'audio/mp4';
+                    service.audioUpdate('/stream' + getSourceParams(track), 'audio/mpp4');
                     service.current.track = track;
                 } else {
-                    service.current.src = '';
-                    service.current.type = '';
+                    service.audioUpdate('', '');
                     service.current.track = null;
                 }
             }
@@ -56,12 +54,17 @@ angular.module('musicServerApp')
             };
             this.positionUpdateCallback = null;
 
+            this.audioUpdate = function(src, type) {
+                if (service.audioUpdateCallback) {
+                    service.audioUpdateCallback(src, type);
+                }
+            };
+            this.audioUpdateCallback = null;
+
             this.current = {
                 position: 0,
                 volume: 0.5,
                 isPlaying: false,
-                track: null,
-                src: '',
-                type: ''
+                track: null
             };
         }]);
