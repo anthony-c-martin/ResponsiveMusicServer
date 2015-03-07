@@ -1,10 +1,10 @@
 'use strict';
 
-describe('Controller: controller', function() {
+describe('MainController', function() {
 
     var controller,
         DataLoader,
-        Playlist,
+        PlayerService,
         ApiRequest,
         $rootScope,
         $scope,
@@ -25,7 +25,7 @@ describe('Controller: controller', function() {
             $q = $injector.get('$q');
             $scope = $rootScope.$new();
             DataLoader = $injector.get('DataLoader');
-            Playlist = $injector.get('Playlist');
+            PlayerService = $injector.get('PlayerService');
             ApiRequest = $injector.get('ApiRequest');
             var $controller = $injector.get('$controller');
 
@@ -35,7 +35,7 @@ describe('Controller: controller', function() {
                 $rootScope: $rootScope,
                 $scope: $scope,
                 DataLoader: DataLoader,
-                Playlist: Playlist,
+                PlayerService: PlayerService,
                 ApiRequest: ApiRequest
             });
         });
