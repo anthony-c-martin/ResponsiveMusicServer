@@ -1,0 +1,6 @@
+<div class="controls controls-nav shrinkable">
+    <div ng-click="positionChange($event)" class="prog-container control">
+        <div ng-style="{width: (audio.position * 100) + '%'}" class="prog-bar"></div>
+        <div ng-if="audio.track" class="track-info">{{ audio.track.Name }} - {{ audio.track.Artist.Name }}</div>
+    </div>
+</div>

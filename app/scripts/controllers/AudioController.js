@@ -1,51 +1,43 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .controller('AudioController', ['PlayerService', 'SessionData',
-        function(PlayerService, SessionData) {
+    .controller('AudioController', ['PlayerService', '$rootScope',
+        function(PlayerService, $rootScope) {
             var ctrl = this;
 
-            function getSourceParams(track) {
-                var params = '?FileName=' + encodeURIComponent(track.FileName);
-                params += '&Session=' + encodeURIComponent(SessionData.getSession().Key);
-
-                return params;
+            function togglePause() {
+                PlayerService.togglePause();
             }
 
-            function trackChangeHandler(track) {
-                ctrl.track = track;
-                if(ctrl.track && ctrl.track.FileName) {
-                    ctrl.src = '/stream' + getSourceParams(track);
-                    ctrl.type = 'audio/mp4';
-                } else {
-                    ctrl.src = '';
-                    ctrl.type = '';
+            function nextTrack() {
+                PlayerService.nextTrack();
+            }
+
+            function prevTrack() {
+                PlayerService.prevTrack();
+            }
+
+            function volumeUpdate(volume) {
+                PlayerService.volumeUpdate(volume);
+            }
+
+            function positionUpdate(position) {
+                PlayerService.positionUpdate(position);
+            }
+
+            $rootScope.$on('hideDropdowns', function(e, data) {
+                if (!(data && data === 'volume')) {
+                    ctrl.volumeShown = false;
                 }
-            }
-
-            function playingChangeHandler(isPlaying) {
-                ctrl.isPlaying = isPlaying;
-            }
-
-            function volumeChangeHandler(volume) {
-                ctrl.volume = volume;
-            }
-
-            function positionChangeHandler(position) {
-                ctrl.position = position;
-            }
-
-            PlayerService.on('trackChange', trackChangeHandler);
-            PlayerService.on('playingChange', playingChangeHandler);
-            PlayerService.on('volumeChange', volumeChangeHandler);
-            PlayerService.on('positionChange', positionChangeHandler);
+            });
 
             angular.extend(this, {
-                track: null,
-                isPlaying: false,
-                volume: 0.5,
-                position: 0,
-                src: '',
-                type: ''
+                volumeShown: false,
+                togglePause: togglePause,
+                nextTrack: nextTrack,
+                prevTrack: prevTrack,
+                audio: PlayerService.current,
+                volumeUpdate: volumeUpdate,
+                positionUpdate: positionUpdate
             });
         }]);

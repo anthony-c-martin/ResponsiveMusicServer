@@ -1,31 +1,21 @@
-<div class="navbar" ng-controller="PlayerController as playerCtrl">
+<div class="navbar" ng-controller="AudioController as audioCtrl">
     <div ng-if="isPhone" class="navbar-inner">
-        <div progress-container class="controls controls-nav shrinkable">
-            <div ng-click="positionChange($event)" class="prog-container control">
-                <div ng-style="{width: (position * 100) + '%'}" class="prog-bar"></div>
-                <div ng-if="track" class="track-info">{{ track.Name }} - {{ track.Artist.Name }}</div>
-            </div>
-        </div>
+        <position-control position-update="audioCtrl.positionUpdate"></position-control>
     </div>
     <div class="navbar-inner">
         <div class="controls controls-nav unshrinkable">
-            <button ng-click="playerCtrl.prev()" type="button" class="control">
+            <button ng-click="audioCtrl.prevTrack()" type="button" class="control">
                 <i class="fa fa-fast-backward"></i>
             </button>
-            <button ng-click="playerCtrl.togglePause()" type="button" class="control">
-                <i ng-if="!playing" class="fa fa-play"></i>
-                <i ng-if="playing" class="fa fa-pause"></i>
+            <button ng-click="audioCtrl.togglePause()" type="button" class="control">
+                <i ng-if="!audioCtrl.audio.isPlaying" class="fa fa-play"></i>
+                <i ng-if="audioCtrl.audio.isPlaying" class="fa fa-pause"></i>
             </button>
-            <button ng-click="playerCtrl.next()" type="button" class="control">
+            <button ng-click="audioCtrl.nextTrack()" type="button" class="control">
                 <i class="fa fa-fast-forward"></i>
             </button>
         </div>
-        <div ng-if="!isPhone" progress-container class="controls controls-nav shrinkable">
-            <div ng-click="positionChange($event)" class="prog-container control">
-                <div ng-style="{width: (position * 100) + '%'}" class="prog-bar"></div>
-                <div ng-if="track" class="track-info">{{ track.Name }} - {{ track.Artist.Name }}</div>
-            </div>
-        </div>
+        <position-control position-update="audioCtrl.positionUpdate" ng-if="!isPhone"></position-control>
         <div class="controls controls-nav unshrinkable">
             <div class="control-container">
                 <button playlist-button ng-click="playlistShown = !playlistShown" ng-class="{active: playlistShown}" body-event-handler="playlist" type="button" class="control">
@@ -34,10 +24,10 @@
                 <playlist ng-show="playlistShown"></playlist>
             </div>
             <div class="control-container">
-                <button ng-click="volumeShown = !volumeShown" ng-class="{active: volumeShown}" body-event-handler="volume" type="button" class="control">
+                <button ng-click="audioCtrl.volumeShown = !audioCtrl.volumeShown" ng-class="{active: audioCtrl.volumeShown}" body-event-handler="volume" type="button" class="control">
                     <i class="fa fa-volume-up"></i>
                 </button>
-                <volume-control ng-show="volumeShown"></volume-control>
+                <volume-control volume-update="audioCtrl.volumeUpdate" ng-show="audioCtrl.volumeShown"></volume-control>
             </div>
             <button ng-click="appCtrl.toggleScrobblingEnabled()" ng-class="{active: appCtrl.scrobblingEnabled}" type="button" class="control">
                 <i class="fa fa-lastfm"></i>
@@ -45,5 +35,5 @@
         </div>
         <search></search>
     </div>
-    <audio-player></audio-player>
+    <audio audio-source src="audioCtrl.audio.src" type="audioCtrl.audio.type"></audio>
 </div>

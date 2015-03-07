@@ -1,57 +1,67 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .service('PlayerService', ['PlaylistFactory',
-        function(PlaylistFactory) {
+    .service('PlayerService', ['PlaylistFactory', 'SessionData',
+        function(PlaylistFactory, SessionData) {
+            var service = this;
+
             this.playlist = new PlaylistFactory();
-            var currentTrack = null;
 
-            var handlers = {
-                trackChange: null,
-                playingChange: null,
-                volumeChange: null,
-                positionChange: null
-            };
+            function getSourceParams(track) {
+                var params = '?FileName=' + encodeURIComponent(track.FileName);
+                params += '&Session=' + encodeURIComponent(SessionData.getSession().Key);
 
-            function fireEvent(type, data) {
-                if (handlers[type]) {
-                    handlers[type](data);
+                return params;
+            }
+
+            function changeTrack(track) {
+                if(track && track.FileName) {
+                    service.current.src = '/stream' + getSourceParams(track);
+                    service.current.type = 'audio/mp4';
+                    service.current.track = track;
+                } else {
+                    service.current.src = '';
+                    service.current.type = '';
+                    service.current.track = null;
                 }
             }
 
-            this.on = function(event, handler) {
-                if (handlers.hasOwnProperty(event)) {
-                    handlers[event] = handler;
-                }
-            };
-
             this.nextTrack = function() {
-                if (currentTrack) {
-                    currentTrack = this.playlist.getRelativeTo(currentTrack, false);
+                if (service.current.track) {
+                    changeTrack(service.playlist.getRelativeTo(service.current.track, false));
                 } else {
-                    currentTrack = this.playlist.tracks[0];
+                    changeTrack(service.playlist.tracks[0]);
                 }
-                fireEvent('trackChange', currentTrack);
             };
 
             this.previousTrack = function() {
-                if (currentTrack) {
-                    currentTrack = this.playlist.getRelativeTo(currentTrack, true);
+                if (service.current.track) {
+                    changeTrack(service.playlist.getRelativeTo(service.current.track, true));
                 } else {
-                    currentTrack = this.playlist.tracks[0];
+                    changeTrack(service.playlist.tracks[0]);
                 }
-                fireEvent('trackChange', currentTrack);
             };
 
-            this.setPlaying = function(isPlaying) {
-                fireEvent('playingChange', isPlaying);
+            this.volumeUpdate = function(volume) {
+                if (service.volumeUpdateCallback) {
+                    service.volumeUpdateCallback(volume);
+                }
             };
+            this.volumeUpdateCallback = null;
 
-            this.setVolume = function(volume) {
-                fireEvent('volumeChange', volume);
+            this.positionUpdate = function(position) {
+                if (service.positionUpdateCallback) {
+                    service.positionUpdateCallback(position);
+                }
             };
+            this.positionUpdateCallback = null;
 
-            this.setPosition = function(position) {
-                fireEvent('positionChange', position);
+            this.current = {
+                position: 0,
+                volume: 0.5,
+                isPlaying: false,
+                track: null,
+                src: '',
+                type: ''
             };
         }]);
