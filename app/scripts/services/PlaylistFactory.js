@@ -65,6 +65,10 @@ angular.module('musicServerApp')
                     });
                 }
 
+                function removeTrack(trackToRemove) {
+                    removeTracks([trackToRemove]);
+                }
+
                 function clear() {
                     var copiedTracks = [];
                     angular.forEach(tracks, function(track) {
@@ -105,6 +109,7 @@ angular.module('musicServerApp')
                     addTracksByArtist: addTracksByArtist,
                     selectTracks: selectTracks,
                     removeTracks: removeTracks,
+                    removeTrack: removeTrack,
                     clear: clear,
                     getRelativeTo: getRelativeTo,
                     deselectAll: deselectAll

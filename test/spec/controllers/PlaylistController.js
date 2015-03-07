@@ -41,7 +41,7 @@ describe('Controller: PlaylistController', function() {
             expect(SelectableTracks.calls.count()).toBe(1);
 
             expect($scope.trackArea).toBe(mockSelectableTracks);
-            expect($scope.trackArea.allTracks).toBe(controller.playlist.tracks);
+            expect($scope.trackArea.allTracks).toBe(controller.playlist);
         });
     });
 

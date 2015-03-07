@@ -1,6 +1,6 @@
 'use strict';
 
-describe('AudioController', function() {
+describe('Controller: AudioController', function() {
 
     var controller,
         PlayerService,
@@ -57,7 +57,7 @@ describe('AudioController', function() {
 
     describe('positionUpdate', function() {
         it('should call positionUpdate on the PlayerService', function() {
-            controller.positionUpdate();
+            controller.positionUpdate(0.7);
 
             expect(PlayerService.positionUpdate).toHaveBeenCalledWith(0.7);
         });

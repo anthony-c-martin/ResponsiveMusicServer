@@ -1,6 +1,6 @@
 'use strict';
 
-describe('MainController', function() {
+describe('Controller: MainController', function() {
 
     var controller,
         DataLoader,
@@ -51,28 +51,28 @@ describe('MainController', function() {
         var mockArtist = {
             ID: 28764
         };
-        spyOn(Playlist, 'addTracksByArtist');
+        spyOn(PlayerService.playlist, 'addTracksByArtist');
 
         $rootScope.$emit('addArtist', mockArtist);
 
-        expect(Playlist.addTracksByArtist).toHaveBeenCalledWith(28764);
-        expect(Playlist.addTracksByArtist.calls.count()).toBe(1);
+        expect(PlayerService.playlist.addTracksByArtist).toHaveBeenCalledWith(28764);
+        expect(PlayerService.playlist.addTracksByArtist.calls.count()).toBe(1);
     });
 
     it('should clear the playlist, add tracks to it, and then emit a StartPlaying event on the playArtist event', function() {
         var mockArtist = {
             ID: 12525
         };
-        spyOn(Playlist, 'clear');
-        spyOn(Playlist, 'addTracksByArtist').and.returnValue($q.when());
+        spyOn(PlayerService.playlist, 'clear');
+        spyOn(PlayerService.playlist, 'addTracksByArtist').and.returnValue($q.when());
         spyOn($scope, '$emit');
 
         $rootScope.$emit('playArtist', mockArtist);
 
-        expect(Playlist.clear).toHaveBeenCalledWith();
-        expect(Playlist.clear.calls.count()).toBe(1);
-        expect(Playlist.addTracksByArtist).toHaveBeenCalledWith(12525);
-        expect(Playlist.addTracksByArtist.calls.count()).toBe(1);
+        expect(PlayerService.playlist.clear).toHaveBeenCalledWith();
+        expect(PlayerService.playlist.clear.calls.count()).toBe(1);
+        expect(PlayerService.playlist.addTracksByArtist).toHaveBeenCalledWith(12525);
+        expect(PlayerService.playlist.addTracksByArtist.calls.count()).toBe(1);
 
         $scope.$digest();
 
@@ -84,28 +84,28 @@ describe('MainController', function() {
         var mockAlbum = {
             ID: 23166
         };
-        spyOn(Playlist, 'addTracksByAlbum');
+        spyOn(PlayerService.playlist, 'addTracksByAlbum');
 
         $rootScope.$emit('addAlbum', mockAlbum);
 
-        expect(Playlist.addTracksByAlbum).toHaveBeenCalledWith(23166);
-        expect(Playlist.addTracksByAlbum.calls.count()).toBe(1);
+        expect(PlayerService.playlist.addTracksByAlbum).toHaveBeenCalledWith(23166);
+        expect(PlayerService.playlist.addTracksByAlbum.calls.count()).toBe(1);
     });
 
     it('should clear the playlist, add tracks to it, and then emit a StartPlaying event on the playArtist event', function() {
         var mockAlbum = {
             ID: 43764
         };
-        spyOn(Playlist, 'clear');
-        spyOn(Playlist, 'addTracksByAlbum').and.returnValue($q.when());
+        spyOn(PlayerService.playlist, 'clear');
+        spyOn(PlayerService.playlist, 'addTracksByAlbum').and.returnValue($q.when());
         spyOn($scope, '$emit');
 
         $rootScope.$emit('playAlbum', mockAlbum);
 
-        expect(Playlist.clear).toHaveBeenCalledWith();
-        expect(Playlist.clear.calls.count()).toBe(1);
-        expect(Playlist.addTracksByAlbum).toHaveBeenCalledWith(43764);
-        expect(Playlist.addTracksByAlbum.calls.count()).toBe(1);
+        expect(PlayerService.playlist.clear).toHaveBeenCalledWith();
+        expect(PlayerService.playlist.clear.calls.count()).toBe(1);
+        expect(PlayerService.playlist.addTracksByAlbum).toHaveBeenCalledWith(43764);
+        expect(PlayerService.playlist.addTracksByAlbum.calls.count()).toBe(1);
 
         $scope.$digest();
 
@@ -115,43 +115,43 @@ describe('MainController', function() {
 
     it('should add a track to the playlist on the addTrack event', function() {
         var mockTrack = {};
-        spyOn(Playlist, 'addTracks');
+        spyOn(PlayerService.playlist, 'addTracks');
 
         $rootScope.$emit('addTrack', mockTrack);
 
-        expect(Playlist.addTracks).toHaveBeenCalled();
-        expect(Playlist.addTracks.calls.count()).toBe(1);
-        expect(Playlist.addTracks.calls.mostRecent().args.length).toBe(1);
-        expect(Playlist.addTracks.calls.mostRecent().args[0].length).toBe(1);
-        expect(Playlist.addTracks.calls.mostRecent().args[0][0]).toBe(mockTrack);
+        expect(PlayerService.playlist.addTracks).toHaveBeenCalled();
+        expect(PlayerService.playlist.addTracks.calls.count()).toBe(1);
+        expect(PlayerService.playlist.addTracks.calls.mostRecent().args.length).toBe(1);
+        expect(PlayerService.playlist.addTracks.calls.mostRecent().args[0].length).toBe(1);
+        expect(PlayerService.playlist.addTracks.calls.mostRecent().args[0][0]).toBe(mockTrack);
     });
 
     it('should remove a track from the playlist on the removeTrack event', function() {
         var mockTrack = {};
-        spyOn(Playlist, 'removeTrack');
+        spyOn(PlayerService.playlist, 'removeTrack');
 
         $rootScope.$emit('removeTrack', mockTrack);
 
-        expect(Playlist.removeTrack).toHaveBeenCalledWith(mockTrack);
-        expect(Playlist.removeTrack.calls.count()).toBe(1);
+        expect(PlayerService.playlist.removeTrack).toHaveBeenCalledWith(mockTrack);
+        expect(PlayerService.playlist.removeTrack.calls.count()).toBe(1);
     });
 
     it('should clear the playlist, add a track to it, and then emit a StartPlaying event on the playTrack event', function() {
         var mockTrack = {};
-        spyOn(Playlist, 'clear');
-        spyOn(Playlist, 'addTracks');
+        spyOn(PlayerService.playlist, 'clear');
+        spyOn(PlayerService.playlist, 'addTracks');
         spyOn($scope, '$emit');
 
         $rootScope.$emit('playTrack', mockTrack);
 
-        expect(Playlist.clear).toHaveBeenCalledWith();
-        expect(Playlist.clear.calls.count()).toBe(1);
+        expect(PlayerService.playlist.clear).toHaveBeenCalledWith();
+        expect(PlayerService.playlist.clear.calls.count()).toBe(1);
 
-        expect(Playlist.addTracks).toHaveBeenCalled();
-        expect(Playlist.addTracks.calls.count()).toBe(1);
-        expect(Playlist.addTracks.calls.mostRecent().args.length).toBe(1);
-        expect(Playlist.addTracks.calls.mostRecent().args[0].length).toBe(1);
-        expect(Playlist.addTracks.calls.mostRecent().args[0][0]).toBe(mockTrack);
+        expect(PlayerService.playlist.addTracks).toHaveBeenCalled();
+        expect(PlayerService.playlist.addTracks.calls.count()).toBe(1);
+        expect(PlayerService.playlist.addTracks.calls.mostRecent().args.length).toBe(1);
+        expect(PlayerService.playlist.addTracks.calls.mostRecent().args[0].length).toBe(1);
+        expect(PlayerService.playlist.addTracks.calls.mostRecent().args[0][0]).toBe(mockTrack);
 
         expect($scope.$emit).toHaveBeenCalledWith('StartPlaying');
         expect($scope.$emit.calls.count()).toBe(1);
