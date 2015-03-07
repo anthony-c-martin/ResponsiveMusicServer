@@ -1,19 +1,19 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .controller('PlaylistController', ['$scope', 'Playlist', 'SelectableTracks',
-        function ($scope, Playlist, SelectableTracks) {
-            $scope.trackArea = new SelectableTracks();
-            $scope.trackArea.allTracks = Playlist.trackArray;
+    .controller('PlaylistController', ['$scope', 'PlayerService', 'SelectableTracks',
+        function ($scope, PlayerService, SelectableTracks) {
+            var playlist = PlayerService.playlist;
 
-            var playlist = Playlist.trackArray;
+            $scope.trackArea = new SelectableTracks();
+            $scope.trackArea.allTracks = playlist.tracks;
 
             function removeTrack(track) {
-                Playlist.removeTrack(track);
+                playlist.removeTrack(track);
             }
 
             function removeAll() {
-                Playlist.clear();
+                playlist.clear();
             }
 
             function removeSelection() {
@@ -21,7 +21,7 @@ angular.module('musicServerApp')
             }
 
             angular.extend(this, {
-                playlist: playlist,
+                playlist: playlist.tracks,
                 removeTrack: removeTrack,
                 removeAll: removeAll,
                 removeSelection: removeSelection

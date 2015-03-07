@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .service('DraggableData', ['$q', 'ApiRequest', 'Playlist',
-        function($q, ApiRequest, Playlist) {
+    .service('DraggableData', ['$q', 'ApiRequest', 'PlayerService',
+        function($q, ApiRequest, PlayerService) {
             var service = this;
 
+            var playlist = PlayerService.playlist;
             var currentDeferred = $q.defer();
             currentDeferred.reject();
 
@@ -124,9 +125,9 @@ angular.module('musicServerApp')
                     $event.stopPropagation();
 
                     getTracks().then(function(tracks) {
-                        Playlist.addTracks(tracks);
+                        playlist.addTracks(tracks);
                     });
-                    Playlist.deselectAll();
+                    playlist.deselectAll();
                 });
             }
 
@@ -154,7 +155,7 @@ angular.module('musicServerApp')
                     var addAfter = !service.currentHoverScope.dragoverPre;
                     changeScopeVariable(service.currentHoverScope, false, false);
                     getTracks().then(function(tracks) {
-                        Playlist.addTracks(tracks, service.currentHoverScope.track, addAfter);
+                        playlist.addTracks(tracks, service.currentHoverScope.track, addAfter);
                     });
                 });
             }

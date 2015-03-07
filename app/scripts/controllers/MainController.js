@@ -1,9 +1,11 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .controller('MainController', ['$scope', '$rootScope', 'DataLoader', 'Playlist', 'ApiRequest',
-        function($scope, $rootScope, DataLoader, Playlist, ApiRequest) {
+    .controller('MainController', ['$scope', '$rootScope', 'DataLoader', 'PlayerService', 'ApiRequest',
+        function($scope, $rootScope, DataLoader, PlayerService, ApiRequest) {
             var ctrl = this;
+
+            var playlist = PlayerService.playlist;
 
             function loadArtists() {
                 ctrl.artists.length = 0;
@@ -30,44 +32,44 @@ angular.module('musicServerApp')
 
             $rootScope.$on('addArtist', function(e, artist) {
                 e.stopPropagation();
-                Playlist.addTracksByArtist(artist.ID);
+                playlist.addTracksByArtist(artist.ID);
             });
 
             $rootScope.$on('playArtist', function(e, artist) {
                 e.stopPropagation();
-                Playlist.clear();
-                Playlist.addTracksByArtist(artist.ID).then(function() {
+                playlist.clear();
+                playlist.addTracksByArtist(artist.ID).then(function() {
                     $scope.$emit('StartPlaying');
                 });
             });
 
             $rootScope.$on('addAlbum', function(e, album) {
                 e.stopPropagation();
-                Playlist.addTracksByAlbum(album.ID);
+                playlist.addTracksByAlbum(album.ID);
             });
 
             $rootScope.$on('playAlbum', function(e, album) {
                 e.stopPropagation();
-                Playlist.clear();
-                Playlist.addTracksByAlbum(album.ID).then(function() {
+                playlist.clear();
+                playlist.addTracksByAlbum(album.ID).then(function() {
                     $scope.$emit('StartPlaying');
                 });
             });
 
             $rootScope.$on('addTrack', function(e, track) {
                 e.stopPropagation();
-                Playlist.addTracks([track]);
+                playlist.addTracks([track]);
             });
 
             $rootScope.$on('removeTrack', function(e, track) {
                 e.stopPropagation();
-                Playlist.removeTrack(track);
+                playlist.removeTrack(track);
             });
 
             $rootScope.$on('playTrack', function(e, track) {
                 e.stopPropagation();
-                Playlist.clear();
-                Playlist.addTracks([track]);
+                playlist.clear();
+                playlist.addTracks([track]);
                 $scope.$emit('StartPlaying');
             });
 

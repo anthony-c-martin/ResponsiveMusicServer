@@ -1,10 +1,19 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .factory('PlaylistFactory', [
-        function() {
+    .factory('PlaylistFactory', ['ApiRequest', '$q',
+        function(ApiRequest, $q) {
             return function() {
                 var tracks = [];
+
+                function addTrack(trackToAdd, position) {
+                    if (position > 0) {
+                        var relativeTrack = tracks[position];
+                        addTracks([trackToAdd], relativeTrack, true);
+                    } else {
+                        addTracks([trackToAdd]);
+                    }
+                }
 
                 function addTracks(tracksToAdd, relativeTrack, beforeRelativeTrack) {
                     var index = tracks.length;
@@ -23,6 +32,28 @@ angular.module('musicServerApp')
                     });
                 }
 
+                function addTracksByAlbum(albumId) {
+                    var deferred = $q.defer();
+                    ApiRequest.track.getFromAlbum(albumId).bound(0, 1000).submit().then(function(tracks) {
+                        addTracks(tracks);
+                        deferred.resolve();
+                    }, function() {
+                        deferred.reject();
+                    });
+                    return deferred.promise;
+                }
+
+                function addTracksByArtist(artistId) {
+                    var deferred = $q.defer();
+                    ApiRequest.track.getFromArtist(artistId).bound(0, 1000).submit().then(function(tracks) {
+                        addTracks(tracks);
+                        deferred.resolve();
+                    }, function() {
+                        deferred.reject();
+                    });
+                    return deferred.promise;
+                }
+
                 function removeTracks(tracksToRemove) {
                     angular.forEach(tracksToRemove, function(track) {
                         var index = tracks.indexOf(track);
@@ -30,6 +61,14 @@ angular.module('musicServerApp')
                             tracks.splice(index, 1);
                         }
                     });
+                }
+
+                function clear() {
+                    var copiedTracks = [];
+                    angular.forEach(tracks, function(track) {
+                        copiedTracks.push(track);
+                    });
+                    removeTracks(copiedTracks);
                 }
 
                 function selectTracks(tracksToSelect) {
@@ -50,12 +89,23 @@ angular.module('musicServerApp')
                     return tracks[index];
                 }
 
+                function deselectAll() {
+                    angular.forEach(tracks, function(track) {
+                        delete track.selected;
+                    });
+                }
+
                 return {
                     tracks: tracks,
+                    addTrack: addTrack,
                     addTracks: addTracks,
+                    addTracksByAlbum: addTracksByAlbum,
+                    addTracksByArtist: addTracksByArtist,
                     selectTracks: selectTracks,
                     removeTracks: removeTracks,
-                    getRelativeTo: getRelativeTo
+                    clear: clear,
+                    getRelativeTo: getRelativeTo,
+                    deselectAll: deselectAll
                 };
             };
         }]);
