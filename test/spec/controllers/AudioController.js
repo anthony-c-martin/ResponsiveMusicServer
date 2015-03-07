@@ -1,48 +1,65 @@
 'use strict';
 
-describe('Controller: AudioController', function() {
+describe('AudioController', function() {
 
     var controller,
         PlayerService,
-        SessionData,
-        $scope,
         $rootScope;
-
-    var eventHandlers = {};
 
     beforeEach(function() {
         module('musicServerApp');
 
         inject(function($injector) {
             $rootScope = $injector.get('$rootScope');
-            $scope = $rootScope.$new();
+            PlayerService = jasmine.createSpyObj('PlayerService', [
+                'togglePause', 'nextTrack', 'previousTrack', 'volumeUpdate', 'positionUpdate'
+            ]);
             var $controller = $injector.get('$controller');
 
             controller = $controller('AudioController', {
                 PlayerService: PlayerService,
-                SessionData: SessionData
+                $rootScope: $rootScope
             });
-        });
-
-        spyOn(SessionData, 'getSession').andReturn({
-            Key: 'a9udfbabfg9s87ag87agsf7h'
-        })
-
-        spyOn(PlayerService, 'on').andCallFake(function(event, handler) {
-            eventHandlers[event] = handler;
         });
     });
 
-    describe('trackChange event', function() {
-        it('should update variables based on the track data', function() {
-            var track = {
-                ID: 1,
-                FileName: '1325123ag9h98hagag8787'
-            };
-            eventHandlers.trackChange(track);
+    describe('togglePause', function() {
+        it('should call togglePause on the PlayerService', function() {
+            controller.togglePause();
 
-            expect(controller.src).toBe('');
-            expect(controller.type).toBe('audio/mp4');
+            expect(PlayerService.togglePause).toHaveBeenCalledWith();
+        });
+    });
+
+    describe('nextTrack', function() {
+        it('should call nextTrack on the PlayerService', function() {
+            controller.nextTrack();
+
+            expect(PlayerService.nextTrack).toHaveBeenCalledWith();
+        });
+    });
+
+    describe('previousTrack', function() {
+        it('should call previousTrack on the PlayerService', function() {
+            controller.previousTrack();
+
+            expect(PlayerService.previousTrack).toHaveBeenCalledWith();
+        });
+    });
+
+    describe('volumeUpdate', function() {
+        it('should call volumeUpdate on the PlayerService', function() {
+            controller.volumeUpdate(0.8);
+
+            expect(PlayerService.volumeUpdate).toHaveBeenCalledWith(0.8);
+        });
+    });
+
+    describe('positionUpdate', function() {
+        it('should call positionUpdate on the PlayerService', function() {
+            controller.positionUpdate();
+
+            expect(PlayerService.positionUpdate).toHaveBeenCalledWith(0.7);
         });
     });
 });

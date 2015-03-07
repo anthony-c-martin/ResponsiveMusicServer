@@ -25,6 +25,7 @@ angular.module('musicServerApp')
                 PlayerService.positionUpdate(position);
             }
 
+            //TODO wrap all the hideDropdowns functionality in a directive
             $rootScope.$on('hideDropdowns', function(e, data) {
                 if (!(data && data === 'volume')) {
                     ctrl.volumeShown = false;

@@ -4,7 +4,7 @@ describe('Controller: PlaylistController', function() {
 
     var controller,
         SelectableTracks,
-        Playlist,
+        PlayerService,
         $scope,
         $rootScope,
         $q;
@@ -21,55 +21,59 @@ describe('Controller: PlaylistController', function() {
             $rootScope = $injector.get('$rootScope');
             $scope = $rootScope.$new();
             SelectableTracks = jasmine.createSpy('SelectableTracksSpy').and.returnValue(mockSelectableTracks);
-            Playlist = $injector.get('Playlist');
+            PlayerService = {
+                playlist: jasmine.createSpyObj('playlist', ['removeTrack', 'clear'])
+            };
 
             var $controller = $injector.get('$controller');
 
             controller = $controller('PlaylistController', {
                 $scope: $scope,
-                Playlist: Playlist,
+                PlayerService: PlayerService,
                 SelectableTracks: SelectableTracks
             });
         });
     });
 
-    it('should create a new SelectableTracks object and set the allTracks array to the playlist trackArray', function() {
-        expect(SelectableTracks).toHaveBeenCalledWith();
-        expect(SelectableTracks.calls.count()).toBe(1);
+    describe('initialisation', function() {
+        it('should create a new SelectableTracks object and set the allTracks array to the playlist tracks', function() {
+            expect(SelectableTracks).toHaveBeenCalledWith();
+            expect(SelectableTracks.calls.count()).toBe(1);
 
-        expect($scope.trackArea).toBe(mockSelectableTracks);
-        expect($scope.trackArea.allTracks).toBe(Playlist.trackArray);
+            expect($scope.trackArea).toBe(mockSelectableTracks);
+            expect($scope.trackArea.allTracks).toBe(controller.playlist.tracks);
+        });
     });
 
-    it('should set the playlist scope variable to the playlist trackArray', function() {
-        expect(controller.playlist).toBe(Playlist.trackArray);
+    describe('removeTrack', function() {
+        it('should call removeTrack on the playlist object', function() {
+            var mockTrack = {};
+
+            controller.removeTrack(mockTrack);
+
+            expect(PlayerService.playlist.removeTrack).toHaveBeenCalledWith(mockTrack);
+            expect(PlayerService.playlist.removeTrack.calls.count()).toBe(1);
+        });
     });
 
-    it('should call Playlist.removeTrack when removeTrack is called', function() {
-        spyOn(Playlist, 'removeTrack');
-        var mockTrack = {};
+    describe('removeAll', function() {
+        it('should call clear on the playlist object', function() {
+            controller.removeAll();
 
-        controller.removeTrack(mockTrack);
-
-        expect(Playlist.removeTrack).toHaveBeenCalledWith(mockTrack);
-        expect(Playlist.removeTrack.calls.count()).toBe(1);
+            expect(PlayerService.playlist.clear).toHaveBeenCalledWith();
+            expect(PlayerService.playlist.clear.calls.count()).toBe(1);
+        });
     });
 
-    it('should call Playlist.clear when removeAll is called', function() {
-        spyOn(Playlist, 'clear');
+    describe('removeSelection', function() {
+        it('should call removeSelection on the SelectableTracks object', function() {
+            spyOn($scope.trackArea, 'removeSelection');
 
-        controller.removeAll();
+            controller.removeSelection();
 
-        expect(Playlist.clear).toHaveBeenCalledWith();
-        expect(Playlist.clear.calls.count()).toBe(1);
+            expect($scope.trackArea.removeSelection).toHaveBeenCalledWith();
+            expect($scope.trackArea.removeSelection.calls.count()).toBe(1);
+        });
     });
 
-    it('should call playlistArea.removeSelection when removeSelection is called', function() {
-        spyOn($scope.trackArea, 'removeSelection');
-
-        controller.removeSelection();
-
-        expect($scope.trackArea.removeSelection).toHaveBeenCalledWith();
-        expect($scope.trackArea.removeSelection.calls.count()).toBe(1);
-    });
 });
