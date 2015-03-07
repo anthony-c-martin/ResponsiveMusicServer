@@ -13,8 +13,8 @@ angular.module('musicServerApp')
                 PlayerService.nextTrack();
             }
 
-            function prevTrack() {
-                PlayerService.prevTrack();
+            function previousTrack() {
+                PlayerService.previousTrack();
             }
 
             function volumeUpdate(volume) {
@@ -35,7 +35,7 @@ angular.module('musicServerApp')
                 volumeShown: false,
                 togglePause: togglePause,
                 nextTrack: nextTrack,
-                prevTrack: prevTrack,
+                previousTrack: previousTrack,
                 audio: PlayerService.current,
                 volumeUpdate: volumeUpdate,
                 positionUpdate: positionUpdate

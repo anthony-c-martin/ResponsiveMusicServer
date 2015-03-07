@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .service('PlayerService', ['PlaylistFactory', 'SessionData',
-        function(PlaylistFactory, SessionData) {
+    .service('PlayerService', ['$rootScope', 'PlaylistFactory', 'SessionData',
+        function($rootScope, PlaylistFactory, SessionData) {
             var service = this;
 
             this.playlist = new PlaylistFactory();
@@ -16,10 +16,10 @@ angular.module('musicServerApp')
 
             function changeTrack(track) {
                 if(track && track.FileName) {
-                    service.audioUpdate('/stream' + getSourceParams(track), 'audio/mpp4');
+                    audioUpdate('/stream' + getSourceParams(track), 'audio/mp4');
                     service.current.track = track;
                 } else {
-                    service.audioUpdate('', '');
+                    audioUpdate('', '');
                     service.current.track = null;
                 }
             }
@@ -40,26 +40,21 @@ angular.module('musicServerApp')
                 }
             };
 
-            this.volumeUpdate = function(volume) {
-                if (service.volumeUpdateCallback) {
-                    service.volumeUpdateCallback(volume);
-                }
+            this.togglePause = function() {
+                $rootScope.$broadcast('PlayerService.togglePause');
             };
-            this.volumeUpdateCallback = null;
+
+            this.volumeUpdate = function(volume) {
+                $rootScope.$broadcast('PlayerService.volumeUpdate', volume);
+            };
 
             this.positionUpdate = function(position) {
-                if (service.positionUpdateCallback) {
-                    service.positionUpdateCallback(position);
-                }
+                $rootScope.$broadcast('PlayerService.positionUpdate', position);
             };
-            this.positionUpdateCallback = null;
 
-            this.audioUpdate = function(src, type) {
-                if (service.audioUpdateCallback) {
-                    service.audioUpdateCallback(src, type);
-                }
-            };
-            this.audioUpdateCallback = null;
+            function audioUpdate(src, type) {
+                $rootScope.$broadcast('PlayerService.audioUpdate', {src: src, type: type});
+            }
 
             this.current = {
                 position: 0,

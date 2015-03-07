@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .directive('audioSource', ['PlayerService',
-        function(PlayerService) {
+    .directive('audioSource', ['$rootScope', 'PlayerService',
+        function($rootScope, PlayerService) {
             function link(scope, element) {
                 var audio = element[0];
 
@@ -49,24 +49,27 @@ angular.module('musicServerApp')
                 element.on('timeupdate', onTimeUpdate);
                 element.on('ended', onEnded);
 
-                PlayerService.volumeUpdateCallback = function(volume) {
+                $rootScope.$on('PlayerService.volumeUpdate', function(e, volume) {
                     audio.volume = volume;
-                };
+                });
 
-                PlayerService.positionUpdateCallback = function(position) {
+                $rootScope.$on('PlayerService.positionUpdate', function(e, position) {
                     if (audio.readyState) {
                         audio.currentTime = audio.duration * position;
                     }
-                };
-                PlayerService.audioUpdateCallback = function(src, type) {
-                    audio.src = src;
-                    audio.type = type;
-                };
+                });
 
-                scope.$on('destroy', function() {
-                    PlayerService.volumeUpdateCallback = null;
-                    PlayerService.positionUpdateCallback = null;
-                    PlayerService.audioUpdateCallback = null;
+                $rootScope.$on('PlayerService.togglePause', function() {
+                    if (audio.paused && audio.readyState) {
+                        audio.play();
+                    } else {
+                        audio.pause();
+                    }
+                });
+
+                $rootScope.$on('PlayerService.audioUpdate', function(e, data) {
+                    audio.src = data.src;
+                    audio.type = data.type;
                 });
             }
 
