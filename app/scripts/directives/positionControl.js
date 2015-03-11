@@ -3,10 +3,10 @@
 angular.module('musicServerApp')
     .directive('positionControl', [
         function() {
-            function link(scope, element) {
+            function link(scope) {
                 scope.positionChange = function($event) {
-                    var width = element[0].clientWidth;
-                    var left = $event.clientX - element[0].offsetLeft;
+                    var width = angular.element($event.currentTarget).width();
+                    var left = $event.offsetX;
                     scope.positionUpdate(left / width);
                 };
             }
