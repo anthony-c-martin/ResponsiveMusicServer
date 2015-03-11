@@ -3,13 +3,17 @@
 describe('Service: PlayerService', function() {
 
     var service,
-        PlaylistFactory;
+        PlaylistFactory,
+        $rootScope,
+        SessionData;
 
     beforeEach(function() {
         module('musicServerApp');
 
         inject(function($injector) {
+            $rootScope = $injector.get('$rootScope');
             PlaylistFactory = $injector.get('PlaylistFactory');
+            SessionData = $injector.get('SessionData');
 
             service = $injector.get('PlayerService', {
                 PlaylistFactory: PlaylistFactory
@@ -19,125 +23,122 @@ describe('Service: PlayerService', function() {
 
     describe('initialisation', function() {
         it('should initialise player variables', function() {
-            expect(service.currentTrack).toBeNull();
-            expect(service.isPlaying).toBeFalsy();
-            expect(service.volume).toBe(0.5);
-            expect(service.position).toBe(0);
-        });
-    });
-
-    describe('on', function() {
-        it('should bind the trackChange event handler', function () {
-            var trackChange = jasmine.createSpy('trackChange');
-            service.on('trackChange', trackChange);
-
-            service.nextTrack();
-
-            expect(trackChange).toHaveBeenCalled();
-        });
-
-        it('should bind the playingChange event handler', function () {
-            var playingChange = jasmine.createSpy('playingChange');
-            service.on('playingChange', playingChange);
-
-            service.setPlaying(true);
-
-            expect(playingChange).toHaveBeenCalled();
-        });
-
-        it('should bind the trackChange event handler', function () {
-            var volumeChange = jasmine.createSpy('volumeChange');
-            service.on('volumeChange', volumeChange);
-
-            service.setVolume(0.5);
-
-            expect(volumeChange).toHaveBeenCalled();
-        });
-
-        it('should bind the trackChange event handler', function () {
-            var positionChange = jasmine.createSpy('positionChange');
-            service.on('positionChange', positionChange);
-
-            service.setPosition(10);
-
-            expect(positionChange).toHaveBeenCalled();
+            expect(service.current.track).toBeNull();
+            expect(service.current.isPlaying).toBeFalsy();
+            expect(service.current.volume).toBe(0.5);
+            expect(service.current.position).toBe(0);
         });
     });
 
     describe('nextTrack', function() {
-        it('should choose the first track if currentTrack is not assigned', function() {
+        it('should choose the first track if current.track is not assigned', function() {
             service.playlist.addTracks([
-                {ID: 1},
-                {ID: 2}
+                {ID: 1, FileName: 'asdf97ug'},
+                {ID: 2, FileName: 2}
             ]);
 
+            spyOn($rootScope, '$broadcast');
             service.nextTrack();
 
-            expect(service.currentTrack).toEqual({ID: 1});
+            expect(service.current.track).toEqual({ID: 1, FileName: 'asdf97ug'});
+            expect($rootScope.$broadcast).toHaveBeenCalledWith('PlayerService.audioUpdate', {src: '/stream?FileName=asdf97ug&Session=SessionKey', type: 'audio/mp4'});
         });
 
-        it('should choose the next track if currentTrack is assigned', function() {
+        it('should choose the next track if current.track is assigned', function() {
             service.playlist.addTracks([
-                {ID: 1},
-                {ID: 2},
-                {ID: 3}
+                {ID: 1, FileName: 1},
+                {ID: 2, FileName: 'asasdf8h'},
+                {ID: 3, FileName: 3}
             ]);
 
             service.nextTrack();
+            spyOn($rootScope, '$broadcast');
             service.nextTrack();
 
-            expect(service.currentTrack).toEqual({ID: 2});
+            expect(service.current.track).toEqual({ID: 2, FileName: 'asasdf8h'});
+            expect($rootScope.$broadcast).toHaveBeenCalledWith('PlayerService.audioUpdate', {src: '/stream?FileName=asasdf8h&Session=SessionKey', type: 'audio/mp4'});
+        });
+
+        it('should set the track to null if there is no next track', function() {
+            service.playlist.addTracks([
+                {ID: 1, FileName: 1}
+            ]);
+
+            service.nextTrack();
+            spyOn($rootScope, '$broadcast');
+            service.nextTrack();
+
+            expect(service.current.track).toBeNull();
+            expect($rootScope.$broadcast).toHaveBeenCalledWith('PlayerService.audioUpdate', {src: '', type: ''});
         });
     });
 
     describe('previousTrack', function() {
-        it('should choose the first track if currentTrack is not assigned', function() {
+        it('should choose the first track if current.track is not assigned', function() {
             service.playlist.addTracks([
-                {ID: 1},
-                {ID: 2}
+                {ID: 1, FileName: 'asdfubsdf'},
+                {ID: 2, FileName: 2}
             ]);
 
+            spyOn($rootScope, '$broadcast');
             service.previousTrack();
 
-            expect(service.currentTrack).toEqual({ID: 1});
+            expect(service.current.track).toEqual({ID: 1, FileName: 'asdfubsdf'});
+            expect($rootScope.$broadcast).toHaveBeenCalledWith('PlayerService.audioUpdate', {src: '/stream?FileName=asdfubsdf&Session=SessionKey', type: 'audio/mp4'});
         });
 
-        it('should choose the next track if currentTrack is assigned', function() {
+        it('should choose the next track if current.track is assigned', function() {
             service.playlist.addTracks([
-                {ID: 1},
-                {ID: 2},
-                {ID: 3}
+                {ID: 1, FileName: 'asdf9sadfh'},
+                {ID: 2, FileName: 2},
+                {ID: 3, FileName: 3}
             ]);
 
             service.nextTrack();
             service.nextTrack();
+            spyOn($rootScope, '$broadcast');
             service.previousTrack();
 
-            expect(service.currentTrack).toEqual({ID: 1});
+            expect(service.current.track).toEqual({ID: 1, FileName: 'asdf9sadfh'});
+            expect($rootScope.$broadcast).toHaveBeenCalledWith('PlayerService.audioUpdate', {src: '/stream?FileName=asdf9sadfh&Session=SessionKey', type: 'audio/mp4'});
+        });
+
+        it('should set the track to null if there is no previous track', function() {
+            spyOn($rootScope, '$broadcast');
+            service.previousTrack();
+
+            expect(service.current.track).toBeNull();
+            expect($rootScope.$broadcast).toHaveBeenCalledWith('PlayerService.audioUpdate', {src: '', type: ''});
         });
     });
 
-    describe('setPlaying', function() {
-        it('should update the value of isPlaying', function() {
-            service.setPlaying(true);
-            expect(service.isPlaying).toBeTruthy();
+    describe('togglePause', function() {
+        it('should broadcast a PlayerService.togglePause event', function() {
+            spyOn($rootScope, '$broadcast');
 
-            service.setPlaying(false);
-            expect(service.isPlaying).toBeFalsy();
+            service.togglePause();
+
+            expect($rootScope.$broadcast).toHaveBeenCalledWith('PlayerService.togglePause');
         });
     });
 
-    describe('setVolume', function() {
-        it('should update the value of volume', function() {
-            service.setVolume(0.8);
-            expect(service.volume).toBe(0.8);
+    describe('volumeUpdate', function() {
+        it('should broadcast a PlayerService.volumeUpdate event', function() {
+            spyOn($rootScope, '$broadcast');
+
+            service.volumeUpdate(0.3);
+
+            expect($rootScope.$broadcast).toHaveBeenCalledWith('PlayerService.volumeUpdate', 0.3);
         });
     });
 
-    describe('setPosition', function() {
-        it('should update the value of position', function() {
-            service.setPosition(0.79);
-            expect(service.position).toBe(0.79);
+    describe('positionUpdate', function() {
+        it('should broadcast a PlayerService.positionUpdate event', function() {
+            spyOn($rootScope, '$broadcast');
+
+            service.positionUpdate(0.7);
+
+            expect($rootScope.$broadcast).toHaveBeenCalledWith('PlayerService.positionUpdate', 0.7);
         });
     });
 
