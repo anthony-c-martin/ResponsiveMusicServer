@@ -5,7 +5,7 @@ angular.module('musicServerApp')
         function() {
             function link(scope) {
                 scope.positionChange = function($event) {
-                    var width = angular.element($event.currentTarget).width();
+                    var width = $event.currentTarget.clientWidth;
                     var left = $event.offsetX;
                     scope.positionUpdate(left / width);
                 };

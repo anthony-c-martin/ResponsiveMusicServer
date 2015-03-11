@@ -31,11 +31,10 @@ describe('Directive: positionControl', function() {
 
     describe('positionChange', function() {
         it('should call the scope positionUpdate function with the correct position', function() {
-            var progContainer = element.find('.prog-container');
-
-            progContainer.width('400px');
             var mockEvent = {
-                currentTarget: progContainer,
+                currentTarget: {
+                    clientWidth: 400
+                },
                 offsetX: 100
             };
 

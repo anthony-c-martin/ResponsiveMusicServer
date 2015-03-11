@@ -31,11 +31,10 @@ describe('Directive: volumeControl', function() {
 
     describe('volumeChange', function() {
         it('should call the scope volumeUpdate function with the correct volume', function() {
-            var volContainer = element.find('.vol-container');
-
-            volContainer.height('400px');
             var mockEvent = {
-                currentTarget: volContainer,
+                currentTarget: {
+                    clientHeight: 400
+                },
                 offsetY: 100
             };
 

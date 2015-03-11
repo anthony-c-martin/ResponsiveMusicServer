@@ -5,7 +5,7 @@ angular.module('musicServerApp')
         function() {
             function link(scope) {
                 scope.volumeChange = function($event) {
-                    var height = angular.element($event.currentTarget).height();
+                    var height = $event.currentTarget.clientHeight;
                     var bottom = height - $event.offsetY;
                     scope.volumeUpdate(bottom / height);
                 };
