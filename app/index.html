@@ -48,18 +48,20 @@
     <!-- endbuild -->
 
     <!-- build:jsApp({.tmp,app}) scripts/scripts.js -->
+    <!-- inject:js -->
     <script src="scripts/init.js"></script>
     <script src="scripts/app/main.js"></script>
     <script src="scripts/app/views.js"></script>
-    <script src="scripts/services/ApiRequest.js"></script>
-    <script src="scripts/services/DataLoader.js"></script>
-    <script src="scripts/services/DraggableData.js"></script>
-    <script src="scripts/services/HttpRequest.js"></script>
-    <script src="scripts/services/PlayerService.js"></script>
-    <script src="scripts/services/PlaylistFactory.js"></script>
-    <script src="scripts/services/SelectableTracks.js"></script>
-    <script src="scripts/services/SessionData.js"></script>
-    <script src="scripts/services/TrackTimer.js"></script>
+    <script src="scripts/controllers/AlbumController.js"></script>
+    <script src="scripts/controllers/AppController.js"></script>
+    <script src="scripts/controllers/ArtistController.js"></script>
+    <script src="scripts/controllers/AudioController.js"></script>
+    <script src="scripts/controllers/LoginController.js"></script>
+    <script src="scripts/controllers/MainController.js"></script>
+    <script src="scripts/controllers/PanelController.js"></script>
+    <script src="scripts/controllers/PlaylistController.js"></script>
+    <script src="scripts/controllers/SearchController.js"></script>
+    <script src="scripts/controllers/TrackController.js"></script>
     <script src="scripts/directives/album.js"></script>
     <script src="scripts/directives/artist.js"></script>
     <script src="scripts/directives/audioSource.js"></script>
@@ -74,17 +76,18 @@
     <script src="scripts/directives/search.js"></script>
     <script src="scripts/directives/track.js"></script>
     <script src="scripts/directives/volumeControl.js"></script>
-    <script src="scripts/controllers/AlbumController.js"></script>
-    <script src="scripts/controllers/AppController.js"></script>
-    <script src="scripts/controllers/ArtistController.js"></script>
-    <script src="scripts/controllers/AudioController.js"></script>
-    <script src="scripts/controllers/LoginController.js"></script>
-    <script src="scripts/controllers/MainController.js"></script>
-    <script src="scripts/controllers/PanelController.js"></script>
-    <script src="scripts/controllers/PlaylistController.js"></script>
-    <script src="scripts/controllers/SearchController.js"></script>
-    <script src="scripts/controllers/TrackController.js"></script>
     <script src="scripts/filters/groupByDisc.js"></script>
+    <script src="scripts/services/ApiRequest.js"></script>
+    <script src="scripts/services/DataLoader.js"></script>
+    <script src="scripts/services/DraggableData.js"></script>
+    <script src="scripts/services/HttpRequest.js"></script>
+    <script src="scripts/services/PlayerService.js"></script>
+    <script src="scripts/services/PlaylistFactory.js"></script>
+    <script src="scripts/services/SelectableTracks.js"></script>
+    <script src="scripts/services/SessionData.js"></script>
+    <script src="scripts/services/TrackManager.js"></script>
+    <script src="scripts/services/TrackTimer.js"></script>
+    <!-- endinject -->
     <!-- endbuild -->
 </body>
 </html>

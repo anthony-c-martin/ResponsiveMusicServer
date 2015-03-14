@@ -20,17 +20,22 @@ angular.module('musicServerApp')
             }
 
             function changeTrack(track) {
-                if (!(track && track.FileName)) {
+                if (!track) {
                     audioUpdate('', '');
                     current.track = null;
 
                     return;
                 }
 
-                audioUpdate('/stream' + getSourceParams(track), 'audio/mp4');
-                current.track = track;
+                TrackManager.startConversion(track).then(function() {
+                    audioUpdate('/stream' + getSourceParams(track), 'audio/mp4');
+                    current.track = track;
 
-                TrackManager.setupTrackScrobbling(track);
+                    TrackManager.setupScrobbling(track);
+                }, function() {
+                    current.track = track;
+                    nextTrack();
+                });
             }
 
             function nextTrack() {
@@ -66,7 +71,7 @@ angular.module('musicServerApp')
             }
 
             function trackPaused(paused) {
-                TrackManager.togglePauseTrackScrobbling(paused);
+                TrackManager.togglePauseScrobbling(paused);
             }
 
             angular.extend(this, {

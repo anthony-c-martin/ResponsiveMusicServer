@@ -27,11 +27,11 @@ describe('Service: TrackManager', function() {
         });
     });
 
-    describe('setupTrackScrobbling', function() {
+    describe('setupScrobbling', function() {
         it('should call scrobbleTimer.cancel if the ScrobblingEnabled setting is false', function() {
             spyOn(SessionData, 'getUserPreference').and.returnValue(false);
 
-            service.setupTrackScrobbling({});
+            service.setupScrobbling({});
 
             expect(mockTrackTimer.cancel).toHaveBeenCalledWith();
         });
@@ -40,7 +40,7 @@ describe('Service: TrackManager', function() {
             spyOn(SessionData, 'getUserPreference').and.returnValue(true);
             spyOn(ApiRequest.track, 'lastFMNowPlaying').and.returnValue(jasmine.createSpyObj('request', ['submit']));
 
-            service.setupTrackScrobbling({ID: 2155});
+            service.setupScrobbling({ID: 2155});
 
             expect(ApiRequest.track.lastFMNowPlaying).toHaveBeenCalledWith(2155);
             expect(ApiRequest.track.lastFMNowPlaying().submit).toHaveBeenCalledWith();
@@ -49,7 +49,7 @@ describe('Service: TrackManager', function() {
         it('should call scrobbleTimer.reset with half the time of the track as the second argument', function() {
             spyOn(SessionData, 'getUserPreference').and.returnValue(true);
 
-            service.setupTrackScrobbling({ID: 2155, Duration: 100});
+            service.setupScrobbling({ID: 2155, Duration: 100});
 
             expect(mockTrackTimer.reset.calls.argsFor(0)[1]).toBe(50);
         });
@@ -58,7 +58,7 @@ describe('Service: TrackManager', function() {
             spyOn(SessionData, 'getUserPreference').and.returnValue(true);
             spyOn(ApiRequest.track, 'lastFMScrobble').and.returnValue(jasmine.createSpyObj('request', ['submit']));
 
-            service.setupTrackScrobbling({ID: 345745, Duration: 3215});
+            service.setupScrobbling({ID: 345745, Duration: 3215});
             var callbackFunction = mockTrackTimer.reset.calls.argsFor(0)[0];
 
             expect(ApiRequest.track.lastFMScrobble).not.toHaveBeenCalled();
@@ -69,15 +69,15 @@ describe('Service: TrackManager', function() {
         });
     });
 
-    describe('togglePauseTrackScrobbling', function() {
+    describe('togglePauseScrobbling', function() {
         it('should pause the scrobbleTimer when called with true', function() {
-            service.togglePauseTrackScrobbling(true);
+            service.togglePauseScrobbling(true);
 
             expect(mockTrackTimer.pause).toHaveBeenCalledWith();
         });
 
         it('should resume the scrobbleTimer when called with false', function() {
-            service.togglePauseTrackScrobbling(false);
+            service.togglePauseScrobbling(false);
 
             expect(mockTrackTimer.resume).toHaveBeenCalledWith();
         });

@@ -180,9 +180,15 @@ gulp.task('sass', function() {
         .pipe(gulp.dest('.tmp/styles'));
 });
 
+gulp.task('inject', function() {
+    return gulp.src([appConfig.app + '/index.html'])
+        .pipe($.inject(gulp.src(appConfig.app + '/scripts/{,*/}*.js', {read: false}), {relative: true}))
+        .pipe(gulp.dest(appConfig.app));
+});
+
 gulp.task('watch', function() {
     gulp.watch('bower.json', ['wiredep']);
-    gulp.watch(appConfig.app + '/scripts/{,*/}*.js', ['jshint:all']);
+    gulp.watch(appConfig.app + '/scripts/{,*/}*.js', ['jshint:all', 'inject']);
     gulp.watch('test/spec/{,*/}*.js', ['jshint:test', 'karma']);
     gulp.watch(appConfig.app + '/styles/{,*/}*.scss', ['sass']);
     gulp.watch([
@@ -204,7 +210,7 @@ gulp.task('build', function() {
     runSequence(
         ['clean:dist', 'wiredep'],
         ['sass', 'copy:fontawesome', 'copy:bootstrap', 'copy:dist'],
-        ['imagemin', 'htmlmin', 'html2js'],
+        ['imagemin', 'htmlmin', 'html2js', 'inject'],
         'usemin'
     );
 });
