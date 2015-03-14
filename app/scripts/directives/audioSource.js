@@ -8,13 +8,13 @@ angular.module('musicServerApp')
 
                 function onPlay() {
                     scope.$apply(function() {
-                        PlayerService.current.isPlaying = true;
+                        PlayerService.trackPaused(false);
                     });
                 }
 
                 function onPause() {
                     scope.$apply(function() {
-                        PlayerService.current.isPlaying = false;
+                        PlayerService.trackPaused(true);
                     });
                 }
 

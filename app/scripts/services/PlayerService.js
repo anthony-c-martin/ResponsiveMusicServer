@@ -1,11 +1,16 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .service('PlayerService', ['$rootScope', 'PlaylistFactory', 'SessionData',
-        function($rootScope, PlaylistFactory, SessionData) {
-            var service = this;
+    .service('PlayerService', ['$rootScope', 'PlaylistFactory', 'SessionData', 'TrackManager',
+        function($rootScope, PlaylistFactory, SessionData, TrackManager) {
+            var playlist = new PlaylistFactory();
 
-            this.playlist = new PlaylistFactory();
+            var current = {
+                position: 0,
+                volume: 0.5,
+                isPlaying: false,
+                track: null
+            };
 
             function getSourceParams(track) {
                 var params = '?FileName=' + encodeURIComponent(track.FileName);
@@ -15,51 +20,63 @@ angular.module('musicServerApp')
             }
 
             function changeTrack(track) {
-                if(track && track.FileName) {
-                    audioUpdate('/stream' + getSourceParams(track), 'audio/mp4');
-                    service.current.track = track;
-                } else {
+                if (!(track && track.FileName)) {
                     audioUpdate('', '');
-                    service.current.track = null;
+                    current.track = null;
+
+                    return;
+                }
+
+                audioUpdate('/stream' + getSourceParams(track), 'audio/mp4');
+                current.track = track;
+
+                TrackManager.setupTrackScrobbling(track);
+            }
+
+            function nextTrack() {
+                if (current.track) {
+                    changeTrack(playlist.getRelativeTo(current.track, false));
+                } else {
+                    changeTrack(playlist.tracks[0]);
                 }
             }
 
-            this.nextTrack = function() {
-                if (service.current.track) {
-                    changeTrack(service.playlist.getRelativeTo(service.current.track, false));
+            function previousTrack() {
+                if (current.track) {
+                    changeTrack(playlist.getRelativeTo(current.track, true));
                 } else {
-                    changeTrack(service.playlist.tracks[0]);
+                    changeTrack(playlist.tracks[0]);
                 }
-            };
+            }
 
-            this.previousTrack = function() {
-                if (service.current.track) {
-                    changeTrack(service.playlist.getRelativeTo(service.current.track, true));
-                } else {
-                    changeTrack(service.playlist.tracks[0]);
-                }
-            };
-
-            this.togglePause = function() {
+            function togglePause() {
                 $rootScope.$broadcast('PlayerService.togglePause');
-            };
+            }
 
-            this.volumeUpdate = function(volume) {
+            function volumeUpdate(volume) {
                 $rootScope.$broadcast('PlayerService.volumeUpdate', volume);
-            };
+            }
 
-            this.positionUpdate = function(position) {
+            function positionUpdate(position) {
                 $rootScope.$broadcast('PlayerService.positionUpdate', position);
-            };
+            }
 
             function audioUpdate(src, type) {
                 $rootScope.$broadcast('PlayerService.audioUpdate', {src: src, type: type});
             }
 
-            this.current = {
-                position: 0,
-                volume: 0.5,
-                isPlaying: false,
-                track: null
-            };
+            function trackPaused(paused) {
+                TrackManager.togglePauseTrackScrobbling(paused);
+            }
+
+            angular.extend(this, {
+                playlist: playlist,
+                current: current,
+                nextTrack: nextTrack,
+                previousTrack: previousTrack,
+                togglePause: togglePause,
+                volumeUpdate: volumeUpdate,
+                positionUpdate: positionUpdate,
+                trackPaused: trackPaused
+            });
         }]);

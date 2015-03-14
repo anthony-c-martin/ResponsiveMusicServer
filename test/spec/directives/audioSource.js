@@ -33,23 +33,23 @@ describe('Directive: audioSource', function() {
     });
 
     describe('play event', function() {
-        it('should call scope.$apply and set PlayerService.current.isPlaying to true', function() {
-            PlayerService.current.isPlaying = false;
+        it('should call scope.$apply and call PlayerService.trackPaused with false', function() {
+            spyOn(PlayerService, 'trackPaused');
 
             element.trigger('play');
 
-            expect(PlayerService.current.isPlaying).toBe(true);
+            expect(PlayerService.trackPaused).toHaveBeenCalledWith(false);
             expect(scope.$apply).toHaveBeenCalled();
         });
     });
 
     describe('pause event', function() {
         it('should call scope.$apply and set PlayerService.current.isPlaying to false', function() {
-            PlayerService.current.isPlaying = true;
+            spyOn(PlayerService, 'trackPaused');
 
             element.trigger('pause');
 
-            expect(PlayerService.current.isPlaying).toBe(false);
+            expect(PlayerService.trackPaused).toHaveBeenCalledWith(true);
             expect(scope.$apply).toHaveBeenCalled();
         });
     });

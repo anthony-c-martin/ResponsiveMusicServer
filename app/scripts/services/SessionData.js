@@ -3,47 +3,61 @@
 angular.module('musicServerApp')
     .service('SessionData', ['$window',
         function ($window) {
-            return {
-                setSession: function(newSession) {
-                    $window.sessionStorage.sessionKey = newSession.Key;
-                    $window.sessionStorage.sessionSecret = newSession.Secret;
-                },
-                getSession: function() {
-                    if ($window.sessionStorage !== undefined &&
-                        $window.sessionStorage.sessionKey && $window.sessionStorage.sessionSecret) {
-                        return {
-                            Key: $window.sessionStorage.sessionKey,
-                            Secret: $window.sessionStorage.sessionSecret
-                        };
-                    }
+            function setSession(newSession) {
+                $window.sessionStorage.sessionKey = newSession.Key;
+                $window.sessionStorage.sessionSecret = newSession.Secret;
+            }
+
+            function getSession() {
+                if ($window.sessionStorage !== undefined &&
+                    $window.sessionStorage.sessionKey && $window.sessionStorage.sessionSecret) {
                     return {
-                        Key: '',
-                        Secret: ''
+                        Key: $window.sessionStorage.sessionKey,
+                        Secret: $window.sessionStorage.sessionSecret
                     };
-                },
-                clearSession: function() {
-                    delete $window.sessionStorage.sessionKey;
-                    delete $window.sessionStorage.sessionSecret;
-                    delete $window.sessionStorage.userPreferences;
-                },
-                setUserPreferences: function(userPreferences) {
-                    $window.sessionStorage.userPreferences = JSON.stringify(userPreferences);
-                },
-                setUserPreference: function(key, value) {
-                    var prefs = this.getUserPreferences();
-                    prefs[key] = value;
-                    this.setUserPreferences(prefs);
-                },
-                getUserPreferences: function() {
-                    if ($window.sessionStorage.userPreferences) {
-                        return JSON.parse($window.sessionStorage.userPreferences);
-                    }
-                    return {};
-                },
-                getUserPreference: function(key) {
-                    var prefs = this.getUserPreferences();
-                    return prefs[key];
-                },
-                jsonURL: '/api'
-            };
+                }
+                return {
+                    Key: '',
+                    Secret: ''
+                };
+            }
+
+            function clearSession() {
+                delete $window.sessionStorage.sessionKey;
+                delete $window.sessionStorage.sessionSecret;
+                delete $window.sessionStorage.userPreferences;
+            }
+
+            function setUserPreferences(userPreferences) {
+                $window.sessionStorage.userPreferences = JSON.stringify(userPreferences);
+            }
+
+            function setUserPreference(key, value) {
+                var prefs = getUserPreferences();
+                prefs[key] = value;
+                setUserPreferences(prefs);
+            }
+
+            function getUserPreferences() {
+                if ($window.sessionStorage.userPreferences) {
+                    return JSON.parse($window.sessionStorage.userPreferences);
+                }
+                return {};
+            }
+
+            function getUserPreference(key) {
+                var prefs = getUserPreferences();
+                return prefs[key];
+            }
+
+            angular.extend(this, {
+                jsonURL: '/api',
+                setSession: setSession,
+                getSession: getSession,
+                clearSession: clearSession,
+                setUserPreferences: setUserPreferences,
+                setUserPreference: setUserPreference,
+                getUserPreferences: getUserPreferences,
+                getUserPreference: getUserPreference
+            });
         }]);

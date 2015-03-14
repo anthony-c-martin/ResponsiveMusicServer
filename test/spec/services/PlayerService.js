@@ -3,9 +3,10 @@
 describe('Service: PlayerService', function() {
 
     var service,
-        PlaylistFactory,
         $rootScope,
-        SessionData;
+        PlaylistFactory,
+        SessionData,
+        TrackManager;
 
     beforeEach(function() {
         module('musicServerApp');
@@ -14,9 +15,13 @@ describe('Service: PlayerService', function() {
             $rootScope = $injector.get('$rootScope');
             PlaylistFactory = $injector.get('PlaylistFactory');
             SessionData = $injector.get('SessionData');
+            TrackManager = $injector.get('TrackManager');
 
             service = $injector.get('PlayerService', {
-                PlaylistFactory: PlaylistFactory
+                $rootScope: $rootScope,
+                PlaylistFactory: PlaylistFactory,
+                SessionData: SessionData,
+                TrackManager: TrackManager
             });
         });
     });
@@ -31,6 +36,10 @@ describe('Service: PlayerService', function() {
     });
 
     describe('nextTrack', function() {
+        beforeEach(function() {
+            spyOn(TrackManager, 'setupTrackScrobbling');
+        });
+
         it('should choose the first track if current.track is not assigned', function() {
             service.playlist.addTracks([
                 {ID: 1, FileName: 'asdf97ug'},
@@ -42,6 +51,7 @@ describe('Service: PlayerService', function() {
 
             expect(service.current.track).toEqual({ID: 1, FileName: 'asdf97ug'});
             expect($rootScope.$broadcast).toHaveBeenCalledWith('PlayerService.audioUpdate', {src: '/stream?FileName=asdf97ug&Session=SessionKey', type: 'audio/mp4'});
+            expect(TrackManager.setupTrackScrobbling).toHaveBeenCalledWith({ID: 1, FileName: 'asdf97ug'});
         });
 
         it('should choose the next track if current.track is assigned', function() {
@@ -53,10 +63,12 @@ describe('Service: PlayerService', function() {
 
             service.nextTrack();
             spyOn($rootScope, '$broadcast');
+            TrackManager.setupTrackScrobbling.calls.reset();
             service.nextTrack();
 
             expect(service.current.track).toEqual({ID: 2, FileName: 'asasdf8h'});
             expect($rootScope.$broadcast).toHaveBeenCalledWith('PlayerService.audioUpdate', {src: '/stream?FileName=asasdf8h&Session=SessionKey', type: 'audio/mp4'});
+            expect(TrackManager.setupTrackScrobbling).toHaveBeenCalledWith({ID: 2, FileName: 'asasdf8h'});
         });
 
         it('should set the track to null if there is no next track', function() {
@@ -66,14 +78,20 @@ describe('Service: PlayerService', function() {
 
             service.nextTrack();
             spyOn($rootScope, '$broadcast');
+            TrackManager.setupTrackScrobbling.calls.reset();
             service.nextTrack();
 
             expect(service.current.track).toBeNull();
             expect($rootScope.$broadcast).toHaveBeenCalledWith('PlayerService.audioUpdate', {src: '', type: ''});
+            expect(TrackManager.setupTrackScrobbling).not.toHaveBeenCalled();
         });
     });
 
     describe('previousTrack', function() {
+        beforeEach(function() {
+            spyOn(TrackManager, 'setupTrackScrobbling');
+        });
+
         it('should choose the first track if current.track is not assigned', function() {
             service.playlist.addTracks([
                 {ID: 1, FileName: 'asdfubsdf'},
@@ -85,6 +103,7 @@ describe('Service: PlayerService', function() {
 
             expect(service.current.track).toEqual({ID: 1, FileName: 'asdfubsdf'});
             expect($rootScope.$broadcast).toHaveBeenCalledWith('PlayerService.audioUpdate', {src: '/stream?FileName=asdfubsdf&Session=SessionKey', type: 'audio/mp4'});
+            expect(TrackManager.setupTrackScrobbling).toHaveBeenCalledWith({ID: 1, FileName: 'asdfubsdf'});
         });
 
         it('should choose the next track if current.track is assigned', function() {
@@ -97,10 +116,12 @@ describe('Service: PlayerService', function() {
             service.nextTrack();
             service.nextTrack();
             spyOn($rootScope, '$broadcast');
+            TrackManager.setupTrackScrobbling.calls.reset();
             service.previousTrack();
 
             expect(service.current.track).toEqual({ID: 1, FileName: 'asdf9sadfh'});
             expect($rootScope.$broadcast).toHaveBeenCalledWith('PlayerService.audioUpdate', {src: '/stream?FileName=asdf9sadfh&Session=SessionKey', type: 'audio/mp4'});
+            expect(TrackManager.setupTrackScrobbling).toHaveBeenCalledWith({ID: 1, FileName: 'asdf9sadfh'});
         });
 
         it('should set the track to null if there is no previous track', function() {
@@ -109,6 +130,7 @@ describe('Service: PlayerService', function() {
 
             expect(service.current.track).toBeNull();
             expect($rootScope.$broadcast).toHaveBeenCalledWith('PlayerService.audioUpdate', {src: '', type: ''});
+            expect(TrackManager.setupTrackScrobbling).not.toHaveBeenCalled();
         });
     });
 
@@ -139,6 +161,24 @@ describe('Service: PlayerService', function() {
             service.positionUpdate(0.7);
 
             expect($rootScope.$broadcast).toHaveBeenCalledWith('PlayerService.positionUpdate', 0.7);
+        });
+    });
+
+    describe('trackPaused', function() {
+        it('should call togglePauseTrackScrobbling with false on the TrackManager', function() {
+            spyOn(TrackManager, 'togglePauseTrackScrobbling');
+
+            service.trackPaused(false);
+
+            expect(TrackManager.togglePauseTrackScrobbling).toHaveBeenCalledWith(false);
+        });
+
+        it('should call togglePauseTrackScrobbling with true on the TrackManager', function() {
+            spyOn(TrackManager, 'togglePauseTrackScrobbling');
+
+            service.trackPaused(true);
+
+            expect(TrackManager.togglePauseTrackScrobbling).toHaveBeenCalledWith(true);
         });
     });
 
