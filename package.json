@@ -1,7 +1,9 @@
 {
   "name": "MusicServer",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "gulp-sourcemaps": "^1.5.0"
+  },
   "devDependencies": {
     "connect-livereload": "^0.5.3",
     "del": "^1.0.0",

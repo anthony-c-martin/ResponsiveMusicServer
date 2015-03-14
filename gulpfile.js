@@ -93,8 +93,10 @@ gulp.task('jshint:test', function() {
 gulp.task('usemin', function() {
     return gulp.src([appConfig.app + '/index.html'])
         .pipe($.usemin({
-            css: [$.minifyCss(), $.rev(), $.rename({suffix: '.min'})],
-            js: [$.uglify(), $.rev(), $.rename({suffix: '.min'})],
+            cssVendor: [$.sourcemaps.init(), $.minifyCss(), $.rev(), $.rename({suffix: '.min'}), $.sourcemaps.write('./')],
+            cssApp: [$.sourcemaps.init(), $.minifyCss(), $.rev(), $.rename({suffix: '.min'}), $.sourcemaps.write('./')],
+            jsVendor: [$.sourcemaps.init(), $.uglify(), $.rev(), $.rename({suffix: '.min'}), $.sourcemaps.write('./')],
+            jsApp: [$.sourcemaps.init(), $.uglify(), $.rev(), $.rename({suffix: '.min'}), $.sourcemaps.write('./')],
             outputRelativePath: '../' + appConfig.dist + '/'
         }))
         .pipe(gulp.dest(appConfig.dist));

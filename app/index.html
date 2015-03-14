@@ -6,12 +6,12 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <!-- build:css(.) styles/vendor.css -->
+    <!-- build:cssVendor(.) styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css" />
     <!-- endbower -->
     <!-- endbuild -->
-    <!-- build:css(.tmp) styles/main.css -->
+    <!-- build:cssApp(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
 </head>
@@ -25,7 +25,7 @@
         </div>
         <div drag-image class="drag-image"></div>
     </div>
-    <!-- build:js(.) scripts/vendor.js -->
+    <!-- build:jsVendor(.) scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
@@ -47,7 +47,7 @@
     <script src="test/mock/api.js"></script>
     <!-- endbuild -->
 
-    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <!-- build:jsApp({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/init.js"></script>
     <script src="scripts/app/main.js"></script>
     <script src="scripts/app/views.js"></script>
