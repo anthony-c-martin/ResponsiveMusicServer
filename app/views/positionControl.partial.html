@@ -1,6 +1,8 @@
 <div class="controls controls-nav shrinkable">
-    <div ng-click="positionChange($event)" class="prog-container control">
-        <div ng-style="{width: (currentAudio.position * 100) + '%'}" class="prog-bar"></div>
-        <div ng-if="currentAudio.track" class="track-info">{{ currentAudio.track.Name }} - {{ currentAudio.track.Artist.Name }}</div>
+    <div ng-click="positionChange($event)" class="prog-container control control-nopad">
+        <div class="padded-contents">
+            <div ng-style="{width: (currentAudio.position * 100) + '%'}" class="prog-bar"></div>
+            <div ng-if="currentAudio.track" class="track-info">{{ currentAudio.track.Name }} - {{ currentAudio.track.Artist.Name }}</div>
+        </div>
     </div>
 </div>

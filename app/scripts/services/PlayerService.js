@@ -21,46 +21,46 @@ angular.module('musicServerApp')
 
             function changeTrack(track) {
                 if (!track) {
-                    audioUpdate('', '');
+                    $rootScope.$emit('PlayerService.audioUpdate', {src: '', type: ''})
                     current.track = null;
 
                     return;
                 }
 
                 TrackManager.startConversion(track).then(function() {
-                    audioUpdate('/stream' + getSourceParams(track), 'audio/mp4');
+                    $rootScope.$emit('PlayerService.audioUpdate', {src: '/stream' + getSourceParams(track), type: 'audio/mp4'});
                     current.track = track;
-                    audioPlay();
+                    $rootScope.$emit('PlayerService.play');
 
                     TrackManager.setupScrobbling(track);
                 }, function() {
                     current.track = track;
-                    nextTrack();
+                    controlHooks.nextTrack();
                 });
             }
 
             function nextTrack() {
                 if (current.track) {
-                    changeTrack(playlist.getRelativeTo(current.track, false));
+                    controlHooks.changeTrack(playlist.getRelativeTo(current.track, false));
                 } else {
-                    changeTrack(playlist.tracks[0]);
+                    controlHooks.changeTrack(playlist.tracks[0]);
                 }
             }
 
             function previousTrack() {
                 if (current.track) {
-                    changeTrack(playlist.getRelativeTo(current.track, true));
+                    controlHooks.changeTrack(playlist.getRelativeTo(current.track, true));
                 } else {
-                    changeTrack(playlist.tracks[0]);
+                    controlHooks.changeTrack(playlist.tracks[0]);
                 }
             }
 
-            function audioUpdate(src, type) {
-                $rootScope.$emit('PlayerService.audioUpdate', {src: src, type: type});
-            }
-
             function audioPlay() {
-                $rootScope.$emit('PlayerService.play');
+                if (current.track) {
+                    $rootScope.$emit('PlayerService.play');
+                } else {
+                    controlHooks.nextTrack();
+                }
             }
 
             function audioPause() {
@@ -80,6 +80,7 @@ angular.module('musicServerApp')
                 previousTrack: previousTrack,
                 volumeUpdate: volumeUpdate,
                 positionUpdate: positionUpdate,
+                changeTrack: changeTrack,
                 togglePause: function() {
                     if (current.isPlaying) {
                         audioPause();

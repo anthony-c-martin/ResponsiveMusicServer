@@ -157,6 +157,18 @@ ul {
                 padding: 0.25em 0.75em;
             }
         }
+        &>.control-nopad {
+            padding: 0;
+            @include mq-large {
+                padding: 0;
+            }
+            &>.padded-contents {
+                padding: 0.25em 0.5em;
+                @include mq-large {
+                    padding: 0.25em 0.75em;
+                }
+            }
+        }
         &>.control-container {
             padding: 0;
             &>.control {
@@ -280,15 +292,17 @@ ul.tracks {
     position: relative;
     @include noselect-pointer;
     width: 100%;
-    &>div.prog-bar {
+    &>* {
+        @include noevents;
+    }
+    .prog-bar {
         height: 100%;
         background-color: #A2A2B8;
         position: absolute;
         top: 0;
         left: 0;
-        @include noevents;
     }
-    &>.track-info {
+    .track-info {
         @include hide-overflow;
         text-align: center;
         position: relative;
