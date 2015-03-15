@@ -112,10 +112,10 @@ describe('Controller: AppController', function() {
     });
 
     describe('event handling', function() {
-        it('should change location on the scope changeLocation event', function() {
+        it('should change location on the rootScope changeLocation event', function() {
             spyOn($location, 'path');
             spyOn(controller, 'verifyLoggedIn');
-            $scope.$emit('changeLocation', 'sdaogsdnh9');
+            $rootScope.$emit('changeLocation', 'sdaogsdnh9');
 
             expect($location.path).toHaveBeenCalledWith('sdaogsdnh9');
             expect($location.path.calls.count()).toBe(1);
@@ -190,7 +190,7 @@ describe('Controller: AppController', function() {
                 }
             });
 
-            $scope.$emit('loginSuccess', loginSuccessData);
+            $rootScope.$emit('loginSuccess', loginSuccessData);
 
             expect(controller.loggedIn).toBeTruthy();
             expect($location.path).toHaveBeenCalledWith('/music');
@@ -265,6 +265,22 @@ describe('Controller: AppController', function() {
             });
             spyOn(SessionData, 'getUserPreference').and.returnValue(true);
             spyOn($location, 'path').and.returnValue('/login');
+
+            controller.verifyLoggedIn();
+
+            expect(SessionData.clearSession).toHaveBeenCalledWith();
+            expect(SessionData.clearSession.calls.count()).toBe(1);
+            expect($location.path).toHaveBeenCalledWith();
+            expect($location.path.calls.count()).toBe(1);
+        });
+
+        it('should clear the session data and not redirect if verifyLoggedIn is called and the location path begins with /login/', function() {
+            spyOn(SessionData, 'clearSession');
+            spyOn(SessionData, 'getSession').and.returnValue({
+                Key: null
+            });
+            spyOn(SessionData, 'getUserPreference').and.returnValue(true);
+            spyOn($location, 'path').and.returnValue('/login/asdf/sadg');
 
             controller.verifyLoggedIn();
 

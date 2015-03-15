@@ -35,7 +35,7 @@ describe('Directive: playlist', function() {
         });
     });
 
-    describe('Initialisation', function() {
+    describe('initialisation', function() {
 
     });
 

@@ -19,6 +19,12 @@ angular
                 templateUrl: 'views/login.html',
                 title: 'Login'
             }).
+            when('/login/:token/:auth', {
+                controller: 'LoginController',
+                controllerAs: 'loginCtrl',
+                templateUrl: 'views/login.html',
+                title: 'Login'
+            }).
             when('/music', {
                 controller: 'MainController',
                 controllerAs: 'mainCtrl',

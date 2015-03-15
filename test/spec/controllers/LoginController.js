@@ -4,8 +4,8 @@ describe('Controller: LoginController', function() {
 
     var controller,
         ApiRequest,
-        $scope,
         $rootScope,
+        $routeParams,
         $q;
 
     beforeEach(function() {
@@ -14,21 +14,56 @@ describe('Controller: LoginController', function() {
         inject(function($injector) {
             $q = $injector.get('$q');
             $rootScope = $injector.get('$rootScope');
-            $scope = $rootScope.$new();
+            $routeParams = $injector.get('$routeParams');
             ApiRequest = $injector.get('ApiRequest');
             var $controller = $injector.get('$controller');
 
             controller = $controller('LoginController', {
                 $rootScope: $rootScope,
-                $scope: $scope,
+                $routeParams: $routeParams,
                 ApiRequest: ApiRequest
             });
         });
     });
 
-    describe('Initialisation', function() {
+    describe('initialisation', function() {
         it('should initialise the auth object on start', function() {
             expect(controller.auth).toEqual({});
+        });
+
+        it('should analyse the route parameters and automatically log a user in if they are set', function() {
+            spyOn(ApiRequest.session, 'getSession').and.returnValue({
+                submit: function() {
+                    return $q.when({
+                        Session: 'asdhdashhds',
+                        Secret: 'sadgdsahsahdsa'
+                    });
+                }
+            });
+            $routeParams.token = 'asd9fugasd9ufgsaiduofb';
+            $routeParams.auth = 'sadf98hasf9dhsafushdao';
+            spyOn($rootScope, '$emit');
+
+            inject(function($injector) {
+                var $controller = $injector.get('$controller');
+
+                controller = $controller('LoginController', {
+                    $rootScope: $rootScope,
+                    $routeParams: $routeParams,
+                    ApiRequest: ApiRequest
+                });
+            });
+            $rootScope.$digest();
+
+            expect(ApiRequest.session.getSession).toHaveBeenCalledWith('asd9fugasd9ufgsaiduofb', 'sadf98hasf9dhsafushdao');
+            expect(ApiRequest.session.getSession.calls.count()).toBe(1);
+
+            expect($rootScope.$emit).toHaveBeenCalled();
+            expect($rootScope.$emit.calls.count()).toBe(1);
+            expect($rootScope.$emit.calls.mostRecent().args.length).toBe(2);
+            expect($rootScope.$emit.calls.mostRecent().args[0]).toBe('loginSuccess');
+            expect($rootScope.$emit.calls.mostRecent().args[1].Key).toBe('asdhdashhds');
+            expect($rootScope.$emit.calls.mostRecent().args[1].Secret).toBe('sadgdsahsahdsa');
         });
     });
 
@@ -45,12 +80,12 @@ describe('Controller: LoginController', function() {
         });
     });
 
-    describe('authString', function() {
+    describe('getAuthString', function() {
         it('should correctly generate auth strings', function() {
-            expect(controller.authString('myUsername', 'myPassword', 'myToken')).toBe('c97cfcc0a13092b18d8dd3912112f71a');
-            expect(controller.authString('dfgsdf0ghi', 'asdfsubisd', 'myToksdd09hen')).toBe('d77d1465d59a51b60d9ec1e79a58c921');
-            expect(controller.authString('sdn9gfdg', 'sdfg08dh9g', 'sagasdg')).toBe('ef4de70da765515f55cf73ef462065e6');
-            expect(controller.authString('s0gh8hfd9gho', 'dfg0sdh89', 'myToken')).toBe('502fcedff4e12b59756e7a4c465e77cf');
+            expect(controller.getAuthString('myUsername', 'myPassword', 'myToken')).toBe('c97cfcc0a13092b18d8dd3912112f71a');
+            expect(controller.getAuthString('dfgsdf0ghi', 'asdfsubisd', 'myToksdd09hen')).toBe('d77d1465d59a51b60d9ec1e79a58c921');
+            expect(controller.getAuthString('sdn9gfdg', 'sdfg08dh9g', 'sagasdg')).toBe('ef4de70da765515f55cf73ef462065e6');
+            expect(controller.getAuthString('s0gh8hfd9gho', 'dfg0sdh89', 'myToken')).toBe('502fcedff4e12b59756e7a4c465e77cf');
         });
     });
 
@@ -64,7 +99,7 @@ describe('Controller: LoginController', function() {
             spyOn(controller, 'loginFailed');
 
             controller.login();
-            $scope.$digest();
+            $rootScope.$digest();
 
             expect(controller.loginFailed).toHaveBeenCalledWith();
             expect(controller.loginFailed.calls.count()).toBe(1);
@@ -86,7 +121,7 @@ describe('Controller: LoginController', function() {
             spyOn(controller, 'loginFailed');
 
             controller.login();
-            $scope.$digest();
+            $rootScope.$digest();
 
             expect(controller.loginFailed).toHaveBeenCalledWith();
             expect(controller.loginFailed.calls.count()).toBe(1);
@@ -113,22 +148,22 @@ describe('Controller: LoginController', function() {
                 password: 'asdfsubisd'
             };
 
-            spyOn($scope, '$emit');
+            spyOn($rootScope, '$emit');
 
             controller.login();
-            $scope.$digest();
+            $rootScope.$digest();
 
             expect(ApiRequest.session.getToken).toHaveBeenCalledWith();
             expect(ApiRequest.session.getToken.calls.count()).toBe(1);
             expect(ApiRequest.session.getSession).toHaveBeenCalledWith('myToksdd09hen', 'd77d1465d59a51b60d9ec1e79a58c921');
             expect(ApiRequest.session.getSession.calls.count()).toBe(1);
 
-            expect($scope.$emit).toHaveBeenCalled();
-            expect($scope.$emit.calls.count()).toBe(1);
-            expect($scope.$emit.calls.mostRecent().args.length).toBe(2);
-            expect($scope.$emit.calls.mostRecent().args[0]).toBe('loginSuccess');
-            expect($scope.$emit.calls.mostRecent().args[1].Key).toBe('asdouas8gs9f9');
-            expect($scope.$emit.calls.mostRecent().args[1].Secret).toBe('asdgbsa87gs98hfj');
+            expect($rootScope.$emit).toHaveBeenCalled();
+            expect($rootScope.$emit.calls.count()).toBe(1);
+            expect($rootScope.$emit.calls.mostRecent().args.length).toBe(2);
+            expect($rootScope.$emit.calls.mostRecent().args[0]).toBe('loginSuccess');
+            expect($rootScope.$emit.calls.mostRecent().args[1].Key).toBe('asdouas8gs9f9');
+            expect($rootScope.$emit.calls.mostRecent().args[1].Secret).toBe('asdgbsa87gs98hfj');
         });
     });
 

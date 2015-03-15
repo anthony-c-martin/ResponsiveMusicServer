@@ -31,7 +31,7 @@ describe('Directive: scrollLoader', function() {
         });
     });
 
-    describe('Initialisation', function() {
+    describe('initialisation', function() {
         it('should call the scope function on start', function() {
             expect(scope.testFunction).toHaveBeenCalledWith();
         });

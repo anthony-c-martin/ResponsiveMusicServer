@@ -4,6 +4,7 @@ describe('Service: PlayerService', function() {
 
     var service,
         $rootScope,
+        $q,
         PlaylistFactory,
         SessionData,
         TrackManager;
@@ -13,6 +14,7 @@ describe('Service: PlayerService', function() {
 
         inject(function($injector) {
             $rootScope = $injector.get('$rootScope');
+            $q = $injector.get('$q');
             PlaylistFactory = $injector.get('PlaylistFactory');
             SessionData = $injector.get('SessionData');
             TrackManager = $injector.get('TrackManager');
@@ -38,6 +40,11 @@ describe('Service: PlayerService', function() {
     describe('nextTrack', function() {
         beforeEach(function() {
             spyOn(TrackManager, 'setupScrobbling');
+            spyOn(TrackManager, 'startConversion').and.callFake(function() {
+                var deferred = $q.defer();
+                deferred.resolve();
+                return deferred.promise;
+            });
         });
 
         it('should choose the first track if current.track is not assigned', function() {
@@ -48,6 +55,7 @@ describe('Service: PlayerService', function() {
 
             spyOn($rootScope, '$broadcast');
             service.nextTrack();
+            $rootScope.$digest();
 
             expect(service.current.track).toEqual({ID: 1, FileName: 'asdf97ug'});
             expect($rootScope.$broadcast).toHaveBeenCalledWith('PlayerService.audioUpdate', {src: '/stream?FileName=asdf97ug&Session=SessionKey', type: 'audio/mp4'});
@@ -62,9 +70,11 @@ describe('Service: PlayerService', function() {
             ]);
 
             service.nextTrack();
+            $rootScope.$digest();
             spyOn($rootScope, '$broadcast');
             TrackManager.setupScrobbling.calls.reset();
             service.nextTrack();
+            $rootScope.$digest();
 
             expect(service.current.track).toEqual({ID: 2, FileName: 'asasdf8h'});
             expect($rootScope.$broadcast).toHaveBeenCalledWith('PlayerService.audioUpdate', {src: '/stream?FileName=asasdf8h&Session=SessionKey', type: 'audio/mp4'});
@@ -77,9 +87,11 @@ describe('Service: PlayerService', function() {
             ]);
 
             service.nextTrack();
+            $rootScope.$digest();
             spyOn($rootScope, '$broadcast');
             TrackManager.setupScrobbling.calls.reset();
             service.nextTrack();
+            $rootScope.$digest();
 
             expect(service.current.track).toBeNull();
             expect($rootScope.$broadcast).toHaveBeenCalledWith('PlayerService.audioUpdate', {src: '', type: ''});
@@ -90,6 +102,11 @@ describe('Service: PlayerService', function() {
     describe('previousTrack', function() {
         beforeEach(function() {
             spyOn(TrackManager, 'setupScrobbling');
+            spyOn(TrackManager, 'startConversion').and.callFake(function() {
+                var deferred = $q.defer();
+                deferred.resolve();
+                return deferred.promise;
+            });
         });
 
         it('should choose the first track if current.track is not assigned', function() {
@@ -100,6 +117,7 @@ describe('Service: PlayerService', function() {
 
             spyOn($rootScope, '$broadcast');
             service.previousTrack();
+            $rootScope.$digest();
 
             expect(service.current.track).toEqual({ID: 1, FileName: 'asdfubsdf'});
             expect($rootScope.$broadcast).toHaveBeenCalledWith('PlayerService.audioUpdate', {src: '/stream?FileName=asdfubsdf&Session=SessionKey', type: 'audio/mp4'});
@@ -114,10 +132,13 @@ describe('Service: PlayerService', function() {
             ]);
 
             service.nextTrack();
+            $rootScope.$digest();
             service.nextTrack();
+            $rootScope.$digest();
             spyOn($rootScope, '$broadcast');
             TrackManager.setupScrobbling.calls.reset();
             service.previousTrack();
+            $rootScope.$digest();
 
             expect(service.current.track).toEqual({ID: 1, FileName: 'asdf9sadfh'});
             expect($rootScope.$broadcast).toHaveBeenCalledWith('PlayerService.audioUpdate', {src: '/stream?FileName=asdf9sadfh&Session=SessionKey', type: 'audio/mp4'});

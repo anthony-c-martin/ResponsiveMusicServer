@@ -33,7 +33,7 @@ describe('Directive: playlistButton', function() {
         });
     });
 
-    describe('Initialisation', function() {
+    describe('initialisation', function() {
         it('should call DraggableData.bindPlaylistDropEvents when loaded', function() {
             expect(DraggableData.bindPlaylistDropEvents).toHaveBeenCalled();
             expect(DraggableData.bindPlaylistDropEvents.calls.mostRecent().args[0][0]).toBe(element[0]);

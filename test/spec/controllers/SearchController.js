@@ -4,7 +4,7 @@ describe('Controller: SearchController', function() {
 
     var controller,
         ApiRequest,
-        $scope,
+        $rootScope,
         $q;
 
     function mockApiSearchResponse(data, reject) {
@@ -18,48 +18,47 @@ describe('Controller: SearchController', function() {
         module('musicServerApp');
 
         inject(function($injector) {
-            var $rootScope = $injector.get('$rootScope');
             var $controller = $injector.get('$controller');
 
             $q = $injector.get('$q');
-            $scope = $rootScope.$new();
+            $rootScope = $injector.get('$rootScope');
             ApiRequest = $injector.get('ApiRequest');
 
             controller = $controller('SearchController', {
-                $scope: $scope,
+                $rootScope: $rootScope,
                 ApiRequest: ApiRequest
             });
         });
     });
 
     it('should emit a changeLocation event when the redirectToResults function is called', function() {
-        spyOn($scope, '$emit');
+        spyOn($rootScope, '$emit');
 
         controller.searchText = 'sf9ga8fd78G';
         controller.redirectToResults('artists');
 
-        expect($scope.$emit.calls.count()).toBe(1);
-        expect($scope.$emit).toHaveBeenCalledWith('changeLocation', '/artists/s/sf9ga8fd78G');
+        expect($rootScope.$emit.calls.count()).toBe(1);
+        expect($rootScope.$emit).toHaveBeenCalledWith('changeLocation', '/artists/s/sf9ga8fd78G');
     });
 
     it('should emit a changeLocation event when the redirectToResults function is called', function() {
-        spyOn($scope, '$emit');
+        spyOn($rootScope, '$emit');
 
         controller.searchText = 'asdgsaldndsgjib';
         controller.redirectToResults('albums');
 
-        expect($scope.$emit.calls.count()).toBe(1);
-        expect($scope.$emit).toHaveBeenCalledWith('changeLocation', '/albums/s/asdgsaldndsgjib');
+        expect($rootScope.$emit.calls.count()).toBe(1);
+        expect($rootScope.$emit).toHaveBeenCalledWith('changeLocation', '/albums/s/asdgsaldndsgjib');
     });
 
     it('should emit a changeLocation event when the redirectToResults function is called', function() {
-        spyOn($scope, '$emit');
+        spyOn($rootScope, '$emit');
 
         controller.searchText = 'asdgasgasege3r23';
         controller.redirectToResults('tracks');
 
-        expect($scope.$emit.calls.count()).toBe(1);
-        expect($scope.$emit).toHaveBeenCalledWith('changeLocation', '/tracks/s/asdgasgasege3r23');
+        expect($rootScope.$emit.calls.count()).toBe(1);
+        expect($rootScope.$emit).toHaveBeenCalledWith('changeLocation', '/tracks/s/asdgasgasege3r23');
     });
 
     it('should run a search and load the results into the scope when search is called', function() {
@@ -96,7 +95,7 @@ describe('Controller: SearchController', function() {
         expect(ApiRequest.track.search.calls.count()).toBe(1);
         expect(ApiRequest.track.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
 
-        $scope.$digest();
+        $rootScope.$digest();
 
         expect(controller.inProgress).toBeFalsy();
         expect(controller.searchShown).toBeTruthy();
@@ -130,7 +129,7 @@ describe('Controller: SearchController', function() {
         expect(ApiRequest.artist.search.calls.count()).toBe(1);
         expect(ApiRequest.artist.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
 
-        $scope.$digest();
+        $rootScope.$digest();
 
         expect(controller.inProgress).toBeFalsy();
         expect(controller.searchShown).toBeFalsy();
@@ -161,7 +160,7 @@ describe('Controller: SearchController', function() {
         expect(ApiRequest.artist.search.calls.count()).toBe(1);
         expect(ApiRequest.artist.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
 
-        $scope.$digest();
+        $rootScope.$digest();
 
         expect(controller.inProgress).toBeFalsy();
         expect(controller.searchShown).toBeFalsy();
@@ -192,7 +191,7 @@ describe('Controller: SearchController', function() {
         expect(ApiRequest.artist.search.calls.count()).toBe(1);
         expect(ApiRequest.artist.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
 
-        $scope.$digest();
+        $rootScope.$digest();
 
         expect(controller.inProgress).toBeFalsy();
         expect(controller.searchShown).toBeFalsy();

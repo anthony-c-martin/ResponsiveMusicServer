@@ -37,7 +37,7 @@ describe('Directive: album', function() {
         });
     });
 
-    describe('Initialisation', function() {
+    describe('initialisation', function() {
         it('should display the album Name property', function() {
             expect(element.find('.content').find('.desc').text()).toBe('Album 1');
         });

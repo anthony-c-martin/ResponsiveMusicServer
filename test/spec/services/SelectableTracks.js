@@ -18,7 +18,7 @@ describe('Factory: SelectableTracks', function() {
         });
     });
 
-    describe('Initialisation', function() {
+    describe('initialisation', function() {
         it('should create allTracks as an empty array, and lastSelected to false', function() {
             expect(service.allTracks).toEqual([]);
             expect(service.lastSelected).toBeFalsy();

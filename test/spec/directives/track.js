@@ -37,7 +37,7 @@ describe('Directive: track', function() {
         });
     });
 
-    describe('Initialisation', function() {
+    describe('initialisation', function() {
         beforeEach(function() {
             scope.addable = true;
             scope.closable = true;

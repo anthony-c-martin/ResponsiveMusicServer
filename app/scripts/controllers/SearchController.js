@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .controller('SearchController', ['$scope', 'ApiRequest', '$q',
-        function ($scope, ApiRequest, $q) {
+    .controller('SearchController', ['$rootScope', 'ApiRequest', '$q',
+        function ($rootScope, ApiRequest, $q) {
             var ctrl = this;
 
             var searchResults = {
@@ -32,7 +32,7 @@ angular.module('musicServerApp')
 
             function redirectToResults(type) {
                 var redirect = '/' + type + '/s/' + encodeURIComponent(ctrl.searchText);
-                $scope.$emit('changeLocation', redirect);
+                $rootScope.$emit('changeLocation', redirect);
             }
 
             angular.extend(this, {

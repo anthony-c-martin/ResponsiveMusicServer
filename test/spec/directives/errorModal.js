@@ -30,7 +30,7 @@ describe('Directive: errorModal', function() {
         });
     });
 
-    describe('Initialisation', function() {
+    describe('initialisation', function() {
         it('should be hidden if there is no error message', function() {
             scope.errorMessage = '';
             scope.$digest();

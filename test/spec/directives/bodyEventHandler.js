@@ -30,7 +30,7 @@ describe('Directive: bodyEventHandler', function() {
         });
     });
 
-    describe('Initialisation', function() {
+    describe('initialisation', function() {
 
     });
 

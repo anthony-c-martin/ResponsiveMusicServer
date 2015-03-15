@@ -40,7 +40,7 @@ describe('Directive: navbar', function() {
         });
     });
 
-    describe('Initialisation', function() {
+    describe('initialisation', function() {
         /*it('should display properly', function() {
 
         });*/

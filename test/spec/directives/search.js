@@ -32,7 +32,7 @@ describe('Directive: search', function() {
         });
     });
 
-    describe('Initialisation', function() {
+    describe('initialisation', function() {
         it('should not show the results if inProgress is true', function() {
             controller.inProgress = true;
             scope.$digest();

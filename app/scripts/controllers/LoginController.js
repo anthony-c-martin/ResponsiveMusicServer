@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .controller('LoginController', ['$scope', '$rootScope', 'ApiRequest',
-        function ($scope, $rootScope, ApiRequest) {
+    .controller('LoginController', ['$rootScope', '$routeParams', 'ApiRequest',
+        function ($rootScope, $routeParams, ApiRequest) {
             var ctrl = this;
 
             function loginFailed(message) {
@@ -10,31 +10,39 @@ angular.module('musicServerApp')
                 $rootScope.$emit('errorDisplay', 'Login attempt failed. Please try again.');
             }
 
-            function authString(username, password, token) {
+            function getAuthString(username, password, token) {
                 var pswdHash = md5(username + ':' + 'com.acm.AMMusicServer' + ':' + password);
                 return md5(token + ':' + username + ':' + pswdHash + ':' + token);
             }
 
-            function login() {
-                ApiRequest.session.getToken().submit().then(function(data) {
-                    var authString = ctrl.authString(ctrl.auth.username, ctrl.auth.password, data.Token);
-                    ApiRequest.session.getSession(data.Token, authString).submit().then(function(data) {
-                        $scope.$emit('loginSuccess', {
-                            Key: data.Session,
-                            Secret: data.Secret
-                        });
-                    }, function() {
-                        ctrl.loginFailed();
+            function submitSessionRequest(token, authString) {
+                ApiRequest.session.getSession(token, authString).submit().then(function(data) {
+                    $rootScope.$emit('loginSuccess', {
+                        Key: data.Session,
+                        Secret: data.Secret
                     });
                 }, function() {
                     ctrl.loginFailed();
                 });
             }
 
+            function login() {
+                ApiRequest.session.getToken().submit().then(function(data) {
+                    var authString = getAuthString(ctrl.auth.username, ctrl.auth.password, data.Token);
+                    submitSessionRequest(data.Token, authString);
+                }, function() {
+                    ctrl.loginFailed();
+                });
+            }
+
+            if ($routeParams.token && $routeParams.auth) {
+                submitSessionRequest($routeParams.token, $routeParams.auth);
+            }
+
             angular.extend(this, {
                 auth: {},
                 login: login,
                 loginFailed: loginFailed,
-                authString: authString
+                getAuthString: getAuthString
             });
         }]);

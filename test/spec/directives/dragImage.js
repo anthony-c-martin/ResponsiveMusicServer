@@ -33,7 +33,7 @@ describe('Directive: dragImage', function() {
         });
     });
 
-    describe('Initialisation', function() {
+    describe('initialisation', function() {
         it('should set DraggableData.getDragElement', function() {
             expect(DraggableData.getDragElement).toBeDefined();
         });

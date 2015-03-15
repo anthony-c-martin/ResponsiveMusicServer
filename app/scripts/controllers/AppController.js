@@ -13,15 +13,16 @@ angular.module('musicServerApp')
                 $scope.isPhone = mql.matches;
             });
 
+            var loginRegex = /^\/login($|\/)/;
             function verifyLoggedIn() {
                 var currentPath = $location.path();
-                if (currentPath === '/login') {
+                if (currentPath.match(loginRegex)) {
                     SessionData.clearSession();
                 }
 
                 ctrl.loggedIn = !!SessionData.getSession().Key;
 
-                if (!ctrl.loggedIn && currentPath !== '/login') {
+                if (!ctrl.loggedIn && !currentPath.match(loginRegex)) {
                     $location.path('/login');
                 }
                 ctrl.scrobblingEnabled = SessionData.getUserPreference('ScrobblingEnabled');
@@ -79,8 +80,8 @@ angular.module('musicServerApp')
 
             window.onbeforeunload = onBeforeUnload;
 
-            $scope.$on('changeLocation', onChangeLocation);
-            $scope.$on('loginSuccess', onLoginSuccess);
+            $rootScope.$on('changeLocation', onChangeLocation);
+            $rootScope.$on('loginSuccess', onLoginSuccess);
             $rootScope.$on('$locationChangeSuccess', onLocationChangeSuccess);
             $rootScope.$on('$routeChangeSuccess', onRouteChangeSuccess);
             $rootScope.$on('ResponseUnauthorised', onResponseUnauthorised);

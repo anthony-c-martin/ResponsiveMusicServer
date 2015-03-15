@@ -37,7 +37,7 @@ describe('Directive: artist', function() {
         });
     });
 
-    describe('Initialisation', function() {
+    describe('initialisation', function() {
         it('should display the artist Name property', function() {
             expect(element.find('.content').find('.desc').text()).toBe('Artist 1');
         });
