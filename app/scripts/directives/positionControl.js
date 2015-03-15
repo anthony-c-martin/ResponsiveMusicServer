@@ -16,7 +16,8 @@ angular.module('musicServerApp')
                 replace: true,
                 templateUrl: 'views/positionControl.partial.html',
                 scope: {
-                    positionUpdate: '='
+                    positionUpdate: '=',
+                    currentAudio: '='
                 },
                 link: link
             };

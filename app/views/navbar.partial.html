@@ -1,6 +1,6 @@
 <div class="navbar" ng-controller="AudioController as audioCtrl">
     <div ng-if="isPhone" class="navbar-inner">
-        <position-control position-update="audioCtrl.positionUpdate"></position-control>
+        <position-control current-audio="audioCtrl.current" position-update="audioCtrl.positionUpdate"></position-control>
     </div>
     <div class="navbar-inner">
         <div class="controls controls-nav unshrinkable">
@@ -8,14 +8,14 @@
                 <i class="fa fa-fast-backward"></i>
             </button>
             <button ng-click="audioCtrl.togglePause()" type="button" class="control">
-                <i ng-if="!audioCtrl.audio.isPlaying" class="fa fa-play"></i>
-                <i ng-if="audioCtrl.audio.isPlaying" class="fa fa-pause"></i>
+                <i ng-if="!audioCtrl.current.isPlaying" class="fa fa-play"></i>
+                <i ng-if="audioCtrl.current.isPlaying" class="fa fa-pause"></i>
             </button>
             <button ng-click="audioCtrl.nextTrack()" type="button" class="control">
                 <i class="fa fa-fast-forward"></i>
             </button>
         </div>
-        <position-control position-update="audioCtrl.positionUpdate" ng-if="!isPhone"></position-control>
+        <position-control current-audio="audioCtrl.current" position-update="audioCtrl.positionUpdate" ng-if="!isPhone"></position-control>
         <div class="controls controls-nav unshrinkable">
             <div class="control-container">
                 <button playlist-button ng-click="playlistShown = !playlistShown" ng-class="{active: playlistShown}" body-event-handler="playlist" type="button" class="control">

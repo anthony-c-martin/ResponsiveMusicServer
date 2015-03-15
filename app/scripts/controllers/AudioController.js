@@ -37,7 +37,7 @@ angular.module('musicServerApp')
                 togglePause: togglePause,
                 nextTrack: nextTrack,
                 previousTrack: previousTrack,
-                audio: PlayerService.current,
+                current: PlayerService.current,
                 volumeUpdate: volumeUpdate,
                 positionUpdate: positionUpdate
             });

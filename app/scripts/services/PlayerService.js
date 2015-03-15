@@ -55,23 +55,24 @@ angular.module('musicServerApp')
             }
 
             function togglePause() {
-                $rootScope.$broadcast('PlayerService.togglePause');
+                $rootScope.$emit('PlayerService.togglePause');
             }
 
             function volumeUpdate(volume) {
-                $rootScope.$broadcast('PlayerService.volumeUpdate', volume);
+                $rootScope.$emit('PlayerService.volumeUpdate', volume);
             }
 
             function positionUpdate(position) {
-                $rootScope.$broadcast('PlayerService.positionUpdate', position);
+                $rootScope.$emit('PlayerService.positionUpdate', position);
             }
 
             function audioUpdate(src, type) {
-                $rootScope.$broadcast('PlayerService.audioUpdate', {src: src, type: type});
+                $rootScope.$emit('PlayerService.audioUpdate', {src: src, type: type});
             }
 
             function trackPaused(paused) {
                 TrackManager.togglePauseScrobbling(paused);
+                current.isPlaying = !paused;
             }
 
             angular.extend(this, {

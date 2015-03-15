@@ -53,12 +53,12 @@ describe('Service: PlayerService', function() {
                 {ID: 2, FileName: 2}
             ]);
 
-            spyOn($rootScope, '$broadcast');
+            spyOn($rootScope, '$emit');
             service.nextTrack();
             $rootScope.$digest();
 
             expect(service.current.track).toEqual({ID: 1, FileName: 'asdf97ug'});
-            expect($rootScope.$broadcast).toHaveBeenCalledWith('PlayerService.audioUpdate', {src: '/stream?FileName=asdf97ug&Session=SessionKey', type: 'audio/mp4'});
+            expect($rootScope.$emit).toHaveBeenCalledWith('PlayerService.audioUpdate', {src: '/stream?FileName=asdf97ug&Session=SessionKey', type: 'audio/mp4'});
             expect(TrackManager.setupScrobbling).toHaveBeenCalledWith({ID: 1, FileName: 'asdf97ug'});
         });
 
@@ -71,13 +71,13 @@ describe('Service: PlayerService', function() {
 
             service.nextTrack();
             $rootScope.$digest();
-            spyOn($rootScope, '$broadcast');
+            spyOn($rootScope, '$emit');
             TrackManager.setupScrobbling.calls.reset();
             service.nextTrack();
             $rootScope.$digest();
 
             expect(service.current.track).toEqual({ID: 2, FileName: 'asasdf8h'});
-            expect($rootScope.$broadcast).toHaveBeenCalledWith('PlayerService.audioUpdate', {src: '/stream?FileName=asasdf8h&Session=SessionKey', type: 'audio/mp4'});
+            expect($rootScope.$emit).toHaveBeenCalledWith('PlayerService.audioUpdate', {src: '/stream?FileName=asasdf8h&Session=SessionKey', type: 'audio/mp4'});
             expect(TrackManager.setupScrobbling).toHaveBeenCalledWith({ID: 2, FileName: 'asasdf8h'});
         });
 
@@ -88,13 +88,13 @@ describe('Service: PlayerService', function() {
 
             service.nextTrack();
             $rootScope.$digest();
-            spyOn($rootScope, '$broadcast');
+            spyOn($rootScope, '$emit');
             TrackManager.setupScrobbling.calls.reset();
             service.nextTrack();
             $rootScope.$digest();
 
             expect(service.current.track).toBeNull();
-            expect($rootScope.$broadcast).toHaveBeenCalledWith('PlayerService.audioUpdate', {src: '', type: ''});
+            expect($rootScope.$emit).toHaveBeenCalledWith('PlayerService.audioUpdate', {src: '', type: ''});
             expect(TrackManager.setupScrobbling).not.toHaveBeenCalled();
         });
     });
@@ -115,12 +115,12 @@ describe('Service: PlayerService', function() {
                 {ID: 2, FileName: 2}
             ]);
 
-            spyOn($rootScope, '$broadcast');
+            spyOn($rootScope, '$emit');
             service.previousTrack();
             $rootScope.$digest();
 
             expect(service.current.track).toEqual({ID: 1, FileName: 'asdfubsdf'});
-            expect($rootScope.$broadcast).toHaveBeenCalledWith('PlayerService.audioUpdate', {src: '/stream?FileName=asdfubsdf&Session=SessionKey', type: 'audio/mp4'});
+            expect($rootScope.$emit).toHaveBeenCalledWith('PlayerService.audioUpdate', {src: '/stream?FileName=asdfubsdf&Session=SessionKey', type: 'audio/mp4'});
             expect(TrackManager.setupScrobbling).toHaveBeenCalledWith({ID: 1, FileName: 'asdfubsdf'});
         });
 
@@ -135,53 +135,53 @@ describe('Service: PlayerService', function() {
             $rootScope.$digest();
             service.nextTrack();
             $rootScope.$digest();
-            spyOn($rootScope, '$broadcast');
+            spyOn($rootScope, '$emit');
             TrackManager.setupScrobbling.calls.reset();
             service.previousTrack();
             $rootScope.$digest();
 
             expect(service.current.track).toEqual({ID: 1, FileName: 'asdf9sadfh'});
-            expect($rootScope.$broadcast).toHaveBeenCalledWith('PlayerService.audioUpdate', {src: '/stream?FileName=asdf9sadfh&Session=SessionKey', type: 'audio/mp4'});
+            expect($rootScope.$emit).toHaveBeenCalledWith('PlayerService.audioUpdate', {src: '/stream?FileName=asdf9sadfh&Session=SessionKey', type: 'audio/mp4'});
             expect(TrackManager.setupScrobbling).toHaveBeenCalledWith({ID: 1, FileName: 'asdf9sadfh'});
         });
 
         it('should set the track to null if there is no previous track', function() {
-            spyOn($rootScope, '$broadcast');
+            spyOn($rootScope, '$emit');
             service.previousTrack();
 
             expect(service.current.track).toBeNull();
-            expect($rootScope.$broadcast).toHaveBeenCalledWith('PlayerService.audioUpdate', {src: '', type: ''});
+            expect($rootScope.$emit).toHaveBeenCalledWith('PlayerService.audioUpdate', {src: '', type: ''});
             expect(TrackManager.setupScrobbling).not.toHaveBeenCalled();
         });
     });
 
     describe('togglePause', function() {
         it('should broadcast a PlayerService.togglePause event', function() {
-            spyOn($rootScope, '$broadcast');
+            spyOn($rootScope, '$emit');
 
             service.togglePause();
 
-            expect($rootScope.$broadcast).toHaveBeenCalledWith('PlayerService.togglePause');
+            expect($rootScope.$emit).toHaveBeenCalledWith('PlayerService.togglePause');
         });
     });
 
     describe('volumeUpdate', function() {
         it('should broadcast a PlayerService.volumeUpdate event', function() {
-            spyOn($rootScope, '$broadcast');
+            spyOn($rootScope, '$emit');
 
             service.volumeUpdate(0.3);
 
-            expect($rootScope.$broadcast).toHaveBeenCalledWith('PlayerService.volumeUpdate', 0.3);
+            expect($rootScope.$emit).toHaveBeenCalledWith('PlayerService.volumeUpdate', 0.3);
         });
     });
 
     describe('positionUpdate', function() {
         it('should broadcast a PlayerService.positionUpdate event', function() {
-            spyOn($rootScope, '$broadcast');
+            spyOn($rootScope, '$emit');
 
             service.positionUpdate(0.7);
 
-            expect($rootScope.$broadcast).toHaveBeenCalledWith('PlayerService.positionUpdate', 0.7);
+            expect($rootScope.$emit).toHaveBeenCalledWith('PlayerService.positionUpdate', 0.7);
         });
     });
 
