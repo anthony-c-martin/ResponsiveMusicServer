@@ -27,7 +27,7 @@
                 <button ng-click="audioCtrl.volumeShown = !audioCtrl.volumeShown" ng-class="{active: audioCtrl.volumeShown}" body-event-handler="volume" type="button" class="control">
                     <i class="fa fa-volume-up"></i>
                 </button>
-                <volume-control volume-update="audioCtrl.volumeUpdate" ng-show="audioCtrl.volumeShown"></volume-control>
+                <volume-control current-audio="audioCtrl.current" volume-update="audioCtrl.volumeUpdate" ng-show="audioCtrl.volumeShown"></volume-control>
             </div>
             <button ng-click="appCtrl.toggleScrobblingEnabled()" ng-class="{active: appCtrl.scrobblingEnabled}" type="button" class="control">
                 <i class="fa fa-lastfm"></i>

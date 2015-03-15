@@ -5,26 +5,6 @@ angular.module('musicServerApp')
         function(PlayerService, $rootScope) {
             var ctrl = this;
 
-            function togglePause() {
-                PlayerService.togglePause();
-            }
-
-            function nextTrack() {
-                PlayerService.nextTrack();
-            }
-
-            function previousTrack() {
-                PlayerService.previousTrack();
-            }
-
-            function volumeUpdate(volume) {
-                PlayerService.volumeUpdate(volume);
-            }
-
-            function positionUpdate(position) {
-                PlayerService.positionUpdate(position);
-            }
-
             //TODO wrap all the hideDropdowns functionality in a directive
             $rootScope.$on('hideDropdowns', function(e, data) {
                 if (!(data && data === 'volume')) {
@@ -34,11 +14,11 @@ angular.module('musicServerApp')
 
             angular.extend(this, {
                 volumeShown: false,
-                togglePause: togglePause,
-                nextTrack: nextTrack,
-                previousTrack: previousTrack,
-                current: PlayerService.current,
-                volumeUpdate: volumeUpdate,
-                positionUpdate: positionUpdate
+                togglePause: PlayerService.controlHooks.togglePause.bind(null),
+                nextTrack: PlayerService.controlHooks.nextTrack.bind(null),
+                previousTrack: PlayerService.controlHooks.previousTrack.bind(null),
+                volumeUpdate: PlayerService.controlHooks.volumeUpdate.bind(null),
+                positionUpdate: PlayerService.controlHooks.positionUpdate.bind(null),
+                current: PlayerService.current
             });
         }]);

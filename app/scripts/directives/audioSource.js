@@ -6,48 +6,33 @@ angular.module('musicServerApp')
             function link(scope, element) {
                 var audio = element[0];
 
-                function onPlay() {
-                    scope.$apply(function() {
-                        PlayerService.trackPaused(false);
-                    });
+                function bindWithApply(bindFunction) {
+                    return scope.$apply.bind(scope, bindFunction);
                 }
 
-                function onPause() {
-                    scope.$apply(function() {
-                        PlayerService.trackPaused(true);
-                    });
-                }
+                element.on('play', bindWithApply(function() {
+                    PlayerService.audioHooks.play();
+                }));
 
-                function onVolumeChange() {
-                    scope.$apply(function() {
-                        PlayerService.current.volume = audio.volume;
-                    });
-                }
+                element.on('pause', bindWithApply(function() {
+                    PlayerService.audioHooks.pause();
+                }));
 
-                function onTimeUpdate() {
-                    scope.$apply(function () {
-                        if (audio.duration > 0) {
-                            PlayerService.current.position = audio.currentTime / audio.duration;
-                        } else {
-                            PlayerService.current.position = 0;
-                        }
-                    });
-                }
+                element.on('volumechange', bindWithApply(function() {
+                    PlayerService.audioHooks.volumeChange(audio.volume);
+                }));
 
-                function onEnded() {
-                    scope.$apply(function() {
-                        PlayerService.current.track = null;
-                        PlayerService.current.isPlaying = false;
-                        PlayerService.current.position = 0;
-                        PlayerService.nextTrack();
-                    });
-                }
+                element.on('timeupdate', bindWithApply(function() {
+                    if (audio.duration > 0) {
+                        PlayerService.audioHooks.positionChange(audio.currentTime / audio.duration);
+                    } else {
+                        PlayerService.audioHooks.positionChange(0);
+                    }
+                }));
 
-                element.on('play', onPlay);
-                element.on('pause', onPause);
-                element.on('volumechange', onVolumeChange);
-                element.on('timeupdate', onTimeUpdate);
-                element.on('ended', onEnded);
+                element.on('ended', bindWithApply(function() {
+                    PlayerService.audioHooks.ended();
+                }));
 
                 $rootScope.$on('PlayerService.volumeUpdate', function(e, volume) {
                     audio.volume = volume;
@@ -59,12 +44,12 @@ angular.module('musicServerApp')
                     }
                 });
 
-                $rootScope.$on('PlayerService.togglePause', function() {
-                    if (audio.paused && audio.readyState) {
-                        audio.play();
-                    } else {
-                        audio.pause();
-                    }
+                $rootScope.$on('PlayerService.play', function() {
+                    audio.play();
+                });
+
+                $rootScope.$on('PlayerService.pause', function() {
+                    audio.pause();
                 });
 
                 $rootScope.$on('PlayerService.audioUpdate', function(e, data) {

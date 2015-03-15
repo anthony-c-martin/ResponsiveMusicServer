@@ -30,6 +30,7 @@ angular.module('musicServerApp')
                 TrackManager.startConversion(track).then(function() {
                     audioUpdate('/stream' + getSourceParams(track), 'audio/mp4');
                     current.track = track;
+                    audioPlay();
 
                     TrackManager.setupScrobbling(track);
                 }, function() {
@@ -54,35 +55,64 @@ angular.module('musicServerApp')
                 }
             }
 
-            function togglePause() {
-                $rootScope.$emit('PlayerService.togglePause');
+            function audioUpdate(src, type) {
+                $rootScope.$emit('PlayerService.audioUpdate', {src: src, type: type});
             }
 
-            function volumeUpdate(volume) {
-                $rootScope.$emit('PlayerService.volumeUpdate', volume);
+            function audioPlay() {
+                $rootScope.$emit('PlayerService.play');
+            }
+
+            function audioPause() {
+                $rootScope.$emit('PlayerService.pause');
             }
 
             function positionUpdate(position) {
                 $rootScope.$emit('PlayerService.positionUpdate', position);
             }
 
-            function audioUpdate(src, type) {
-                $rootScope.$emit('PlayerService.audioUpdate', {src: src, type: type});
+            function volumeUpdate(volume) {
+                $rootScope.$emit('PlayerService.volumeUpdate', volume);
             }
 
-            function trackPaused(paused) {
-                TrackManager.togglePauseScrobbling(paused);
-                current.isPlaying = !paused;
-            }
+            var controlHooks = {
+                nextTrack: nextTrack,
+                previousTrack: previousTrack,
+                volumeUpdate: volumeUpdate,
+                positionUpdate: positionUpdate,
+                togglePause: function() {
+                    if (current.isPlaying) {
+                        audioPause();
+                    } else {
+                        audioPlay();
+                    }
+                }
+            };
+
+            var audioHooks = {
+                play: function() {
+                    TrackManager.togglePauseScrobbling(false);
+                    current.isPlaying = true;
+                },
+                pause: function() {
+                    TrackManager.togglePauseScrobbling(true);
+                    current.isPlaying = false;
+                },
+                volumeChange: function(volume) {
+                    current.volume = volume;
+                },
+                positionChange: function(position) {
+                    current.position = position;
+                },
+                ended: function() {
+                    nextTrack();
+                }
+            };
 
             angular.extend(this, {
                 playlist: playlist,
                 current: current,
-                nextTrack: nextTrack,
-                previousTrack: previousTrack,
-                togglePause: togglePause,
-                volumeUpdate: volumeUpdate,
-                positionUpdate: positionUpdate,
-                trackPaused: trackPaused
+                audioHooks: audioHooks,
+                controlHooks: controlHooks
             });
         }]);
