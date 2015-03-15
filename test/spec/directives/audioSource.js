@@ -33,68 +33,68 @@ describe('Directive: audioSource', function() {
     });
 
     describe('play event', function() {
-        it('should call scope.$apply and call PlayerService.trackPaused with false', function() {
-            spyOn(PlayerService, 'trackPaused');
+        it('should call scope.$apply and call PlayerService.audioHooks.play', function() {
+            spyOn(PlayerService.audioHooks, 'play');
 
             element.trigger('play');
 
-            expect(PlayerService.trackPaused).toHaveBeenCalledWith(false);
+            expect(PlayerService.audioHooks.play).toHaveBeenCalledWith();
             expect(scope.$apply).toHaveBeenCalled();
         });
     });
 
     describe('pause event', function() {
-        it('should call scope.$apply and set PlayerService.current.isPlaying to false', function() {
-            spyOn(PlayerService, 'trackPaused');
+        it('should call scope.$apply and call PlayerService.audioHooks.pause', function() {
+            spyOn(PlayerService.audioHooks, 'pause');
 
             element.trigger('pause');
 
-            expect(PlayerService.trackPaused).toHaveBeenCalledWith(true);
+            expect(PlayerService.audioHooks.pause).toHaveBeenCalledWith();
             expect(scope.$apply).toHaveBeenCalled();
         });
     });
 
     describe('volumechange event', function() {
-        it('should call scope.$apply and set PlayerService.current.volume', function() {
-            PlayerService.current.volume = 0.23;
+        it('should call scope.$apply and call PlayerService.audioHooks.volumeChange', function() {
+            spyOn(PlayerService.audioHooks, 'volumeChange');
 
             element[0].volume = 0.94;
             element.trigger('volumechange');
 
-            expect(PlayerService.current.volume).toBe(0.94);
+            expect(PlayerService.audioHooks.volumeChange).toHaveBeenCalledWith(0.94);
             expect(scope.$apply).toHaveBeenCalled();
         });
     });
 
     describe('timeupdate event', function() {
-        it('should call PlayerService.setPosition with the position set to 0 if there is no audio duration', function() {
-            PlayerService.current.position = 0.23;
+        it('should call PlayerService.audioHooks.positionChange with the position set to 0 if there is no audio duration', function() {
+            spyOn(PlayerService.audioHooks, 'positionChange');
 
             element.trigger('timeupdate');
 
-            expect(PlayerService.current.position).toBe(0);
+            expect(PlayerService.audioHooks.positionChange).toHaveBeenCalledWith(0);
             expect(scope.$apply).toHaveBeenCalled();
         });
 
-        it('should call PlayerService.setPosition with the position set to currentTime divided by duration', function() {
-            PlayerService.current.position = 0.23;
+        it('should call PlayerService.audioHooks.positionChange with the position set to currentTime divided by duration', function() {
+            spyOn(PlayerService.audioHooks, 'positionChange');
 
             element[0].duration = 10;
             element[0].currentTime = 4;
             element.trigger('timeupdate');
 
-            expect(PlayerService.current.position).toBe(0.4);
+            expect(PlayerService.audioHooks.positionChange).toHaveBeenCalledWith(0.4);
             expect(scope.$apply).toHaveBeenCalled();
         });
     });
 
     describe('ended event', function() {
-        it('should call PlayerService.nextTrack', function() {
-            spyOn(PlayerService, 'nextTrack');
+        it('should call PlayerService.audioHooks.ended', function() {
+            spyOn(PlayerService.audioHooks, 'ended');
 
             element.trigger('ended');
 
-            expect(PlayerService.nextTrack).toHaveBeenCalledWith();
+            expect(PlayerService.audioHooks.ended).toHaveBeenCalledWith();
             expect(scope.$apply).toHaveBeenCalled();
         });
     })

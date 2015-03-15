@@ -7,7 +7,9 @@ angular.module('musicServerApp')
                 var audio = element[0];
 
                 function bindWithApply(bindFunction) {
-                    return scope.$apply.bind(scope, bindFunction);
+                    return function() {
+                        scope.$apply(bindFunction);
+                    };
                 }
 
                 element.on('play', bindWithApply(function() {
