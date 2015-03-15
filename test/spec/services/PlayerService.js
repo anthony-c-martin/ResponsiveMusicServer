@@ -37,7 +37,7 @@ describe('Service: PlayerService', function() {
         });
     });
 
-    describe('nextTrack', function() {
+    describe('controlHools.nextTrack', function() {
         beforeEach(function() {
             spyOn(TrackManager, 'setupScrobbling');
             spyOn(TrackManager, 'startConversion').and.callFake(function() {
@@ -54,7 +54,7 @@ describe('Service: PlayerService', function() {
             ]);
 
             spyOn($rootScope, '$emit');
-            service.nextTrack();
+            service.controlHooks.nextTrack();
             $rootScope.$digest();
 
             expect(service.current.track).toEqual({ID: 1, FileName: 'asdf97ug'});
@@ -69,11 +69,11 @@ describe('Service: PlayerService', function() {
                 {ID: 3, FileName: 3}
             ]);
 
-            service.nextTrack();
+            service.controlHooks.nextTrack();
             $rootScope.$digest();
             spyOn($rootScope, '$emit');
             TrackManager.setupScrobbling.calls.reset();
-            service.nextTrack();
+            service.controlHooks.nextTrack();
             $rootScope.$digest();
 
             expect(service.current.track).toEqual({ID: 2, FileName: 'asasdf8h'});
@@ -86,11 +86,11 @@ describe('Service: PlayerService', function() {
                 {ID: 1, FileName: 1}
             ]);
 
-            service.nextTrack();
+            service.controlHooks.nextTrack();
             $rootScope.$digest();
             spyOn($rootScope, '$emit');
             TrackManager.setupScrobbling.calls.reset();
-            service.nextTrack();
+            service.controlHooks.nextTrack();
             $rootScope.$digest();
 
             expect(service.current.track).toBeNull();
@@ -99,7 +99,7 @@ describe('Service: PlayerService', function() {
         });
     });
 
-    describe('previousTrack', function() {
+    describe('controlHools.previousTrack', function() {
         beforeEach(function() {
             spyOn(TrackManager, 'setupScrobbling');
             spyOn(TrackManager, 'startConversion').and.callFake(function() {
@@ -116,7 +116,7 @@ describe('Service: PlayerService', function() {
             ]);
 
             spyOn($rootScope, '$emit');
-            service.previousTrack();
+            service.controlHooks.previousTrack();
             $rootScope.$digest();
 
             expect(service.current.track).toEqual({ID: 1, FileName: 'asdfubsdf'});
@@ -131,13 +131,13 @@ describe('Service: PlayerService', function() {
                 {ID: 3, FileName: 3}
             ]);
 
-            service.nextTrack();
+            service.controlHooks.nextTrack();
             $rootScope.$digest();
-            service.nextTrack();
+            service.controlHooks.nextTrack();
             $rootScope.$digest();
             spyOn($rootScope, '$emit');
             TrackManager.setupScrobbling.calls.reset();
-            service.previousTrack();
+            service.controlHooks.previousTrack();
             $rootScope.$digest();
 
             expect(service.current.track).toEqual({ID: 1, FileName: 'asdf9sadfh'});
@@ -147,7 +147,7 @@ describe('Service: PlayerService', function() {
 
         it('should set the track to null if there is no previous track', function() {
             spyOn($rootScope, '$emit');
-            service.previousTrack();
+            service.controlHooks.previousTrack();
 
             expect(service.current.track).toBeNull();
             expect($rootScope.$emit).toHaveBeenCalledWith('PlayerService.audioUpdate', {src: '', type: ''});
@@ -155,51 +155,97 @@ describe('Service: PlayerService', function() {
         });
     });
 
-    describe('togglePause', function() {
-        it('should broadcast a PlayerService.togglePause event', function() {
+    describe('controlHools.togglePause', function() {
+        it('should broadcast a PlayerService.play event if current.isPlaying is false', function() {
             spyOn($rootScope, '$emit');
+            service.current.isPlaying = false;
 
-            service.togglePause();
+            service.controlHooks.togglePause();
 
-            expect($rootScope.$emit).toHaveBeenCalledWith('PlayerService.togglePause');
+            expect($rootScope.$emit).toHaveBeenCalledWith('PlayerService.play');
+        });
+
+        it('should broadcast a PlayerService.pause event if current.isPlaying is true', function() {
+            spyOn($rootScope, '$emit');
+            service.current.isPlaying = true;
+
+            service.controlHooks.togglePause();
+
+            expect($rootScope.$emit).toHaveBeenCalledWith('PlayerService.pause');
         });
     });
 
-    describe('volumeUpdate', function() {
+    describe('controlHools.volumeUpdate', function() {
         it('should broadcast a PlayerService.volumeUpdate event', function() {
             spyOn($rootScope, '$emit');
 
-            service.volumeUpdate(0.3);
+            service.controlHooks.volumeUpdate(0.3);
 
             expect($rootScope.$emit).toHaveBeenCalledWith('PlayerService.volumeUpdate', 0.3);
         });
     });
 
-    describe('positionUpdate', function() {
+    describe('controlHools.positionUpdate', function() {
         it('should broadcast a PlayerService.positionUpdate event', function() {
             spyOn($rootScope, '$emit');
 
-            service.positionUpdate(0.7);
+            service.controlHooks.positionUpdate(0.7);
 
             expect($rootScope.$emit).toHaveBeenCalledWith('PlayerService.positionUpdate', 0.7);
         });
     });
 
-    describe('trackPaused', function() {
-        it('should call togglePauseScrobbling with false on the TrackManager', function() {
+    describe('audioHooks.play', function() {
+        it('should call togglePauseScrobbling with false on the TrackManager and set isPlaying to true', function() {
             spyOn(TrackManager, 'togglePauseScrobbling');
+            service.current.isPlaying = false;
 
-            service.trackPaused(false);
+            service.audioHooks.play();
 
             expect(TrackManager.togglePauseScrobbling).toHaveBeenCalledWith(false);
+            expect(service.current.isPlaying).toBe(true);
         });
+    });
 
-        it('should call togglePauseScrobbling with true on the TrackManager', function() {
+    describe('audioHooks.pause', function() {
+        it('should call togglePauseScrobbling with true on the TrackManager and set isPlaying to false', function() {
             spyOn(TrackManager, 'togglePauseScrobbling');
+            service.current.isPlaying = true;
 
-            service.trackPaused(true);
+            service.audioHooks.pause();
 
             expect(TrackManager.togglePauseScrobbling).toHaveBeenCalledWith(true);
+            expect(service.current.isPlaying).toBe(false);
+        });
+    });
+
+    describe('audioHooks.volumeChange', function() {
+        it('should set the current volume', function() {
+            service.current.volume = 0;
+
+            service.audioHooks.volumeChange(0.53);
+
+            expect(service.current.volume).toBe(0.53);
+        });
+    });
+
+    describe('audioHooks.positionChange', function() {
+        it('should set the current position', function() {
+            service.current.position = 0;
+
+            service.audioHooks.positionChange(0.46);
+
+            expect(service.current.position).toBe(0.46);
+        });
+    });
+
+    describe('audioHooks.ended', function() {
+        it('should call controlHooks.nextTrack', function() {
+            spyOn(service.controlHooks, 'nextTrack');
+
+            service.audioHooks.ended();
+
+            expect(service.controlHooks.nextTrack).toHaveBeenCalledWith();
         });
     });
 

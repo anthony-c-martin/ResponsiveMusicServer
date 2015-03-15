@@ -105,7 +105,7 @@ angular.module('musicServerApp')
                     current.position = position;
                 },
                 ended: function() {
-                    nextTrack();
+                    controlHooks.nextTrack();
                 }
             };
 
