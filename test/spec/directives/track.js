@@ -3,7 +3,9 @@
 describe('Directive: track', function() {
 
     var element,
+        playlistElement,
         controller,
+        playlistController,
         scope,
         $rootScope,
         $parentScope,
@@ -23,6 +25,9 @@ describe('Directive: track', function() {
             element = angular.element(
                 '<li track="track"></li>'
             );
+            playlistElement = angular.element(
+                '<li track="track" playlist-track="true"></li>'
+            );
 
             $parentScope.track = {
                 'ID' : 1,
@@ -30,9 +35,11 @@ describe('Directive: track', function() {
             };
 
             $compile(element)($parentScope);
+            $compile(playlistElement)($parentScope);
             $parentScope.$digest();
 
             controller = element.controller('track');
+            playlistController = playlistElement.controller('track');
             scope = element.scope();
         });
     });
@@ -73,44 +80,32 @@ describe('Directive: track', function() {
         });
 
         it('should call TrackController.remove when the remove button is clicked', function() {
-            spyOn(controller, 'remove');
+            spyOn(playlistController, 'remove');
 
-            element.find('button.control-remove').trigger('click');
+            playlistElement.find('button.control-remove').trigger('click');
 
-            expect(controller.remove).toHaveBeenCalled();
+            expect(playlistController.remove).toHaveBeenCalled();
         });
     });
 
     describe('addable', function() {
-        it('should display the add and play buttons if addable is true', function() {
-            scope.addable = true;
-            scope.$digest();
-
+        it('should display the add and play buttons if the playlist-track attribute is not set', function() {
             expect(element.find('button.control-add').length).toBe(1);
             expect(element.find('button.control-play').length).toBe(1);
         });
 
-        it('should not display the add and play buttons if addable is false', function() {
-            scope.addable = false;
-            scope.$digest();
-
-            expect(element.find('button.control-add').length).toBe(0);
-            expect(element.find('button.control-play').length).toBe(0);
+        it('should not display the add and play buttons if the playlist-track attribute is set', function() {
+            expect(playlistElement.find('button.control-add').length).toBe(0);
+            expect(playlistElement.find('button.control-play').length).toBe(0);
         });
     });
 
     describe('closable', function() {
-        it('should display the close button if closable is true', function() {
-            scope.closable = true;
-            element.scope().$digest();
-
-            expect(element.find('button.control-remove').length).toBe(1);
+        it('should display the close button if the playlist-track attribute is not set', function() {
+            expect(playlistElement.find('button.control-remove').length).toBe(1);
         });
 
-        it('should not display the closable button if closable is false', function() {
-            scope.closable = false;
-            scope.$digest();
-
+        it('should not display the closable button if the playlist-track attribute is set', function() {
             expect(element.find('button.control-remove').length).toBe(0);
         });
     });

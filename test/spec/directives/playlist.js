@@ -100,8 +100,10 @@ describe('Directive: playlist', function() {
         });
 
         it('should contain track elements for each track', function() {
-            var liTrack1 = angular.element(element.find('ul.playlist.tracks').children()[1]);
-            var liTrack2 = angular.element(element.find('ul.playlist.tracks').children()[2]);
+            var tracks = angular.element(element.find('ul.playlist.tracks').find('.track'));
+
+            var liTrack1 = angular.element(tracks[0]);
+            var liTrack2 = angular.element(tracks[1])
 
             expect (liTrack1.find('.desc').text()).toBe('asdf87gas8');
             expect (liTrack2.find('.desc').text()).toBe('as8fd7g8s7afgiu');

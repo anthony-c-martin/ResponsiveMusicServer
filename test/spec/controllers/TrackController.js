@@ -38,7 +38,7 @@ describe('Controller: TrackController', function() {
             controller.play();
 
             expect(PlayerService.playlist.clear).toHaveBeenCalledWith();
-            expect(PlayerService.playlist.addTrack).toHaveBeenCalledWith($scope.track);
+            expect(PlayerService.playlist.addTrack).toHaveBeenCalledWith(controller.track);
             $scope.$digest();
             expect(PlayerService.controlHooks.nextTrack).toHaveBeenCalledWith();
         });
@@ -50,7 +50,7 @@ describe('Controller: TrackController', function() {
 
             controller.add();
 
-            expect(PlayerService.playlist.addTrack).toHaveBeenCalledWith($scope.track);
+            expect(PlayerService.playlist.addTrack).toHaveBeenCalledWith(controller.track);
         });
     });
 
@@ -60,7 +60,7 @@ describe('Controller: TrackController', function() {
 
             controller.remove();
 
-            expect(PlayerService.playlist.removeTrack).toHaveBeenCalledWith($scope.track);
+            expect(PlayerService.playlist.removeTrack).toHaveBeenCalledWith(controller.track);
         });
     });
 
@@ -68,7 +68,7 @@ describe('Controller: TrackController', function() {
         it('should call trackSelected on the trackArea when the select function is called', function() {
             spyOn($scope, '$emit');
             var mockTrack = {};
-            $scope.track = mockTrack;
+            controller.track = mockTrack;
             var mockEvent = {
                 stopPropagation: function() {},
                 shiftKey: true,
@@ -80,7 +80,7 @@ describe('Controller: TrackController', function() {
                 trackSelected: function() {}
             };
             spyOn(mockTrackArea, 'trackSelected');
-            $scope.trackArea = mockTrackArea;
+            controller.trackArea = mockTrackArea;
 
             controller.select(mockEvent);
 

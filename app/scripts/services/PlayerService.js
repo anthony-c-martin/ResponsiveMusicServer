@@ -21,7 +21,7 @@ angular.module('musicServerApp')
 
             function changeTrack(track) {
                 if (!track) {
-                    $rootScope.$emit('PlayerService.audioUpdate', {src: '', type: ''})
+                    $rootScope.$emit('PlayerService.audioUpdate', {src: '', type: ''});
                     current.track = null;
 
                     return;

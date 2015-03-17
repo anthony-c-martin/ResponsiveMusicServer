@@ -1,26 +1,28 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .controller('TrackController', ['$scope', 'PlayerService',
-        function ($scope, PlayerService) {
+    .controller('TrackController', ['PlayerService',
+        function (PlayerService) {
+            var ctrl = this;
+
             function play() {
                 PlayerService.playlist.clear();
-                PlayerService.playlist.addTrack($scope.track);
+                PlayerService.playlist.addTrack(ctrl.track);
                 PlayerService.controlHooks.nextTrack();
             }
 
             function add() {
-                PlayerService.playlist.addTrack($scope.track);
+                PlayerService.playlist.addTrack(ctrl.track);
             }
 
             function remove() {
-                PlayerService.playlist.removeTrack($scope.track);
+                PlayerService.playlist.removeTrack(ctrl.track);
             }
 
             function select($event) {
-                if ($scope.trackArea) {
+                if (ctrl.trackArea) {
                     $event.stopPropagation();
-                    $scope.trackArea.trackSelected($scope.track, $event.shiftKey, ($event.ctrlKey || $event.metaKey));
+                    ctrl.trackArea.trackSelected(ctrl.track, $event.shiftKey, ($event.ctrlKey || $event.metaKey));
                 }
             }
 
