@@ -5,6 +5,7 @@ describe('Controller: AlbumController', function() {
     var controller,
         $scope,
         $rootScope,
+        PlayerService,
         $q;
 
     beforeEach(function() {
@@ -13,49 +14,43 @@ describe('Controller: AlbumController', function() {
         inject(function($injector) {
             $q = $injector.get('$q');
             $rootScope = $injector.get('$rootScope');
+            PlayerService = $injector.get('PlayerService');
             $scope = $rootScope.$new();
             var $controller = $injector.get('$controller');
 
             controller = $controller('AlbumController', {
-                $scope: $scope
+                $scope: $scope,
+                PlayerService: PlayerService
             });
+        });
+
+        controller.album = {
+            ID: 366
+        };
+    });
+
+    describe('play', function() {
+        it('should clear the playlist, call addTracksByAlbum on the playlist, and then select the next track', function() {
+            spyOn(PlayerService.playlist, 'clear');
+            spyOn(PlayerService.playlist, 'addTracksByAlbum').and.returnValue($q.when());
+            spyOn(PlayerService.controlHooks, 'nextTrack');
+
+            controller.play();
+
+            expect(PlayerService.playlist.clear).toHaveBeenCalledWith();
+            expect(PlayerService.playlist.addTracksByAlbum).toHaveBeenCalledWith(366);
+            $scope.$digest();
+            expect(PlayerService.controlHooks.nextTrack).toHaveBeenCalledWith();
         });
     });
 
     describe('add', function() {
-        it('should emit an addAlbum event and stop event propagation', function() {
-            spyOn($scope, '$emit');
-            var mockAlbum = {};
-            controller.album = mockAlbum;
-            var mockEvent = {
-                stopPropagation: function() {}
-            };
-            spyOn(mockEvent, 'stopPropagation');
+        it('should call addTracksByAlbum on the playlist', function() {
+            spyOn(PlayerService.playlist, 'addTracksByAlbum');
 
-            controller.add(mockEvent);
+            controller.add();
 
-            expect($scope.$emit).toHaveBeenCalledWith('addAlbum', mockAlbum);
-            expect($scope.$emit.calls.count()).toBe(1);
-            expect(mockEvent.stopPropagation).toHaveBeenCalled();
-        });
-    });
-
-    describe('play', function() {
-        it('should emit a playAlbum event and stop event propagation', function() {
-            spyOn($scope, '$emit');
-            var mockAlbum = {};
-            controller.album = mockAlbum;
-            var mockEvent = {
-                stopPropagation: function() {}
-            };
-            spyOn(mockEvent, 'stopPropagation');
-
-            controller.play(mockEvent);
-
-            expect($scope.$emit).toHaveBeenCalledWith('playAlbum', mockAlbum);
-            expect($scope.$emit.calls.count()).toBe(1);
-            expect(mockEvent.stopPropagation).toHaveBeenCalled();
-
+            expect(PlayerService.playlist.addTracksByAlbum).toHaveBeenCalledWith(366);
         });
     });
 

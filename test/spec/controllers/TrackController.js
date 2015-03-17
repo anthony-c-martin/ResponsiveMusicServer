@@ -5,6 +5,7 @@ describe('Controller: TrackController', function() {
     var controller,
         $scope,
         $rootScope,
+        PlayerService,
         $q;
 
     beforeEach(function() {
@@ -13,67 +14,53 @@ describe('Controller: TrackController', function() {
         inject(function($injector) {
             $q = $injector.get('$q');
             $rootScope = $injector.get('$rootScope');
+            PlayerService = $injector.get('PlayerService');
             $scope = $rootScope.$new();
             var $controller = $injector.get('$controller');
 
             controller = $controller('TrackController', {
-                $scope: $scope
+                $scope: $scope,
+                PlayerService: PlayerService
             });
         });
+
+        $scope.track = {
+            ID: 362
+        };
     });
 
     describe('play', function() {
-        it('should emit a playTrack event and stop event propagation when the play function is called', function() {
-            spyOn($scope, '$emit');
-            var mockTrack = {};
-            $scope.track = mockTrack;
-            var mockEvent = {
-                stopPropagation: function() {}
-            };
-            spyOn(mockEvent, 'stopPropagation');
+        it('should clear the playlist, call addTrack on the playlist, and then select the next track', function() {
+            spyOn(PlayerService.playlist, 'clear');
+            spyOn(PlayerService.playlist, 'addTrack').and.returnValue($q.when());
+            spyOn(PlayerService.controlHooks, 'nextTrack');
 
-            controller.play(mockEvent);
+            controller.play();
 
-            expect($scope.$emit).toHaveBeenCalledWith('playTrack', mockTrack);
-            expect($scope.$emit.calls.count()).toBe(1);
-            expect(mockEvent.stopPropagation).toHaveBeenCalled();
-
+            expect(PlayerService.playlist.clear).toHaveBeenCalledWith();
+            expect(PlayerService.playlist.addTrack).toHaveBeenCalledWith($scope.track);
+            $scope.$digest();
+            expect(PlayerService.controlHooks.nextTrack).toHaveBeenCalledWith();
         });
     });
 
     describe('add', function() {
-        it('should emit an addTrack event and stop event propagation when the add function is called', function() {
-            spyOn($scope, '$emit');
-            var mockTrack = {};
-            $scope.track = mockTrack;
-            var mockEvent = {
-                stopPropagation: function() {}
-            };
-            spyOn(mockEvent, 'stopPropagation');
+        it('should call addTrack on the playlist', function() {
+            spyOn(PlayerService.playlist, 'addTrack');
 
-            controller.add(mockEvent);
+            controller.add();
 
-            expect($scope.$emit).toHaveBeenCalledWith('addTrack', mockTrack);
-            expect($scope.$emit.calls.count()).toBe(1);
-            expect(mockEvent.stopPropagation).toHaveBeenCalled();
+            expect(PlayerService.playlist.addTrack).toHaveBeenCalledWith($scope.track);
         });
     });
 
     describe('remove', function() {
-        it('should emit an removeTrack event and stop event propagation when the remove function is called', function() {
-            spyOn($scope, '$emit');
-            var mockTrack = {};
-            $scope.track = mockTrack;
-            var mockEvent = {
-                stopPropagation: function() {}
-            };
-            spyOn(mockEvent, 'stopPropagation');
+        it('should call removeTrack on the playlist', function() {
+            spyOn(PlayerService.playlist, 'removeTrack');
 
-            controller.remove(mockEvent);
+            controller.remove();
 
-            expect($scope.$emit).toHaveBeenCalledWith('removeTrack', mockTrack);
-            expect($scope.$emit.calls.count()).toBe(1);
-            expect(mockEvent.stopPropagation).toHaveBeenCalled();
+            expect(PlayerService.playlist.removeTrack).toHaveBeenCalledWith($scope.track);
         });
     });
 

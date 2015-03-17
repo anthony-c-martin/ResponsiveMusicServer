@@ -1,11 +1,9 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .controller('MainController', ['$scope', '$rootScope', 'DataLoader', 'PlayerService', 'ApiRequest',
-        function($scope, $rootScope, DataLoader, PlayerService, ApiRequest) {
+    .controller('MainController', ['$scope', '$rootScope', 'DataLoader', 'ApiRequest',
+        function($scope, $rootScope, DataLoader, ApiRequest) {
             var ctrl = this;
-
-            var playlist = PlayerService.playlist;
 
             function loadArtists() {
                 ctrl.artists.length = 0;
@@ -29,49 +27,6 @@ angular.module('musicServerApp')
                     $scope.trackRequest = null;
                 }
             }
-
-            $rootScope.$on('addArtist', function(e, artist) {
-                e.stopPropagation();
-                playlist.addTracksByArtist(artist.ID);
-            });
-
-            $rootScope.$on('playArtist', function(e, artist) {
-                e.stopPropagation();
-                playlist.clear();
-                playlist.addTracksByArtist(artist.ID).then(function() {
-                    $scope.$emit('StartPlaying');
-                });
-            });
-
-            $rootScope.$on('addAlbum', function(e, album) {
-                e.stopPropagation();
-                playlist.addTracksByAlbum(album.ID);
-            });
-
-            $rootScope.$on('playAlbum', function(e, album) {
-                e.stopPropagation();
-                playlist.clear();
-                playlist.addTracksByAlbum(album.ID).then(function() {
-                    $scope.$emit('StartPlaying');
-                });
-            });
-
-            $rootScope.$on('addTrack', function(e, track) {
-                e.stopPropagation();
-                playlist.addTracks([track]);
-            });
-
-            $rootScope.$on('removeTrack', function(e, track) {
-                e.stopPropagation();
-                playlist.removeTrack(track);
-            });
-
-            $rootScope.$on('playTrack', function(e, track) {
-                e.stopPropagation();
-                playlist.clear();
-                playlist.addTracks([track]);
-                $scope.$emit('StartPlaying');
-            });
 
             $rootScope.$on('selectArtist', function(e, artist) {
                 loadAlbums(artist);

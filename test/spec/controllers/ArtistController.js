@@ -5,6 +5,7 @@ describe('Controller: ArtistController', function() {
     var controller,
         $scope,
         $rootScope,
+        PlayerService,
         $q;
 
     beforeEach(function() {
@@ -13,49 +14,43 @@ describe('Controller: ArtistController', function() {
         inject(function($injector) {
             $q = $injector.get('$q');
             $rootScope = $injector.get('$rootScope');
+            PlayerService = $injector.get('PlayerService');
             $scope = $rootScope.$new();
             var $controller = $injector.get('$controller');
 
             controller = $controller('ArtistController', {
-                $scope: $scope
+                $scope: $scope,
+                PlayerService: PlayerService
             });
+        });
+
+        controller.artist = {
+            ID: 457
+        };
+    });
+
+    describe('play', function() {
+        it('should clear the playlist, call addTracksByArtist on the playlist, and then select the next track', function() {
+            spyOn(PlayerService.playlist, 'clear');
+            spyOn(PlayerService.playlist, 'addTracksByArtist').and.returnValue($q.when());
+            spyOn(PlayerService.controlHooks, 'nextTrack');
+
+            controller.play();
+
+            expect(PlayerService.playlist.clear).toHaveBeenCalledWith();
+            expect(PlayerService.playlist.addTracksByArtist).toHaveBeenCalledWith(457);
+            $scope.$digest();
+            expect(PlayerService.controlHooks.nextTrack).toHaveBeenCalledWith();
         });
     });
 
     describe('add', function() {
-        it('should emit an addArtist event and stop event propagation', function() {
-            spyOn($scope, '$emit');
-            var mockArtist = {};
-            controller.artist = mockArtist;
-            var mockEvent = {
-                stopPropagation: function() {}
-            };
-            spyOn(mockEvent, 'stopPropagation');
+        it('should call addTracksByArtist on the playlist', function() {
+            spyOn(PlayerService.playlist, 'addTracksByArtist');
 
-            controller.add(mockEvent);
+            controller.add();
 
-            expect($scope.$emit).toHaveBeenCalledWith('addArtist', mockArtist);
-            expect($scope.$emit.calls.count()).toBe(1);
-            expect(mockEvent.stopPropagation).toHaveBeenCalled();
-        });
-    });
-
-    describe('play', function() {
-        it('should emit a playArtist event and stop event propagation', function() {
-            spyOn($scope, '$emit');
-            var mockArtist = {};
-            controller.artist = mockArtist;
-            var mockEvent = {
-                stopPropagation: function() {}
-            };
-            spyOn(mockEvent, 'stopPropagation');
-
-            controller.play(mockEvent);
-
-            expect($scope.$emit).toHaveBeenCalledWith('playArtist', mockArtist);
-            expect($scope.$emit.calls.count()).toBe(1);
-            expect(mockEvent.stopPropagation).toHaveBeenCalled();
-
+            expect(PlayerService.playlist.addTracksByArtist).toHaveBeenCalledWith(457);
         });
     });
 
