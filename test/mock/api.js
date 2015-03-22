@@ -7,6 +7,10 @@ angular.module('mock.api', ['musicServerApp', 'ngMockE2E'])
         }])
     .run(['$httpBackend',
         function($httpBackend) {
+            $httpBackend.whenGET(/^stream/).passThrough();
+        }])
+    .run(['$httpBackend',
+        function($httpBackend) {
             $httpBackend.whenPOST('/api').respond(function(method, url, jsonData) {
                 var data = JSON.parse(jsonData);
                 var command = data.Command;
@@ -152,9 +156,10 @@ angular.module('mock.api', ['musicServerApp', 'ngMockE2E'])
                         Session: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
                     }, {}];
                 },
-                ConvertTrackByID: function() {
+                ConvertTrackByID: function(data) {
                     return [200, {
-                        Success: true
+                        Result: 'Success',
+                        FileName: data.String
                     }, {}];
                 },
                 LFMNowPlayingTrack: function() {
