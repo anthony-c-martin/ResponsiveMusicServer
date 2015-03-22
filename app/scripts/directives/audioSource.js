@@ -54,9 +54,16 @@ angular.module('musicServerApp')
                     audio.pause();
                 });
 
-                $rootScope.$on('PlayerService.audioUpdate', function(e, data) {
+                $rootScope.$on('PlayerService.playNew', function(e, data) {
+                    audio.pause();
                     audio.src = data.src;
                     audio.type = data.type;
+                    if (data.src) {
+                        audio.play();
+                    } else {
+                        PlayerService.audioHooks.pause();
+                        PlayerService.audioHooks.positionChange(0);
+                    }
                 });
             }
 

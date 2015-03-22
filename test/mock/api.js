@@ -34,6 +34,28 @@ angular.module('mock.api', ['musicServerApp', 'ngMockE2E'])
                 return [404, {}, {}];
             });
 
+            function getMockTrack(id) {
+                return {
+                    ID: id,
+                    Name: 'Track ' + id,
+                    Duration: 60
+                };
+            }
+
+            function getMockAlbum(id) {
+                return {
+                    ID: id,
+                    Name: 'Album ' + id
+                };
+            }
+
+            function getMockArtist(id) {
+                return {
+                    ID: id,
+                    Name: 'Artist ' + id
+                };
+            }
+
             var requests = {
                 GetTrackByID: function() {
                     return [200, {}, {}];
@@ -42,10 +64,7 @@ angular.module('mock.api', ['musicServerApp', 'ngMockE2E'])
                     var output = [];
 
                     for (var i = data.Start; i < data.Start + data.Limit; i++) {
-                        output.push({
-                            ID: i,
-                            Name: 'Track ' + i
-                        });
+                        output.push(getMockTrack(i));
                     }
 
                     return [200, output, {}];
@@ -54,10 +73,7 @@ angular.module('mock.api', ['musicServerApp', 'ngMockE2E'])
                     var output = [];
 
                     for (var i = data.Start; i < data.Start + data.Limit; i++) {
-                        output.push({
-                            ID: i,
-                            Name: 'Album ' + i
-                        });
+                        output.push(getMockAlbum(i));
                     }
 
                     return [200, output, {}];
@@ -66,10 +82,7 @@ angular.module('mock.api', ['musicServerApp', 'ngMockE2E'])
                     var output = [];
 
                     for (var i = data.Start; i < data.Start + data.Limit; i++) {
-                        output.push({
-                            ID: i,
-                            Name: 'Artist ' + i
-                        });
+                        output.push(getMockArtist(i));
                     }
 
                     return [200, output, {}];
@@ -78,10 +91,7 @@ angular.module('mock.api', ['musicServerApp', 'ngMockE2E'])
                     var output = [];
 
                     for (var i = data.Start; i < data.Start + data.Limit; i++) {
-                        output.push({
-                            ID: i,
-                            Name: 'Track ' + i
-                        });
+                        output.push(getMockTrack(i));
                     }
 
                     return [200, output, {}];
@@ -90,10 +100,7 @@ angular.module('mock.api', ['musicServerApp', 'ngMockE2E'])
                     var output = [];
 
                     for (var i = data.Start; i < data.Start + data.Limit; i++) {
-                        output.push({
-                            ID: i,
-                            Name: 'Album ' + i
-                        });
+                        output.push(getMockAlbum(i));
                     }
 
                     return [200, output, {}];
@@ -102,10 +109,7 @@ angular.module('mock.api', ['musicServerApp', 'ngMockE2E'])
                     var output = [];
 
                     for (var i = data.Start; i < data.Start + data.Limit; i++) {
-                        output.push({
-                            ID: i,
-                            Name: 'Artist ' + i
-                        });
+                        output.push(getMockArtist(i));
                     }
 
                     return [200, output, {}];
@@ -114,10 +118,7 @@ angular.module('mock.api', ['musicServerApp', 'ngMockE2E'])
                     var output = [];
 
                     for (var i = data.Start; i < data.Start + data.Limit; i++) {
-                        output.push({
-                            ID: i,
-                            Name: 'Track ' + i
-                        });
+                        output.push(getMockTrack(i));
                     }
 
                     return [200, output, {}];
@@ -126,10 +127,7 @@ angular.module('mock.api', ['musicServerApp', 'ngMockE2E'])
                     var output = [];
 
                     for (var i = data.Start; i < data.Start + data.Limit; i++) {
-                        output.push({
-                            ID: i,
-                            Name: 'Track ' + i
-                        });
+                        output.push(getMockTrack(i));
                     }
 
                     return [200, output, {}];
@@ -138,10 +136,7 @@ angular.module('mock.api', ['musicServerApp', 'ngMockE2E'])
                     var output = [];
 
                     for (var i = data.Start; i < data.Start + data.Limit; i++) {
-                        output.push({
-                            ID: i,
-                            Name: 'Album ' + i
-                        });
+                        output.push(getMockAlbum(i));
                     }
 
                     return [200, output, {}];

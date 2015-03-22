@@ -21,6 +21,7 @@ describe('Service: PlayerService', function() {
 
             service = $injector.get('PlayerService', {
                 $rootScope: $rootScope,
+                $q: $q,
                 PlaylistFactory: PlaylistFactory,
                 SessionData: SessionData,
                 TrackManager: TrackManager
@@ -39,8 +40,13 @@ describe('Service: PlayerService', function() {
 
     describe('controlHooks.changeTrack', function() {
         var conversionPromise;
+        var onSuccess;
+        var onErr;
 
         beforeEach(function() {
+            onSuccess = jasmine.createSpy('onSuccess');
+            onErr = jasmine.createSpy('onErr');
+
             spyOn(TrackManager, 'setupScrobbling');
             spyOn(TrackManager, 'startConversion').and.callFake(function() {
                 conversionPromise = $q.defer();
@@ -49,56 +55,63 @@ describe('Service: PlayerService', function() {
             spyOn($rootScope, '$emit');
         });
 
-        it('should emit a blank audioUpdate event and set the current track to null if the track argument evaluates to false', function() {
-            service.current.track = {};
-            service.controlHooks.changeTrack(null);
+        it('should emit a blank playNew event if the track argument evaluates to false', function() {
+            var onSuccess = jasmine.createSpy('onSuccess');
+            service.controlHooks.changeTrack(null).then(onSuccess, onErr);
+            $rootScope.$digest();
 
-            expect($rootScope.$emit).toHaveBeenCalledWith('PlayerService.audioUpdate', {src: '', type: ''});
-            expect(service.current.track).toBeNull();
+            expect($rootScope.$emit).toHaveBeenCalledWith('PlayerService.playNew', {src: '', type: ''});
+            expect(onSuccess).toHaveBeenCalledWith(undefined);
+            expect(onErr).not.toHaveBeenCalled();
         });
 
         it('should start track conversion if the track argument is set', function() {
             var mockTrack = {ID: 12152};
 
-            service.controlHooks.changeTrack(mockTrack);
+            service.controlHooks.changeTrack(mockTrack).then(onSuccess, onErr);
+            $rootScope.$digest();
 
             expect(TrackManager.startConversion).toHaveBeenCalledWith(mockTrack);
+            expect(onSuccess).not.toHaveBeenCalled();
+            expect(onErr).not.toHaveBeenCalled();
         });
 
-        it('should set the curent track to the track passed in and call nextTrack if the conversion fails', function() {
+        it('should emit a blank playNew event if the conversion fails', function() {
             var mockTrack = {ID: 12152};
-            spyOn(service.controlHooks, 'nextTrack');
 
-            service.controlHooks.changeTrack(mockTrack);
+            service.controlHooks.changeTrack(mockTrack).then(onSuccess, onErr);
             conversionPromise.reject();
             $rootScope.$digest();
 
-            expect(service.current.track).toBe(mockTrack);
-            expect(service.controlHooks.nextTrack).toHaveBeenCalledWith();
+            expect($rootScope.$emit).toHaveBeenCalledWith('PlayerService.playNew', {src: '', type: ''});
+            expect(onSuccess).not.toHaveBeenCalled();
+            expect(onErr).toHaveBeenCalledWith(undefined);
         });
 
         it('should start the track playing and setup scrobbling if the conversion succeeds', function() {
             var mockTrack = {ID: 1, FileName: 'asdf97ug'};
             spyOn(service.controlHooks, 'nextTrack');
 
-            service.controlHooks.changeTrack(mockTrack);
+            service.controlHooks.changeTrack(mockTrack).then(onSuccess, onErr);
             conversionPromise.resolve();
             $rootScope.$digest();
 
-            expect($rootScope.$emit).toHaveBeenCalledWith('PlayerService.audioUpdate', {src: '/stream?FileName=asdf97ug&Session=SessionKey', type: 'audio/mp4'});
-            expect(service.current.track).toBe(mockTrack);
-            expect($rootScope.$emit).toHaveBeenCalledWith('PlayerService.play');
+            expect($rootScope.$emit).toHaveBeenCalledWith('PlayerService.playNew', {src: '/stream?FileName=asdf97ug&Session=SessionKey', type: 'audio/mp4'});
             expect(TrackManager.setupScrobbling).toHaveBeenCalledWith(mockTrack);
+            expect(onSuccess).toHaveBeenCalledWith(undefined);
+            expect(onErr).not.toHaveBeenCalled();
         });
     });
 
     describe('controlHooks.nextTrack', function() {
+        var changeTrackDeferred;
         beforeEach(function() {
-            spyOn(service.controlHooks, 'changeTrack');
-            spyOn(service.playlist, 'getRelativeTo');
+            changeTrackDeferred = $q.defer();
+            spyOn(service.controlHooks, 'changeTrack').and.returnValue(changeTrackDeferred.promise);
+            spyOn(service.playlist, 'removeTrack');
         });
 
-        it('should choose the first track if current.track is not assigned', function() {
+        it('should choose the first track from the playlist and not do anything until changeTrack completes', function() {
             service.playlist.addTracks([
                 {ID: 1, FileName: 'asdf97ug'},
                 {ID: 2, FileName: 2}
@@ -107,54 +120,132 @@ describe('Service: PlayerService', function() {
             service.controlHooks.nextTrack();
 
             expect(service.controlHooks.changeTrack).toHaveBeenCalledWith({ID: 1, FileName: 'asdf97ug'});
+            expect(service.current.track).toBeNull();
+            expect(service.playlist.removeTrack).not.toHaveBeenCalled();
         });
 
-        it('should choose the next track if current.track is assigned', function() {
+        it('should remove the track from the playlist, and set the current track after changeTrack promise succeeds', function() {
             service.playlist.addTracks([
-                {ID: 1, FileName: 1},
-                {ID: 2, FileName: 'asasdf8h'},
-                {ID: 3, FileName: 3}
+                {ID: 1, FileName: 'asdf97ug'},
+                {ID: 2, FileName: 2}
             ]);
-            service.current.track = service.playlist.tracks[0];
-            service.playlist.getRelativeTo.and.returnValue('asdgds9a7g');
+            var firstTrack = service.playlist.tracks[0];
 
             service.controlHooks.nextTrack();
+            changeTrackDeferred.resolve();
+            $rootScope.$digest();
 
-            expect(service.playlist.getRelativeTo).toHaveBeenCalledWith({ID: 1, FileName: 1}, false);
-            expect(service.controlHooks.changeTrack).toHaveBeenCalledWith('asdgds9a7g');
+            expect(service.controlHooks.changeTrack).toHaveBeenCalledWith(firstTrack);
+            expect(service.current.track).toBe(firstTrack);
+            expect(service.playlist.removeTrack).toHaveBeenCalledWith(firstTrack);
+        });
+
+        it('should remove the track from the playlist, and set the current track after changeTrack promise fails', function() {
+            service.playlist.addTracks([
+                {ID: 1, FileName: 'asdf97ug'},
+                {ID: 2, FileName: 2}
+            ]);
+            var firstTrack = service.playlist.tracks[0];
+
+            service.controlHooks.nextTrack();
+            changeTrackDeferred.reject();
+            $rootScope.$digest();
+
+            expect(service.controlHooks.changeTrack).toHaveBeenCalledWith(firstTrack);
+            expect(service.current.track).toBe(firstTrack);
+            expect(service.playlist.removeTrack).toHaveBeenCalledWith(firstTrack);
         });
     });
 
     describe('controlHooks.previousTrack', function() {
+        var changeTrackDeferred;
         beforeEach(function() {
-            spyOn(service.controlHooks, 'changeTrack');
-            spyOn(service.playlist, 'getRelativeTo');
+            changeTrackDeferred = $q.defer();
+            spyOn(service.controlHooks, 'changeTrack').and.returnValue(changeTrackDeferred.promise);
+            spyOn(service.playlist, 'removeTrack');
+            spyOn(service.playlist, 'addTrack');
         });
 
-        it('should choose the first track if current.track is not assigned', function() {
+        it('should rewind the current track if it is less than 2 seconds in', function() {
+            spyOn(service.controlHooks, 'positionUpdate');
+            service.current.track = { Duration: 60 };
+            service.current.position = 0.25;
+
+            service.controlHooks.previousTrack();
+
+            expect(service.controlHooks.positionUpdate).toHaveBeenCalledWith(0);
+        });
+
+        it ('should add the current track to the beginning of the playlist and call changeTrack with null if there are no previous tracks and a current track', function (){
+            service.current.track = {ID: 5, Duration: 60};
+
+            service.controlHooks.previousTrack();
+
+            expect(service.playlist.addTrack).toHaveBeenCalledWith({ID: 5, Duration: 60}, 0);
+            expect(service.current.track).toBeNull();
+            expect(service.controlHooks.changeTrack).toHaveBeenCalledWith(null);
+        });
+
+        it('should choose the previous track if current.track is assigned, and not do anything until changeTrack resolves', function() {
             service.playlist.addTracks([
-                {ID: 1, FileName: 'asdf97ug'},
                 {ID: 2, FileName: 2}
             ]);
+            service.current.track = {ID: 1, FileName: 1};
+            service.controlHooks.nextTrack();
+            changeTrackDeferred.resolve();
+            $rootScope.$digest();
+            expect(service.current.track).toEqual({ID: 2, FileName: 2});
 
+            changeTrackDeferred = $q.defer();
+            service.controlHooks.changeTrack.calls.reset();
             service.controlHooks.previousTrack();
 
-            expect(service.controlHooks.changeTrack).toHaveBeenCalledWith({ID: 1, FileName: 'asdf97ug'});
+            expect(service.controlHooks.changeTrack).toHaveBeenCalledWith({ID: 1, FileName: 1});
+            expect(service.current.track).toEqual({ID: 2, FileName: 2});
         });
 
-        it('should choose the previous track if current.track is assigned', function() {
+        it('should choose the previous track if current.track is assigned, and set the current track after changeTrack promise succeeds', function() {
+            var firstTrack = {ID: 1, FileName: 1}
             service.playlist.addTracks([
-                {ID: 1, FileName: 1},
-                {ID: 2, FileName: 'asasdf8h'},
-                {ID: 3, FileName: 3}
+                {ID: 2, FileName: 2}
             ]);
-            service.current.track = service.playlist.tracks[1];
-            service.playlist.getRelativeTo.and.returnValue('fa80ds7gf');
+            service.current.track = firstTrack;
+            service.controlHooks.nextTrack();
+            changeTrackDeferred.resolve();
+            $rootScope.$digest();
+            expect(service.current.track).toEqual({ID: 2, FileName: 2});
 
+            changeTrackDeferred = $q.defer();
+            service.controlHooks.changeTrack.calls.reset();
             service.controlHooks.previousTrack();
+            changeTrackDeferred.resolve();
+            $rootScope.$digest();
 
-            expect(service.playlist.getRelativeTo).toHaveBeenCalledWith({ID: 2, FileName: 'asasdf8h'}, true);
-            expect(service.controlHooks.changeTrack).toHaveBeenCalledWith('fa80ds7gf');
+            expect(service.controlHooks.changeTrack).toHaveBeenCalledWith(firstTrack);
+            expect(service.current.track).toEqual(firstTrack);
+            expect(service.playlist.addTrack).toHaveBeenCalledWith({ID: 2, FileName: 2}, 0);
+        });
+
+        it('should choose the previous track if current.track is assigned, and set the current track after changeTrack promise fails', function() {
+            var firstTrack = {ID: 1, FileName: 1}
+            service.playlist.addTracks([
+                {ID: 2, FileName: 2}
+            ]);
+            service.current.track = firstTrack;
+            service.controlHooks.nextTrack();
+            changeTrackDeferred.resolve();
+            $rootScope.$digest();
+            expect(service.current.track).toEqual({ID: 2, FileName: 2});
+
+            changeTrackDeferred = $q.defer();
+            service.controlHooks.changeTrack.calls.reset();
+            service.controlHooks.previousTrack();
+            changeTrackDeferred.reject();
+            $rootScope.$digest();
+
+            expect(service.controlHooks.changeTrack).toHaveBeenCalledWith(firstTrack);
+            expect(service.current.track).toEqual(firstTrack);
+            expect(service.playlist.addTrack).toHaveBeenCalledWith({ID: 2, FileName: 2}, 0);
         });
     });
 

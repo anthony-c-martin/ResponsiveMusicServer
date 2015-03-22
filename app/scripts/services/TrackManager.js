@@ -27,35 +27,45 @@ angular.module('musicServerApp')
                 }
             }
 
+            var conversionDeferred;
             function startConversion(track) {
+                if (!track) {
+
+                    return $q.reject();
+                }
+
                 if (track.conversionPromise) {
 
                     return track.conversionPromise;
                 }
 
-                var deferred = $q.defer();
-                if (track.FileName) {
-                    deferred.resolve(track);
-
-                    return deferred.promise;
+                if (conversionDeferred) {
+                    conversionDeferred.reject();
                 }
 
-                track.conversionPromise = deferred.promise;
+                conversionDeferred = $q.defer();
+                if (track.FileName) {
+                    conversionDeferred.resolve(track);
+
+                    return conversionDeferred.promise;
+                }
+
+                track.conversionPromise = conversionDeferred.promise;
                 ApiRequest.track.convert(track.ID).submit().then(function(data) {
                     if (data.Result && data.Result === 'Success') {
                         track.FileName = data.FileName;
-                        deferred.resolve(track);
+                        conversionDeferred.resolve(track);
                     } else {
-                        deferred.reject();
+                        conversionDeferred.reject();
                     }
-                    delete track.conversionPromise;
                 }, function(message) {
                     console.warn(message);
-                    deferred.reject();
+                    conversionDeferred.reject();
+                }).finally(function() {
                     delete track.conversionPromise;
                 });
 
-                return deferred.promise;
+                return conversionDeferred.promise;
             }
 
             angular.extend(this, {

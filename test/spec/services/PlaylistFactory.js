@@ -13,6 +13,37 @@ describe('Factory: PlaylistFactory', function() {
         });
     });
 
+    describe('addTrack', function() {
+        it ('should call addTracks with the relativeTrack of the position specified', function() {
+            service.addTracks([
+                {ID: 1},
+                {ID: 2}
+            ]);
+            spyOn(service, 'addTracks');
+
+            service.addTrack({ID: 3}, 1);
+            expect(service.addTracks).toHaveBeenCalledWith([{ID: 3}], {ID: 2}, true);
+        });
+
+        it ('should call addTracks with the relativeTrack of the position specified, even if it is 0', function() {
+            service.addTracks([
+                {ID: 1},
+                {ID: 2}
+            ]);
+            spyOn(service, 'addTracks');
+
+            service.addTrack({ID: 3}, 0);
+            expect(service.addTracks).toHaveBeenCalledWith([{ID: 3}], {ID: 1}, true);
+        });
+
+        it('should call addTracks without the relativeTrack specified if a position is not specified', function() {
+            spyOn(service, 'addTracks');
+            service.addTrack({ID: 1});
+
+            expect(service.addTracks).toHaveBeenCalledWith([{ID: 1}]);
+        });
+    });
+
     describe('addTracks', function() {
         it('should add multiple tracks to the end of the tracks array', function() {
             service.addTracks([

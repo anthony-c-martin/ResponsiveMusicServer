@@ -4,14 +4,15 @@ angular.module('musicServerApp')
     .factory('PlaylistFactory', ['ApiRequest', '$q',
         function(ApiRequest, $q) {
             return function() {
+                var service = {};
                 var tracks = [];
 
                 function addTrack(trackToAdd, position) {
-                    if (position > 0) {
-                        var relativeTrack = tracks[position];
-                        addTracks([trackToAdd], relativeTrack, true);
+                    if (position !== undefined) {
+                        var relativeTrack = service.tracks[position];
+                        service.addTracks([trackToAdd], relativeTrack, true);
                     } else {
-                        addTracks([trackToAdd]);
+                        service.addTracks([trackToAdd]);
                     }
                 }
 
@@ -101,7 +102,7 @@ angular.module('musicServerApp')
                     });
                 }
 
-                return {
+                angular.extend(service, {
                     tracks: tracks,
                     addTrack: addTrack,
                     addTracks: addTracks,
@@ -113,6 +114,8 @@ angular.module('musicServerApp')
                     clear: clear,
                     getRelativeTo: getRelativeTo,
                     deselectAll: deselectAll
-                };
+                });
+
+                return service;
             };
         }]);
