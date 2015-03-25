@@ -30,6 +30,7 @@
     "gulp-util": "^3.0.4",
     "imagemin-pngcrush": "^4.0.0",
     "jshint-stylish": "^1.0.1",
+    "karma-coverage": "^0.2.7",
     "karma-jasmine": "^0.3.5",
     "karma-ng-html2js-preprocessor": "^0.1.2",
     "karma-phantomjs-launcher": "^0.1.4",

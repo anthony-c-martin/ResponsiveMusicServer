@@ -31,7 +31,8 @@ angular.module('musicServerApp')
             }
 
             function redirectToResults(type) {
-                var redirect = '/' + type + '/s/' + encodeURIComponent(ctrl.searchText);
+                var redirect = '/music/search/' + type + '/' + encodeURIComponent(ctrl.searchText);
+                console.warn(redirect);
                 $rootScope.$emit('changeLocation', redirect);
             }
 

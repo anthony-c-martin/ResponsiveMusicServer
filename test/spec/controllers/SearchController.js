@@ -38,7 +38,7 @@ describe('Controller: SearchController', function() {
         controller.redirectToResults('artists');
 
         expect($rootScope.$emit.calls.count()).toBe(1);
-        expect($rootScope.$emit).toHaveBeenCalledWith('changeLocation', '/artists/s/sf9ga8fd78G');
+        expect($rootScope.$emit).toHaveBeenCalledWith('changeLocation', '/music/search/artists/sf9ga8fd78G');
     });
 
     it('should emit a changeLocation event when the redirectToResults function is called', function() {
@@ -48,7 +48,7 @@ describe('Controller: SearchController', function() {
         controller.redirectToResults('albums');
 
         expect($rootScope.$emit.calls.count()).toBe(1);
-        expect($rootScope.$emit).toHaveBeenCalledWith('changeLocation', '/albums/s/asdgsaldndsgjib');
+        expect($rootScope.$emit).toHaveBeenCalledWith('changeLocation', '/music/search/albums/asdgsaldndsgjib');
     });
 
     it('should emit a changeLocation event when the redirectToResults function is called', function() {
@@ -58,7 +58,7 @@ describe('Controller: SearchController', function() {
         controller.redirectToResults('tracks');
 
         expect($rootScope.$emit.calls.count()).toBe(1);
-        expect($rootScope.$emit).toHaveBeenCalledWith('changeLocation', '/tracks/s/asdgasgasege3r23');
+        expect($rootScope.$emit).toHaveBeenCalledWith('changeLocation', '/music/search/tracks/asdgasgasege3r23');
     });
 
     it('should run a search and load the results into the scope when search is called', function() {

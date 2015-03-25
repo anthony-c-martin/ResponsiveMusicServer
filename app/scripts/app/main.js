@@ -31,6 +31,12 @@ angular
                 templateUrl: 'views/main.html',
                 title: 'Main'
             }).
+            when('/music/search/:type/:search', {
+                controller: 'MainController',
+                controllerAs: 'mainCtrl',
+                templateUrl: 'views/main.html',
+                title: 'Main'
+            }).
             otherwise({
                 redirectTo: '/login'
             });
