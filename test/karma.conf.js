@@ -17,6 +17,7 @@ module.exports = function(config) {
     frameworks: ['jasmine'],
 
     preprocessors: {
+        //'app/scripts/**/*.js': ['coverage'],
         'app/views/*.html': ['ng-html2js']
     },
 
@@ -67,8 +68,18 @@ module.exports = function(config) {
     plugins: [
       'karma-phantomjs-launcher',
       'karma-jasmine',
+      'karma-coverage',
       'karma-ng-html2js-preprocessor'
     ],
+
+    /*
+    coverageReporter: {
+        dir: 'coverage/',
+        reporters: [{type: 'lcov', subdir: 'report-lcov'}]
+    },
+
+    reporters: ['coverage'],
+    */
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
