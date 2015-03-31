@@ -1,6 +1,5 @@
-'use strict';
-
-describe('Controller: SearchController', function() {
+/* jshint -W117, -W030 */
+describe('app.components.search.searchController', function() {
 
     var controller,
         apiFactory,
@@ -15,7 +14,7 @@ describe('Controller: SearchController', function() {
     }
 
     beforeEach(function() {
-        module('musicServerApp');
+        module('app.components.search');
 
         inject(function($injector) {
             var $controller = $injector.get('$controller');
@@ -24,7 +23,7 @@ describe('Controller: SearchController', function() {
             $rootScope = $injector.get('$rootScope');
             apiFactory = $injector.get('apiFactory');
 
-            controller = $controller('SearchController', {
+            controller = $controller('searchController', {
                 $rootScope: $rootScope,
                 apiFactory: apiFactory
             });

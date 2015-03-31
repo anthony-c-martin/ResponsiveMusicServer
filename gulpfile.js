@@ -113,12 +113,15 @@ gulp.task('imagemin', function() {
 });
 
 gulp.task('templatecache', function() {
-    return gulp.src([appConfig.app + '/views/**/*.html'])
+    return gulp.src([
+        appConfig.app + '/views/**/*.html',
+        appConfig.app + '/scripts/**/*.html'
+    ])
         .pipe($.minifyHtml({empty: true}))
         .pipe($.angularTemplatecache(
             'app.views.js', {
                 module: 'app.core',
-                root: 'views/',
+                root: 'app/',
                 standAlone: false
             }
         ))

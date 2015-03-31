@@ -6,6 +6,6 @@ angular.module('musicServerApp')
             return {
                 restrict: 'A',
                 replace: true,
-                templateUrl: 'views/navbar.partial.html'
+                templateUrl: 'app/navbar.partial.html'
             };
         }]);

@@ -8,6 +8,6 @@ angular.module('musicServerApp')
                     errorMessage: '='
                 },
                 restrict: 'E',
-                templateUrl: 'views/errorModal.partial.html'
+                templateUrl: 'app/errorModal.partial.html'
             };
         }]);

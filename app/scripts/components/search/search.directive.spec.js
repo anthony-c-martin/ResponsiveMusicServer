@@ -1,39 +1,25 @@
-'use strict';
+/* jshint -W117, -W030 */
+describe('app.components.search.amSearch', function() {
 
-describe('Directive: search', function() {
+    var element;
+    var scope;
 
-    var element,
-        scope,
-        controller,
-        $rootScope,
-        $parentScope,
-        $q,
-        $compile;
+    beforeEach(module('app.components.search'));
 
-    beforeEach(function() {
-        module('musicServerApp');
+    beforeEach(inject(function($compile, $rootScope, $q) {
+        element = angular.element(
+            '<am-search></am-search>'
+        );
 
-        inject(function($injector) {
-            $rootScope = $injector.get('$rootScope');
-            $parentScope = $rootScope.$new();
-            $q = $injector.get('$q');
-            $compile = $injector.get('$compile');
+        scope = $rootScope;
+        $compile(element)(scope);
 
-            element = angular.element(
-                '<search></search>'
-            );
-
-            $compile(element)($parentScope);
-            $parentScope.$digest();
-
-            scope = element.scope();
-            controller = element.controller();
-        });
-    });
+        scope.$digest();
+    }));
 
     describe('initialisation', function() {
         it('should not show the results if inProgress is true', function() {
-            controller.inProgress = true;
+            scope.vm.inProgress = true;
             scope.$digest();
 
             expect(element.find('.search-loading').find('.desc').text()).toBe('Loading...');
@@ -43,8 +29,8 @@ describe('Directive: search', function() {
 
     describe('searchResults', function() {
         beforeEach(function() {
-            controller.inProgress = false;
-            controller.searchResults = {
+            scope.vm.inProgress = false;
+            scope.vm.searchResults = {
                 artists: [],
                 albums: [],
                 tracks: []
@@ -53,7 +39,7 @@ describe('Directive: search', function() {
         });
 
         it('should show the results if inProgress is false', function() {
-            controller.inProgress = false;
+            scope.vm.inProgress = false;
             scope.$digest();
 
             expect(element.find('.search-loading').find('.desc').length).toBe(0);
@@ -69,7 +55,7 @@ describe('Directive: search', function() {
         });
 
         it('should show tracks if tracks were found', function() {
-            controller.searchResults.tracks.push({
+            scope.vm.searchResults.tracks.push({
                 ID: 32525,
                 Name: 'asdfisgdfgsf'
             }, {
@@ -78,12 +64,12 @@ describe('Directive: search', function() {
             });
             scope.$digest();
 
-            expect(element.find('.search-results').find('.search.tracks').find('.track').length).toBe(2);
+            expect(element.find('.search-results').find('.search.tracks').find('li[track]').length).toBe(2);
         });
 
         it('should call redirectToResults if Show All is clicked for the tracks', function() {
-            controller.redirectToResults = jasmine.createSpy('redirectToResults');
-            controller.searchResults.tracks.push({
+            scope.vm.redirectToResults = jasmine.createSpy('redirectToResults');
+            scope.vm.searchResults.tracks.push({
                 ID: 32525,
                 Name: 'asdfisgdfgsf'
             });
@@ -91,11 +77,11 @@ describe('Directive: search', function() {
 
             element.find('.search-results').find('.search.tracks').find('.link-right').trigger('click');
 
-            expect(controller.redirectToResults).toHaveBeenCalledWith('tracks');
+            expect(scope.vm.redirectToResults).toHaveBeenCalledWith('tracks');
         });
 
         it('should show albums if albums were found', function() {
-            controller.searchResults.albums.push({
+            scope.vm.searchResults.albums.push({
                 ID: 22425,
                 Name: 'asdfs9a7gf87gi'
             }, {
@@ -104,12 +90,12 @@ describe('Directive: search', function() {
             });
             scope.$digest();
 
-            expect(element.find('.search-results').find('.search.albums').find('.album').length).toBe(2);
+            expect(element.find('.search-results').find('.search.albums').find('li[album]').length).toBe(2);
         });
 
         it('should call redirectToResults if Show All is clicked for the albums', function() {
-            controller.redirectToResults = jasmine.createSpy('redirectToResults');
-            controller.searchResults.albums.push({
+            scope.vm.redirectToResults = jasmine.createSpy('redirectToResults');
+            scope.vm.searchResults.albums.push({
                 ID: 12547,
                 Name: 'asdfs97agfiuhsdjfi'
             });
@@ -117,11 +103,11 @@ describe('Directive: search', function() {
 
             element.find('.search-results').find('.search.albums').find('.link-right').trigger('click');
 
-            expect(controller.redirectToResults).toHaveBeenCalledWith('albums');
+            expect(scope.vm.redirectToResults).toHaveBeenCalledWith('albums');
         });
 
         it('should show tracks if tracks were found', function() {
-            controller.searchResults.artists.push({
+            scope.vm.searchResults.artists.push({
                 ID: 35398,
                 Name: 'asdf87gsda7fuih'
             }, {
@@ -130,12 +116,12 @@ describe('Directive: search', function() {
             });
             scope.$digest();
 
-            expect(element.find('.search-results').find('.search.artists').find('.artist').length).toBe(2);
+            expect(element.find('.search-results').find('.search.artists').find('li[artist]').length).toBe(2);
         });
 
         it('should call redirectToResults if Show All is clicked for the artists', function() {
-            controller.redirectToResults = jasmine.createSpy('redirectToResults');
-            controller.searchResults.artists.push({
+            scope.vm.redirectToResults = jasmine.createSpy('redirectToResults');
+            scope.vm.searchResults.artists.push({
                 ID: 39182,
                 Name: 'asdf9asg7df807gsa8f7'
             });
@@ -143,25 +129,25 @@ describe('Directive: search', function() {
 
             element.find('.search-results').find('.search.artists').find('.link-right').trigger('click');
 
-            expect(controller.redirectToResults).toHaveBeenCalledWith('artists');
+            expect(scope.vm.redirectToResults).toHaveBeenCalledWith('artists');
         });
     });
 
     describe('hideDropdowns', function() {
         it('should set the searchShown scope variable to false on the hideDropdowns event', function() {
-            controller.searchShown = true;
+            scope.vm.searchShown = true;
 
-            $rootScope.$emit('hideDropdowns', 'asdf');
+            scope.$emit('hideDropdowns', 'asdf');
 
-            expect(controller.searchShown).toBeFalsy();
+            expect(scope.vm.searchShown).toBeFalsy();
         });
 
         it('should not set the searchShown scope variable to false on the hideDropdowns event with data set to "search"', function() {
-            controller.searchShown = true;
+            scope.vm.searchShown = true;
 
-            $rootScope.$emit('hideDropdowns', 'search');
+            scope.$emit('hideDropdowns', 'search');
 
-            expect(controller.searchShown).toBeTruthy();
+            expect(scope.vm.searchShown).toBeTruthy();
         });
     });
 });

@@ -14,7 +14,7 @@ describe('Directive: navbar', function() {
             function() {
 
             }])
-        .controller('SearchController', [
+        .controller('searchController', [
             function() {
 
             }]);
