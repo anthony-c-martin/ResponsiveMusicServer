@@ -11,7 +11,6 @@ describe('Directive: audioSource', function() {
 
     beforeEach(function() {
         module('musicServerApp');
-        module('musicServerApp.views');
 
         inject(function($injector) {
             $compile = $injector.get('$compile');

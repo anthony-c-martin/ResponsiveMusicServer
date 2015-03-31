@@ -1,14 +1,10 @@
 (function() {
     'use strict';
 
-    angular
-        .module('musicServerApp', [
-            'ngRoute',
-            'matchmedia-ng',
-            'app.services'
-        ])
+    angular.module('app.core')
         .config(config);
 
+    /* @ngInject */
     function config($routeProvider, matchmediaProvider) {
         $routeProvider.
             when('/login', {

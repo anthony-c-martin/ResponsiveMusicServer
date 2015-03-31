@@ -112,15 +112,17 @@ gulp.task('imagemin', function() {
         .pipe(gulp.dest(appConfig.dist + '/images'));
 });
 
-gulp.task('html2js', function() {
-    return gulp.src([appConfig.app + '/views/{,*/}*.html'])
+gulp.task('templatecache', function() {
+    return gulp.src([appConfig.app + '/views/**/*.html'])
         .pipe($.minifyHtml({empty: true}))
-        .pipe($.ngHtml2js({
-            moduleName: 'musicServerApp.views',
-            prefix: 'views/'
-        }))
-        .pipe($.concat('views.js'))
-        .pipe(gulp.dest('.tmp/scripts/app'));
+        .pipe($.angularTemplatecache(
+            'app.views.js', {
+                module: 'app.core',
+                root: 'views/',
+                standAlone: false
+            }
+        ))
+        .pipe(gulp.dest('.tmp/scripts'));
 });
 
 gulp.task('htmlmin', function() {
@@ -162,7 +164,7 @@ gulp.task('copy:fontawesome', function() {
         }));
 });
 
-gulp.task('karma', function() {
+gulp.task('karma', ['templatecache'], function() {
     return gulp.src('./UNUSED')
         .pipe($.karma({
             configFile: 'test/karma.conf.js',
@@ -180,11 +182,13 @@ gulp.task('sass', function() {
         .pipe(gulp.dest('.tmp/styles'));
 });
 
-gulp.task('inject', function() {
+gulp.task('inject', ['templatecache'], function() {
     return gulp.src([appConfig.app + '/index.html'])
         .pipe($.inject(gulp.src([
+            appConfig.app + '/scripts/app.module.js',
             appConfig.app + '/scripts/**/*.module.js',
             appConfig.app + '/scripts/**/*.js',
+            '.tmp/scripts/app.views.js',
             '!' + appConfig.app + '/scripts/**/*.spec.js'
         ], {read: false}), {relative: true}))
         .pipe(gulp.dest(appConfig.app));
@@ -220,7 +224,7 @@ gulp.task('build', function() {
     runSequence(
         ['clean:dist', 'wiredep'],
         ['sass', 'copy:fontawesome', 'copy:bootstrap', 'copy:dist'],
-        ['imagemin', 'htmlmin', 'html2js', 'inject'],
+        ['imagemin', 'htmlmin', 'inject'],
         'usemin'
     );
 });
