@@ -1,19 +1,19 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .controller('AlbumController', ['$scope', 'PlayerService',
-        function ($scope, PlayerService) {
+    .controller('AlbumController', ['$scope', 'playerService',
+        function ($scope, playerService) {
             var ctrl = this;
 
             function play() {
-                PlayerService.playlist.clear();
-                PlayerService.playlist.addTracksByAlbum(ctrl.album.ID).then(function() {
-                    PlayerService.controlHooks.nextTrack();
+                playerService.playlist.clear();
+                playerService.playlist.addTracksByAlbum(ctrl.album.ID).then(function() {
+                    playerService.controlHooks.nextTrack();
                 });
             }
 
             function add() {
-                PlayerService.playlist.addTracksByAlbum(ctrl.album.ID);
+                playerService.playlist.addTracksByAlbum(ctrl.album.ID);
             }
 
             function select() {

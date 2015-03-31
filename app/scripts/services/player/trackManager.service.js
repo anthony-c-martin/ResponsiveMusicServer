@@ -1,12 +1,12 @@
 (function() {
     'use strict';
 
-    angular.module('app.services')
-        .service('TrackManager', TrackManager);
+    angular.module('app.services.player')
+        .service('trackManagerService', trackManagerService);
 
     /* @ngInject */
-    function TrackManager($q, sessionService, TrackTimer, apiService) {
-        var scrobbleTimer = new TrackTimer();
+    function trackManagerService($q, sessionService, trackTimerService, apiService) {
+        var scrobbleTimer = new trackTimerService();
 
         function setupScrobbling(track) {
             if (!sessionService.getUserPreference('ScrobblingEnabled')) {

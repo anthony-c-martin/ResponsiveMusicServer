@@ -1,13 +1,13 @@
 /* jshint -W117, -W030 */
-describe('Factory: PlaylistFactory', function() {
+describe('Factory: playlistService', function() {
 
     var service;
 
     beforeEach(function() {
-        module('musicServerApp');
+        module('app.services.playlist');
 
         inject(function($injector) {
-            var Factory = $injector.get('PlaylistFactory', {});
+            var Factory = $injector.get('playlistService', {});
             service = new Factory();
         });
     });

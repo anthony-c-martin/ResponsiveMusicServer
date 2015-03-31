@@ -1,11 +1,11 @@
 (function() {
     'use strict';
 
-    angular.module('app.services')
-        .factory('TrackTimer', TrackTimer);
+    angular.module('app.services.player')
+        .factory('trackTimerService', trackTimerService);
 
     /* @ngInject */
-    function TrackTimer() {
+    function trackTimerService() {
         return function () {
             var callback;
             var duration;

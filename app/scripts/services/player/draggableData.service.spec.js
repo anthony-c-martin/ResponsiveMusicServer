@@ -1,26 +1,26 @@
 /* jshint -W117, -W030 */
-describe('Service: DraggableData', function() {
+describe('Service: draggableDataService', function() {
 
     var service,
         $q,
         $rootScope,
         $document,
         apiService,
-        PlayerService;
+        playerService;
 
     beforeEach(function() {
-        module('musicServerApp');
+        module('app.services.player');
 
         inject(function($injector) {
             $q = $injector.get('$q');
             $rootScope = $injector.get('$rootScope');
             $document = $injector.get('$document');
             apiService = $injector.get('apiService');
-            PlayerService = $injector.get('PlayerService');
+            playerService = $injector.get('playerService');
 
-            service = $injector.get('DraggableData', {
+            service = $injector.get('draggableDataService', {
                 apiService: apiService,
-                PlayerService: PlayerService
+                playerService: playerService
             });
         });
     });
@@ -236,15 +236,15 @@ describe('Service: DraggableData', function() {
 
             it('should add the tracks to the playlist then deselect them', function() {
                 var mockTracks = [{}, {}, {}];
-                spyOn(PlayerService.playlist, 'addTracks');
-                spyOn(PlayerService.playlist, 'deselectAll');
+                spyOn(playerService.playlist, 'addTracks');
+                spyOn(playerService.playlist, 'deselectAll');
                 service.setTracks(mockTracks);
 
                 dropFunction($event);
                 $rootScope.$digest();
 
-                expect(PlayerService.playlist.addTracks).toHaveBeenCalledWith(mockTracks);
-                expect(PlayerService.playlist.deselectAll).toHaveBeenCalledWith();
+                expect(playerService.playlist.addTracks).toHaveBeenCalledWith(mockTracks);
+                expect(playerService.playlist.deselectAll).toHaveBeenCalledWith();
             });
         });
     });
@@ -366,7 +366,7 @@ describe('Service: DraggableData', function() {
             it('should add the track after the hovered track if dragoverPre is false', function() {
                 var mockTracks = [{}, {}, {}];
                 var mockTrack = {};
-                spyOn(PlayerService.playlist, 'addTracks');
+                spyOn(playerService.playlist, 'addTracks');
                 service.setTracks(mockTracks);
                 service.currentHoverScope.dragoverPre = false;
                 service.currentHoverScope.track = mockTrack;
@@ -374,13 +374,13 @@ describe('Service: DraggableData', function() {
                 dropFunction($event);
                 $rootScope.$digest();
 
-                expect(PlayerService.playlist.addTracks).toHaveBeenCalledWith(mockTracks, mockTrack, true);
+                expect(playerService.playlist.addTracks).toHaveBeenCalledWith(mockTracks, mockTrack, true);
             });
 
             it('should add the track before the hovered track if dragoverPre is true', function() {
                 var mockTracks = [{}, {}, {}];
                 var mockTrack = {};
-                spyOn(PlayerService.playlist, 'addTracks');
+                spyOn(playerService.playlist, 'addTracks');
                 service.setTracks(mockTracks);
                 service.currentHoverScope.dragoverPre = true;
                 service.currentHoverScope.track = mockTrack;
@@ -388,7 +388,7 @@ describe('Service: DraggableData', function() {
                 dropFunction($event);
                 $rootScope.$digest();
 
-                expect(PlayerService.playlist.addTracks).toHaveBeenCalledWith(mockTracks, mockTrack, false);
+                expect(playerService.playlist.addTracks).toHaveBeenCalledWith(mockTracks, mockTrack, false);
             });
         });
     });

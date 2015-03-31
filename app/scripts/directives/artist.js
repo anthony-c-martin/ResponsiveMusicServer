@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .directive('artist', ['DraggableData',
-        function(DraggableData) {
+    .directive('artist', ['draggableDataService',
+        function(draggableDataService) {
             return {
                 scope: {
                     'artist': '='
@@ -16,7 +16,7 @@ angular.module('musicServerApp')
                 link: function(scope, element) {
                     var ctrl = scope.artistCtrl;
 
-                    DraggableData.bindDragEvents(element, ctrl.artist, 'Artist', function() {
+                    draggableDataService.bindDragEvents(element, ctrl.artist, 'Artist', function() {
                         return [ctrl.artist];
                     }, function() {
                         return true;

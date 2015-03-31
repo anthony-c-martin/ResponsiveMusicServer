@@ -8,7 +8,7 @@ describe('Directive: playlistButton', function() {
         $parentScope,
         $q,
         $compile,
-        DraggableData;
+        draggableDataService;
 
     beforeEach(function() {
         module('musicServerApp');
@@ -19,8 +19,8 @@ describe('Directive: playlistButton', function() {
             $parentScope = $rootScope.$new();
             $q = $injector.get('$q');
             $compile = $injector.get('$compile');
-            DraggableData = $injector.get('DraggableData');
-            spyOn(DraggableData, 'bindPlaylistDropEvents');
+            draggableDataService = $injector.get('draggableDataService');
+            spyOn(draggableDataService, 'bindPlaylistDropEvents');
 
             element = angular.element(
                 '<button playlist-button></button>'
@@ -34,9 +34,9 @@ describe('Directive: playlistButton', function() {
     });
 
     describe('initialisation', function() {
-        it('should call DraggableData.bindPlaylistDropEvents when loaded', function() {
-            expect(DraggableData.bindPlaylistDropEvents).toHaveBeenCalled();
-            expect(DraggableData.bindPlaylistDropEvents.calls.mostRecent().args[0][0]).toBe(element[0]);
+        it('should call draggableDataService.bindPlaylistDropEvents when loaded', function() {
+            expect(draggableDataService.bindPlaylistDropEvents).toHaveBeenCalled();
+            expect(draggableDataService.bindPlaylistDropEvents.calls.mostRecent().args[0][0]).toBe(element[0]);
         });
     });
 });

@@ -1,29 +1,29 @@
 /* jshint -W117, -W030 */
-describe('Service: PlayerService', function() {
+describe('Service: playerService', function() {
 
     var service,
         $rootScope,
         $q,
-        PlaylistFactory,
+        playlistService,
         sessionService,
-        TrackManager;
+        trackManagerService;
 
     beforeEach(function() {
-        module('musicServerApp');
+        module('app.services.player');
 
         inject(function($injector) {
             $rootScope = $injector.get('$rootScope');
             $q = $injector.get('$q');
-            PlaylistFactory = $injector.get('PlaylistFactory');
+            playlistService = $injector.get('playlistService');
             sessionService = $injector.get('sessionService');
-            TrackManager = $injector.get('TrackManager');
+            trackManagerService = $injector.get('trackManagerService');
 
-            service = $injector.get('PlayerService', {
+            service = $injector.get('playerService', {
                 $rootScope: $rootScope,
                 $q: $q,
-                PlaylistFactory: PlaylistFactory,
+                playlistService: playlistService,
                 sessionService: sessionService,
-                TrackManager: TrackManager
+                trackManagerService: trackManagerService
             });
         });
     });
@@ -46,8 +46,8 @@ describe('Service: PlayerService', function() {
             onSuccess = jasmine.createSpy('onSuccess');
             onErr = jasmine.createSpy('onErr');
 
-            spyOn(TrackManager, 'setupScrobbling');
-            spyOn(TrackManager, 'startConversion').and.callFake(function() {
+            spyOn(trackManagerService, 'setupScrobbling');
+            spyOn(trackManagerService, 'startConversion').and.callFake(function() {
                 conversionPromise = $q.defer();
                 return conversionPromise.promise;
             });
@@ -59,7 +59,7 @@ describe('Service: PlayerService', function() {
             service.controlHooks.changeTrack(null).then(onSuccess, onErr);
             $rootScope.$digest();
 
-            expect($rootScope.$emit).toHaveBeenCalledWith('PlayerService.playNew', {src: '', type: ''});
+            expect($rootScope.$emit).toHaveBeenCalledWith('playerService.playNew', {src: '', type: ''});
             expect(onSuccess).toHaveBeenCalledWith(undefined);
             expect(onErr).not.toHaveBeenCalled();
         });
@@ -70,7 +70,7 @@ describe('Service: PlayerService', function() {
             service.controlHooks.changeTrack(mockTrack).then(onSuccess, onErr);
             $rootScope.$digest();
 
-            expect(TrackManager.startConversion).toHaveBeenCalledWith(mockTrack);
+            expect(trackManagerService.startConversion).toHaveBeenCalledWith(mockTrack);
             expect(onSuccess).not.toHaveBeenCalled();
             expect(onErr).not.toHaveBeenCalled();
         });
@@ -82,7 +82,7 @@ describe('Service: PlayerService', function() {
             conversionPromise.reject();
             $rootScope.$digest();
 
-            expect($rootScope.$emit).toHaveBeenCalledWith('PlayerService.playNew', {src: '', type: ''});
+            expect($rootScope.$emit).toHaveBeenCalledWith('playerService.playNew', {src: '', type: ''});
             expect(onSuccess).not.toHaveBeenCalled();
             expect(onErr).toHaveBeenCalledWith(undefined);
         });
@@ -96,8 +96,8 @@ describe('Service: PlayerService', function() {
             conversionPromise.resolve();
             $rootScope.$digest();
 
-            expect($rootScope.$emit).toHaveBeenCalledWith('PlayerService.playNew', {src: '/stream?FileName=asdf97ug&Session=yyv97vib', type: 'audio/mp4'});
-            expect(TrackManager.setupScrobbling).toHaveBeenCalledWith(mockTrack);
+            expect($rootScope.$emit).toHaveBeenCalledWith('playerService.playNew', {src: '/stream?FileName=asdf97ug&Session=yyv97vib', type: 'audio/mp4'});
+            expect(trackManagerService.setupScrobbling).toHaveBeenCalledWith(mockTrack);
             expect(onSuccess).toHaveBeenCalledWith(undefined);
             expect(onErr).not.toHaveBeenCalled();
         });
@@ -250,14 +250,14 @@ describe('Service: PlayerService', function() {
     });
 
     describe('controlHooks.togglePause', function() {
-        it('should broadcast a PlayerService.play event if current.isPlaying is false and there is a current track', function() {
+        it('should broadcast a playerService.play event if current.isPlaying is false and there is a current track', function() {
             spyOn($rootScope, '$emit');
             service.current.track = {};
             service.current.isPlaying = false;
 
             service.controlHooks.togglePause();
 
-            expect($rootScope.$emit).toHaveBeenCalledWith('PlayerService.play');
+            expect($rootScope.$emit).toHaveBeenCalledWith('playerService.play');
         });
 
         it('should load the next track if current.isPlaying is false and there is no current track', function() {
@@ -270,56 +270,56 @@ describe('Service: PlayerService', function() {
             expect(service.controlHooks.nextTrack).toHaveBeenCalledWith();
         });
 
-        it('should broadcast a PlayerService.pause event if current.isPlaying is true', function() {
+        it('should broadcast a playerService.pause event if current.isPlaying is true', function() {
             spyOn($rootScope, '$emit');
             service.current.isPlaying = true;
 
             service.controlHooks.togglePause();
 
-            expect($rootScope.$emit).toHaveBeenCalledWith('PlayerService.pause');
+            expect($rootScope.$emit).toHaveBeenCalledWith('playerService.pause');
         });
     });
 
     describe('controlHooks.volumeUpdate', function() {
-        it('should broadcast a PlayerService.volumeUpdate event', function() {
+        it('should broadcast a playerService.volumeUpdate event', function() {
             spyOn($rootScope, '$emit');
 
             service.controlHooks.volumeUpdate(0.3);
 
-            expect($rootScope.$emit).toHaveBeenCalledWith('PlayerService.volumeUpdate', 0.3);
+            expect($rootScope.$emit).toHaveBeenCalledWith('playerService.volumeUpdate', 0.3);
         });
     });
 
     describe('controlHooks.positionUpdate', function() {
-        it('should broadcast a PlayerService.positionUpdate event', function() {
+        it('should broadcast a playerService.positionUpdate event', function() {
             spyOn($rootScope, '$emit');
 
             service.controlHooks.positionUpdate(0.7);
 
-            expect($rootScope.$emit).toHaveBeenCalledWith('PlayerService.positionUpdate', 0.7);
+            expect($rootScope.$emit).toHaveBeenCalledWith('playerService.positionUpdate', 0.7);
         });
     });
 
     describe('audioHooks.play', function() {
-        it('should call togglePauseScrobbling with false on the TrackManager and set isPlaying to true', function() {
-            spyOn(TrackManager, 'togglePauseScrobbling');
+        it('should call togglePauseScrobbling with false on the trackManagerService and set isPlaying to true', function() {
+            spyOn(trackManagerService, 'togglePauseScrobbling');
             service.current.isPlaying = false;
 
             service.audioHooks.play();
 
-            expect(TrackManager.togglePauseScrobbling).toHaveBeenCalledWith(false);
+            expect(trackManagerService.togglePauseScrobbling).toHaveBeenCalledWith(false);
             expect(service.current.isPlaying).toBe(true);
         });
     });
 
     describe('audioHooks.pause', function() {
-        it('should call togglePauseScrobbling with true on the TrackManager and set isPlaying to false', function() {
-            spyOn(TrackManager, 'togglePauseScrobbling');
+        it('should call togglePauseScrobbling with true on the trackManagerService and set isPlaying to false', function() {
+            spyOn(trackManagerService, 'togglePauseScrobbling');
             service.current.isPlaying = true;
 
             service.audioHooks.pause();
 
-            expect(TrackManager.togglePauseScrobbling).toHaveBeenCalledWith(true);
+            expect(trackManagerService.togglePauseScrobbling).toHaveBeenCalledWith(true);
             expect(service.current.isPlaying).toBe(false);
         });
     });

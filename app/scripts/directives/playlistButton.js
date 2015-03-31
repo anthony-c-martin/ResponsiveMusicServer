@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('musicServerApp')
-        .directive('playlistButton', ['DraggableData',
-        function(DraggableData) {
+        .directive('playlistButton', ['draggableDataService',
+        function(draggableDataService) {
             return {
                 restrict: 'A',
                 link: function(scope, element) {
-                    DraggableData.bindPlaylistDropEvents(element);
+                    draggableDataService.bindPlaylistDropEvents(element);
                 }
             };
         }]);

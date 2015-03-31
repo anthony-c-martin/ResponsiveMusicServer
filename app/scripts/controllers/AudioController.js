@@ -1,28 +1,28 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .controller('AudioController', ['PlayerService', '$rootScope',
-        function(PlayerService, $rootScope) {
+    .controller('AudioController', ['playerService', '$rootScope',
+        function(playerService, $rootScope) {
             var ctrl = this;
 
             function togglePause() {
-                PlayerService.controlHooks.togglePause();
+                playerService.controlHooks.togglePause();
             }
 
             function nextTrack() {
-                PlayerService.controlHooks.nextTrack();
+                playerService.controlHooks.nextTrack();
             }
 
             function previousTrack() {
-                PlayerService.controlHooks.previousTrack();
+                playerService.controlHooks.previousTrack();
             }
 
             function volumeUpdate(volume) {
-                PlayerService.controlHooks.volumeUpdate(volume);
+                playerService.controlHooks.volumeUpdate(volume);
             }
 
             function positionUpdate(position) {
-                PlayerService.controlHooks.positionUpdate(position);
+                playerService.controlHooks.positionUpdate(position);
             }
 
             //TODO wrap all the hideDropdowns functionality in a directive
@@ -37,7 +37,7 @@ angular.module('musicServerApp')
                 togglePause: togglePause,
                 nextTrack: nextTrack,
                 previousTrack: previousTrack,
-                current: PlayerService.current,
+                current: playerService.current,
                 volumeUpdate: volumeUpdate,
                 positionUpdate: positionUpdate
             });

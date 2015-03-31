@@ -1,14 +1,14 @@
 (function() {
     'use strict';
 
-    angular.module('app.services')
-        .service('DraggableData', DraggableData);
+    angular.module('app.services.player')
+        .service('draggableDataService', draggableDataService);
 
     /* @ngInject */
-    function DraggableData($q, apiService, PlayerService) {
+    function draggableDataService($q, apiService, playerService) {
         var service = this;
 
-        var playlist = PlayerService.playlist;
+        var playlist = playerService.playlist;
         var currentDeferred = $q.defer();
         currentDeferred.reject();
 

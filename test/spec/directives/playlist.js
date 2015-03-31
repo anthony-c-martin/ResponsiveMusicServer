@@ -9,7 +9,7 @@ describe('Directive: playlist', function() {
         $parentScope,
         $q,
         $compile,
-        DraggableData;
+        draggableDataService;
 
     beforeEach(function() {
         module('musicServerApp');
@@ -20,8 +20,8 @@ describe('Directive: playlist', function() {
             $parentScope = $rootScope.$new();
             $q = $injector.get('$q');
             $compile = $injector.get('$compile');
-            DraggableData = $injector.get('DraggableData');
-            spyOn(DraggableData, 'bindPlaylistDropEvents');
+            draggableDataService = $injector.get('draggableDataService');
+            spyOn(draggableDataService, 'bindPlaylistDropEvents');
 
             element = angular.element(
                 '<playlist></playlist>'

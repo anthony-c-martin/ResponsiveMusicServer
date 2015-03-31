@@ -1,11 +1,11 @@
 (function() {
     'use strict';
 
-    angular.module('app.services')
-        .factory('PlaylistFactory', PlaylistFactory);
+    angular.module('app.services.playlist')
+        .factory('playlistService', playlistService);
 
     /* @ngInject */
-    function PlaylistFactory(apiService, $q) {
+    function playlistService(apiService, $q) {
         return function() {
             var service = {};
             var tracks = [];

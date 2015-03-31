@@ -3,7 +3,7 @@
 describe('Controller: AudioController', function() {
 
     var controller,
-        PlayerService,
+        playerService,
         $rootScope;
 
     beforeEach(function() {
@@ -11,63 +11,63 @@ describe('Controller: AudioController', function() {
 
         inject(function($injector) {
             $rootScope = $injector.get('$rootScope');
-            PlayerService = $injector.get('PlayerService');
+            playerService = $injector.get('playerService');
             var $controller = $injector.get('$controller');
 
             controller = $controller('AudioController', {
-                PlayerService: PlayerService,
+                playerService: playerService,
                 $rootScope: $rootScope
             });
         });
     });
 
     describe('togglePause', function() {
-        it('should call togglePause on the PlayerService', function() {
-            spyOn(PlayerService.controlHooks, 'togglePause');
+        it('should call togglePause on the playerService', function() {
+            spyOn(playerService.controlHooks, 'togglePause');
 
             controller.togglePause();
 
-            expect(PlayerService.controlHooks.togglePause).toHaveBeenCalledWith();
+            expect(playerService.controlHooks.togglePause).toHaveBeenCalledWith();
         });
     });
 
     describe('nextTrack', function() {
-        it('should call nextTrack on the PlayerService', function() {
-            spyOn(PlayerService.controlHooks, 'nextTrack');
+        it('should call nextTrack on the playerService', function() {
+            spyOn(playerService.controlHooks, 'nextTrack');
 
             controller.nextTrack();
 
-            expect(PlayerService.controlHooks.nextTrack).toHaveBeenCalledWith();
+            expect(playerService.controlHooks.nextTrack).toHaveBeenCalledWith();
         });
     });
 
     describe('previousTrack', function() {
-        it('should call previousTrack on the PlayerService', function() {
-            spyOn(PlayerService.controlHooks, 'previousTrack');
+        it('should call previousTrack on the playerService', function() {
+            spyOn(playerService.controlHooks, 'previousTrack');
 
             controller.previousTrack();
 
-            expect(PlayerService.controlHooks.previousTrack).toHaveBeenCalledWith();
+            expect(playerService.controlHooks.previousTrack).toHaveBeenCalledWith();
         });
     });
 
     describe('volumeUpdate', function() {
-        it('should call volumeUpdate on the PlayerService', function() {
-            spyOn(PlayerService.controlHooks, 'volumeUpdate');
+        it('should call volumeUpdate on the playerService', function() {
+            spyOn(playerService.controlHooks, 'volumeUpdate');
 
             controller.volumeUpdate(0.8);
 
-            expect(PlayerService.controlHooks.volumeUpdate).toHaveBeenCalledWith(0.8);
+            expect(playerService.controlHooks.volumeUpdate).toHaveBeenCalledWith(0.8);
         });
     });
 
     describe('positionUpdate', function() {
-        it('should call positionUpdate on the PlayerService', function() {
-            spyOn(PlayerService.controlHooks, 'positionUpdate');
+        it('should call positionUpdate on the playerService', function() {
+            spyOn(playerService.controlHooks, 'positionUpdate');
 
             controller.positionUpdate(0.7);
 
-            expect(PlayerService.controlHooks.positionUpdate).toHaveBeenCalledWith(0.7);
+            expect(playerService.controlHooks.positionUpdate).toHaveBeenCalledWith(0.7);
         });
     });
 });

@@ -1,30 +1,30 @@
 /* jshint -W117, -W030 */
-describe('Service: TrackManager', function() {
+describe('Service: trackManagerService', function() {
 
     var service,
         $rootScope,
         $q,
         sessionService,
-        TrackTimer,
-        mockTrackTimer,
+        trackTimerService,
+        mocktrackTimerService,
         apiService;
 
     beforeEach(function() {
-        mockTrackTimer = jasmine.createSpyObj('TrackTimer', ['reset', 'cancel', 'pause', 'resume']);
-        module('musicServerApp', function($provide) {
-            $provide.value('TrackTimer', jasmine.createSpy('TrackTimer').and.returnValue(mockTrackTimer));
+        mocktrackTimerService = jasmine.createSpyObj('trackTimerService', ['reset', 'cancel', 'pause', 'resume']);
+        module('app.services.player', function($provide) {
+            $provide.value('trackTimerService', jasmine.createSpy('trackTimerService').and.returnValue(mocktrackTimerService));
         });
 
         inject(function($injector) {
             $rootScope = $injector.get('$rootScope');
             $q = $injector.get('$q');
             sessionService = $injector.get('sessionService');
-            TrackTimer = $injector.get('TrackTimer');
+            trackTimerService = $injector.get('trackTimerService');
             apiService = $injector.get('apiService');
 
-            service = $injector.get('TrackManager', {
+            service = $injector.get('trackManagerService', {
                 sessionService: sessionService,
-                TrackTimer: TrackTimer,
+                trackTimerService: trackTimerService,
                 apiService: apiService
             });
         });
@@ -36,7 +36,7 @@ describe('Service: TrackManager', function() {
 
             service.setupScrobbling({});
 
-            expect(mockTrackTimer.cancel).toHaveBeenCalledWith();
+            expect(mocktrackTimerService.cancel).toHaveBeenCalledWith();
         });
 
         it('should submit an API nowplaying request', function() {
@@ -54,7 +54,7 @@ describe('Service: TrackManager', function() {
 
             service.setupScrobbling({ID: 2155, Duration: 100});
 
-            expect(mockTrackTimer.reset.calls.argsFor(0)[1]).toBe(50);
+            expect(mocktrackTimerService.reset.calls.argsFor(0)[1]).toBe(50);
         });
 
         it('should call scrobbleTimer.reset with a callback function', function() {
@@ -62,10 +62,10 @@ describe('Service: TrackManager', function() {
             spyOn(apiService.track, 'lastFMScrobble').and.returnValue(jasmine.createSpyObj('request', ['submit']));
 
             service.setupScrobbling({ID: 345745, Duration: 3215});
-            var callbackFunction = mockTrackTimer.reset.calls.argsFor(0)[0];
+            var callbackFunction = mocktrackTimerService.reset.calls.argsFor(0)[0];
 
             expect(apiService.track.lastFMScrobble).not.toHaveBeenCalled();
-            expect(mockTrackTimer.reset.calls.argsFor(0)[1]).toBe(240);
+            expect(mocktrackTimerService.reset.calls.argsFor(0)[1]).toBe(240);
             callbackFunction();
             expect(apiService.track.lastFMScrobble).toHaveBeenCalledWith(345745);
             expect(apiService.track.lastFMScrobble().submit).toHaveBeenCalledWith();
@@ -76,13 +76,13 @@ describe('Service: TrackManager', function() {
         it('should pause the scrobbleTimer when called with true', function() {
             service.togglePauseScrobbling(true);
 
-            expect(mockTrackTimer.pause).toHaveBeenCalledWith();
+            expect(mocktrackTimerService.pause).toHaveBeenCalledWith();
         });
 
         it('should resume the scrobbleTimer when called with false', function() {
             service.togglePauseScrobbling(false);
 
-            expect(mockTrackTimer.resume).toHaveBeenCalledWith();
+            expect(mocktrackTimerService.resume).toHaveBeenCalledWith();
         });
     });
 

@@ -5,7 +5,7 @@ describe('Controller: ArtistController', function() {
     var controller,
         $scope,
         $rootScope,
-        PlayerService,
+        playerService,
         $q;
 
     beforeEach(function() {
@@ -14,13 +14,13 @@ describe('Controller: ArtistController', function() {
         inject(function($injector) {
             $q = $injector.get('$q');
             $rootScope = $injector.get('$rootScope');
-            PlayerService = $injector.get('PlayerService');
+            playerService = $injector.get('playerService');
             $scope = $rootScope.$new();
             var $controller = $injector.get('$controller');
 
             controller = $controller('ArtistController', {
                 $scope: $scope,
-                PlayerService: PlayerService
+                playerService: playerService
             });
         });
 
@@ -31,26 +31,26 @@ describe('Controller: ArtistController', function() {
 
     describe('play', function() {
         it('should clear the playlist, call addTracksByArtist on the playlist, and then select the next track', function() {
-            spyOn(PlayerService.playlist, 'clear');
-            spyOn(PlayerService.playlist, 'addTracksByArtist').and.returnValue($q.when());
-            spyOn(PlayerService.controlHooks, 'nextTrack');
+            spyOn(playerService.playlist, 'clear');
+            spyOn(playerService.playlist, 'addTracksByArtist').and.returnValue($q.when());
+            spyOn(playerService.controlHooks, 'nextTrack');
 
             controller.play();
 
-            expect(PlayerService.playlist.clear).toHaveBeenCalledWith();
-            expect(PlayerService.playlist.addTracksByArtist).toHaveBeenCalledWith(457);
+            expect(playerService.playlist.clear).toHaveBeenCalledWith();
+            expect(playerService.playlist.addTracksByArtist).toHaveBeenCalledWith(457);
             $scope.$digest();
-            expect(PlayerService.controlHooks.nextTrack).toHaveBeenCalledWith();
+            expect(playerService.controlHooks.nextTrack).toHaveBeenCalledWith();
         });
     });
 
     describe('add', function() {
         it('should call addTracksByArtist on the playlist', function() {
-            spyOn(PlayerService.playlist, 'addTracksByArtist');
+            spyOn(playerService.playlist, 'addTracksByArtist');
 
             controller.add();
 
-            expect(PlayerService.playlist.addTracksByArtist).toHaveBeenCalledWith(457);
+            expect(playerService.playlist.addTracksByArtist).toHaveBeenCalledWith(457);
         });
     });
 

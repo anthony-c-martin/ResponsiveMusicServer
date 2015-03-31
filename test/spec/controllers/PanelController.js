@@ -4,18 +4,18 @@ describe('Controller: PanelController', function() {
 
     var controller,
         mockTracks,
-        mockSelectableTracks,
-        SelectableTracks,
+        mockselectableTracksService,
+        selectableTracksService,
         $scope,
         $rootScope,
         $q;
 
     beforeEach(function() {
         mockTracks = {};
-        mockSelectableTracks = {};
+        mockselectableTracksService = {};
 
         module('musicServerApp', function($provide) {
-            $provide.value('SelectableTracks', jasmine.createSpy('SelectableTracksSpy').and.returnValue(mockSelectableTracks));
+            $provide.value('selectableTracksService', jasmine.createSpy('selectableTracksServiceSpy').and.returnValue(mockselectableTracksService));
         });
 
         inject(function($injector) {
@@ -23,13 +23,13 @@ describe('Controller: PanelController', function() {
             $rootScope = $injector.get('$rootScope');
             $scope = $rootScope.$new();
             $scope.tracks = mockTracks;
-            SelectableTracks = $injector.get('SelectableTracks');
+            selectableTracksService = $injector.get('selectableTracksService');
             var $controller = $injector.get('$controller');
 
             controller = $controller('PanelController', {
                 $rootScope: $rootScope,
                 $scope: $scope,
-                SelectableTracks: SelectableTracks
+                selectableTracksService: selectableTracksService
             });
         });
     });
@@ -224,11 +224,11 @@ describe('Controller: PanelController', function() {
         expect(controller.selectedAlbum).toBeNull();
     });
 
-    it('should create a new SelectableTracks object', function() {
-        expect(SelectableTracks).toHaveBeenCalledWith();
-        expect(SelectableTracks.calls.count()).toBe(1);
+    it('should create a new selectableTracksService object', function() {
+        expect(selectableTracksService).toHaveBeenCalledWith();
+        expect(selectableTracksService.calls.count()).toBe(1);
 
-        expect($scope.trackArea).toBe(mockSelectableTracks);
+        expect($scope.trackArea).toBe(mockselectableTracksService);
         expect($scope.trackArea.allTracks).toBe(mockTracks);
     });
 });

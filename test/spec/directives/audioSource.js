@@ -3,7 +3,7 @@
 describe('Directive: audioSource', function() {
 
     var element,
-        PlayerService,
+        playerService,
         scope,
         $rootScope,
         $parentScope,
@@ -17,7 +17,7 @@ describe('Directive: audioSource', function() {
             $compile = $injector.get('$compile');
             $rootScope = $injector.get('$rootScope');
             $parentScope = $rootScope.$new();
-            PlayerService = $injector.get('PlayerService');
+            playerService = $injector.get('playerService');
 
             element = angular.element(
                 '<audio audio-source></audio>'
@@ -33,86 +33,86 @@ describe('Directive: audioSource', function() {
     });
 
     describe('audio.play event', function() {
-        it('should call scope.$apply and call PlayerService.audioHooks.play', function() {
-            spyOn(PlayerService.audioHooks, 'play');
+        it('should call scope.$apply and call playerService.audioHooks.play', function() {
+            spyOn(playerService.audioHooks, 'play');
 
             element.trigger('play');
 
-            expect(PlayerService.audioHooks.play).toHaveBeenCalledWith();
+            expect(playerService.audioHooks.play).toHaveBeenCalledWith();
             expect(scope.$apply).toHaveBeenCalled();
         });
     });
 
     describe('audio.pause event', function() {
-        it('should call scope.$apply and call PlayerService.audioHooks.pause', function() {
-            spyOn(PlayerService.audioHooks, 'pause');
+        it('should call scope.$apply and call playerService.audioHooks.pause', function() {
+            spyOn(playerService.audioHooks, 'pause');
 
             element.trigger('pause');
 
-            expect(PlayerService.audioHooks.pause).toHaveBeenCalledWith();
+            expect(playerService.audioHooks.pause).toHaveBeenCalledWith();
             expect(scope.$apply).toHaveBeenCalled();
         });
     });
 
     describe('audio.volumechange event', function() {
-        it('should call scope.$apply and call PlayerService.audioHooks.volumeChange', function() {
-            spyOn(PlayerService.audioHooks, 'volumeChange');
+        it('should call scope.$apply and call playerService.audioHooks.volumeChange', function() {
+            spyOn(playerService.audioHooks, 'volumeChange');
 
             element[0].volume = 0.94;
             element.trigger('volumechange');
 
-            expect(PlayerService.audioHooks.volumeChange).toHaveBeenCalledWith(0.94);
+            expect(playerService.audioHooks.volumeChange).toHaveBeenCalledWith(0.94);
             expect(scope.$apply).toHaveBeenCalled();
         });
     });
 
     describe('audio.timeupdate event', function() {
-        it('should call PlayerService.audioHooks.positionChange with the position set to 0 if there is no audio duration', function() {
-            spyOn(PlayerService.audioHooks, 'positionChange');
+        it('should call playerService.audioHooks.positionChange with the position set to 0 if there is no audio duration', function() {
+            spyOn(playerService.audioHooks, 'positionChange');
 
             element.trigger('timeupdate');
 
-            expect(PlayerService.audioHooks.positionChange).toHaveBeenCalledWith(0);
+            expect(playerService.audioHooks.positionChange).toHaveBeenCalledWith(0);
             expect(scope.$apply).toHaveBeenCalled();
         });
 
-        it('should call PlayerService.audioHooks.positionChange with the position set to currentTime divided by duration', function() {
-            spyOn(PlayerService.audioHooks, 'positionChange');
+        it('should call playerService.audioHooks.positionChange with the position set to currentTime divided by duration', function() {
+            spyOn(playerService.audioHooks, 'positionChange');
 
             element[0].duration = 10;
             element[0].currentTime = 4;
             element.trigger('timeupdate');
 
-            expect(PlayerService.audioHooks.positionChange).toHaveBeenCalledWith(0.4);
+            expect(playerService.audioHooks.positionChange).toHaveBeenCalledWith(0.4);
             expect(scope.$apply).toHaveBeenCalled();
         });
     });
 
     describe('audio.ended event', function() {
-        it('should call PlayerService.audioHooks.ended', function() {
-            spyOn(PlayerService.audioHooks, 'ended');
+        it('should call playerService.audioHooks.ended', function() {
+            spyOn(playerService.audioHooks, 'ended');
 
             element.trigger('ended');
 
-            expect(PlayerService.audioHooks.ended).toHaveBeenCalledWith();
+            expect(playerService.audioHooks.ended).toHaveBeenCalledWith();
             expect(scope.$apply).toHaveBeenCalled();
         });
     });
 
-    describe('PlayerService.volumeUpdate event', function() {
+    describe('playerService.volumeUpdate event', function() {
         it('should update the element volume property', function() {
-            $rootScope.$emit('PlayerService.volumeUpdate', 0.76);
+            $rootScope.$emit('playerService.volumeUpdate', 0.76);
 
             expect(element[0].volume).toBe(0.76);
         });
     });
 
-    describe('PlayerService.positionUpdate event', function() {
+    describe('playerService.positionUpdate event', function() {
         it('should update the element currentTime property', function() {
             element[0].readyState = true;
             element[0].duration = 60;
             element[0].currentTime = 0;
-            $rootScope.$emit('PlayerService.positionUpdate', 0.75);
+            $rootScope.$emit('playerService.positionUpdate', 0.75);
 
             expect(element[0].currentTime).toBe(45);
         });
@@ -121,33 +121,33 @@ describe('Directive: audioSource', function() {
             element[0].readyState = false;
             element[0].duration = 60;
             element[0].currentTime = 0;
-            $rootScope.$emit('PlayerService.positionUpdate', 0.75);
+            $rootScope.$emit('playerService.positionUpdate', 0.75);
 
             expect(element[0].currentTime).toBe(0);
         });
     });
 
-    describe('PlayerService.play event', function() {
+    describe('playerService.play event', function() {
         it('should call play on the element', function() {
             element[0].play = jasmine.createSpy('play');
 
-            $rootScope.$emit('PlayerService.play');
+            $rootScope.$emit('playerService.play');
 
             expect(element[0].play).toHaveBeenCalledWith();
         });
     });
 
-    describe('PlayerService.pause event', function() {
+    describe('playerService.pause event', function() {
         it('should call play on the element', function() {
             element[0].pause = jasmine.createSpy('pause');
 
-            $rootScope.$emit('PlayerService.pause');
+            $rootScope.$emit('playerService.pause');
 
             expect(element[0].pause).toHaveBeenCalledWith();
         });
     });
 
-    describe('PlayerService.playNew event', function() {
+    describe('playerService.playNew event', function() {
         beforeEach(function() {
             element[0].pause = jasmine.createSpy('pause');
             element[0].play = jasmine.createSpy('pause');
@@ -156,7 +156,7 @@ describe('Directive: audioSource', function() {
         });
 
         it('should call pause on the element and replace the src and type properties', function() {
-            $rootScope.$emit('PlayerService.playNew', {src: '124', type: 'dsg'});
+            $rootScope.$emit('playerService.playNew', {src: '124', type: 'dsg'});
 
             expect(element[0].pause).toHaveBeenCalledWith();
             expect(element[0].src).toBe('124');
@@ -166,7 +166,7 @@ describe('Directive: audioSource', function() {
         it('should call pause on the element and replace the src and type properties even if they are empty', function() {
             element[0].src = 'asdgsda';
             element[0].type = 'asdhdsah';
-            $rootScope.$emit('PlayerService.playNew', {src: '', type: ''});
+            $rootScope.$emit('playerService.playNew', {src: '', type: ''});
 
             expect(element[0].pause).toHaveBeenCalledWith();
             expect(element[0].src).toBe('');
@@ -174,18 +174,18 @@ describe('Directive: audioSource', function() {
         });
 
         it('should call play if the src property is set', function() {
-            $rootScope.$emit('PlayerService.playNew', {src: '124', type: 'dsg'});
+            $rootScope.$emit('playerService.playNew', {src: '124', type: 'dsg'});
 
             expect(element[0].play).toHaveBeenCalledWith();
         });
 
-        it('should not call play if the src property is not set, and should call pause and positionChange on the PlayerService.audioHooks object', function() {
-            spyOn(PlayerService.audioHooks, 'pause');
-            spyOn(PlayerService.audioHooks, 'positionChange');
-            $rootScope.$emit('PlayerService.playNew', {src: '', type: ''});
+        it('should not call play if the src property is not set, and should call pause and positionChange on the playerService.audioHooks object', function() {
+            spyOn(playerService.audioHooks, 'pause');
+            spyOn(playerService.audioHooks, 'positionChange');
+            $rootScope.$emit('playerService.playNew', {src: '', type: ''});
 
-            expect(PlayerService.audioHooks.pause).toHaveBeenCalledWith();
-            expect(PlayerService.audioHooks.positionChange).toHaveBeenCalledWith(0);
+            expect(playerService.audioHooks.pause).toHaveBeenCalledWith();
+            expect(playerService.audioHooks.positionChange).toHaveBeenCalledWith(0);
             expect(element[0].play).not.toHaveBeenCalledWith();
         });
     });

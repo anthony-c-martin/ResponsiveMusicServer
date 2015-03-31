@@ -1,11 +1,11 @@
 (function() {
     'use strict';
 
-    angular.module('app.services')
-        .factory('DataLoader', DataLoader);
+    angular.module('app.services.api')
+        .factory('dataLoaderService', dataLoaderService);
 
     /* @ngInject */
-    function DataLoader() {
+    function dataLoaderService() {
         return function(request, array, limit) {
             var loadMore = true;
             var currentPos = 0;

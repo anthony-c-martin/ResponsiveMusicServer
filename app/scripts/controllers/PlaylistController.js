@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .controller('PlaylistController', ['$scope', 'PlayerService', 'SelectableTracks',
-        function ($scope, PlayerService, SelectableTracks) {
-            var playlist = PlayerService.playlist;
+    .controller('PlaylistController', ['$scope', 'playerService', 'selectableTracksService',
+        function ($scope, playerService, selectableTracksService) {
+            var playlist = playerService.playlist;
 
-            $scope.trackArea = new SelectableTracks();
+            $scope.trackArea = new selectableTracksService();
             $scope.trackArea.allTracks = playlist.tracks;
 
             function removeTrack(track) {

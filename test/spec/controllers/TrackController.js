@@ -5,7 +5,7 @@ describe('Controller: TrackController', function() {
     var controller,
         $scope,
         $rootScope,
-        PlayerService,
+        playerService,
         $q;
 
     beforeEach(function() {
@@ -14,13 +14,13 @@ describe('Controller: TrackController', function() {
         inject(function($injector) {
             $q = $injector.get('$q');
             $rootScope = $injector.get('$rootScope');
-            PlayerService = $injector.get('PlayerService');
+            playerService = $injector.get('playerService');
             $scope = $rootScope.$new();
             var $controller = $injector.get('$controller');
 
             controller = $controller('TrackController', {
                 $scope: $scope,
-                PlayerService: PlayerService
+                playerService: playerService
             });
         });
 
@@ -31,36 +31,36 @@ describe('Controller: TrackController', function() {
 
     describe('play', function() {
         it('should clear the playlist, call addTrack on the playlist, and then select the next track', function() {
-            spyOn(PlayerService.playlist, 'clear');
-            spyOn(PlayerService.playlist, 'addTrack').and.returnValue($q.when());
-            spyOn(PlayerService.controlHooks, 'nextTrack');
+            spyOn(playerService.playlist, 'clear');
+            spyOn(playerService.playlist, 'addTrack').and.returnValue($q.when());
+            spyOn(playerService.controlHooks, 'nextTrack');
 
             controller.play();
 
-            expect(PlayerService.playlist.clear).toHaveBeenCalledWith();
-            expect(PlayerService.playlist.addTrack).toHaveBeenCalledWith(controller.track);
+            expect(playerService.playlist.clear).toHaveBeenCalledWith();
+            expect(playerService.playlist.addTrack).toHaveBeenCalledWith(controller.track);
             $scope.$digest();
-            expect(PlayerService.controlHooks.nextTrack).toHaveBeenCalledWith();
+            expect(playerService.controlHooks.nextTrack).toHaveBeenCalledWith();
         });
     });
 
     describe('add', function() {
         it('should call addTrack on the playlist', function() {
-            spyOn(PlayerService.playlist, 'addTrack');
+            spyOn(playerService.playlist, 'addTrack');
 
             controller.add();
 
-            expect(PlayerService.playlist.addTrack).toHaveBeenCalledWith(controller.track);
+            expect(playerService.playlist.addTrack).toHaveBeenCalledWith(controller.track);
         });
     });
 
     describe('remove', function() {
         it('should call removeTrack on the playlist', function() {
-            spyOn(PlayerService.playlist, 'removeTrack');
+            spyOn(playerService.playlist, 'removeTrack');
 
             controller.remove();
 
-            expect(PlayerService.playlist.removeTrack).toHaveBeenCalledWith(controller.track);
+            expect(playerService.playlist.removeTrack).toHaveBeenCalledWith(controller.track);
         });
     });
 

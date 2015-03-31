@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .directive('track', ['DraggableData',
-        function(DraggableData) {
+    .directive('track', ['draggableDataService',
+        function(draggableDataService) {
             function linkFunction(scope, element, attrs) {
                 var ctrl = scope.trackCtrl;
 
@@ -17,10 +17,10 @@ angular.module('musicServerApp')
                     scope.closable = true;
                     scope.addable = false;
 
-                    DraggableData.bindTrackDropEvents(element, scope);
+                    draggableDataService.bindTrackDropEvents(element, scope);
                 }
 
-                DraggableData.bindDragEvents(element, ctrl.track, 'Track', function() {
+                draggableDataService.bindDragEvents(element, ctrl.track, 'Track', function() {
                     if (ctrl.trackArea) {
                         var deleteOriginalTracks = isPlaylistTrack;
                         return ctrl.trackArea.listTracks(deleteOriginalTracks);

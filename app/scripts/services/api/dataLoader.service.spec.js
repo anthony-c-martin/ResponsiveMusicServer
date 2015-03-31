@@ -1,5 +1,5 @@
 /* jshint -W117, -W030 */
-describe('Factory: DataLoader', function() {
+describe('Factory: dataLoaderService', function() {
 
     var service,
         $rootScope,
@@ -11,12 +11,12 @@ describe('Factory: DataLoader', function() {
     var loadedData = [];
 
     beforeEach(function() {
-        module('musicServerApp');
+        module('app.services.api');
 
         inject(function($injector) {
             $q = $injector.get('$q');
             $rootScope = $injector.get('$rootScope');
-            var Factory = $injector.get('DataLoader', {});
+            var Factory = $injector.get('dataLoaderService', {});
 
             service = new Factory(mockRequest, loadedData, 3);
         });

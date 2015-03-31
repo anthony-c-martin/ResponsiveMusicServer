@@ -1,18 +1,18 @@
 /* jshint -W117, -W030 */
-describe('Factory: SelectableTracks', function() {
+describe('Factory: selectableTracksService', function() {
 
     var service,
         $q,
         $rootScope;
 
     beforeEach(function() {
-        module('musicServerApp');
+        module('app.services.playlist');
 
         inject(function($injector) {
             $q = $injector.get('$q');
             $rootScope = $injector.get('$rootScope');
 
-            var Factory = $injector.get('SelectableTracks');
+            var Factory = $injector.get('selectableTracksService');
             service = new Factory();
         });
     });

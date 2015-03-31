@@ -1,13 +1,13 @@
 (function () {
     'use strict';
 
-    angular.module('app.services')
-        .service('PlayerService', PlayerService);
+    angular.module('app.services.player')
+        .service('playerService', playerService);
 
     /* @ngInject */
-    function PlayerService($rootScope, $q, PlaylistFactory, sessionService, TrackManager) {
-        var playlist = new PlaylistFactory();
-        var prevPlayedPlaylist = new PlaylistFactory();
+    function playerService($rootScope, $q, playlistService, sessionService, trackManagerService) {
+        var playlist = new playlistService();
+        var prevPlayedPlaylist = new playlistService();
 
         var current = {
             position: 0,
@@ -27,18 +27,18 @@
             var deferred = $q.defer();
 
             if (track) {
-                TrackManager.startConversion(track).then(function() {
-                    $rootScope.$emit('PlayerService.playNew', {src: '/stream' + getSourceParams(track), type: 'audio/mp4'});
+                trackManagerService.startConversion(track).then(function() {
+                    $rootScope.$emit('playerService.playNew', {src: '/stream' + getSourceParams(track), type: 'audio/mp4'});
 
-                    TrackManager.setupScrobbling(track);
+                    trackManagerService.setupScrobbling(track);
                     deferred.resolve();
                 }, function() {
-                    $rootScope.$emit('PlayerService.playNew', {src: '', type: ''});
+                    $rootScope.$emit('playerService.playNew', {src: '', type: ''});
                     deferred.reject();
                 });
             }
             else {
-                $rootScope.$emit('PlayerService.playNew', {src: '', type: ''});
+                $rootScope.$emit('playerService.playNew', {src: '', type: ''});
                 deferred.resolve();
             }
 
@@ -57,7 +57,7 @@
                     }
                     current.track = newTrack;
 
-                    TrackManager.startConversion(playlist.tracks[0]);
+                    trackManagerService.startConversion(playlist.tracks[0]);
                 });
         }
 
@@ -89,22 +89,22 @@
 
         function audioPlay() {
             if (current.track) {
-                $rootScope.$emit('PlayerService.play');
+                $rootScope.$emit('playerService.play');
             } else {
                 controlHooks.nextTrack();
             }
         }
 
         function audioPause() {
-            $rootScope.$emit('PlayerService.pause');
+            $rootScope.$emit('playerService.pause');
         }
 
         function positionUpdate(position) {
-            $rootScope.$emit('PlayerService.positionUpdate', position);
+            $rootScope.$emit('playerService.positionUpdate', position);
         }
 
         function volumeUpdate(volume) {
-            $rootScope.$emit('PlayerService.volumeUpdate', volume);
+            $rootScope.$emit('playerService.volumeUpdate', volume);
         }
 
         var controlHooks = {
@@ -124,11 +124,11 @@
 
         var audioHooks = {
             play: function() {
-                TrackManager.togglePauseScrobbling(false);
+                trackManagerService.togglePauseScrobbling(false);
                 current.isPlaying = true;
             },
             pause: function() {
-                TrackManager.togglePauseScrobbling(true);
+                trackManagerService.togglePauseScrobbling(true);
                 current.isPlaying = false;
             },
             volumeChange: function(volume) {
