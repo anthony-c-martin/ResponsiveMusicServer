@@ -1,37 +1,36 @@
-'use strict';
-
-describe('Factory: ApiRequest', function() {
+/* jshint -W117, -W030 */
+describe('Factory: apiService', function() {
 
     var service,
         $httpBackend,
         $rootScope,
-        HttpRequest,
-        SessionData;
+        httpService,
+        sessionService;
 
     beforeEach(function() {
-        module('musicServerApp');
+        module('app.services.api');
 
         inject(function($injector) {
             $httpBackend = $injector.get('$httpBackend');
             $rootScope = $injector.get('$rootScope');
-            SessionData = $injector.get('SessionData');
-            HttpRequest = $injector.get('HttpRequest');
+            sessionService = $injector.get('sessionService');
+            httpService = $injector.get('httpService');
 
-            service = $injector.get('ApiRequest', {
-                HttpRequest: HttpRequest,
-                SessionData: SessionData
+            service = $injector.get('apiService', {
+                httpService: httpService,
+                sessionService: sessionService
             });
 
-            SessionData.setSession({
+            sessionService.setSession({
                 Key: 'SessionKey',
                 Secret: 'SessionSecret'
             });
         });
     });
 
-    describe('SessionData access', function() {
-        it('should use the url specified by the SessionData object', function() {
-            SessionData.jsonURL = '/asdgsadinosf';
+    describe('sessionService access', function() {
+        it('should use the url specified by the sessionService object', function() {
+            sessionService.jsonURL = '/asdgsadinosf';
             var successSpy = jasmine.createSpy('successSpy');
             var mockResponse = {};
             var postedData;
@@ -47,8 +46,8 @@ describe('Factory: ApiRequest', function() {
             expect(successSpy).toHaveBeenCalledWith(mockResponse);
         });
 
-        it('should use seesion key and secret specified by the SessionData object', function() {
-            SessionData.setSession({
+        it('should use seesion key and secret specified by the sessionService object', function() {
+            sessionService.setSession({
                 Key: 'asdgiuasdfisdbfj9a89',
                 Secret: 'asdf97g87fgdsfiuh'
             });

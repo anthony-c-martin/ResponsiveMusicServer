@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .controller('LoginController', ['$rootScope', '$routeParams', 'ApiRequest',
-        function ($rootScope, $routeParams, ApiRequest) {
+    .controller('LoginController', ['$rootScope', '$routeParams', 'apiService',
+        function ($rootScope, $routeParams, apiService) {
             var ctrl = this;
 
             function loginFailed(message) {
@@ -16,7 +16,7 @@ angular.module('musicServerApp')
             }
 
             function submitSessionRequest(token, authString) {
-                ApiRequest.session.getSession(token, authString).submit().then(function(data) {
+                apiService.session.getSession(token, authString).submit().then(function(data) {
                     $rootScope.$emit('loginSuccess', {
                         Key: data.Session,
                         Secret: data.Secret
@@ -27,7 +27,7 @@ angular.module('musicServerApp')
             }
 
             function login() {
-                ApiRequest.session.getToken().submit().then(function(data) {
+                apiService.session.getToken().submit().then(function(data) {
                     var authString = getAuthString(ctrl.auth.username, ctrl.auth.password, data.Token);
                     submitSessionRequest(data.Token, authString);
                 }, function() {

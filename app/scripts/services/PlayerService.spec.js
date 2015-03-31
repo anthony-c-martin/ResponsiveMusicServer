@@ -1,12 +1,11 @@
-'use strict';
-
+/* jshint -W117, -W030 */
 describe('Service: PlayerService', function() {
 
     var service,
         $rootScope,
         $q,
         PlaylistFactory,
-        SessionData,
+        sessionService,
         TrackManager;
 
     beforeEach(function() {
@@ -16,14 +15,14 @@ describe('Service: PlayerService', function() {
             $rootScope = $injector.get('$rootScope');
             $q = $injector.get('$q');
             PlaylistFactory = $injector.get('PlaylistFactory');
-            SessionData = $injector.get('SessionData');
+            sessionService = $injector.get('sessionService');
             TrackManager = $injector.get('TrackManager');
 
             service = $injector.get('PlayerService', {
                 $rootScope: $rootScope,
                 $q: $q,
                 PlaylistFactory: PlaylistFactory,
-                SessionData: SessionData,
+                sessionService: sessionService,
                 TrackManager: TrackManager
             });
         });
@@ -91,12 +90,13 @@ describe('Service: PlayerService', function() {
         it('should start the track playing and setup scrobbling if the conversion succeeds', function() {
             var mockTrack = {ID: 1, FileName: 'asdf97ug'};
             spyOn(service.controlHooks, 'nextTrack');
+            spyOn(sessionService, 'getSession').and.returnValue({Key: 'yyv97vib'});
 
             service.controlHooks.changeTrack(mockTrack).then(onSuccess, onErr);
             conversionPromise.resolve();
             $rootScope.$digest();
 
-            expect($rootScope.$emit).toHaveBeenCalledWith('PlayerService.playNew', {src: '/stream?FileName=asdf97ug&Session=SessionKey', type: 'audio/mp4'});
+            expect($rootScope.$emit).toHaveBeenCalledWith('PlayerService.playNew', {src: '/stream?FileName=asdf97ug&Session=yyv97vib', type: 'audio/mp4'});
             expect(TrackManager.setupScrobbling).toHaveBeenCalledWith(mockTrack);
             expect(onSuccess).toHaveBeenCalledWith(undefined);
             expect(onErr).not.toHaveBeenCalled();

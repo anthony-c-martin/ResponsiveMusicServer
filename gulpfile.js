@@ -96,7 +96,7 @@ gulp.task('usemin', function() {
             cssVendor: [$.sourcemaps.init(), $.minifyCss(), $.rev(), $.rename({suffix: '.min'}), $.sourcemaps.write('./')],
             cssApp: [$.sourcemaps.init(), $.minifyCss(), $.rev(), $.rename({suffix: '.min'}), $.sourcemaps.write('./')],
             jsVendor: [$.sourcemaps.init(), $.uglify(), $.rev(), $.rename({suffix: '.min'}), $.sourcemaps.write('./')],
-            jsApp: [$.sourcemaps.init(), $.uglify(), $.rev(), $.rename({suffix: '.min'}), $.sourcemaps.write('./')],
+            jsApp: [$.ngAnnotate({add: true}), $.sourcemaps.init(), $.uglify(), $.rev(), $.rename({suffix: '.min'}), $.sourcemaps.write('./')],
             outputRelativePath: '../' + appConfig.dist + '/'
         }))
         .pipe(gulp.dest(appConfig.dist));
@@ -182,14 +182,24 @@ gulp.task('sass', function() {
 
 gulp.task('inject', function() {
     return gulp.src([appConfig.app + '/index.html'])
-        .pipe($.inject(gulp.src(appConfig.app + '/scripts/{,*/}*.js', {read: false}), {relative: true}))
+        .pipe($.inject(gulp.src([
+            appConfig.app + '/scripts/**/*.module.js',
+            appConfig.app + '/scripts/**/*.js',
+            '!' + appConfig.app + '/scripts/**/*.spec.js'
+        ], {read: false}), {relative: true}))
         .pipe(gulp.dest(appConfig.app));
 });
 
 gulp.task('watch', function() {
     gulp.watch('bower.json', ['wiredep']);
-    gulp.watch(appConfig.app + '/scripts/{,*/}*.js', ['jshint:all', 'inject']);
-    gulp.watch('test/spec/{,*/}*.js', ['jshint:test', 'karma']);
+    gulp.watch([
+        appConfig.app + '/scripts/**/*.js',
+        appConfig.app + '/scripts/**/*.spec.js'
+    ], ['jshint:all', 'inject']);
+    gulp.watch([
+        appConfig.app + '/scripts/**/*.spec.js',
+        'test/spec/{,*/}*.js'
+    ], ['jshint:test', 'karma']);
     gulp.watch(appConfig.app + '/styles/{,*/}*.scss', ['sass']);
     gulp.watch([
         appConfig.app + '/{,*/}*.html',

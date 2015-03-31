@@ -1,18 +1,16 @@
-'use strict';
+(function() {
+    'use strict';
 
-angular
-    .module('musicServerApp', [
-        'ngRoute',
-        'matchmedia-ng'
-    ])
-    .config(['matchmediaProvider',
-        function(matchmediaProvider) {
-            matchmediaProvider.rules.desktop = '(min-width: 56em)';
-            matchmediaProvider.rules.phone = '(max-width: 40em)';
-        }])
-    .config(['$routeProvider',
-        function ($routeProvider) {
-            $routeProvider.
+    angular
+        .module('musicServerApp', [
+            'ngRoute',
+            'matchmedia-ng',
+            'app.services'
+        ])
+        .config(config);
+
+    function config($routeProvider, matchmediaProvider) {
+        $routeProvider.
             when('/login', {
                 controller: 'LoginController',
                 controllerAs: 'loginCtrl',
@@ -40,4 +38,8 @@ angular
             otherwise({
                 redirectTo: '/login'
             });
-        }]);
+
+        matchmediaProvider.rules.desktop = '(min-width: 56em)';
+        matchmediaProvider.rules.phone = '(max-width: 40em)';
+    }
+})();

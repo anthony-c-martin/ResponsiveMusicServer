@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .controller('SearchController', ['$rootScope', 'ApiRequest', '$q',
-        function ($rootScope, ApiRequest, $q) {
+    .controller('SearchController', ['$rootScope', 'apiService', '$q',
+        function ($rootScope, apiService, $q) {
             var ctrl = this;
 
             var searchResults = {
@@ -16,9 +16,9 @@ angular.module('musicServerApp')
                 ctrl.searchShown = true;
 
                 $q.all({
-                    artists: ApiRequest.artist.search(ctrl.searchText).bound(0, 5).submit(),
-                    albums: ApiRequest.album.search(ctrl.searchText).bound(0, 5).submit(),
-                    tracks: ApiRequest.track.search(ctrl.searchText).bound(0, 5).submit()
+                    artists: apiService.artist.search(ctrl.searchText).bound(0, 5).submit(),
+                    albums: apiService.album.search(ctrl.searchText).bound(0, 5).submit(),
+                    tracks: apiService.track.search(ctrl.searchText).bound(0, 5).submit()
                 }).then(function(results) {
                     searchResults.artists = results.artists;
                     searchResults.albums = results.albums;

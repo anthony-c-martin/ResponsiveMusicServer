@@ -41,6 +41,7 @@ module.exports = function(config) {
       'bower_components/matchmedia-ng/matchmedia-ng.js',
       'bower_components/js-md5/js/md5.js',
       'app/views/*.html',
+      'app/scripts/**/*.module.js',
       'app/scripts/**/*.js',
       'test/mock/**/*.js',
       'test/spec/**/*.js'

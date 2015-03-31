@@ -3,7 +3,7 @@
 describe('Controller: SearchController', function() {
 
     var controller,
-        ApiRequest,
+        apiService,
         $rootScope,
         $q;
 
@@ -22,11 +22,11 @@ describe('Controller: SearchController', function() {
 
             $q = $injector.get('$q');
             $rootScope = $injector.get('$rootScope');
-            ApiRequest = $injector.get('ApiRequest');
+            apiService = $injector.get('apiService');
 
             controller = $controller('SearchController', {
                 $rootScope: $rootScope,
-                ApiRequest: ApiRequest
+                apiService: apiService
             });
         });
     });
@@ -66,13 +66,13 @@ describe('Controller: SearchController', function() {
         var mockAlbums = {};
         var mockTracks = {};
 
-        spyOn(ApiRequest.artist, 'search').and.callFake(function() {
+        spyOn(apiService.artist, 'search').and.callFake(function() {
             return mockApiSearchResponse(mockArtists, false);
         });
-        spyOn(ApiRequest.album, 'search').and.callFake(function() {
+        spyOn(apiService.album, 'search').and.callFake(function() {
             return mockApiSearchResponse(mockAlbums, false);
         });
-        spyOn(ApiRequest.track, 'search').and.callFake(function() {
+        spyOn(apiService.track, 'search').and.callFake(function() {
             return mockApiSearchResponse(mockTracks, false);
         });
 
@@ -88,12 +88,12 @@ describe('Controller: SearchController', function() {
         expect(controller.searchResults.albums.length).toBe(0);
         expect(controller.searchResults.tracks.length).toBe(0);
 
-        expect(ApiRequest.artist.search.calls.count()).toBe(1);
-        expect(ApiRequest.artist.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
-        expect(ApiRequest.album.search.calls.count()).toBe(1);
-        expect(ApiRequest.album.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
-        expect(ApiRequest.track.search.calls.count()).toBe(1);
-        expect(ApiRequest.track.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
+        expect(apiService.artist.search.calls.count()).toBe(1);
+        expect(apiService.artist.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
+        expect(apiService.album.search.calls.count()).toBe(1);
+        expect(apiService.album.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
+        expect(apiService.track.search.calls.count()).toBe(1);
+        expect(apiService.track.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
 
         $rootScope.$digest();
 
@@ -105,13 +105,13 @@ describe('Controller: SearchController', function() {
     });
 
     it('should cancel the search when  search is called and the backend artist search responds with a failure', function() {
-        spyOn(ApiRequest.artist, 'search').and.callFake(function() {
+        spyOn(apiService.artist, 'search').and.callFake(function() {
             return mockApiSearchResponse({}, true);
         });
-        spyOn(ApiRequest.album, 'search').and.callFake(function() {
+        spyOn(apiService.album, 'search').and.callFake(function() {
             return mockApiSearchResponse({}, false);
         });
-        spyOn(ApiRequest.track, 'search').and.callFake(function() {
+        spyOn(apiService.track, 'search').and.callFake(function() {
             return mockApiSearchResponse({}, false);
         });
         controller.searchText = 'oaiuOUIFabsu89y8t';
@@ -126,8 +126,8 @@ describe('Controller: SearchController', function() {
         expect(controller.searchResults.albums.length).toBe(0);
         expect(controller.searchResults.tracks.length).toBe(0);
 
-        expect(ApiRequest.artist.search.calls.count()).toBe(1);
-        expect(ApiRequest.artist.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
+        expect(apiService.artist.search.calls.count()).toBe(1);
+        expect(apiService.artist.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
 
         $rootScope.$digest();
 
@@ -136,13 +136,13 @@ describe('Controller: SearchController', function() {
     });
 
     it('should cancel the search when  search is called and the backend album search responds with a failure', function() {
-        spyOn(ApiRequest.artist, 'search').and.callFake(function() {
+        spyOn(apiService.artist, 'search').and.callFake(function() {
             return mockApiSearchResponse({}, false);
         });
-        spyOn(ApiRequest.album, 'search').and.callFake(function() {
+        spyOn(apiService.album, 'search').and.callFake(function() {
             return mockApiSearchResponse({}, true);
         });
-        spyOn(ApiRequest.track, 'search').and.callFake(function() {
+        spyOn(apiService.track, 'search').and.callFake(function() {
             return mockApiSearchResponse({}, false);
         });
         controller.searchText = 'oaiuOUIFabsu89y8t';
@@ -157,8 +157,8 @@ describe('Controller: SearchController', function() {
         expect(controller.searchResults.albums.length).toBe(0);
         expect(controller.searchResults.tracks.length).toBe(0);
 
-        expect(ApiRequest.artist.search.calls.count()).toBe(1);
-        expect(ApiRequest.artist.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
+        expect(apiService.artist.search.calls.count()).toBe(1);
+        expect(apiService.artist.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
 
         $rootScope.$digest();
 
@@ -167,13 +167,13 @@ describe('Controller: SearchController', function() {
     });
 
     it('should cancel the search when  search is called and the backend track search responds with a failure', function() {
-        spyOn(ApiRequest.artist, 'search').and.callFake(function() {
+        spyOn(apiService.artist, 'search').and.callFake(function() {
             return mockApiSearchResponse({}, false);
         });
-        spyOn(ApiRequest.album, 'search').and.callFake(function() {
+        spyOn(apiService.album, 'search').and.callFake(function() {
             return mockApiSearchResponse({}, false);
         });
-        spyOn(ApiRequest.track, 'search').and.callFake(function() {
+        spyOn(apiService.track, 'search').and.callFake(function() {
             return mockApiSearchResponse({}, true);
         });
         controller.searchText = 'oaiuOUIFabsu89y8t';
@@ -188,8 +188,8 @@ describe('Controller: SearchController', function() {
         expect(controller.searchResults.albums.length).toBe(0);
         expect(controller.searchResults.tracks.length).toBe(0);
 
-        expect(ApiRequest.artist.search.calls.count()).toBe(1);
-        expect(ApiRequest.artist.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
+        expect(apiService.artist.search.calls.count()).toBe(1);
+        expect(apiService.artist.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
 
         $rootScope.$digest();
 

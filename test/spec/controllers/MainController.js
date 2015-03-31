@@ -5,7 +5,7 @@ describe('Controller: MainController', function() {
     var controller,
         DataLoader,
         PlayerService,
-        ApiRequest,
+        apiService,
         $rootScope,
         $scope,
         $q;
@@ -26,17 +26,17 @@ describe('Controller: MainController', function() {
             $scope = $rootScope.$new();
             DataLoader = $injector.get('DataLoader');
             PlayerService = $injector.get('PlayerService');
-            ApiRequest = $injector.get('ApiRequest');
+            apiService = $injector.get('apiService');
             var $controller = $injector.get('$controller');
 
-            spyOn(ApiRequest.artist, 'getAll').and.returnValue(artistGetAllOutput);
+            spyOn(apiService.artist, 'getAll').and.returnValue(artistGetAllOutput);
 
             controller = $controller('MainController', {
                 $rootScope: $rootScope,
                 $scope: $scope,
                 DataLoader: DataLoader,
                 PlayerService: PlayerService,
-                ApiRequest: ApiRequest
+                apiService: apiService
             });
         });
     });
@@ -49,8 +49,8 @@ describe('Controller: MainController', function() {
         });
 
         it('should set the artistRequest scope variable on start', function() {
-            expect(ApiRequest.artist.getAll).toHaveBeenCalledWith();
-            expect(ApiRequest.artist.getAll.calls.count()).toBe(1);
+            expect(apiService.artist.getAll).toHaveBeenCalledWith();
+            expect(apiService.artist.getAll.calls.count()).toBe(1);
 
             expect(DataLoader).toHaveBeenCalledWith(artistGetAllOutput, controller.artists, 100);
             expect(DataLoader.calls.count()).toBe(1);
@@ -63,7 +63,7 @@ describe('Controller: MainController', function() {
         it('should load albums by the given artist', function() {
             DataLoader.calls.reset();
             var getFromArtistOutput = {};
-            spyOn(ApiRequest.album, 'getFromArtist').and.returnValue(getFromArtistOutput);
+            spyOn(apiService.album, 'getFromArtist').and.returnValue(getFromArtistOutput);
             spyOn(mockDataLoader, 'fetch');
             var mockArtist = {
                 ID: 12987
@@ -72,8 +72,8 @@ describe('Controller: MainController', function() {
             $scope.albumRequest = null;
             $rootScope.$emit('selectArtist', mockArtist);
 
-            expect(ApiRequest.album.getFromArtist).toHaveBeenCalledWith(12987);
-            expect(ApiRequest.album.getFromArtist.calls.count()).toBe(1);
+            expect(apiService.album.getFromArtist).toHaveBeenCalledWith(12987);
+            expect(apiService.album.getFromArtist.calls.count()).toBe(1);
 
             expect(DataLoader).toHaveBeenCalledWith(getFromArtistOutput, controller.albums, 100);
             expect(DataLoader.calls.count()).toBe(1);
@@ -90,7 +90,7 @@ describe('Controller: MainController', function() {
         it('should load tracks for the given album', function() {
             DataLoader.calls.reset();
             var getFromAlbumOutput = {};
-            spyOn(ApiRequest.track, 'getFromAlbum').and.returnValue(getFromAlbumOutput);
+            spyOn(apiService.track, 'getFromAlbum').and.returnValue(getFromAlbumOutput);
             spyOn(mockDataLoader, 'fetch');
             var mockAlbum = {
                 ID: 125225
@@ -99,8 +99,8 @@ describe('Controller: MainController', function() {
             $scope.trackRequest = null;
             $rootScope.$emit('selectAlbum', mockAlbum);
 
-            expect(ApiRequest.track.getFromAlbum).toHaveBeenCalledWith(125225);
-            expect(ApiRequest.track.getFromAlbum.calls.count()).toBe(1);
+            expect(apiService.track.getFromAlbum).toHaveBeenCalledWith(125225);
+            expect(apiService.track.getFromAlbum.calls.count()).toBe(1);
 
             expect(DataLoader).toHaveBeenCalledWith(getFromAlbumOutput, controller.tracks, 100);
             expect(DataLoader.calls.count()).toBe(1);

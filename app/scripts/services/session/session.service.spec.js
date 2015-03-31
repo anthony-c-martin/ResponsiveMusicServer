@@ -1,6 +1,5 @@
-'use strict';
-
-describe('Service: SessionData', function() {
+/* jshint -W117, -W030 */
+describe('Service: sessionService', function() {
 
     var service,
         $window,
@@ -8,13 +7,13 @@ describe('Service: SessionData', function() {
         $q;
 
     beforeEach(function() {
-        module('musicServerApp');
+        module('app.services.session');
 
         inject(function($injector) {
             $q = $injector.get('$q');
             $window = $injector.get('$window');
             $rootScope = $injector.get('$rootScope');
-            service = $injector.get('SessionData', {
+            service = $injector.get('sessionService', {
                 $window: $window
             });
         });

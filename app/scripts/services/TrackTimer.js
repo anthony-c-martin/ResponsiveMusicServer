@@ -1,49 +1,53 @@
-'use strict';
+(function() {
+    'use strict';
 
-angular.module('musicServerApp')
-    .factory('TrackTimer', [
-        function() {
-            return function () {
-                var callback;
-                var duration;
-                var counter;
-                var isPaused;
-                var intervalTimer;
+    angular.module('app.services')
+        .factory('TrackTimer', TrackTimer);
 
-                function timerTick() {
-                    if (!isPaused && ++counter >= duration) {
-                        clearInterval(intervalTimer);
-                        callback();
-                        timerCancel();
-                    }
-                }
+    /* @ngInject */
+    function TrackTimer() {
+        return function () {
+            var callback;
+            var duration;
+            var counter;
+            var isPaused;
+            var intervalTimer;
 
-                function timerCancel() {
+            function timerTick() {
+                if (!isPaused && ++counter >= duration) {
                     clearInterval(intervalTimer);
-                    callback = false;
-                    duration = 0;
-                    counter = 0;
-                    isPaused = true;
+                    callback();
+                    timerCancel();
                 }
+            }
 
-                return {
-                    reset: function(newCallback, newDuration) {
-                        timerCancel();
-                        isPaused = false;
-                        counter = 0;
-                        callback = newCallback;
-                        duration = newDuration;
-                        intervalTimer = setInterval(timerTick, 1000);
-                    },
-                    cancel: function() {
-                        timerCancel();
-                    },
-                    pause: function() {
-                        isPaused = true;
-                    },
-                    resume: function() {
-                        isPaused = false;
-                    }
-                };
+            function timerCancel() {
+                clearInterval(intervalTimer);
+                callback = false;
+                duration = 0;
+                counter = 0;
+                isPaused = true;
+            }
+
+            return {
+                reset: function(newCallback, newDuration) {
+                    timerCancel();
+                    isPaused = false;
+                    counter = 0;
+                    callback = newCallback;
+                    duration = newDuration;
+                    intervalTimer = setInterval(timerTick, 1000);
+                },
+                cancel: function() {
+                    timerCancel();
+                },
+                pause: function() {
+                    isPaused = true;
+                },
+                resume: function() {
+                    isPaused = false;
+                }
             };
-        }]);
+        };
+    }
+})();

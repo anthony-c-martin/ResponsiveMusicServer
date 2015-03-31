@@ -1,5 +1,4 @@
-'use strict';
-
+/* jshint -W117, -W030 */
 describe('Factory: DataLoader', function() {
 
     var service,

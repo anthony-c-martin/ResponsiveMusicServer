@@ -49,6 +49,9 @@
 
     <!-- build:jsApp({.tmp,app}) scripts/scripts.js -->
     <!-- inject:js -->
+    <script src="scripts/services/services.module.js"></script>
+    <script src="scripts/services/api/api.module.js"></script>
+    <script src="scripts/services/session/session.module.js"></script>
     <script src="scripts/init.js"></script>
     <script src="scripts/app/main.js"></script>
     <script src="scripts/app/views.js"></script>
@@ -77,16 +80,16 @@
     <script src="scripts/directives/track.js"></script>
     <script src="scripts/directives/volumeControl.js"></script>
     <script src="scripts/filters/groupByDisc.js"></script>
-    <script src="scripts/services/ApiRequest.js"></script>
     <script src="scripts/services/DataLoader.js"></script>
     <script src="scripts/services/DraggableData.js"></script>
-    <script src="scripts/services/HttpRequest.js"></script>
     <script src="scripts/services/PlayerService.js"></script>
     <script src="scripts/services/PlaylistFactory.js"></script>
     <script src="scripts/services/SelectableTracks.js"></script>
-    <script src="scripts/services/SessionData.js"></script>
     <script src="scripts/services/TrackManager.js"></script>
     <script src="scripts/services/TrackTimer.js"></script>
+    <script src="scripts/services/api/api.service.js"></script>
+    <script src="scripts/services/api/http.service.js"></script>
+    <script src="scripts/services/session/session.service.js"></script>
     <!-- endinject -->
     <!-- endbuild -->
 </body>

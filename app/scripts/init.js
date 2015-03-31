@@ -5,7 +5,7 @@ angular.element(document).ready(function() {
         try {
             angular.module(module);
             modules.push(module);
-        } catch(e) {
+        } catch (e) {
 
         }
     }

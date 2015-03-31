@@ -1,6 +1,5 @@
-'use strict';
-
-describe('Factory: HttpRequest', function() {
+/* jshint -W117, -W030 */
+describe('Factory: httpService', function() {
 
     var service,
         $http,
@@ -9,7 +8,7 @@ describe('Factory: HttpRequest', function() {
         $q;
 
     beforeEach(function() {
-        module('musicServerApp');
+        module('app.services.api');
 
         inject(function($injector) {
             $rootScope = $injector.get('$rootScope');
@@ -17,7 +16,7 @@ describe('Factory: HttpRequest', function() {
             $httpBackend = $injector.get('$httpBackend');
             $q = $injector.get('$q');
 
-            var Factory = $injector.get('HttpRequest', {
+            var Factory = $injector.get('httpService', {
                 $http: $http,
                 $q: $q,
                 $rootScope: $rootScope,
