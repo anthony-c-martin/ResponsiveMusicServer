@@ -6,15 +6,15 @@ describe('app.components.search.amSearch', function() {
 
     beforeEach(module('app.components.search'));
 
-    beforeEach(inject(function($compile, $rootScope, $q) {
+    beforeEach(inject(function($compile, $rootScope) {
         element = angular.element(
             '<am-search></am-search>'
         );
 
-        scope = $rootScope;
-        $compile(element)(scope);
+        $compile(element)($rootScope);
+        $rootScope.$digest();
 
-        scope.$digest();
+        scope = element.isolateScope();
     }));
 
     describe('initialisation', function() {

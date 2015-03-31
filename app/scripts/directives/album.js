@@ -9,7 +9,7 @@ angular.module('musicServerApp')
                 },
                 restrict: 'A',
                 replace: true,
-                templateUrl: 'app/album.partial.html',
+                templateUrl: 'views/album.partial.html',
                 controller: 'AlbumController',
                 controllerAs: 'albumCtrl',
                 bindToController: true,

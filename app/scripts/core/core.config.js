@@ -10,25 +10,25 @@
             when('/login', {
                 controller: 'LoginController',
                 controllerAs: 'loginCtrl',
-                templateUrl: 'app/login.html',
+                templateUrl: 'views/login.html',
                 title: 'Login'
             }).
             when('/login/:token/:auth', {
                 controller: 'LoginController',
                 controllerAs: 'loginCtrl',
-                templateUrl: 'app/login.html',
+                templateUrl: 'views/login.html',
                 title: 'Login'
             }).
             when('/music', {
                 controller: 'MainController',
                 controllerAs: 'mainCtrl',
-                templateUrl: 'app/main.html',
+                templateUrl: 'views/main.html',
                 title: 'Main'
             }).
             when('/music/search/:type/:search', {
                 controller: 'MainController',
                 controllerAs: 'mainCtrl',
-                templateUrl: 'app/main.html',
+                templateUrl: 'views/main.html',
                 title: 'Main'
             }).
             otherwise({

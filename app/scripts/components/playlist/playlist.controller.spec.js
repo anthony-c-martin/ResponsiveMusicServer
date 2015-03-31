@@ -1,6 +1,5 @@
-'use strict';
-
-describe('Controller: PlaylistController', function() {
+/* jshint -W117, -W030 */
+describe('app.components.playlist.playlistController', function() {
 
     var controller,
         selectableTracksFactory,
@@ -14,7 +13,7 @@ describe('Controller: PlaylistController', function() {
     };
 
     beforeEach(function() {
-        module('musicServerApp');
+        module('app.components.playlist');
 
         inject(function($injector) {
             $q = $injector.get('$q');
@@ -27,7 +26,7 @@ describe('Controller: PlaylistController', function() {
 
             var $controller = $injector.get('$controller');
 
-            controller = $controller('PlaylistController', {
+            controller = $controller('playlistController', {
                 $scope: $scope,
                 playerService: playerService,
                 selectableTracksFactory: selectableTracksFactory

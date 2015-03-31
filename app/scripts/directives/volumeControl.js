@@ -14,7 +14,7 @@ angular.module('musicServerApp')
             return {
                 restrict: 'E',
                 replace: true,
-                templateUrl: 'app/volumeControl.partial.html',
+                templateUrl: 'views/volumeControl.partial.html',
                 scope: {
                     volumeUpdate: '=',
                     currentAudio: '='

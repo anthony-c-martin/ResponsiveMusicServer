@@ -7,6 +7,10 @@ angular.module('mock.api', ['musicServerApp', 'ngMockE2E'])
         }])
     .run(['$httpBackend',
         function($httpBackend) {
+            $httpBackend.whenGET(/\.html$/).passThrough();
+        }])
+    .run(['$httpBackend',
+        function($httpBackend) {
             $httpBackend.whenGET(/^stream/).passThrough();
         }])
     .run(['$httpBackend',

@@ -41,7 +41,7 @@ angular.module('musicServerApp')
                 },
                 restrict: 'A',
                 replace: true,
-                templateUrl: 'app/track.partial.html',
+                templateUrl: 'views/track.partial.html',
                 controller: 'TrackController',
                 controllerAs: 'trackCtrl',
                 bindToController: true,

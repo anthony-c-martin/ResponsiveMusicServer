@@ -17,12 +17,7 @@
         </div>
         <position-control current-audio="audioCtrl.current" position-update="audioCtrl.positionUpdate" ng-if="!isPhone"></position-control>
         <div class="controls controls-nav unshrinkable">
-            <div class="control-container">
-                <button playlist-button ng-click="playlistShown = !playlistShown" ng-class="{active: playlistShown}" body-event-handler="playlist" type="button" class="control">
-                    <i class="fa fa-list"></i>
-                </button>
-                <playlist ng-show="playlistShown"></playlist>
-            </div>
+            <am-playlist></am-playlist>
             <div class="control-container">
                 <button ng-click="audioCtrl.volumeShown = !audioCtrl.volumeShown" ng-class="{active: audioCtrl.volumeShown}" body-event-handler="volume" type="button" class="control">
                     <i class="fa fa-volume-up"></i>

@@ -78,7 +78,7 @@ gulp.task('wiredep', function() {
 gulp.task('jshint:all', function() {
     return gulp.src([
             'gulpfile.js',
-            appConfig.app + '/scripts/{,*/}*.js'
+            appConfig.app + '/scripts/**/*.js'
         ])
         .pipe($.jshint())
         .pipe($.jshint.reporter(jshintStylish));
@@ -112,16 +112,26 @@ gulp.task('imagemin', function() {
         .pipe(gulp.dest(appConfig.dist + '/images'));
 });
 
-gulp.task('templatecache', function() {
-    return gulp.src([
-        appConfig.app + '/views/**/*.html',
-        appConfig.app + '/scripts/**/*.html'
-    ])
+gulp.task('templatecache_old', function() {
+    return gulp.src([appConfig.app + '/views/**/*.html'])
+        .pipe($.minifyHtml({empty: true}))
+        .pipe($.angularTemplatecache(
+            'app.oldviews.js', {
+                module: 'app.core',
+                root: 'views/',
+                standAlone: false
+            }
+        ))
+        .pipe(gulp.dest('.tmp/scripts'));
+});
+
+gulp.task('templatecache', ['templatecache_old'], function() {
+    return gulp.src([appConfig.app + '/scripts/**/*.html'])
         .pipe($.minifyHtml({empty: true}))
         .pipe($.angularTemplatecache(
             'app.views.js', {
                 module: 'app.core',
-                root: 'app/',
+                root: 'scripts/',
                 standAlone: false
             }
         ))
@@ -192,6 +202,7 @@ gulp.task('inject', ['templatecache'], function() {
             appConfig.app + '/scripts/**/*.module.js',
             appConfig.app + '/scripts/**/*.js',
             '.tmp/scripts/app.views.js',
+            '.tmp/scripts/app.oldviews.js',
             '!' + appConfig.app + '/scripts/**/*.spec.js'
         ], {read: false}), {relative: true}))
         .pipe(gulp.dest(appConfig.app));
@@ -209,7 +220,7 @@ gulp.task('watch', function() {
     ], ['jshint:test', 'karma']);
     gulp.watch(appConfig.app + '/styles/{,*/}*.scss', ['sass']);
     gulp.watch([
-        appConfig.app + '/{,*/}*.html',
+        appConfig.app + '/**/*.html',
         '.tmp/styles/style.css',
         appConfig.app + '/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
     ], notifyLivereload);

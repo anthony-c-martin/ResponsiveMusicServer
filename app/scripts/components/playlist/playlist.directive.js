@@ -1,24 +1,24 @@
 (function() {
     'use strict';
 
-    angular.module('app.components.search')
-        .directive('amSearch', search);
+    angular.module('app.components.playlist')
+        .directive('amPlaylist', playlist);
 
     /* @ngInject */
-    function search($rootScope) {
+    function playlist($rootScope) {
         return {
             link: function(scope, element, attrs, ctrl) {
                 $rootScope.$on('hideDropdowns', function(e, data) {
-                    if (!(data && data === 'search')) {
-                        ctrl.searchShown = false;
+                    if (!(data && data === 'playlist')) {
+                        ctrl.playlistShown = false;
                     }
                 });
             },
             scope: {},
             restrict: 'E',
             replace: true,
-            templateUrl: 'scripts/components/search/search.html',
-            controller: 'searchController',
+            templateUrl: 'scripts/components/playlist/playlist.html',
+            controller: 'playlistController',
             controllerAs: 'vm'
         };
     }
