@@ -1,5 +1,5 @@
 /* jshint -W117, -W030 */
-describe('Factory: selectableTracksService', function() {
+describe('app.services.playlist.selectableTracksFactory', function() {
 
     var service,
         $q,
@@ -12,7 +12,7 @@ describe('Factory: selectableTracksService', function() {
             $q = $injector.get('$q');
             $rootScope = $injector.get('$rootScope');
 
-            var Factory = $injector.get('selectableTracksService');
+            var Factory = $injector.get('selectableTracksFactory');
             service = new Factory();
         });
     });

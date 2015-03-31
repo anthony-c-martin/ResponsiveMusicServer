@@ -1,11 +1,11 @@
 /* jshint -W117, -W030 */
-describe('Service: draggableDataService', function() {
+describe('app.services.player.draggableDataService', function() {
 
     var service,
         $q,
         $rootScope,
         $document,
-        apiService,
+        apiFactory,
         playerService;
 
     beforeEach(function() {
@@ -15,11 +15,11 @@ describe('Service: draggableDataService', function() {
             $q = $injector.get('$q');
             $rootScope = $injector.get('$rootScope');
             $document = $injector.get('$document');
-            apiService = $injector.get('apiService');
+            apiFactory = $injector.get('apiFactory');
             playerService = $injector.get('playerService');
 
             service = $injector.get('draggableDataService', {
-                apiService: apiService,
+                apiFactory: apiFactory,
                 playerService: playerService
             });
         });
@@ -412,7 +412,7 @@ describe('Service: draggableDataService', function() {
         var submitFunction = jasmine.createSpy('submitFunction');
         var boundFunction = jasmine.createSpy('boundFunction');
         beforeEach(function() {
-            spyOn(apiService.track, 'getFromArtist').and.callFake(function(id) {
+            spyOn(apiFactory.track, 'getFromArtist').and.callFake(function(id) {
                 return {
                     bound: function(start, limit) {
                         boundFunction(start, limit);
@@ -425,7 +425,7 @@ describe('Service: draggableDataService', function() {
             });
         });
 
-        it('should call apiService.track.getFromArtist for each artist passed in', function() {
+        it('should call apiFactory.track.getFromArtist for each artist passed in', function() {
             submitFunction.and.callFake(function(id) {
                 return $q.when([{
                     ID: id + 4
@@ -441,12 +441,12 @@ describe('Service: draggableDataService', function() {
             });
             $rootScope.$digest();
 
-            expect(apiService.track.getFromArtist).toHaveBeenCalledWith(12384);
-            expect(apiService.track.getFromArtist).toHaveBeenCalledWith(12049);
+            expect(apiFactory.track.getFromArtist).toHaveBeenCalledWith(12384);
+            expect(apiFactory.track.getFromArtist).toHaveBeenCalledWith(12049);
             expect(outputTracks).toEqual([{ID: 12388}, {ID: 12389}, {ID: 12053}, {ID: 12054}]);
         });
 
-        it('should not allow getTracks to return tracks until all apiServices have been completed', function() {
+        it('should not allow getTracks to return tracks until all apiFactorys have been completed', function() {
             var unresolvedPromise = $q.defer();
             submitFunction.and.callFake(function(id) {
                 if (id === 38984) {
@@ -468,7 +468,7 @@ describe('Service: draggableDataService', function() {
             expect(outputTracks).toEqual([{ID: 12329}]);
         });
 
-        it('should reject getTracks if any of the apiServices fail', function() {
+        it('should reject getTracks if any of the apiFactorys fail', function() {
             submitFunction.and.callFake(function(id) {
                 if (id === 23539) {
                     return $q.reject();
@@ -489,7 +489,7 @@ describe('Service: draggableDataService', function() {
         var submitFunction = jasmine.createSpy('submitFunction');
         var boundFunction = jasmine.createSpy('boundFunction');
         beforeEach(function() {
-            spyOn(apiService.track, 'getFromAlbum').and.callFake(function(id) {
+            spyOn(apiFactory.track, 'getFromAlbum').and.callFake(function(id) {
                 return {
                     bound: function(start, limit) {
                         boundFunction(start, limit);
@@ -502,7 +502,7 @@ describe('Service: draggableDataService', function() {
             });
         });
 
-        it('should call apiService.track.getFromAlbum for each album passed in', function() {
+        it('should call apiFactory.track.getFromAlbum for each album passed in', function() {
             submitFunction.and.callFake(function(id) {
                 return $q.when([{
                     ID: id + 4
@@ -518,12 +518,12 @@ describe('Service: draggableDataService', function() {
             });
             $rootScope.$digest();
 
-            expect(apiService.track.getFromAlbum).toHaveBeenCalledWith(12384);
-            expect(apiService.track.getFromAlbum).toHaveBeenCalledWith(12049);
+            expect(apiFactory.track.getFromAlbum).toHaveBeenCalledWith(12384);
+            expect(apiFactory.track.getFromAlbum).toHaveBeenCalledWith(12049);
             expect(outputTracks).toEqual([{ID: 12388}, {ID: 12389}, {ID: 12053}, {ID: 12054}]);
         });
 
-        it('should not allow getTracks to return tracks until all apiServices have been completed', function() {
+        it('should not allow getTracks to return tracks until all apiFactorys have been completed', function() {
             var unresolvedPromise = $q.defer();
             submitFunction.and.callFake(function(id) {
                 if (id === 38984) {
@@ -545,7 +545,7 @@ describe('Service: draggableDataService', function() {
             expect(outputTracks).toEqual([{ID: 12329}]);
         });
 
-        it('should reject getTracks if any of the apiServices fail', function() {
+        it('should reject getTracks if any of the apiFactorys fail', function() {
             submitFunction.and.callFake(function(id) {
                 if (id === 23539) {
                     return $q.reject();

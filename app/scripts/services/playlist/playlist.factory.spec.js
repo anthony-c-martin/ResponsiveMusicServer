@@ -1,5 +1,5 @@
 /* jshint -W117, -W030 */
-describe('Factory: playlistService', function() {
+describe('app.services.playlist.playlistFactory', function() {
 
     var service;
 
@@ -7,7 +7,7 @@ describe('Factory: playlistService', function() {
         module('app.services.playlist');
 
         inject(function($injector) {
-            var Factory = $injector.get('playlistService', {});
+            var Factory = $injector.get('playlistFactory', {});
             service = new Factory();
         });
     });

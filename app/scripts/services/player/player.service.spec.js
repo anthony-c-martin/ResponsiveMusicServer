@@ -1,10 +1,10 @@
 /* jshint -W117, -W030 */
-describe('Service: playerService', function() {
+describe('app.services.player.playerService', function() {
 
     var service,
         $rootScope,
         $q,
-        playlistService,
+        playlistFactory,
         sessionService,
         trackManagerService;
 
@@ -14,14 +14,14 @@ describe('Service: playerService', function() {
         inject(function($injector) {
             $rootScope = $injector.get('$rootScope');
             $q = $injector.get('$q');
-            playlistService = $injector.get('playlistService');
+            playlistFactory = $injector.get('playlistFactory');
             sessionService = $injector.get('sessionService');
             trackManagerService = $injector.get('trackManagerService');
 
             service = $injector.get('playerService', {
                 $rootScope: $rootScope,
                 $q: $q,
-                playlistService: playlistService,
+                playlistFactory: playlistFactory,
                 sessionService: sessionService,
                 trackManagerService: trackManagerService
             });

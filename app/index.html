@@ -49,6 +49,8 @@
 
     <!-- build:jsApp({.tmp,app}) scripts/scripts.js -->
     <!-- inject:js -->
+    <script src="scripts/app.module.js"></script>
+    <script src="scripts/core/core.module.js"></script>
     <script src="scripts/services/services.module.js"></script>
     <script src="scripts/services/api/api.module.js"></script>
     <script src="scripts/services/player/player.module.js"></script>
@@ -57,6 +59,7 @@
     <script src="scripts/init.js"></script>
     <script src="scripts/app/main.js"></script>
     <script src="scripts/app/views.js"></script>
+    <script src="scripts/core/core.route.js"></script>
     <script src="scripts/controllers/AlbumController.js"></script>
     <script src="scripts/controllers/AppController.js"></script>
     <script src="scripts/controllers/ArtistController.js"></script>
@@ -82,15 +85,15 @@
     <script src="scripts/directives/track.js"></script>
     <script src="scripts/directives/volumeControl.js"></script>
     <script src="scripts/filters/groupByDisc.js"></script>
-    <script src="scripts/services/api/api.service.js"></script>
-    <script src="scripts/services/api/dataLoader.service.js"></script>
-    <script src="scripts/services/api/http.service.js"></script>
+    <script src="scripts/services/api/api.factory.js"></script>
+    <script src="scripts/services/api/dataLoader.factory.js"></script>
+    <script src="scripts/services/api/http.factory.js"></script>
     <script src="scripts/services/player/draggableData.service.js"></script>
     <script src="scripts/services/player/player.service.js"></script>
     <script src="scripts/services/player/trackManager.service.js"></script>
-    <script src="scripts/services/player/trackTimer.service.js"></script>
-    <script src="scripts/services/playlist/playlist.service.js"></script>
-    <script src="scripts/services/playlist/selectableTracks.service.js"></script>
+    <script src="scripts/services/player/trackTimer.factory.js"></script>
+    <script src="scripts/services/playlist/playlist.factory.js"></script>
+    <script src="scripts/services/playlist/selectableTracks.factory.js"></script>
     <script src="scripts/services/session/session.service.js"></script>
     <!-- endinject -->
     <!-- endbuild -->

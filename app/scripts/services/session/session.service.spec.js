@@ -1,5 +1,5 @@
 /* jshint -W117, -W030 */
-describe('Service: sessionService', function() {
+describe('app.services.session.sessionService', function() {
 
     var service,
         $window,

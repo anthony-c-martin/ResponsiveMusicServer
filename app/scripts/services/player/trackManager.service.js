@@ -5,8 +5,8 @@
         .service('trackManagerService', trackManagerService);
 
     /* @ngInject */
-    function trackManagerService($q, sessionService, trackTimerService, apiService) {
-        var scrobbleTimer = new trackTimerService();
+    function trackManagerService($q, sessionService, trackTimerFactory, apiFactory) {
+        var scrobbleTimer = new trackTimerFactory();
 
         function setupScrobbling(track) {
             if (!sessionService.getUserPreference('ScrobblingEnabled')) {
@@ -15,10 +15,10 @@
                 return;
             }
 
-            apiService.track.lastFMNowPlaying(track.ID).submit();
+            apiFactory.track.lastFMNowPlaying(track.ID).submit();
 
             scrobbleTimer.reset(function() {
-                apiService.track.lastFMScrobble(track.ID).submit();
+                apiFactory.track.lastFMScrobble(track.ID).submit();
             }, track.Duration/2 < 240 ? track.Duration/2 : 240);
         }
 
@@ -54,7 +54,7 @@
             }
 
             track.conversionPromise = conversionDeferred.promise;
-            apiService.track.convert(track.ID).submit().then(function(data) {
+            apiFactory.track.convert(track.ID).submit().then(function(data) {
                 if (data.Result && data.Result === 'Success') {
                     track.FileName = data.FileName;
                     conversionDeferred.resolve(track);

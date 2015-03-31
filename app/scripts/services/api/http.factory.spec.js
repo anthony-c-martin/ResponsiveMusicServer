@@ -1,5 +1,5 @@
 /* jshint -W117, -W030 */
-describe('Factory: httpService', function() {
+describe('app.services.api.httpFactory', function() {
 
     var service,
         $http,
@@ -16,7 +16,7 @@ describe('Factory: httpService', function() {
             $httpBackend = $injector.get('$httpBackend');
             $q = $injector.get('$q');
 
-            var Factory = $injector.get('httpService', {
+            var Factory = $injector.get('httpFactory', {
                 $http: $http,
                 $q: $q,
                 $rootScope: $rootScope,

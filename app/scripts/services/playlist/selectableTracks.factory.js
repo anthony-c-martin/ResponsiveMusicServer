@@ -2,10 +2,10 @@
     'use strict';
 
     angular.module('app.services.playlist')
-        .factory('selectableTracksService', selectableTracksService);
+        .factory('selectableTracksFactory', selectableTracksFactory);
 
     /* @ngInject */
-    function selectableTracksService() {
+    function selectableTracksFactory() {
         return function() {
             function selectTracks(allTracks, newTracks, replaceSelected, invertIfSelected) {
                 angular.forEach(allTracks, function(track) {

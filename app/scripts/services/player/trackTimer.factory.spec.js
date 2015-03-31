@@ -1,5 +1,5 @@
 /* jshint -W117, -W030 */
-describe('Factory: trackTimerService', function() {
+describe('app.services.player.trackTimerFactory', function() {
 
     var service;
     var currentTimer = {
@@ -11,7 +11,7 @@ describe('Factory: trackTimerService', function() {
         module('app.services.player');
 
         inject(function($injector) {
-            var Factory = $injector.get('trackTimerService', {});
+            var Factory = $injector.get('trackTimerFactory', {});
 
             service = new Factory();
         });

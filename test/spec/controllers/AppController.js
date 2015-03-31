@@ -32,7 +32,7 @@ describe('Controller: AppController', function() {
         $location,
         mockMatchmedia,
         sessionService,
-        apiService,
+        apiFactory,
         $q;
 
     beforeEach(function() {
@@ -44,7 +44,7 @@ describe('Controller: AppController', function() {
             $location = $injector.get('$location');
             $scope = $rootScope.$new();
             sessionService = $injector.get('sessionService');
-            apiService = $injector.get('apiService');
+            apiFactory = $injector.get('apiFactory');
             mockMatchmedia = getMockMatchMedia();
             var $controller = $injector.get('$controller');
 
@@ -54,7 +54,7 @@ describe('Controller: AppController', function() {
                 $location: $location,
                 matchmedia: mockMatchmedia,
                 sessionService: sessionService,
-                apiService: apiService
+                apiFactory: apiFactory
             });
         });
     });
@@ -184,7 +184,7 @@ describe('Controller: AppController', function() {
             spyOn(sessionService, 'setSession');
             spyOn(sessionService, 'setUserPreferences');
             spyOn(sessionService, 'getUserPreference').and.returnValue('asdgsdagu8as7gf');
-            spyOn(apiService.session, 'getUserPreferences').and.returnValue({
+            spyOn(apiFactory.session, 'getUserPreferences').and.returnValue({
                 submit: function() {
                     return $q.when(userPreferencesData);
                 }
@@ -196,8 +196,8 @@ describe('Controller: AppController', function() {
             expect($location.path).toHaveBeenCalledWith('/music');
             expect(sessionService.setSession).toHaveBeenCalledWith(loginSuccessData);
 
-            expect(apiService.session.getUserPreferences).toHaveBeenCalled();
-            expect(apiService.session.getUserPreferences.calls.count()).toBe(1);
+            expect(apiFactory.session.getUserPreferences).toHaveBeenCalled();
+            expect(apiFactory.session.getUserPreferences.calls.count()).toBe(1);
 
             $scope.$digest();
 

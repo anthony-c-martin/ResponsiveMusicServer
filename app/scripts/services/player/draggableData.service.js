@@ -5,7 +5,7 @@
         .service('draggableDataService', draggableDataService);
 
     /* @ngInject */
-    function draggableDataService($q, apiService, playerService) {
+    function draggableDataService($q, apiFactory, playerService) {
         var service = this;
 
         var playlist = playerService.playlist;
@@ -26,7 +26,7 @@
         function setArtists(artists) {
             var promises = [];
             angular.forEach(artists, function(artist) {
-                promises.push(apiService.track.getFromArtist(artist.ID).bound(0, 1000).submit());
+                promises.push(apiFactory.track.getFromArtist(artist.ID).bound(0, 1000).submit());
             });
 
             currentDeferred = $q.defer();
@@ -44,7 +44,7 @@
         function setAlbums(albums) {
             var promises = [];
             angular.forEach(albums, function(album) {
-                promises.push(apiService.track.getFromAlbum(album.ID).bound(0, 1000).submit());
+                promises.push(apiFactory.track.getFromAlbum(album.ID).bound(0, 1000).submit());
             });
 
             currentDeferred = $q.defer();

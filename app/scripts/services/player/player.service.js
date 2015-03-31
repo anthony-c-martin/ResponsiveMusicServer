@@ -5,9 +5,9 @@
         .service('playerService', playerService);
 
     /* @ngInject */
-    function playerService($rootScope, $q, playlistService, sessionService, trackManagerService) {
-        var playlist = new playlistService();
-        var prevPlayedPlaylist = new playlistService();
+    function playerService($rootScope, $q, playlistFactory, sessionService, trackManagerService) {
+        var playlist = new playlistFactory();
+        var prevPlayedPlaylist = new playlistFactory();
 
         var current = {
             position: 0,
