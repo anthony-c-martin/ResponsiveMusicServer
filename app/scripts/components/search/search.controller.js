@@ -2,10 +2,10 @@
     'use strict';
 
     angular.module('app.components.search')
-        .controller('searchController', searchController);
+        .controller('SearchController', SearchController);
 
     /* @ngInject */
-    function searchController($rootScope, $q, apiFactory) {
+    function SearchController($rootScope, $q, apiFactory) {
         var ctrl = this;
 
         var searchResults = {

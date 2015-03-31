@@ -6,8 +6,8 @@
 
     /* @ngInject */
     function playerService($rootScope, $q, playlistFactory, sessionService, trackManagerService) {
-        var playlist = new playlistFactory();
-        var prevPlayedPlaylist = new playlistFactory();
+        var playlist = playlistFactory();
+        var prevPlayedPlaylist = playlistFactory();
 
         var current = {
             position: 0,
@@ -44,7 +44,6 @@
 
             return deferred.promise;
         }
-
 
         function nextTrack() {
             var newTrack = playlist.tracks[0];

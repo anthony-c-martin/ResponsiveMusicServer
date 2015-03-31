@@ -18,7 +18,7 @@
             restrict: 'E',
             replace: true,
             templateUrl: 'scripts/components/search/search.html',
-            controller: 'searchController',
+            controller: 'SearchController',
             controllerAs: 'vm'
         };
     }

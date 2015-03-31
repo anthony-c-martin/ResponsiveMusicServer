@@ -1,5 +1,5 @@
 /* jshint -W117, -W030 */
-describe('app.components.search.searchController', function() {
+describe('app.components.search.SearchController', function() {
 
     var controller,
         apiFactory,
@@ -23,7 +23,7 @@ describe('app.components.search.searchController', function() {
             $rootScope = $injector.get('$rootScope');
             apiFactory = $injector.get('apiFactory');
 
-            controller = $controller('searchController', {
+            controller = $controller('SearchController', {
                 $rootScope: $rootScope,
                 apiFactory: apiFactory
             });

@@ -96,7 +96,10 @@ describe('app.services.player.playerService', function() {
             conversionPromise.resolve();
             $rootScope.$digest();
 
-            expect($rootScope.$emit).toHaveBeenCalledWith('playerService.playNew', {src: '/stream?FileName=asdf97ug&Session=yyv97vib', type: 'audio/mp4'});
+            expect($rootScope.$emit).toHaveBeenCalledWith('playerService.playNew', {
+                src: '/stream?FileName=asdf97ug&Session=yyv97vib',
+                type: 'audio/mp4'
+            });
             expect(trackManagerService.setupScrobbling).toHaveBeenCalledWith(mockTrack);
             expect(onSuccess).toHaveBeenCalledWith(undefined);
             expect(onErr).not.toHaveBeenCalled();
@@ -168,7 +171,7 @@ describe('app.services.player.playerService', function() {
 
         it('should rewind the current track if it is less than 2 seconds in', function() {
             spyOn(service.controlHooks, 'positionUpdate');
-            service.current.track = { Duration: 60 };
+            service.current.track = {Duration: 60};
             service.current.position = 0.25;
 
             service.controlHooks.previousTrack();
@@ -176,7 +179,7 @@ describe('app.services.player.playerService', function() {
             expect(service.controlHooks.positionUpdate).toHaveBeenCalledWith(0);
         });
 
-        it ('should add the current track to the beginning of the playlist and call changeTrack with null if there are no previous tracks and a current track', function (){
+        it ('should add track to beginning of playlist and call changeTrack with null if there are no previous tracks', function () {
             service.current.track = {ID: 5, Duration: 60};
 
             service.controlHooks.previousTrack();
@@ -205,7 +208,7 @@ describe('app.services.player.playerService', function() {
         });
 
         it('should choose the previous track if current.track is assigned, and set the current track after changeTrack promise succeeds', function() {
-            var firstTrack = {ID: 1, FileName: 1}
+            var firstTrack = {ID: 1, FileName: 1};
             service.playlist.addTracks([
                 {ID: 2, FileName: 2}
             ]);
@@ -227,7 +230,7 @@ describe('app.services.player.playerService', function() {
         });
 
         it('should choose the previous track if current.track is assigned, and set the current track after changeTrack promise fails', function() {
-            var firstTrack = {ID: 1, FileName: 1}
+            var firstTrack = {ID: 1, FileName: 1};
             service.playlist.addTracks([
                 {ID: 2, FileName: 2}
             ]);
@@ -301,7 +304,7 @@ describe('app.services.player.playerService', function() {
     });
 
     describe('audioHooks.play', function() {
-        it('should call togglePauseScrobbling with false on the trackManagerService and set isPlaying to true', function() {
+        it('should call togglePauseScrobbling on the trackManagerService and set isPlaying to true', function() {
             spyOn(trackManagerService, 'togglePauseScrobbling');
             service.current.isPlaying = false;
 
@@ -313,7 +316,7 @@ describe('app.services.player.playerService', function() {
     });
 
     describe('audioHooks.pause', function() {
-        it('should call togglePauseScrobbling with true on the trackManagerService and set isPlaying to false', function() {
+        it('should call togglePauseScrobbling on the trackManagerService and set isPlaying to false', function() {
             spyOn(trackManagerService, 'togglePauseScrobbling');
             service.current.isPlaying = true;
 

@@ -18,7 +18,7 @@
             restrict: 'E',
             replace: true,
             templateUrl: 'scripts/components/playlist/playlist.html',
-            controller: 'playlistController',
+            controller: 'PlaylistController',
             controllerAs: 'vm'
         };
     }

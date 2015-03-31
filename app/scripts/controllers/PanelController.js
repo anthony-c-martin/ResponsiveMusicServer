@@ -5,7 +5,7 @@ angular.module('musicServerApp')
         function($scope, $rootScope, selectableTracksFactory) {
             var ctrl = this;
 
-            $scope.trackArea = new selectableTracksFactory();
+            $scope.trackArea = selectableTracksFactory();
             $scope.trackArea.allTracks = $scope.tracks;
 
             $rootScope.$on('selectArtist', function($event, artist) {

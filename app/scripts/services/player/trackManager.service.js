@@ -6,7 +6,7 @@
 
     /* @ngInject */
     function trackManagerService($q, sessionService, trackTimerFactory, apiFactory) {
-        var scrobbleTimer = new trackTimerFactory();
+        var scrobbleTimer = trackTimerFactory();
 
         function setupScrobbling(track) {
             if (!sessionService.getUserPreference('ScrobblingEnabled')) {
@@ -19,7 +19,7 @@
 
             scrobbleTimer.reset(function() {
                 apiFactory.track.lastFMScrobble(track.ID).submit();
-            }, track.Duration/2 < 240 ? track.Duration/2 : 240);
+            }, track.Duration / 2 < 240 ? track.Duration / 2 : 240);
         }
 
         function togglePauseScrobbling(pause) {

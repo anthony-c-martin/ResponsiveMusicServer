@@ -1,5 +1,5 @@
 /* jshint -W117, -W030 */
-describe('app.components.playlist.playlistController', function() {
+describe('app.components.playlist.PlaylistController', function() {
 
     var controller,
         selectableTracksFactory,
@@ -26,7 +26,7 @@ describe('app.components.playlist.playlistController', function() {
 
             var $controller = $injector.get('$controller');
 
-            controller = $controller('playlistController', {
+            controller = $controller('PlaylistController', {
                 $scope: $scope,
                 playerService: playerService,
                 selectableTracksFactory: selectableTracksFactory

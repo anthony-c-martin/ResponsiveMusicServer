@@ -15,7 +15,7 @@
         function unauthRequest(command) {
             var url = sessionService.jsonURL;
 
-            return new httpFactory(command, url);
+            return httpFactory(command, url);
         }
 
         return {

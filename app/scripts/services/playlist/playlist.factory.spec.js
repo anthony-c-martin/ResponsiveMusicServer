@@ -139,7 +139,7 @@ describe('app.services.playlist.playlistFactory', function() {
                 {ID: 2, selected: true},
                 {ID: 3},
                 {ID: 4, selected: true}
-            ])
+            ]);
         });
     });
 

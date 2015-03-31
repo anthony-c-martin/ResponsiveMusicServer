@@ -2,13 +2,13 @@
     'use strict';
 
     angular.module('app.components.playlist')
-        .controller('playlistController', playlistController);
+        .controller('PlaylistController', PlaylistController);
 
     /* @ngInject */
-    function playlistController($scope, playerService, selectableTracksFactory) {
+    function PlaylistController($scope, playerService, selectableTracksFactory) {
         var playlist = playerService.playlist;
 
-        $scope.trackArea = new selectableTracksFactory();
+        $scope.trackArea = selectableTracksFactory();
         $scope.trackArea.allTracks = playlist.tracks;
 
         function removeTrack(track) {
