@@ -1,6 +1,5 @@
-'use strict';
-
-describe('Directive: playlistButton', function() {
+/* jshint -W117, -W030 */
+describe('app.components.navbar.amPlaylistButton', function() {
 
     var element,
         scope,
@@ -11,7 +10,7 @@ describe('Directive: playlistButton', function() {
         draggableDataService;
 
     beforeEach(function() {
-        module('musicServerApp');
+        module('app.components.navbar');
 
         inject(function($injector) {
             $rootScope = $injector.get('$rootScope');
@@ -22,7 +21,7 @@ describe('Directive: playlistButton', function() {
             spyOn(draggableDataService, 'bindPlaylistDropEvents');
 
             element = angular.element(
-                '<button playlist-button></button>'
+                '<button am-playlist-button></button>'
             );
 
             $compile(element)($parentScope);

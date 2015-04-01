@@ -229,6 +229,7 @@ gulp.task('watch', function() {
 gulp.task('serve', function() {
     return runSequence(
         ['clean:server', 'wiredep'],
+        ['inject'],
         ['sass', 'express'],
         'watch'
     );

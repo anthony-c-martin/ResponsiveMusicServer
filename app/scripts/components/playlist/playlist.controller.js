@@ -8,7 +8,7 @@
     function PlaylistController($scope, playerService, selectableTracksFactory) {
         var playlist = playerService.playlist;
 
-        $scope.trackArea = selectableTracksFactory();
+        $scope.trackArea = new selectableTracksFactory();
         $scope.trackArea.allTracks = playlist.tracks;
 
         function removeTrack(track) {

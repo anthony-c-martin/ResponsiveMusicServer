@@ -1,6 +1,5 @@
-'use strict';
-
-describe('Directive: positionControl', function() {
+/* jshint -W117, -W030 */
+describe('app.components.navbar.amPositionControl', function() {
 
     var element,
         scope,
@@ -9,7 +8,7 @@ describe('Directive: positionControl', function() {
         $compile;
 
     beforeEach(function() {
-        module('musicServerApp');
+        module('app.components.navbar');
 
         inject(function($injector) {
             $rootScope = $injector.get('$rootScope');
@@ -18,7 +17,7 @@ describe('Directive: positionControl', function() {
             $compile = $injector.get('$compile');
 
             element = angular.element(
-                '<position-control position-update="randomFunction"></position-control>'
+                '<am-position-control position-update="randomFunction"></am-position-control>'
             );
 
             $compile(element)($parentScope);

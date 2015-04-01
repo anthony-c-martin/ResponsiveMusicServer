@@ -18,7 +18,7 @@
 
 <body body-event-handler ng-controller="AppController as appCtrl">
     <div>
-        <div navbar ng-if="appCtrl.loggedIn"></div>
+        <div am-navbar ng-if="appCtrl.loggedIn"></div>
         <div class="container">
             <div ng-view class="view-container"></div>
             <error-modal error-message="appCtrl.errorMessage"></error-modal>
@@ -54,6 +54,7 @@
     <script src="scripts/core/core.module.js"></script>
     <script src="scripts/services/services.module.js"></script>
     <script src="scripts/components/playlist/playlist.module.js"></script>
+    <script src="scripts/components/navbar/navbar.module.js"></script>
     <script src="scripts/components/search/search.module.js"></script>
     <script src="scripts/services/api/api.module.js"></script>
     <script src="scripts/services/player/player.module.js"></script>
@@ -75,14 +76,14 @@
     <script src="scripts/directives/bodyEventHandler.js"></script>
     <script src="scripts/directives/dragImage.js"></script>
     <script src="scripts/directives/errorModal.js"></script>
-    <script src="scripts/directives/navbar.js"></script>
-    <script src="scripts/directives/playlistButton.js"></script>
-    <script src="scripts/directives/positionControl.js"></script>
     <script src="scripts/directives/scrollLoader.js"></script>
     <script src="scripts/directives/track.js"></script>
-    <script src="scripts/directives/volumeControl.js"></script>
     <script src="scripts/components/playlist/playlist.controller.js"></script>
     <script src="scripts/components/playlist/playlist.directive.js"></script>
+    <script src="scripts/components/navbar/navbar.directive.js"></script>
+    <script src="scripts/components/navbar/playlistButton.directive.js"></script>
+    <script src="scripts/components/navbar/positionControl.directive.js"></script>
+    <script src="scripts/components/navbar/volumeControl.directive.js"></script>
     <script src="scripts/components/search/search.controller.js"></script>
     <script src="scripts/components/search/search.directive.js"></script>
     <script src="scripts/services/api/api.factory.js"></script>

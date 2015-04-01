@@ -10,9 +10,9 @@ angular.module('musicServerApp')
                 $scope.artistRequest = null;
 
                 if ($routeParams.search && $routeParams.type === 'artists') {
-                    $scope.artistRequest = dataLoaderFactory(apiFactory.artist.search($routeParams.search), ctrl.artists, 100);
+                    $scope.artistRequest = new dataLoaderFactory(apiFactory.artist.search($routeParams.search), ctrl.artists, 100);
                 } else if (!$routeParams.search) {
-                    $scope.artistRequest = dataLoaderFactory(apiFactory.artist.getAll(), ctrl.artists, 100);
+                    $scope.artistRequest = new dataLoaderFactory(apiFactory.artist.getAll(), ctrl.artists, 100);
                 }
             }
 
@@ -21,9 +21,9 @@ angular.module('musicServerApp')
                 $scope.albumRequest = null;
 
                 if ($routeParams.search && $routeParams.type === 'albums') {
-                    $scope.albumRequest = dataLoaderFactory(apiFactory.album.search($routeParams.search), ctrl.albums, 100);
+                    $scope.albumRequest = new dataLoaderFactory(apiFactory.album.search($routeParams.search), ctrl.albums, 100);
                 } else if (artist) {
-                    $scope.albumRequest = dataLoaderFactory(apiFactory.album.getFromArtist(artist.ID), ctrl.albums, 100);
+                    $scope.albumRequest = new dataLoaderFactory(apiFactory.album.getFromArtist(artist.ID), ctrl.albums, 100);
                 }
             }
 
@@ -32,9 +32,9 @@ angular.module('musicServerApp')
                 $scope.trackRequest = null;
 
                 if ($routeParams.search && $routeParams.type === 'tracks') {
-                    $scope.albumRequest = dataLoaderFactory(apiFactory.track.search($routeParams.search), ctrl.tracks, 100);
+                    $scope.albumRequest = new dataLoaderFactory(apiFactory.track.search($routeParams.search), ctrl.tracks, 100);
                 } else if (album) {
-                    $scope.trackRequest = dataLoaderFactory(apiFactory.track.getFromAlbum(album.ID), ctrl.tracks, 100);
+                    $scope.trackRequest = new dataLoaderFactory(apiFactory.track.getFromAlbum(album.ID), ctrl.tracks, 100);
                 }
             }
 

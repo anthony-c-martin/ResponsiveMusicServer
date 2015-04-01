@@ -1,6 +1,6 @@
 <div class="navbar" ng-controller="AudioController as audioCtrl">
     <div ng-if="isPhone" class="navbar-inner">
-        <position-control current-audio="audioCtrl.current" position-update="audioCtrl.positionUpdate"></position-control>
+        <am-position-control current-audio="audioCtrl.current" position-update="audioCtrl.positionUpdate"></am-position-control>
     </div>
     <div class="navbar-inner">
         <div class="controls controls-nav unshrinkable">
@@ -15,14 +15,14 @@
                 <i class="fa fa-fast-forward"></i>
             </button>
         </div>
-        <position-control current-audio="audioCtrl.current" position-update="audioCtrl.positionUpdate" ng-if="!isPhone"></position-control>
+        <am-position-control current-audio="audioCtrl.current" position-update="audioCtrl.positionUpdate" ng-if="!isPhone"></am-position-control>
         <div class="controls controls-nav unshrinkable">
             <am-playlist></am-playlist>
             <div class="control-container">
                 <button ng-click="audioCtrl.volumeShown = !audioCtrl.volumeShown" ng-class="{active: audioCtrl.volumeShown}" body-event-handler="volume" type="button" class="control">
                     <i class="fa fa-volume-up"></i>
                 </button>
-                <volume-control current-audio="audioCtrl.current" volume-update="audioCtrl.volumeUpdate" ng-show="audioCtrl.volumeShown"></volume-control>
+                <am-volume-control current-audio="audioCtrl.current" volume-update="audioCtrl.volumeUpdate" ng-show="audioCtrl.volumeShown"></am-volume-control>
             </div>
             <button ng-click="appCtrl.toggleScrobblingEnabled()" ng-class="{active: appCtrl.scrobblingEnabled}" type="button" class="control">
                 <i class="fa fa-lastfm"></i>

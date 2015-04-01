@@ -1,6 +1,5 @@
-'use strict';
-
-describe('Directive: navbar', function() {
+/* jshint -W117, -W030 */
+describe('app.components.navbar.amNavbar', function() {
 
     var element,
         scope,
@@ -9,18 +8,8 @@ describe('Directive: navbar', function() {
         $q,
         $compile;
 
-    angular.module('musicServerAppMocks', ['musicServerApp'])
-        .controller('PlayerController', [
-            function() {
-
-            }])
-        .controller('SearchController', [
-            function() {
-
-            }]);
-
     beforeEach(function() {
-        module('musicServerApp');
+        module('app.components.navbar');
 
         inject(function($injector) {
             $rootScope = $injector.get('$rootScope');
@@ -29,7 +18,7 @@ describe('Directive: navbar', function() {
             $compile = $injector.get('$compile');
 
             element = angular.element(
-                '<div navbar></div>'
+                '<div am-navbar></div>'
             );
 
             $compile(element)($parentScope);

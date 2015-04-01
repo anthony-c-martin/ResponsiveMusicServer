@@ -1,6 +1,5 @@
-'use strict';
-
-describe('Directive: volumeControl', function() {
+/* jshint -W117, -W030 */
+describe('app.components.navbar.amVolumeControl', function() {
 
     var element,
         scope,
@@ -9,7 +8,7 @@ describe('Directive: volumeControl', function() {
         $compile;
 
     beforeEach(function() {
-        module('musicServerApp');
+        module('app.components.navbar');
 
         inject(function($injector) {
             $rootScope = $injector.get('$rootScope');
@@ -18,7 +17,7 @@ describe('Directive: volumeControl', function() {
             $compile = $injector.get('$compile');
 
             element = angular.element(
-                '<volume-control volume-update="randomFunction"></volume-control>'
+                '<am-volume-control volume-update="randomFunction"></am-volume-control>'
             );
 
             $compile(element)($parentScope);
