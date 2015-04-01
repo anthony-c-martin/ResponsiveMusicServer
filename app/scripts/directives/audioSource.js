@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .directive('audioSource', ['$rootScope', 'PlayerService',
-        function($rootScope, PlayerService) {
+    .directive('audioSource', ['$rootScope', 'playerService',
+        function($rootScope, playerService) {
             function link(scope, element) {
                 var audio = element[0];
 
@@ -13,56 +13,56 @@ angular.module('musicServerApp')
                 }
 
                 element.on('play', bindWithApply(function() {
-                    PlayerService.audioHooks.play();
+                    playerService.audioHooks.play();
                 }));
 
                 element.on('pause', bindWithApply(function() {
-                    PlayerService.audioHooks.pause();
+                    playerService.audioHooks.pause();
                 }));
 
                 element.on('volumechange', bindWithApply(function() {
-                    PlayerService.audioHooks.volumeChange(audio.volume);
+                    playerService.audioHooks.volumeChange(audio.volume);
                 }));
 
                 element.on('timeupdate', bindWithApply(function() {
                     if (audio.duration > 0) {
-                        PlayerService.audioHooks.positionChange(audio.currentTime / audio.duration);
+                        playerService.audioHooks.positionChange(audio.currentTime / audio.duration);
                     } else {
-                        PlayerService.audioHooks.positionChange(0);
+                        playerService.audioHooks.positionChange(0);
                     }
                 }));
 
                 element.on('ended', bindWithApply(function() {
-                    PlayerService.audioHooks.ended();
+                    playerService.audioHooks.ended();
                 }));
 
-                $rootScope.$on('PlayerService.volumeUpdate', function(e, volume) {
+                $rootScope.$on('playerService.volumeUpdate', function(e, volume) {
                     audio.volume = volume;
                 });
 
-                $rootScope.$on('PlayerService.positionUpdate', function(e, position) {
+                $rootScope.$on('playerService.positionUpdate', function(e, position) {
                     if (audio.readyState) {
                         audio.currentTime = audio.duration * position;
                     }
                 });
 
-                $rootScope.$on('PlayerService.play', function() {
+                $rootScope.$on('playerService.play', function() {
                     audio.play();
                 });
 
-                $rootScope.$on('PlayerService.pause', function() {
+                $rootScope.$on('playerService.pause', function() {
                     audio.pause();
                 });
 
-                $rootScope.$on('PlayerService.playNew', function(e, data) {
+                $rootScope.$on('playerService.playNew', function(e, data) {
                     audio.pause();
                     audio.src = data.src;
                     audio.type = data.type;
                     if (data.src) {
                         audio.play();
                     } else {
-                        PlayerService.audioHooks.pause();
-                        PlayerService.audioHooks.positionChange(0);
+                        playerService.audioHooks.pause();
+                        playerService.audioHooks.positionChange(0);
                     }
                 });
             }

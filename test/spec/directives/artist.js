@@ -12,7 +12,6 @@ describe('Directive: artist', function() {
 
     beforeEach(function() {
         module('musicServerApp');
-        module('musicServerApp.views');
 
         inject(function($injector) {
             $rootScope = $injector.get('$rootScope');

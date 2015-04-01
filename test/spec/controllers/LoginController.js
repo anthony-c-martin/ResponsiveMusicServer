@@ -3,7 +3,7 @@
 describe('Controller: LoginController', function() {
 
     var controller,
-        ApiRequest,
+        apiFactory,
         $rootScope,
         $routeParams,
         $q;
@@ -15,13 +15,13 @@ describe('Controller: LoginController', function() {
             $q = $injector.get('$q');
             $rootScope = $injector.get('$rootScope');
             $routeParams = $injector.get('$routeParams');
-            ApiRequest = $injector.get('ApiRequest');
+            apiFactory = $injector.get('apiFactory');
             var $controller = $injector.get('$controller');
 
             controller = $controller('LoginController', {
                 $rootScope: $rootScope,
                 $routeParams: $routeParams,
-                ApiRequest: ApiRequest
+                apiFactory: apiFactory
             });
         });
     });
@@ -32,7 +32,7 @@ describe('Controller: LoginController', function() {
         });
 
         it('should analyse the route parameters and automatically log a user in if they are set', function() {
-            spyOn(ApiRequest.session, 'getSession').and.returnValue({
+            spyOn(apiFactory.session, 'getSession').and.returnValue({
                 submit: function() {
                     return $q.when({
                         Session: 'asdhdashhds',
@@ -50,13 +50,13 @@ describe('Controller: LoginController', function() {
                 controller = $controller('LoginController', {
                     $rootScope: $rootScope,
                     $routeParams: $routeParams,
-                    ApiRequest: ApiRequest
+                    apiFactory: apiFactory
                 });
             });
             $rootScope.$digest();
 
-            expect(ApiRequest.session.getSession).toHaveBeenCalledWith('asd9fugasd9ufgsaiduofb', 'sadf98hasf9dhsafushdao');
-            expect(ApiRequest.session.getSession.calls.count()).toBe(1);
+            expect(apiFactory.session.getSession).toHaveBeenCalledWith('asd9fugasd9ufgsaiduofb', 'sadf98hasf9dhsafushdao');
+            expect(apiFactory.session.getSession.calls.count()).toBe(1);
 
             expect($rootScope.$emit).toHaveBeenCalled();
             expect($rootScope.$emit.calls.count()).toBe(1);
@@ -91,7 +91,7 @@ describe('Controller: LoginController', function() {
 
     describe('login', function() {
         it('should call loginFailed if the getToken request fails', function() {
-            spyOn(ApiRequest.session, 'getToken').and.returnValue({
+            spyOn(apiFactory.session, 'getToken').and.returnValue({
                 submit: function() {
                     return $q.reject();
                 }
@@ -106,14 +106,14 @@ describe('Controller: LoginController', function() {
         });
 
         it('should call loginFailed if the getSession request fails', function() {
-            spyOn(ApiRequest.session, 'getToken').and.returnValue({
+            spyOn(apiFactory.session, 'getToken').and.returnValue({
                 submit: function() {
                     return $q.when({
                         Token: 'asdonasifdsf'
                     });
                 }
             });
-            spyOn(ApiRequest.session, 'getSession').and.returnValue({
+            spyOn(apiFactory.session, 'getSession').and.returnValue({
                 submit: function() {
                     return $q.reject();
                 }
@@ -128,14 +128,14 @@ describe('Controller: LoginController', function() {
         });
 
         it('should emit a loginSuccess event when the login request succeeds', function() {
-            spyOn(ApiRequest.session, 'getToken').and.returnValue({
+            spyOn(apiFactory.session, 'getToken').and.returnValue({
                 submit: function() {
                     return $q.when({
                         Token: 'myToksdd09hen'
                     });
                 }
             });
-            spyOn(ApiRequest.session, 'getSession').and.returnValue({
+            spyOn(apiFactory.session, 'getSession').and.returnValue({
                 submit: function() {
                     return $q.when({
                         Session: 'asdouas8gs9f9',
@@ -153,10 +153,10 @@ describe('Controller: LoginController', function() {
             controller.login();
             $rootScope.$digest();
 
-            expect(ApiRequest.session.getToken).toHaveBeenCalledWith();
-            expect(ApiRequest.session.getToken.calls.count()).toBe(1);
-            expect(ApiRequest.session.getSession).toHaveBeenCalledWith('myToksdd09hen', 'd77d1465d59a51b60d9ec1e79a58c921');
-            expect(ApiRequest.session.getSession.calls.count()).toBe(1);
+            expect(apiFactory.session.getToken).toHaveBeenCalledWith();
+            expect(apiFactory.session.getToken.calls.count()).toBe(1);
+            expect(apiFactory.session.getSession).toHaveBeenCalledWith('myToksdd09hen', 'd77d1465d59a51b60d9ec1e79a58c921');
+            expect(apiFactory.session.getSession.calls.count()).toBe(1);
 
             expect($rootScope.$emit).toHaveBeenCalled();
             expect($rootScope.$emit.calls.count()).toBe(1);

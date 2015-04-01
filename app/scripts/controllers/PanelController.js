@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .controller('PanelController', ['$scope', '$rootScope', 'SelectableTracks',
-        function($scope, $rootScope, SelectableTracks) {
+    .controller('PanelController', ['$scope', '$rootScope', 'selectableTracksFactory',
+        function($scope, $rootScope, selectableTracksFactory) {
             var ctrl = this;
 
-            $scope.trackArea = new SelectableTracks();
+            $scope.trackArea = new selectableTracksFactory();
             $scope.trackArea.allTracks = $scope.tracks;
 
             $rootScope.$on('selectArtist', function($event, artist) {

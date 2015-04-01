@@ -5,7 +5,7 @@ describe('Directive: track', function() {
     var element,
         playlistElement,
         controller,
-        playlistController,
+        PlaylistController,
         scope,
         $rootScope,
         $parentScope,
@@ -14,7 +14,6 @@ describe('Directive: track', function() {
 
     beforeEach(function() {
         module('musicServerApp');
-        module('musicServerApp.views');
 
         inject(function($injector) {
             $rootScope = $injector.get('$rootScope');
@@ -39,7 +38,7 @@ describe('Directive: track', function() {
             $parentScope.$digest();
 
             controller = element.controller('track');
-            playlistController = playlistElement.controller('track');
+            PlaylistController = playlistElement.controller('track');
             scope = element.scope();
         });
     });
@@ -80,11 +79,11 @@ describe('Directive: track', function() {
         });
 
         it('should call TrackController.remove when the remove button is clicked', function() {
-            spyOn(playlistController, 'remove');
+            spyOn(PlaylistController, 'remove');
 
             playlistElement.find('button.control-remove').trigger('click');
 
-            expect(playlistController.remove).toHaveBeenCalled();
+            expect(PlaylistController.remove).toHaveBeenCalled();
         });
     });
 

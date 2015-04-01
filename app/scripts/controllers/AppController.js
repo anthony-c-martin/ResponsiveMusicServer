@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .controller('AppController', ['$scope', '$rootScope', '$location', 'matchmedia', 'SessionData', 'ApiRequest',
-        function ($scope, $rootScope, $location, matchmedia, SessionData, ApiRequest) {
+    .controller('AppController', ['$scope', '$rootScope', '$location', 'matchmedia', 'sessionService', 'apiFactory',
+        function ($scope, $rootScope, $location, matchmedia, sessionService, apiFactory) {
             var ctrl = this;
 
             matchmedia.onDesktop(function(mql) {
@@ -17,20 +17,20 @@ angular.module('musicServerApp')
             function verifyLoggedIn() {
                 var currentPath = $location.path();
                 if (currentPath.match(loginRegex)) {
-                    SessionData.clearSession();
+                    sessionService.clearSession();
                 }
 
-                ctrl.loggedIn = !!SessionData.getSession().Key;
+                ctrl.loggedIn = !!sessionService.getSession().Key;
 
                 if (!ctrl.loggedIn && !currentPath.match(loginRegex)) {
                     $location.path('/login');
                 }
-                ctrl.scrobblingEnabled = SessionData.getUserPreference('ScrobblingEnabled');
+                ctrl.scrobblingEnabled = sessionService.getUserPreference('ScrobblingEnabled');
             }
 
             function toggleScrobblingEnabled() {
                 ctrl.scrobblingEnabled = !ctrl.scrobblingEnabled;
-                SessionData.setUserPreference('ScrobblingEnabled', ctrl.scrobblingEnabled);
+                sessionService.setUserPreference('ScrobblingEnabled', ctrl.scrobblingEnabled);
             }
 
             function onBeforeUnload() {
@@ -45,12 +45,12 @@ angular.module('musicServerApp')
             }
 
             function onLoginSuccess (event, sessionData) {
-                SessionData.setSession(sessionData);
+                sessionService.setSession(sessionData);
                 ctrl.loggedIn = true;
                 $location.path('/music');
-                ApiRequest.session.getUserPreferences().submit().then(function(data) {
-                    SessionData.setUserPreferences(data);
-                    ctrl.scrobblingEnabled = SessionData.getUserPreference('ScrobblingEnabled');
+                apiFactory.session.getUserPreferences().submit().then(function(data) {
+                    sessionService.setUserPreferences(data);
+                    ctrl.scrobblingEnabled = sessionService.getUserPreference('ScrobblingEnabled');
                 });
             }
 
@@ -64,7 +64,7 @@ angular.module('musicServerApp')
 
             function onResponseUnauthorised() {
                 $rootScope.$emit('errorDisplay', 'Your session has timed out, and you have been logged out.');
-                SessionData.clearSession();
+                sessionService.clearSession();
                 ctrl.verifyLoggedIn();
             }
 

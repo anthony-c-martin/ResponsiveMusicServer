@@ -18,7 +18,7 @@
 
 <body body-event-handler ng-controller="AppController as appCtrl">
     <div>
-        <div navbar ng-if="appCtrl.loggedIn"></div>
+        <div am-navbar ng-if="appCtrl.loggedIn"></div>
         <div class="container">
             <div ng-view class="view-container"></div>
             <error-modal error-message="appCtrl.errorMessage"></error-modal>
@@ -49,9 +49,18 @@
 
     <!-- build:jsApp({.tmp,app}) scripts/scripts.js -->
     <!-- inject:js -->
-    <script src="scripts/init.js"></script>
-    <script src="scripts/app/main.js"></script>
-    <script src="scripts/app/views.js"></script>
+    <script src="scripts/app.module.js"></script>
+    <script src="scripts/components/components.module.js"></script>
+    <script src="scripts/core/core.module.js"></script>
+    <script src="scripts/services/services.module.js"></script>
+    <script src="scripts/components/playlist/playlist.module.js"></script>
+    <script src="scripts/components/navbar/navbar.module.js"></script>
+    <script src="scripts/components/search/search.module.js"></script>
+    <script src="scripts/services/api/api.module.js"></script>
+    <script src="scripts/services/player/player.module.js"></script>
+    <script src="scripts/services/playlist/playlist.module.js"></script>
+    <script src="scripts/services/session/session.module.js"></script>
+    <script src="scripts/app.init.js"></script>
     <script src="scripts/controllers/AlbumController.js"></script>
     <script src="scripts/controllers/AppController.js"></script>
     <script src="scripts/controllers/ArtistController.js"></script>
@@ -59,34 +68,36 @@
     <script src="scripts/controllers/LoginController.js"></script>
     <script src="scripts/controllers/MainController.js"></script>
     <script src="scripts/controllers/PanelController.js"></script>
-    <script src="scripts/controllers/PlaylistController.js"></script>
-    <script src="scripts/controllers/SearchController.js"></script>
     <script src="scripts/controllers/TrackController.js"></script>
+    <script src="scripts/core/core.config.js"></script>
     <script src="scripts/directives/album.js"></script>
     <script src="scripts/directives/artist.js"></script>
     <script src="scripts/directives/audioSource.js"></script>
     <script src="scripts/directives/bodyEventHandler.js"></script>
     <script src="scripts/directives/dragImage.js"></script>
     <script src="scripts/directives/errorModal.js"></script>
-    <script src="scripts/directives/navbar.js"></script>
-    <script src="scripts/directives/playlist.js"></script>
-    <script src="scripts/directives/playlistButton.js"></script>
-    <script src="scripts/directives/positionControl.js"></script>
     <script src="scripts/directives/scrollLoader.js"></script>
-    <script src="scripts/directives/search.js"></script>
     <script src="scripts/directives/track.js"></script>
-    <script src="scripts/directives/volumeControl.js"></script>
-    <script src="scripts/filters/groupByDisc.js"></script>
-    <script src="scripts/services/ApiRequest.js"></script>
-    <script src="scripts/services/DataLoader.js"></script>
-    <script src="scripts/services/DraggableData.js"></script>
-    <script src="scripts/services/HttpRequest.js"></script>
-    <script src="scripts/services/PlayerService.js"></script>
-    <script src="scripts/services/PlaylistFactory.js"></script>
-    <script src="scripts/services/SelectableTracks.js"></script>
-    <script src="scripts/services/SessionData.js"></script>
-    <script src="scripts/services/TrackManager.js"></script>
-    <script src="scripts/services/TrackTimer.js"></script>
+    <script src="scripts/components/playlist/playlist.controller.js"></script>
+    <script src="scripts/components/playlist/playlist.directive.js"></script>
+    <script src="scripts/components/navbar/navbar.directive.js"></script>
+    <script src="scripts/components/navbar/playlistButton.directive.js"></script>
+    <script src="scripts/components/navbar/positionControl.directive.js"></script>
+    <script src="scripts/components/navbar/volumeControl.directive.js"></script>
+    <script src="scripts/components/search/search.controller.js"></script>
+    <script src="scripts/components/search/search.directive.js"></script>
+    <script src="scripts/services/api/api.factory.js"></script>
+    <script src="scripts/services/api/dataLoader.factory.js"></script>
+    <script src="scripts/services/api/http.factory.js"></script>
+    <script src="scripts/services/player/draggableData.service.js"></script>
+    <script src="scripts/services/player/player.service.js"></script>
+    <script src="scripts/services/player/trackManager.service.js"></script>
+    <script src="scripts/services/player/trackTimer.factory.js"></script>
+    <script src="scripts/services/playlist/playlist.factory.js"></script>
+    <script src="scripts/services/playlist/selectableTracks.factory.js"></script>
+    <script src="scripts/services/session/session.service.js"></script>
+    <script src="../.tmp/scripts/app.views.js"></script>
+    <script src="../.tmp/scripts/app.oldviews.js"></script>
     <!-- endinject -->
     <!-- endbuild -->
 </body>

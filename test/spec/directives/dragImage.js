@@ -8,20 +8,19 @@ describe('Directive: dragImage', function() {
         $parentScope,
         $q,
         $compile,
-        DraggableData;
+        draggableDataService;
 
     beforeEach(function() {
         module('musicServerApp');
-        module('musicServerApp.views');
 
         inject(function($injector) {
             $rootScope = $injector.get('$rootScope');
             $parentScope = $rootScope.$new();
             $q = $injector.get('$q');
             $compile = $injector.get('$compile');
-            DraggableData = $injector.get('DraggableData');
+            draggableDataService = $injector.get('draggableDataService');
 
-            DraggableData.getDragElement = null;
+            draggableDataService.getDragElement = null;
             element = angular.element(
                 '<div drag-image></div>'
             );
@@ -34,26 +33,26 @@ describe('Directive: dragImage', function() {
     });
 
     describe('initialisation', function() {
-        it('should set DraggableData.getDragElement', function() {
-            expect(DraggableData.getDragElement).toBeDefined();
+        it('should set draggableDataService.getDragElement', function() {
+            expect(draggableDataService.getDragElement).toBeDefined();
         });
     });
 
     describe('getDragElenent', function() {
         it('should correctly set the text on the element when getDragElement is called with count = 1', function() {
-            DraggableData.getDragElement(1, 'asdga9su9');
+            draggableDataService.getDragElement(1, 'asdga9su9');
 
             expect(element.text()).toBe('1 asdga9su9');
         });
 
         it('should correctly set the text on the element when getDragElement is called with count > 1', function() {
-            DraggableData.getDragElement(5, 'asdf97asfg87');
+            draggableDataService.getDragElement(5, 'asdf97asfg87');
 
             expect(element.text()).toBe('5 asdf97asfg87s');
         });
 
         it('should return a reference to the DOM element when getDragElement is called', function() {
-            expect(DraggableData.getDragElement(9, 'asdg89hasf98h')).toBe(element[0]);
+            expect(draggableDataService.getDragElement(9, 'asdg89hasf98h')).toBe(element[0]);
         });
     });
 });

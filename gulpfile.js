@@ -78,7 +78,7 @@ gulp.task('wiredep', function() {
 gulp.task('jshint:all', function() {
     return gulp.src([
             'gulpfile.js',
-            appConfig.app + '/scripts/{,*/}*.js'
+            appConfig.app + '/scripts/**/*.js'
         ])
         .pipe($.jshint())
         .pipe($.jshint.reporter(jshintStylish));
@@ -96,7 +96,7 @@ gulp.task('usemin', function() {
             cssVendor: [$.sourcemaps.init(), $.minifyCss(), $.rev(), $.rename({suffix: '.min'}), $.sourcemaps.write('./')],
             cssApp: [$.sourcemaps.init(), $.minifyCss(), $.rev(), $.rename({suffix: '.min'}), $.sourcemaps.write('./')],
             jsVendor: [$.sourcemaps.init(), $.uglify(), $.rev(), $.rename({suffix: '.min'}), $.sourcemaps.write('./')],
-            jsApp: [$.sourcemaps.init(), $.uglify(), $.rev(), $.rename({suffix: '.min'}), $.sourcemaps.write('./')],
+            jsApp: [$.ngAnnotate({add: true}), $.sourcemaps.init(), $.uglify(), $.rev(), $.rename({suffix: '.min'}), $.sourcemaps.write('./')],
             outputRelativePath: '../' + appConfig.dist + '/'
         }))
         .pipe(gulp.dest(appConfig.dist));
@@ -112,15 +112,30 @@ gulp.task('imagemin', function() {
         .pipe(gulp.dest(appConfig.dist + '/images'));
 });
 
-gulp.task('html2js', function() {
-    return gulp.src([appConfig.app + '/views/{,*/}*.html'])
+gulp.task('templatecache_old', function() {
+    return gulp.src([appConfig.app + '/views/**/*.html'])
         .pipe($.minifyHtml({empty: true}))
-        .pipe($.ngHtml2js({
-            moduleName: 'musicServerApp.views',
-            prefix: 'views/'
-        }))
-        .pipe($.concat('views.js'))
-        .pipe(gulp.dest('.tmp/scripts/app'));
+        .pipe($.angularTemplatecache(
+            'app.oldviews.js', {
+                module: 'app.core',
+                root: 'views/',
+                standAlone: false
+            }
+        ))
+        .pipe(gulp.dest('.tmp/scripts'));
+});
+
+gulp.task('templatecache', ['templatecache_old'], function() {
+    return gulp.src([appConfig.app + '/scripts/**/*.html'])
+        .pipe($.minifyHtml({empty: true}))
+        .pipe($.angularTemplatecache(
+            'app.views.js', {
+                module: 'app.core',
+                root: 'scripts/',
+                standAlone: false
+            }
+        ))
+        .pipe(gulp.dest('.tmp/scripts'));
 });
 
 gulp.task('htmlmin', function() {
@@ -162,7 +177,7 @@ gulp.task('copy:fontawesome', function() {
         }));
 });
 
-gulp.task('karma', function() {
+gulp.task('karma', ['templatecache'], function() {
     return gulp.src('./UNUSED')
         .pipe($.karma({
             configFile: 'test/karma.conf.js',
@@ -180,19 +195,32 @@ gulp.task('sass', function() {
         .pipe(gulp.dest('.tmp/styles'));
 });
 
-gulp.task('inject', function() {
+gulp.task('inject', ['templatecache'], function() {
     return gulp.src([appConfig.app + '/index.html'])
-        .pipe($.inject(gulp.src(appConfig.app + '/scripts/{,*/}*.js', {read: false}), {relative: true}))
+        .pipe($.inject(gulp.src([
+            appConfig.app + '/scripts/app.module.js',
+            appConfig.app + '/scripts/**/*.module.js',
+            appConfig.app + '/scripts/**/*.js',
+            '.tmp/scripts/app.views.js',
+            '.tmp/scripts/app.oldviews.js',
+            '!' + appConfig.app + '/scripts/**/*.spec.js'
+        ], {read: false}), {relative: true}))
         .pipe(gulp.dest(appConfig.app));
 });
 
 gulp.task('watch', function() {
     gulp.watch('bower.json', ['wiredep']);
-    gulp.watch(appConfig.app + '/scripts/{,*/}*.js', ['jshint:all', 'inject']);
-    gulp.watch('test/spec/{,*/}*.js', ['jshint:test', 'karma']);
+    gulp.watch([
+        appConfig.app + '/scripts/**/*.js',
+        appConfig.app + '/scripts/**/*.spec.js'
+    ], ['jshint:all', 'inject']);
+    gulp.watch([
+        appConfig.app + '/scripts/**/*.spec.js',
+        'test/spec/{,*/}*.js'
+    ], ['jshint:test', 'karma']);
     gulp.watch(appConfig.app + '/styles/{,*/}*.scss', ['sass']);
     gulp.watch([
-        appConfig.app + '/{,*/}*.html',
+        appConfig.app + '/**/*.html',
         '.tmp/styles/style.css',
         appConfig.app + '/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
     ], notifyLivereload);
@@ -201,6 +229,7 @@ gulp.task('watch', function() {
 gulp.task('serve', function() {
     return runSequence(
         ['clean:server', 'wiredep'],
+        ['inject'],
         ['sass', 'express'],
         'watch'
     );
@@ -210,7 +239,7 @@ gulp.task('build', function() {
     runSequence(
         ['clean:dist', 'wiredep'],
         ['sass', 'copy:fontawesome', 'copy:bootstrap', 'copy:dist'],
-        ['imagemin', 'htmlmin', 'html2js', 'inject'],
+        ['imagemin', 'htmlmin', 'inject'],
         'usemin'
     );
 });
