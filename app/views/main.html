@@ -1,11 +1,11 @@
 <div ng-controller="PanelController as panel" class="panes">
     <div class="pane-top" ng-if="!isDesktop">
         <div ng-if="isPhone" class="history">
-            <span ng-if="panel.selectedAlbum">
+            <span ng-show="panel.selectedAlbum">
                 <div class="history-item clickable" ng-click="panel.deselectAlbum()"><i class="fa fa-chevron-left"></i></div>
                 <div class="history-item">{{ panel.selectedAlbum.Name }}</div>
             </span>
-            <span ng-if="panel.selectedArtist && !panel.selectedAlbum">
+            <span ng-show="panel.selectedArtist && !panel.selectedAlbum">
                 <div class="history-item clickable" ng-click="panel.deselectArtist()"><i class="fa fa-chevron-left"></i></div>
                 <div class="history-item">{{ panel.selectedArtist.Name }}</div>
             </span>
@@ -14,27 +14,27 @@
             <span>
                 <div class="history-item clickable" ng-click="panel.deselectArtist()">Artists</div>
             </span>
-            <span ng-if="panel.selectedArtist">
+            <span ng-show="panel.selectedArtist">
                 <div class="history-item"><i class="fa fa-chevron-right"></i></div>
                 <div class="history-item clickable" ng-click="panel.deselectAlbum()">{{ panel.selectedArtist.Name }}</div>
             </span>
-            <span ng-if="panel.selectedAlbum">
+            <span ng-show="panel.selectedAlbum">
                 <div class="history-item"><i class="fa fa-chevron-right"></i></div>
                 <div class="history-item">{{ panel.selectedAlbum.Name }}</div>
             </span>
         </div>
     </div>
-    <div ng-if="panel.isArtistsShown()" scroll-loader="artistRequest.fetch()" class="pane pane-left">
+    <div ng-show="panel.isArtistsShown()" scroll-loader="artistRequest.fetch()" class="pane">
         <ul class="artists">
             <li am-artist="artist" ng-repeat="artist in mainCtrl.artists | limitTo: mainCtrl.artists.length track by artist.ID" ng-class="{selected: (artist === panel.selectedArtist)}"></li>
         </ul>
-    </div>
-    <div ng-if="panel.isAlbumsShown()" scroll-loader="albumRequest.fetch()" class="pane pane-mid">
+    </div><!--
+    --><div ng-show="panel.isAlbumsShown()" scroll-loader="albumRequest.fetch()" class="pane">
         <ul class="albums">
             <li am-album="album" ng-repeat="album in mainCtrl.albums | limitTo: mainCtrl.albums.length track by album.ID" ng-class="{selected: (album === panel.selectedAlbum)}"></li>
         </ul>
-    </div>
-    <div ng-mousedown="panel.deselectTracks($event)" ng-if="panel.isTracksShown()" scroll-loader="trackRequest.fetch()" class="pane pane-right">
+    </div><!--
+    --><div ng-show="panel.isTracksShown()" ng-mousedown="panel.deselectTracks($event)" scroll-loader="trackRequest.fetch()" class="pane">
         <ul class="tracks">
             <li am-track="track" track-area="trackArea" ng-repeat="track in mainCtrl.tracks | limitTo: mainCtrl.tracks.length track by track.ID"></li>
         </ul>

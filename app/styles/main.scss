@@ -207,8 +207,6 @@ ul {
     margin: 0 auto;
     background-color: $light-background;
     height: 100%;
-    display: flex;
-    flex-flow: row wrap;
     .pane {
         @include mq-large {
             width: 33.3%;
@@ -222,10 +220,13 @@ ul {
         @include mq-small-med {
             padding-top: 2em;
         }
+        display: inline-block;
         height: 100%;
-        flex: 1 100%;
         overflow-x: hidden;
         overflow-y: auto;
+        &:not(:first-child) {
+            border-left: 0.1em solid $light-border;
+        }
     }
     .pane-top {
         @include hide-large;
@@ -236,17 +237,6 @@ ul {
         width: 100%;
         border-bottom: 0.15em solid $light-border;
         z-index: 1;
-    }
-    .pane-left {
-        flex: 1 auto;
-    }
-    .pane-mid {
-        flex: 1 auto;
-        border-left: 0.1em solid $light-border;
-    }
-    .pane-right {
-        flex: 1 auto;
-        border-left: 0.1em solid $light-border;
     }
     @include mq-large {
         position: relative;
