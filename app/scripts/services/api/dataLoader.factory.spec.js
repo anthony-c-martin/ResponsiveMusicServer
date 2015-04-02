@@ -1,5 +1,5 @@
 /* jshint -W117, -W030 */
-describe('app.services.api.dataLoaderFactory', function() {
+describe('app.services.api.DataLoaderFactory', function() {
 
     var service,
         $rootScope,
@@ -16,7 +16,7 @@ describe('app.services.api.dataLoaderFactory', function() {
         inject(function($injector) {
             $q = $injector.get('$q');
             $rootScope = $injector.get('$rootScope');
-            var Factory = $injector.get('dataLoaderFactory', {});
+            var Factory = $injector.get('DataLoaderFactory', {});
 
             service = new Factory(mockRequest, loadedData, 3);
         });

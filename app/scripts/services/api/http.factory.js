@@ -2,10 +2,10 @@
     'use strict';
 
     angular.module('app.services.api')
-        .factory('httpFactory', httpFactory);
+        .factory('HttpFactory', HttpFactory);
 
     /* @ngInject */
-    function httpFactory($http, $q, $rootScope) {
+    function HttpFactory($http, $q, $rootScope) {
         return function(command, url) {
             var thisRequest = this;
             var params = {

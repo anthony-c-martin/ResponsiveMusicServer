@@ -1,10 +1,10 @@
 /* jshint -W117, -W030 */
-describe('app.services.api.apiFactory', function() {
+describe('app.services.api.ApiFactory', function() {
 
     var service,
         $httpBackend,
         $rootScope,
-        httpFactory,
+        HttpFactory,
         sessionService;
 
     beforeEach(function() {
@@ -14,10 +14,10 @@ describe('app.services.api.apiFactory', function() {
             $httpBackend = $injector.get('$httpBackend');
             $rootScope = $injector.get('$rootScope');
             sessionService = $injector.get('sessionService');
-            httpFactory = $injector.get('httpFactory');
+            HttpFactory = $injector.get('HttpFactory');
 
-            service = $injector.get('apiFactory', {
-                httpFactory: httpFactory,
+            service = $injector.get('ApiFactory', {
+                HttpFactory: HttpFactory,
                 sessionService: sessionService
             });
 

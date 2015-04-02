@@ -5,7 +5,7 @@ describe('app.services.player.draggableDataService', function() {
         $q,
         $rootScope,
         $document,
-        apiFactory,
+        ApiFactory,
         playerService;
 
     beforeEach(function() {
@@ -15,11 +15,11 @@ describe('app.services.player.draggableDataService', function() {
             $q = $injector.get('$q');
             $rootScope = $injector.get('$rootScope');
             $document = $injector.get('$document');
-            apiFactory = $injector.get('apiFactory');
+            ApiFactory = $injector.get('ApiFactory');
             playerService = $injector.get('playerService');
 
             service = $injector.get('draggableDataService', {
-                apiFactory: apiFactory,
+                ApiFactory: ApiFactory,
                 playerService: playerService
             });
         });
@@ -412,7 +412,7 @@ describe('app.services.player.draggableDataService', function() {
         var submitFunction = jasmine.createSpy('submitFunction');
         var boundFunction = jasmine.createSpy('boundFunction');
         beforeEach(function() {
-            spyOn(apiFactory.track, 'getFromArtist').and.callFake(function(id) {
+            spyOn(ApiFactory.track, 'getFromArtist').and.callFake(function(id) {
                 return {
                     bound: function(start, limit) {
                         boundFunction(start, limit);
@@ -425,7 +425,7 @@ describe('app.services.player.draggableDataService', function() {
             });
         });
 
-        it('should call apiFactory.track.getFromArtist for each artist passed in', function() {
+        it('should call ApiFactory.track.getFromArtist for each artist passed in', function() {
             submitFunction.and.callFake(function(id) {
                 return $q.when([{
                     ID: id + 4
@@ -441,12 +441,12 @@ describe('app.services.player.draggableDataService', function() {
             });
             $rootScope.$digest();
 
-            expect(apiFactory.track.getFromArtist).toHaveBeenCalledWith(12384);
-            expect(apiFactory.track.getFromArtist).toHaveBeenCalledWith(12049);
+            expect(ApiFactory.track.getFromArtist).toHaveBeenCalledWith(12384);
+            expect(ApiFactory.track.getFromArtist).toHaveBeenCalledWith(12049);
             expect(outputTracks).toEqual([{ID: 12388}, {ID: 12389}, {ID: 12053}, {ID: 12054}]);
         });
 
-        it('should not allow getTracks to return tracks until all apiFactorys have been completed', function() {
+        it('should not allow getTracks to return tracks until all ApiFactorys have been completed', function() {
             var unresolvedPromise = $q.defer();
             submitFunction.and.callFake(function(id) {
                 if (id === 38984) {
@@ -468,7 +468,7 @@ describe('app.services.player.draggableDataService', function() {
             expect(outputTracks).toEqual([{ID: 12329}]);
         });
 
-        it('should reject getTracks if any of the apiFactorys fail', function() {
+        it('should reject getTracks if any of the ApiFactorys fail', function() {
             submitFunction.and.callFake(function(id) {
                 if (id === 23539) {
                     return $q.reject();
@@ -489,7 +489,7 @@ describe('app.services.player.draggableDataService', function() {
         var submitFunction = jasmine.createSpy('submitFunction');
         var boundFunction = jasmine.createSpy('boundFunction');
         beforeEach(function() {
-            spyOn(apiFactory.track, 'getFromAlbum').and.callFake(function(id) {
+            spyOn(ApiFactory.track, 'getFromAlbum').and.callFake(function(id) {
                 return {
                     bound: function(start, limit) {
                         boundFunction(start, limit);
@@ -502,7 +502,7 @@ describe('app.services.player.draggableDataService', function() {
             });
         });
 
-        it('should call apiFactory.track.getFromAlbum for each album passed in', function() {
+        it('should call ApiFactory.track.getFromAlbum for each album passed in', function() {
             submitFunction.and.callFake(function(id) {
                 return $q.when([{
                     ID: id + 4
@@ -518,12 +518,12 @@ describe('app.services.player.draggableDataService', function() {
             });
             $rootScope.$digest();
 
-            expect(apiFactory.track.getFromAlbum).toHaveBeenCalledWith(12384);
-            expect(apiFactory.track.getFromAlbum).toHaveBeenCalledWith(12049);
+            expect(ApiFactory.track.getFromAlbum).toHaveBeenCalledWith(12384);
+            expect(ApiFactory.track.getFromAlbum).toHaveBeenCalledWith(12049);
             expect(outputTracks).toEqual([{ID: 12388}, {ID: 12389}, {ID: 12053}, {ID: 12054}]);
         });
 
-        it('should not allow getTracks to return tracks until all apiFactorys have been completed', function() {
+        it('should not allow getTracks to return tracks until all ApiFactorys have been completed', function() {
             var unresolvedPromise = $q.defer();
             submitFunction.and.callFake(function(id) {
                 if (id === 38984) {
@@ -545,7 +545,7 @@ describe('app.services.player.draggableDataService', function() {
             expect(outputTracks).toEqual([{ID: 12329}]);
         });
 
-        it('should reject getTracks if any of the apiFactorys fail', function() {
+        it('should reject getTracks if any of the ApiFactorys fail', function() {
             submitFunction.and.callFake(function(id) {
                 if (id === 23539) {
                     return $q.reject();

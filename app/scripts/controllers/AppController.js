@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('musicServerApp')
-    .controller('AppController', ['$scope', '$rootScope', '$location', 'matchmedia', 'sessionService', 'apiFactory',
-        function ($scope, $rootScope, $location, matchmedia, sessionService, apiFactory) {
+    .controller('AppController', ['$scope', '$rootScope', '$location', 'matchmedia', 'sessionService', 'ApiFactory',
+        function ($scope, $rootScope, $location, matchmedia, sessionService, ApiFactory) {
             var ctrl = this;
 
             matchmedia.onDesktop(function(mql) {
@@ -48,7 +48,7 @@ angular.module('musicServerApp')
                 sessionService.setSession(sessionData);
                 ctrl.loggedIn = true;
                 $location.path('/music');
-                apiFactory.session.getUserPreferences().submit().then(function(data) {
+                ApiFactory.session.getUserPreferences().submit().then(function(data) {
                     sessionService.setUserPreferences(data);
                     ctrl.scrobblingEnabled = sessionService.getUserPreference('ScrobblingEnabled');
                 });

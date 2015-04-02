@@ -1,6 +1,5 @@
-'use strict';
-
-describe('Controller: TrackController', function() {
+/* jshint -W117, -W030 */
+describe('app.components.track.TrackController', function() {
 
     var controller,
         $scope,
@@ -9,7 +8,7 @@ describe('Controller: TrackController', function() {
         $q;
 
     beforeEach(function() {
-        module('musicServerApp');
+        module('app.components.track');
 
         inject(function($injector) {
             $q = $injector.get('$q');

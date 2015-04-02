@@ -2,13 +2,13 @@
 describe('app.components.playlist.PlaylistController', function() {
 
     var controller,
-        selectableTracksFactory,
+        SelectableTracksFactory,
         playerService,
         $scope,
         $rootScope,
         $q;
 
-    var mockselectableTracksFactory = {
+    var mockSelectableTracksFactory = {
         removeSelection: function() {}
     };
 
@@ -19,7 +19,7 @@ describe('app.components.playlist.PlaylistController', function() {
             $q = $injector.get('$q');
             $rootScope = $injector.get('$rootScope');
             $scope = $rootScope.$new();
-            selectableTracksFactory = jasmine.createSpy('selectableTracksFactorySpy').and.returnValue(mockselectableTracksFactory);
+            SelectableTracksFactory = jasmine.createSpy('SelectableTracksFactorySpy').and.returnValue(mockSelectableTracksFactory);
             playerService = {
                 playlist: jasmine.createSpyObj('playlist', ['removeTrack', 'clear'])
             };
@@ -29,17 +29,17 @@ describe('app.components.playlist.PlaylistController', function() {
             controller = $controller('PlaylistController', {
                 $scope: $scope,
                 playerService: playerService,
-                selectableTracksFactory: selectableTracksFactory
+                SelectableTracksFactory: SelectableTracksFactory
             });
         });
     });
 
     describe('initialisation', function() {
-        it('should create a new selectableTracksFactory object and set the allTracks array to the playlist tracks', function() {
-            expect(selectableTracksFactory).toHaveBeenCalledWith();
-            expect(selectableTracksFactory.calls.count()).toBe(1);
+        it('should create a new SelectableTracksFactory object and set the allTracks array to the playlist tracks', function() {
+            expect(SelectableTracksFactory).toHaveBeenCalledWith();
+            expect(SelectableTracksFactory.calls.count()).toBe(1);
 
-            expect($scope.trackArea).toBe(mockselectableTracksFactory);
+            expect($scope.trackArea).toBe(mockSelectableTracksFactory);
             expect($scope.trackArea.allTracks).toBe(controller.playlist);
         });
     });
@@ -65,7 +65,7 @@ describe('app.components.playlist.PlaylistController', function() {
     });
 
     describe('removeSelection', function() {
-        it('should call removeSelection on the selectableTracksFactory object', function() {
+        it('should call removeSelection on the SelectableTracksFactory object', function() {
             spyOn($scope.trackArea, 'removeSelection');
 
             controller.removeSelection();

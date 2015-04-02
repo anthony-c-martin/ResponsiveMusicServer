@@ -4,7 +4,7 @@ describe('app.services.player.playerService', function() {
     var service,
         $rootScope,
         $q,
-        playlistFactory,
+        PlaylistFactory,
         sessionService,
         trackManagerService;
 
@@ -14,14 +14,14 @@ describe('app.services.player.playerService', function() {
         inject(function($injector) {
             $rootScope = $injector.get('$rootScope');
             $q = $injector.get('$q');
-            playlistFactory = $injector.get('playlistFactory');
+            PlaylistFactory = $injector.get('PlaylistFactory');
             sessionService = $injector.get('sessionService');
             trackManagerService = $injector.get('trackManagerService');
 
             service = $injector.get('playerService', {
                 $rootScope: $rootScope,
                 $q: $q,
-                playlistFactory: playlistFactory,
+                PlaylistFactory: PlaylistFactory,
                 sessionService: sessionService,
                 trackManagerService: trackManagerService
             });

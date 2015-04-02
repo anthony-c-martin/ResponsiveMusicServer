@@ -5,7 +5,8 @@
         .service('draggableDataService', draggableDataService);
 
     /* @ngInject */
-    function draggableDataService($q, apiFactory, playerService) {
+    function draggableDataService($q, ApiFactory, playerService) {
+        /* jshint validthis: true */
         var service = this;
 
         var playlist = playerService.playlist;
@@ -26,7 +27,7 @@
         function setArtists(artists) {
             var promises = [];
             angular.forEach(artists, function(artist) {
-                promises.push(apiFactory.track.getFromArtist(artist.ID).bound(0, 1000).submit());
+                promises.push(ApiFactory.track.getFromArtist(artist.ID).bound(0, 1000).submit());
             });
 
             currentDeferred = $q.defer();
@@ -44,7 +45,7 @@
         function setAlbums(albums) {
             var promises = [];
             angular.forEach(albums, function(album) {
-                promises.push(apiFactory.track.getFromAlbum(album.ID).bound(0, 1000).submit());
+                promises.push(ApiFactory.track.getFromAlbum(album.ID).bound(0, 1000).submit());
             });
 
             currentDeferred = $q.defer();
@@ -162,7 +163,6 @@
                 });
             });
         }
-
 
         angular.extend(this, {
             getDragElement: null,

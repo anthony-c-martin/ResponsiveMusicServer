@@ -2,7 +2,7 @@
 describe('app.components.search.SearchController', function() {
 
     var controller,
-        apiFactory,
+        ApiFactory,
         $rootScope,
         $q;
 
@@ -21,11 +21,11 @@ describe('app.components.search.SearchController', function() {
 
             $q = $injector.get('$q');
             $rootScope = $injector.get('$rootScope');
-            apiFactory = $injector.get('apiFactory');
+            ApiFactory = $injector.get('ApiFactory');
 
             controller = $controller('SearchController', {
                 $rootScope: $rootScope,
-                apiFactory: apiFactory
+                ApiFactory: ApiFactory
             });
         });
     });
@@ -65,13 +65,13 @@ describe('app.components.search.SearchController', function() {
         var mockAlbums = {};
         var mockTracks = {};
 
-        spyOn(apiFactory.artist, 'search').and.callFake(function() {
+        spyOn(ApiFactory.artist, 'search').and.callFake(function() {
             return mockApiSearchResponse(mockArtists, false);
         });
-        spyOn(apiFactory.album, 'search').and.callFake(function() {
+        spyOn(ApiFactory.album, 'search').and.callFake(function() {
             return mockApiSearchResponse(mockAlbums, false);
         });
-        spyOn(apiFactory.track, 'search').and.callFake(function() {
+        spyOn(ApiFactory.track, 'search').and.callFake(function() {
             return mockApiSearchResponse(mockTracks, false);
         });
 
@@ -87,12 +87,12 @@ describe('app.components.search.SearchController', function() {
         expect(controller.searchResults.albums.length).toBe(0);
         expect(controller.searchResults.tracks.length).toBe(0);
 
-        expect(apiFactory.artist.search.calls.count()).toBe(1);
-        expect(apiFactory.artist.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
-        expect(apiFactory.album.search.calls.count()).toBe(1);
-        expect(apiFactory.album.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
-        expect(apiFactory.track.search.calls.count()).toBe(1);
-        expect(apiFactory.track.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
+        expect(ApiFactory.artist.search.calls.count()).toBe(1);
+        expect(ApiFactory.artist.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
+        expect(ApiFactory.album.search.calls.count()).toBe(1);
+        expect(ApiFactory.album.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
+        expect(ApiFactory.track.search.calls.count()).toBe(1);
+        expect(ApiFactory.track.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
 
         $rootScope.$digest();
 
@@ -104,13 +104,13 @@ describe('app.components.search.SearchController', function() {
     });
 
     it('should cancel the search when  search is called and the backend artist search responds with a failure', function() {
-        spyOn(apiFactory.artist, 'search').and.callFake(function() {
+        spyOn(ApiFactory.artist, 'search').and.callFake(function() {
             return mockApiSearchResponse({}, true);
         });
-        spyOn(apiFactory.album, 'search').and.callFake(function() {
+        spyOn(ApiFactory.album, 'search').and.callFake(function() {
             return mockApiSearchResponse({}, false);
         });
-        spyOn(apiFactory.track, 'search').and.callFake(function() {
+        spyOn(ApiFactory.track, 'search').and.callFake(function() {
             return mockApiSearchResponse({}, false);
         });
         controller.searchText = 'oaiuOUIFabsu89y8t';
@@ -125,8 +125,8 @@ describe('app.components.search.SearchController', function() {
         expect(controller.searchResults.albums.length).toBe(0);
         expect(controller.searchResults.tracks.length).toBe(0);
 
-        expect(apiFactory.artist.search.calls.count()).toBe(1);
-        expect(apiFactory.artist.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
+        expect(ApiFactory.artist.search.calls.count()).toBe(1);
+        expect(ApiFactory.artist.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
 
         $rootScope.$digest();
 
@@ -135,13 +135,13 @@ describe('app.components.search.SearchController', function() {
     });
 
     it('should cancel the search when  search is called and the backend album search responds with a failure', function() {
-        spyOn(apiFactory.artist, 'search').and.callFake(function() {
+        spyOn(ApiFactory.artist, 'search').and.callFake(function() {
             return mockApiSearchResponse({}, false);
         });
-        spyOn(apiFactory.album, 'search').and.callFake(function() {
+        spyOn(ApiFactory.album, 'search').and.callFake(function() {
             return mockApiSearchResponse({}, true);
         });
-        spyOn(apiFactory.track, 'search').and.callFake(function() {
+        spyOn(ApiFactory.track, 'search').and.callFake(function() {
             return mockApiSearchResponse({}, false);
         });
         controller.searchText = 'oaiuOUIFabsu89y8t';
@@ -156,8 +156,8 @@ describe('app.components.search.SearchController', function() {
         expect(controller.searchResults.albums.length).toBe(0);
         expect(controller.searchResults.tracks.length).toBe(0);
 
-        expect(apiFactory.artist.search.calls.count()).toBe(1);
-        expect(apiFactory.artist.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
+        expect(ApiFactory.artist.search.calls.count()).toBe(1);
+        expect(ApiFactory.artist.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
 
         $rootScope.$digest();
 
@@ -166,13 +166,13 @@ describe('app.components.search.SearchController', function() {
     });
 
     it('should cancel the search when  search is called and the backend track search responds with a failure', function() {
-        spyOn(apiFactory.artist, 'search').and.callFake(function() {
+        spyOn(ApiFactory.artist, 'search').and.callFake(function() {
             return mockApiSearchResponse({}, false);
         });
-        spyOn(apiFactory.album, 'search').and.callFake(function() {
+        spyOn(ApiFactory.album, 'search').and.callFake(function() {
             return mockApiSearchResponse({}, false);
         });
-        spyOn(apiFactory.track, 'search').and.callFake(function() {
+        spyOn(ApiFactory.track, 'search').and.callFake(function() {
             return mockApiSearchResponse({}, true);
         });
         controller.searchText = 'oaiuOUIFabsu89y8t';
@@ -187,8 +187,8 @@ describe('app.components.search.SearchController', function() {
         expect(controller.searchResults.albums.length).toBe(0);
         expect(controller.searchResults.tracks.length).toBe(0);
 
-        expect(apiFactory.artist.search.calls.count()).toBe(1);
-        expect(apiFactory.artist.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
+        expect(ApiFactory.artist.search.calls.count()).toBe(1);
+        expect(ApiFactory.artist.search).toHaveBeenCalledWith('oaiuOUIFabsu89y8t');
 
         $rootScope.$digest();
 

@@ -78,7 +78,7 @@ describe('app.components.playlist.amPlaylist', function() {
         });
 
         it('should contain track elements for each track', function() {
-            expect(element.find('ul.playlist.tracks').find('li[track]').length).toBe(2);
+            expect(element.find('ul.playlist.tracks').find('li[am-track]').length).toBe(2);
         });
     });
 });

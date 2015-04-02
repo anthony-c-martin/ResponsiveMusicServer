@@ -7,7 +7,7 @@ describe('app.services.player.trackManagerService', function() {
         sessionService,
         trackTimerFactory,
         mocktrackTimerFactory,
-        apiFactory;
+        ApiFactory;
 
     beforeEach(function() {
         mocktrackTimerFactory = jasmine.createSpyObj('trackTimerFactory', ['reset', 'cancel', 'pause', 'resume']);
@@ -20,12 +20,12 @@ describe('app.services.player.trackManagerService', function() {
             $q = $injector.get('$q');
             sessionService = $injector.get('sessionService');
             trackTimerFactory = $injector.get('trackTimerFactory');
-            apiFactory = $injector.get('apiFactory');
+            ApiFactory = $injector.get('ApiFactory');
 
             service = $injector.get('trackManagerService', {
                 sessionService: sessionService,
                 trackTimerFactory: trackTimerFactory,
-                apiFactory: apiFactory
+                ApiFactory: ApiFactory
             });
         });
     });
@@ -41,12 +41,12 @@ describe('app.services.player.trackManagerService', function() {
 
         it('should submit an API nowplaying request', function() {
             spyOn(sessionService, 'getUserPreference').and.returnValue(true);
-            spyOn(apiFactory.track, 'lastFMNowPlaying').and.returnValue(jasmine.createSpyObj('request', ['submit']));
+            spyOn(ApiFactory.track, 'lastFMNowPlaying').and.returnValue(jasmine.createSpyObj('request', ['submit']));
 
             service.setupScrobbling({ID: 2155});
 
-            expect(apiFactory.track.lastFMNowPlaying).toHaveBeenCalledWith(2155);
-            expect(apiFactory.track.lastFMNowPlaying().submit).toHaveBeenCalledWith();
+            expect(ApiFactory.track.lastFMNowPlaying).toHaveBeenCalledWith(2155);
+            expect(ApiFactory.track.lastFMNowPlaying().submit).toHaveBeenCalledWith();
         });
 
         it('should call scrobbleTimer.reset with half the time of the track as the second argument', function() {
@@ -59,16 +59,16 @@ describe('app.services.player.trackManagerService', function() {
 
         it('should call scrobbleTimer.reset with a callback function', function() {
             spyOn(sessionService, 'getUserPreference').and.returnValue(true);
-            spyOn(apiFactory.track, 'lastFMScrobble').and.returnValue(jasmine.createSpyObj('request', ['submit']));
+            spyOn(ApiFactory.track, 'lastFMScrobble').and.returnValue(jasmine.createSpyObj('request', ['submit']));
 
             service.setupScrobbling({ID: 345745, Duration: 3215});
             var callbackFunction = mocktrackTimerFactory.reset.calls.argsFor(0)[0];
 
-            expect(apiFactory.track.lastFMScrobble).not.toHaveBeenCalled();
+            expect(ApiFactory.track.lastFMScrobble).not.toHaveBeenCalled();
             expect(mocktrackTimerFactory.reset.calls.argsFor(0)[1]).toBe(240);
             callbackFunction();
-            expect(apiFactory.track.lastFMScrobble).toHaveBeenCalledWith(345745);
-            expect(apiFactory.track.lastFMScrobble().submit).toHaveBeenCalledWith();
+            expect(ApiFactory.track.lastFMScrobble).toHaveBeenCalledWith(345745);
+            expect(ApiFactory.track.lastFMScrobble().submit).toHaveBeenCalledWith();
         });
     });
 
@@ -94,7 +94,7 @@ describe('app.services.player.trackManagerService', function() {
             onErr = jasmine.createSpy('onErr');
             onSuccess = jasmine.createSpy('onSuccess');
             convertSpies = [];
-            spyOn(apiFactory.track, 'convert').and.callFake(function(id) {
+            spyOn(ApiFactory.track, 'convert').and.callFake(function(id) {
                 convertSpies[id] = $q.defer();
                 return {
                     submit: jasmine.createSpy('submit').and.returnValue(convertSpies[id].promise)
@@ -123,8 +123,8 @@ describe('app.services.player.trackManagerService', function() {
             service.startConversion({ID: 2});
             $rootScope.$digest();
 
-            expect(apiFactory.track.convert).toHaveBeenCalledWith(1);
-            expect(apiFactory.track.convert).toHaveBeenCalledWith(2);
+            expect(ApiFactory.track.convert).toHaveBeenCalledWith(1);
+            expect(ApiFactory.track.convert).toHaveBeenCalledWith(2);
             expect(onErr).toHaveBeenCalledWith(undefined);
         });
 
@@ -132,17 +132,17 @@ describe('app.services.player.trackManagerService', function() {
             service.startConversion({ID: 1, FileName: 'asdgu'}).then(onSuccess, onErr);
             $rootScope.$digest();
 
-            expect(apiFactory.track.convert).not.toHaveBeenCalled();
+            expect(ApiFactory.track.convert).not.toHaveBeenCalled();
             expect(onSuccess).toHaveBeenCalledWith({ID: 1, FileName: 'asdgu'});
         });
 
-        it('should call apiFactory.track.convert for the track, and set the conversionPromise property on the track', function() {
+        it('should call ApiFactory.track.convert for the track, and set the conversionPromise property on the track', function() {
             var track = {ID: 125};
             var retVal = service.startConversion(track);
             retVal.then(onSuccess, onErr);
             $rootScope.$digest();
 
-            expect(apiFactory.track.convert).toHaveBeenCalledWith(125);
+            expect(ApiFactory.track.convert).toHaveBeenCalledWith(125);
             expect(track.conversionPromise).toBeDefined();
             expect(retVal).toBe(track.conversionPromise);
             expect(onSuccess).not.toHaveBeenCalled();
@@ -156,7 +156,7 @@ describe('app.services.player.trackManagerService', function() {
             convertSpies[125].resolve({Result: 'Success', FileName: 'gfasud'});
             $rootScope.$digest();
 
-            expect(apiFactory.track.convert).toHaveBeenCalledWith(125);
+            expect(ApiFactory.track.convert).toHaveBeenCalledWith(125);
             expect(track.conversionPromise).not.toBeDefined();
             expect(onSuccess).toHaveBeenCalledWith(track);
             expect(onErr).not.toHaveBeenCalled();
@@ -170,7 +170,7 @@ describe('app.services.player.trackManagerService', function() {
             convertSpies[125].resolve({Result: 'Failure', FileName: 'gfasud'});
             $rootScope.$digest();
 
-            expect(apiFactory.track.convert).toHaveBeenCalledWith(125);
+            expect(ApiFactory.track.convert).toHaveBeenCalledWith(125);
             expect(track.conversionPromise).not.toBeDefined();
             expect(onSuccess).not.toHaveBeenCalled();
             expect(onErr).toHaveBeenCalledWith(undefined);
@@ -185,7 +185,7 @@ describe('app.services.player.trackManagerService', function() {
             convertSpies[125].reject('asdgi8nasdg');
             $rootScope.$digest();
 
-            expect(apiFactory.track.convert).toHaveBeenCalledWith(125);
+            expect(ApiFactory.track.convert).toHaveBeenCalledWith(125);
             expect(track.conversionPromise).not.toBeDefined();
             expect(onSuccess).not.toHaveBeenCalled();
             expect(onErr).toHaveBeenCalledWith(undefined);

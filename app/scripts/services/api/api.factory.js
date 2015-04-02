@@ -2,10 +2,10 @@
     'use strict';
 
     angular.module('app.services.api')
-        .service('apiFactory', apiFactory);
+        .service('ApiFactory', ApiFactory);
 
     /* @ngInject */
-    function apiFactory(httpFactory, sessionService) {
+    function ApiFactory(HttpFactory, sessionService) {
         function authRequest(command) {
             var session = sessionService.getSession();
 
@@ -15,7 +15,7 @@
         function unauthRequest(command) {
             var url = sessionService.jsonURL;
 
-            return new httpFactory(command, url);
+            return new HttpFactory(command, url);
         }
 
         return {

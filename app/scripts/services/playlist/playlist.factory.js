@@ -2,10 +2,10 @@
     'use strict';
 
     angular.module('app.services.playlist')
-        .factory('playlistFactory', playlistFactory);
+        .factory('PlaylistFactory', PlaylistFactory);
 
     /* @ngInject */
-    function playlistFactory(apiFactory, $q) {
+    function PlaylistFactory(ApiFactory, $q) {
         return function() {
             var service = {};
             var tracks = [];
@@ -40,7 +40,7 @@
 
             function addTracksByAlbum(albumId) {
                 var deferred = $q.defer();
-                apiFactory.track.getFromAlbum(albumId).bound(0, 1000).submit()
+                ApiFactory.track.getFromAlbum(albumId).bound(0, 1000).submit()
                     .then(function(tracks) {
                         addTracks(tracks);
                         deferred.resolve();
@@ -52,7 +52,7 @@
 
             function addTracksByArtist(artistId) {
                 var deferred = $q.defer();
-                apiFactory.track.getFromArtist(artistId).bound(0, 1000).submit()
+                ApiFactory.track.getFromArtist(artistId).bound(0, 1000).submit()
                     .then(function(tracks) {
                         addTracks(tracks);
                         deferred.resolve();

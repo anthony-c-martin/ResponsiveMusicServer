@@ -64,7 +64,7 @@ describe('app.components.search.amSearch', function() {
             });
             scope.$digest();
 
-            expect(element.find('.search-results').find('.search.tracks').find('li[track]').length).toBe(2);
+            expect(element.find('.search-results').find('.search.tracks').find('li[am-track]').length).toBe(2);
         });
 
         it('should call redirectToResults if Show All is clicked for the tracks', function() {
@@ -90,7 +90,7 @@ describe('app.components.search.amSearch', function() {
             });
             scope.$digest();
 
-            expect(element.find('.search-results').find('.search.albums').find('li[album]').length).toBe(2);
+            expect(element.find('.search-results').find('.search.albums').find('li[am-album]').length).toBe(2);
         });
 
         it('should call redirectToResults if Show All is clicked for the albums', function() {
@@ -116,7 +116,7 @@ describe('app.components.search.amSearch', function() {
             });
             scope.$digest();
 
-            expect(element.find('.search-results').find('.search.artists').find('li[artist]').length).toBe(2);
+            expect(element.find('.search-results').find('.search.artists').find('li[am-artist]').length).toBe(2);
         });
 
         it('should call redirectToResults if Show All is clicked for the artists', function() {

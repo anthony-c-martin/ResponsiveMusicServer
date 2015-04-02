@@ -5,7 +5,7 @@
         .controller('SearchController', SearchController);
 
     /* @ngInject */
-    function SearchController($rootScope, $q, apiFactory) {
+    function SearchController($rootScope, $q, ApiFactory) {
         var ctrl = this;
 
         var searchResults = {
@@ -19,9 +19,9 @@
             ctrl.searchShown = true;
 
             $q.all({
-                artists: apiFactory.artist.search(ctrl.searchText).bound(0, 5).submit(),
-                albums: apiFactory.album.search(ctrl.searchText).bound(0, 5).submit(),
-                tracks: apiFactory.track.search(ctrl.searchText).bound(0, 5).submit()
+                artists: ApiFactory.artist.search(ctrl.searchText).bound(0, 5).submit(),
+                albums: ApiFactory.album.search(ctrl.searchText).bound(0, 5).submit(),
+                tracks: ApiFactory.track.search(ctrl.searchText).bound(0, 5).submit()
             }).then(function(results) {
                 searchResults.artists = results.artists;
                 searchResults.albums = results.albums;

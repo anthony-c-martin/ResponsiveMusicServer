@@ -6,6 +6,8 @@
 
     /* @ngInject */
     function sessionService($window) {
+        /* jshint validthis: true */
+
         function setSession(newSession) {
             $window.sessionStorage.sessionKey = newSession.Key;
             $window.sessionStorage.sessionSecret = newSession.Secret;

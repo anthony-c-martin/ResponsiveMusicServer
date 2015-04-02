@@ -5,10 +5,10 @@
         .controller('PlaylistController', PlaylistController);
 
     /* @ngInject */
-    function PlaylistController($scope, playerService, selectableTracksFactory) {
+    function PlaylistController($scope, playerService, SelectableTracksFactory) {
         var playlist = playerService.playlist;
 
-        $scope.trackArea = new selectableTracksFactory();
+        $scope.trackArea = new SelectableTracksFactory();
         $scope.trackArea.allTracks = playlist.tracks;
 
         function removeTrack(track) {
