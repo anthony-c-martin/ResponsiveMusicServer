@@ -21,7 +21,7 @@
         };
 
         function linkFunction(scope, element, attrs, ctrl) {
-            var isPlaylistTrack = (attrs.playlistTrack !== undefined);
+            var isPlaylistTrack = (attrs.amPlaylistTrack !== undefined);
 
             scope.addable = true;
             scope.closable = false;

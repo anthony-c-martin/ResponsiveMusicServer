@@ -1,36 +1,23 @@
-'use strict';
-
-describe('Directive: dragImage', function() {
+/* jshint -W117, -W030 */
+describe('app.components.misc.amDragImage', function() {
 
     var element,
-        scope,
-        $rootScope,
-        $parentScope,
-        $q,
-        $compile,
-        draggableDataService;
+        scope;
 
-    beforeEach(function() {
-        module('musicServerApp');
+    beforeEach(module('app.components.misc'));
 
-        inject(function($injector) {
-            $rootScope = $injector.get('$rootScope');
-            $parentScope = $rootScope.$new();
-            $q = $injector.get('$q');
-            $compile = $injector.get('$compile');
-            draggableDataService = $injector.get('draggableDataService');
+    beforeEach(inject(function($compile, draggableDataService, $rootScope) {
+        window.draggableDataService = draggableDataService;
 
-            draggableDataService.getDragElement = null;
-            element = angular.element(
-                '<div drag-image></div>'
-            );
+        element = angular.element(
+            '<div am-drag-image></div>'
+        );
 
-            $compile(element)($parentScope);
-            $parentScope.$digest();
+        $compile(element)($rootScope);
+        $rootScope.$digest();
 
-            scope = element.scope();
-        });
-    });
+        scope = element.scope();
+    }));
 
     describe('initialisation', function() {
         it('should set draggableDataService.getDragElement', function() {

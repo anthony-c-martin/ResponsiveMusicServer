@@ -1,35 +1,25 @@
-'use strict';
-
-describe('Directive: audioSource', function() {
+/* jshint -W117, -W030 */
+describe('app.components.misc.amAudioSource', function() {
 
     var element,
-        playerService,
-        scope,
-        $rootScope,
-        $parentScope,
-        $compile;
+        scope;
 
-    beforeEach(function() {
-        module('musicServerApp');
+    beforeEach(module('app.components.misc'));
 
-        inject(function($injector) {
-            $compile = $injector.get('$compile');
-            $rootScope = $injector.get('$rootScope');
-            $parentScope = $rootScope.$new();
-            playerService = $injector.get('playerService');
+    beforeEach(inject(function($compile, playerService, $rootScope) {
+        window.$rootScope = $rootScope;
+        window.playerService = playerService;
 
-            element = angular.element(
-                '<audio audio-source></audio>'
-            );
+        element = angular.element(
+            '<audio am-audio-source></audio>'
+        );
 
-            $compile(element)($parentScope);
-            $parentScope.$digest();
+        $compile(element)($rootScope);
+        $rootScope.$digest();
 
-            scope = element.scope();
-
-            spyOn(scope, '$apply').and.callThrough();
-        });
-    });
+        scope = element.scope();
+        spyOn(scope, '$apply').and.callThrough();
+    }));
 
     describe('audio.play event', function() {
         it('should call scope.$apply and call playerService.audioHooks.play', function() {
@@ -178,7 +168,7 @@ describe('Directive: audioSource', function() {
             expect(element[0].play).toHaveBeenCalledWith();
         });
 
-        it('should not call play if the src property is not set, and should call pause and positionChange on the playerService.audioHooks object', function() {
+        it('should not play if there is no source, and should call pause and reset the playerService', function() {
             spyOn(playerService.audioHooks, 'pause');
             spyOn(playerService.audioHooks, 'positionChange');
             $rootScope.$emit('playerService.playNew', {src: '', type: ''});
