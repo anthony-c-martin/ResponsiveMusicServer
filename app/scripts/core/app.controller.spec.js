@@ -1,63 +1,30 @@
-'use strict';
-
-function getMockMatchMedia() {
-    var onDesktopCallback;
-    var onPhoneCallback;
-
-    return {
-        onDesktop: function(callback) {
-            onDesktopCallback = callback;
-        },
-        testOnDesktop: function(onDesktop) {
-            onDesktopCallback({
-                matches: onDesktop
-            });
-        },
-        onPhone: function(callback) {
-            onPhoneCallback = callback;
-        },
-        testOnPhone: function(onPhone) {
-            onPhoneCallback({
-                matches: onPhone
-            });
-        }
-    };
-}
-
-describe('Controller: AppController', function() {
+/* jshint -W117, -W030 */
+describe('app.core.AppController', function() {
 
     var controller,
-        $scope,
-        $rootScope,
-        $location,
-        mockMatchmedia,
-        sessionService,
-        ApiFactory,
-        $q;
+        mockMatchmedia;
 
-    beforeEach(function() {
-        module('app');
+    beforeEach(module('app.core'));
 
-        inject(function($injector) {
-            $q = $injector.get('$q');
-            $rootScope = $injector.get('$rootScope');
-            $location = $injector.get('$location');
-            $scope = $rootScope.$new();
-            sessionService = $injector.get('sessionService');
-            ApiFactory = $injector.get('ApiFactory');
-            mockMatchmedia = getMockMatchMedia();
-            var $controller = $injector.get('$controller');
+    beforeEach(inject(function($controller, $q, $rootScope, $location, sessionService, ApiFactory) {
+        mockMatchmedia = getMockMatchMedia();
 
-            controller = $controller('AppController', {
-                $scope: $scope,
-                $rootScope: $rootScope,
-                $location: $location,
-                matchmedia: mockMatchmedia,
-                sessionService: sessionService,
-                ApiFactory: ApiFactory
-            });
+        window.$q = $q;
+        window.$rootScope = $rootScope;
+        window.$location = $location;
+        window.sessionService = sessionService;
+        window.ApiFactory = ApiFactory;
+        window.$scope = $rootScope.$new();
+
+        controller = $controller('AppController', {
+            $scope: $scope,
+            $rootScope: $rootScope,
+            $location: $location,
+            matchmedia: mockMatchmedia,
+            sessionService: sessionService,
+            ApiFactory: ApiFactory
         });
-    });
+    }));
 
     describe('matchmedia events', function() {
         it('should set the isDeskop scope variable when the onDesktop callback function is called', function() {
@@ -128,7 +95,8 @@ describe('Controller: AppController', function() {
             spyOn(controller, 'verifyLoggedIn');
             $rootScope.$emit('ResponseUnauthorised');
 
-            expect($rootScope.$emit).toHaveBeenCalledWith('app.components.error.ErrorMessage', 'Your session has timed out, and you have been logged out.');
+            expect($rootScope.$emit).toHaveBeenCalledWith('app.components.error.ErrorMessage',
+                'Your session has timed out, and you have been logged out.');
             expect(sessionService.clearSession).toHaveBeenCalled();
             expect(sessionService.clearSession.calls.count()).toBe(1);
             expect(controller.verifyLoggedIn).toHaveBeenCalled();
@@ -224,4 +192,28 @@ describe('Controller: AppController', function() {
             expect($location.path.calls.count()).toBe(1);
         });
     });
+
+    function getMockMatchMedia() {
+        var onDesktopCallback;
+        var onPhoneCallback;
+
+        return {
+            onDesktop: function(callback) {
+                onDesktopCallback = callback;
+            },
+            testOnDesktop: function(onDesktop) {
+                onDesktopCallback({
+                    matches: onDesktop
+                });
+            },
+            onPhone: function(callback) {
+                onPhoneCallback = callback;
+            },
+            testOnPhone: function(onPhone) {
+                onPhoneCallback({
+                    matches: onPhone
+                });
+            }
+        };
+    }
 });

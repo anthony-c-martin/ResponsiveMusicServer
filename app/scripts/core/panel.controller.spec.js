@@ -1,38 +1,28 @@
-'use strict';
-
-describe('Controller: PanelController', function() {
+/* jshint -W117, -W030 */
+describe('app.core.PanelController', function() {
 
     var controller,
         mockTracks,
-        mockSelectableTracksFactory,
-        SelectableTracksFactory,
-        $scope,
-        $rootScope,
-        $q;
+        mockSelectableTracksFactory;
 
-    beforeEach(function() {
+    beforeEach(module('app.core'));
+
+    beforeEach(inject(function($controller, $rootScope) {
         mockTracks = {};
         mockSelectableTracksFactory = {};
+        var $scope = $rootScope.$new();
+        $scope.tracks = mockTracks;
 
-        module('app', function($provide) {
-            $provide.value('SelectableTracksFactory', jasmine.createSpy('SelectableTracksFactorySpy').and.returnValue(mockSelectableTracksFactory));
+        window.SelectableTracksFactory = jasmine.createSpy('SelectableTracksFactorySpy').and.returnValue(mockSelectableTracksFactory);
+        window.$scope = $scope;
+        window.$rootScope = $rootScope;
+
+        controller = $controller('PanelController', {
+            $rootScope: $rootScope,
+            $scope: $scope,
+            SelectableTracksFactory: SelectableTracksFactory
         });
-
-        inject(function($injector) {
-            $q = $injector.get('$q');
-            $rootScope = $injector.get('$rootScope');
-            $scope = $rootScope.$new();
-            $scope.tracks = mockTracks;
-            SelectableTracksFactory = $injector.get('SelectableTracksFactory');
-            var $controller = $injector.get('$controller');
-
-            controller = $controller('PanelController', {
-                $rootScope: $rootScope,
-                $scope: $scope,
-                SelectableTracksFactory: SelectableTracksFactory
-            });
-        });
-    });
+    }));
 
     it('should show artists, albums and tracks when in desktop mode and nothing selected', function() {
         $scope.isDesktop = true;
@@ -205,7 +195,7 @@ describe('Controller: PanelController', function() {
     });
 
     it('should set the selectedAlbum on receiving the selectAlbum event', function() {
-        var mockAlbum = { };
+        var mockAlbum = {};
         controller.selectedAlbum = null;
 
         $rootScope.$emit('selectAlbum', mockAlbum);

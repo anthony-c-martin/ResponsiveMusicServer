@@ -75,17 +75,11 @@ gulp.task('wiredep', function() {
         .pipe(gulp.dest(appConfig.app));
 });
 
-gulp.task('jshint:all', function() {
+gulp.task('jshint', function() {
     return gulp.src([
             'gulpfile.js',
             appConfig.app + '/scripts/**/*.js'
         ])
-        .pipe($.jshint())
-        .pipe($.jshint.reporter(jshintStylish));
-});
-
-gulp.task('jshint:test', function() {
-    return gulp.src([appConfig.app + '/tests/spec/{,*/}*.js'])
         .pipe($.jshint())
         .pipe($.jshint.reporter(jshintStylish));
 });
@@ -194,11 +188,7 @@ gulp.task('watch', function() {
     gulp.watch([
         appConfig.app + '/scripts/**/*.js',
         appConfig.app + '/scripts/**/*.spec.js'
-    ], ['jshint:all', 'inject']);
-    gulp.watch([
-        appConfig.app + '/scripts/**/*.spec.js',
-        'test/spec/{,*/}*.js'
-    ], ['jshint:test', 'karma']);
+    ], ['jshint', 'karma', 'inject']);
     gulp.watch(appConfig.app + '/styles/{,*/}*.scss', ['sass']);
     gulp.watch([
         appConfig.app + '/**/*.html',
