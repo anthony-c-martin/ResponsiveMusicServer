@@ -1,7 +1,7 @@
-<form ng-submit="vm.search()" body-event-handler="search" class="controls controls-nav shrinkable controls-search">
+<form ng-submit="vm.search()" am-body-event-handler="search" class="controls controls-nav shrinkable controls-search">
     <div ng-show="vm.searchShown" class="dropdown-search">
         <div class="arrow"></div>
-        <div ng-switch="vm.inProgress" body-event-handler="search" class="inner">
+        <div ng-switch="vm.inProgress" am-body-event-handler="search" class="inner">
             <div ng-switch-when="true" class="search-loading">
                 <ul class="search">
                     <li class="desc">Loading...</li>

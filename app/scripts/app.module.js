@@ -1,9 +1,11 @@
 (function() {
     'use strict';
 
-    angular.module('musicServerApp', [
+    angular.module('app', [
         'app.components',
         'app.core',
-        'app.services'
+        'app.services',
+        'app.music',
+        'app.login'
     ]);
 })();

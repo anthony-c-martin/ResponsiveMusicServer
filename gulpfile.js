@@ -75,17 +75,11 @@ gulp.task('wiredep', function() {
         .pipe(gulp.dest(appConfig.app));
 });
 
-gulp.task('jshint:all', function() {
+gulp.task('jshint', function() {
     return gulp.src([
             'gulpfile.js',
             appConfig.app + '/scripts/**/*.js'
         ])
-        .pipe($.jshint())
-        .pipe($.jshint.reporter(jshintStylish));
-});
-
-gulp.task('jshint:test', function() {
-    return gulp.src([appConfig.app + '/tests/spec/{,*/}*.js'])
         .pipe($.jshint())
         .pipe($.jshint.reporter(jshintStylish));
 });
@@ -112,20 +106,7 @@ gulp.task('imagemin', function() {
         .pipe(gulp.dest(appConfig.dist + '/images'));
 });
 
-gulp.task('templatecache_old', function() {
-    return gulp.src([appConfig.app + '/views/**/*.html'])
-        .pipe($.minifyHtml({empty: true}))
-        .pipe($.angularTemplatecache(
-            'app.oldviews.js', {
-                module: 'app.core',
-                root: 'views/',
-                standAlone: false
-            }
-        ))
-        .pipe(gulp.dest('.tmp/scripts'));
-});
-
-gulp.task('templatecache', ['templatecache_old'], function() {
+gulp.task('templatecache', function() {
     return gulp.src([appConfig.app + '/scripts/**/*.html'])
         .pipe($.minifyHtml({empty: true}))
         .pipe($.angularTemplatecache(
@@ -136,12 +117,6 @@ gulp.task('templatecache', ['templatecache_old'], function() {
             }
         ))
         .pipe(gulp.dest('.tmp/scripts'));
-});
-
-gulp.task('htmlmin', function() {
-    return gulp.src([appConfig.app + '/views/{,*/}*.html'])
-        .pipe($.minifyHtml({empty: true}))
-        .pipe(gulp.dest(appConfig.dist + '/views'));
 });
 
 gulp.task('copy:dist', function() {
@@ -213,11 +188,7 @@ gulp.task('watch', function() {
     gulp.watch([
         appConfig.app + '/scripts/**/*.js',
         appConfig.app + '/scripts/**/*.spec.js'
-    ], ['jshint:all', 'inject']);
-    gulp.watch([
-        appConfig.app + '/scripts/**/*.spec.js',
-        'test/spec/{,*/}*.js'
-    ], ['jshint:test', 'karma']);
+    ], ['jshint', 'karma', 'inject']);
     gulp.watch(appConfig.app + '/styles/{,*/}*.scss', ['sass']);
     gulp.watch([
         appConfig.app + '/**/*.html',
@@ -239,7 +210,7 @@ gulp.task('build', function() {
     runSequence(
         ['clean:dist', 'wiredep'],
         ['sass', 'copy:fontawesome', 'copy:bootstrap', 'copy:dist'],
-        ['imagemin', 'htmlmin', 'inject'],
+        ['imagemin', 'inject'],
         'usemin'
     );
 });

@@ -13,7 +13,7 @@ describe('app.components.track.amTrack', function() {
             '<li am-track="track"></li>'
         );
         playlistElement = angular.element(
-            '<li am-track="track" playlist-track="true"></li>'
+            '<li am-track="track" am-playlist-track="true"></li>'
         );
 
         $rootScope.track = {Name: 'Track 1'};
@@ -70,23 +70,23 @@ describe('app.components.track.amTrack', function() {
     });
 
     describe('addable', function() {
-        it('should display the add and play buttons if the playlist-track attribute is not set', function() {
+        it('should display the add and play buttons if the am-playlist-track attribute is not set', function() {
             expect(element.find('button.control-add').length).toBe(1);
             expect(element.find('button.control-play').length).toBe(1);
         });
 
-        it('should not display the add and play buttons if the playlist-track attribute is set', function() {
+        it('should not display the add and play buttons if the am-playlist-track attribute is set', function() {
             expect(playlistElement.find('button.control-add').length).toBe(0);
             expect(playlistElement.find('button.control-play').length).toBe(0);
         });
     });
 
     describe('closable', function() {
-        it('should display the close button if the playlist-track attribute is not set', function() {
+        it('should display the close button if the am-playlist-track attribute is not set', function() {
             expect(playlistElement.find('button.control-remove').length).toBe(1);
         });
 
-        it('should not display the closable button if the playlist-track attribute is set', function() {
+        it('should not display the closable button if the am-playlist-track attribute is set', function() {
             expect(element.find('button.control-remove').length).toBe(0);
         });
     });
