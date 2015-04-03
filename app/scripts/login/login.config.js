@@ -9,13 +9,13 @@
         $routeProvider.
             when('/login', {
                 controller: 'LoginController',
-                controllerAs: 'loginCtrl',
+                controllerAs: 'vm',
                 templateUrl: 'scripts/login/login.html',
                 title: 'Login'
             }).
             when('/login/:token/:auth', {
                 controller: 'LoginController',
-                controllerAs: 'loginCtrl',
+                controllerAs: 'vm',
                 templateUrl: 'scripts/login/login.html',
                 title: 'Login'
             });

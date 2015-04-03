@@ -1,11 +1,11 @@
 (function() {
     'use strict';
 
-    angular.module('app.main')
-        .controller('MainController', MainController);
+    angular.module('app.music')
+        .controller('MusicController', MusicController);
 
     /* @ngInject */
-    function MainController($scope, $rootScope, $routeParams, DataLoaderFactory, ApiFactory) {
+    function MusicController($scope, $rootScope, $routeParams, DataLoaderFactory, ApiFactory) {
         var ctrl = this;
 
         function loadArtists() {

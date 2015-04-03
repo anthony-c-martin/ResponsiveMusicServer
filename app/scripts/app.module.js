@@ -5,7 +5,7 @@
         'app.components',
         'app.core',
         'app.services',
-        'app.main',
+        'app.music',
         'app.login'
     ]);
 })();

@@ -1,5 +1,5 @@
 /* jshint -W117, -W030 */
-describe('app.main.MainController', function() {
+describe('app.music.MusicController', function() {
 
     var controller,
         $scope;
@@ -9,7 +9,7 @@ describe('app.main.MainController', function() {
         fetch: function() {},
     };
 
-    beforeEach(module('app.main'));
+    beforeEach(module('app.music'));
 
     beforeEach(inject(function($controller, $rootScope, playerService, ApiFactory) {
         $scope = $rootScope.$new();
@@ -19,7 +19,7 @@ describe('app.main.MainController', function() {
         window.ApiFactory = ApiFactory;
 
         spyOn(ApiFactory.artist, 'getAll').and.returnValue(artistGetAllOutput);
-        controller = $controller('MainController', {
+        controller = $controller('MusicController', {
             $rootScope: $rootScope,
             $scope: $scope,
             DataLoaderFactory: DataLoaderFactory,
