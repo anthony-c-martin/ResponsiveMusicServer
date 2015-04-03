@@ -112,20 +112,7 @@ gulp.task('imagemin', function() {
         .pipe(gulp.dest(appConfig.dist + '/images'));
 });
 
-gulp.task('templatecache_old', function() {
-    return gulp.src([appConfig.app + '/views/**/*.html'])
-        .pipe($.minifyHtml({empty: true}))
-        .pipe($.angularTemplatecache(
-            'app.oldviews.js', {
-                module: 'app.core',
-                root: 'views/',
-                standAlone: false
-            }
-        ))
-        .pipe(gulp.dest('.tmp/scripts'));
-});
-
-gulp.task('templatecache', ['templatecache_old'], function() {
+gulp.task('templatecache', function() {
     return gulp.src([appConfig.app + '/scripts/**/*.html'])
         .pipe($.minifyHtml({empty: true}))
         .pipe($.angularTemplatecache(
@@ -136,12 +123,6 @@ gulp.task('templatecache', ['templatecache_old'], function() {
             }
         ))
         .pipe(gulp.dest('.tmp/scripts'));
-});
-
-gulp.task('htmlmin', function() {
-    return gulp.src([appConfig.app + '/views/{,*/}*.html'])
-        .pipe($.minifyHtml({empty: true}))
-        .pipe(gulp.dest(appConfig.dist + '/views'));
 });
 
 gulp.task('copy:dist', function() {
@@ -239,7 +220,7 @@ gulp.task('build', function() {
     runSequence(
         ['clean:dist', 'wiredep'],
         ['sass', 'copy:fontawesome', 'copy:bootstrap', 'copy:dist'],
-        ['imagemin', 'htmlmin', 'inject'],
+        ['imagemin', 'inject'],
         'usemin'
     );
 });

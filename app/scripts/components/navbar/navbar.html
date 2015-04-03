@@ -24,7 +24,7 @@
                 </button>
                 <am-volume-control current-audio="vm.current" volume-update="vm.volumeUpdate" ng-show="vm.volumeShown"></am-volume-control>
             </div>
-            <button ng-click="appCtrl.toggleScrobblingEnabled()" ng-class="{active: appCtrl.scrobblingEnabled}" type="button" class="control">
+            <button ng-click="vm.toggleScrobblingEnabled()" ng-class="{active: vm.scrobblingEnabled}" type="button" class="control">
                 <i class="fa fa-lastfm"></i>
             </button>
         </div>

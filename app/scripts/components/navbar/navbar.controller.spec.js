@@ -5,15 +5,25 @@ describe('app.components.navbar.NavbarController', function() {
 
     beforeEach(module('app.components.navbar'));
 
-    beforeEach(inject(function($controller, $rootScope, playerService) {
+    beforeEach(inject(function($controller, $rootScope, playerService, sessionService) {
+        window.sessionService = sessionService;
         window.$rootScope = $rootScope;
         window.playerService = playerService;
+        spyOn(sessionService, 'getUserPreference').and.returnValue('fakeScrobblingEnabled');
 
         controller = $controller('NavbarController', {
             playerService: playerService,
+            sessionService: sessionService,
             $rootScope: $rootScope
         });
     }));
+
+    describe('initialisation', function() {
+        it('should load the scrobbling user preferences', function() {
+            expect(sessionService.getUserPreference).toHaveBeenCalledWith('ScrobblingEnabled');
+            expect(controller.scrobblingEnabled).toBe('fakeScrobblingEnabled');
+        });
+    });
 
     describe('togglePause', function() {
         it('should call togglePause on the playerService', function() {
@@ -62,6 +72,29 @@ describe('app.components.navbar.NavbarController', function() {
             controller.positionUpdate(0.7);
 
             expect(playerService.controlHooks.positionUpdate).toHaveBeenCalledWith(0.7);
+        });
+    });
+
+    describe('toggleScrobblingEnabled', function() {
+        beforeEach(function() {
+            spyOn(sessionService, 'setUserPreference');
+        });
+        it('should update the scope and preferences when toggleScrobblingEnabled is called', function() {
+            controller.scrobblingEnabled = false;
+
+            controller.toggleScrobblingEnabled();
+
+            expect(controller.scrobblingEnabled).toBeTruthy();
+            expect(sessionService.setUserPreference).toHaveBeenCalledWith('ScrobblingEnabled', true);
+        });
+
+        it('should set update the preferences and enable scrobbling', function() {
+            controller.scrobblingEnabled = true;
+
+            controller.toggleScrobblingEnabled();
+
+            expect(controller.scrobblingEnabled).toBeFalsy();
+            expect(sessionService.setUserPreference).toHaveBeenCalledWith('ScrobblingEnabled', false);
         });
     });
 });

@@ -33,7 +33,6 @@ module.exports = function(config) {
             'app/scripts/**/*.module.js',
             'app/scripts/**/*.js',
             '.tmp/scripts/app.views.js',
-            '.tmp/scripts/app.oldviews.js',
             'test/mock/**/*.js',
             'test/spec/**/*.js'
         ],

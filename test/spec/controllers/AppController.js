@@ -93,24 +93,6 @@ describe('Controller: AppController', function() {
         });
     });
 
-    describe('toggleScrobblingEnabled', function() {
-        it('should update the scope and preferences when toggleScrobblingEnabled is called', function() {
-            spyOn(sessionService, 'setUserPreference');
-
-            controller.scrobblingEnabled = false;
-            controller.toggleScrobblingEnabled();
-            expect(controller.scrobblingEnabled).toBeTruthy();
-            expect(sessionService.setUserPreference).toHaveBeenCalledWith('ScrobblingEnabled', true);
-            expect(sessionService.setUserPreference.calls.count()).toBe(1);
-
-            controller.scrobblingEnabled = true;
-            controller.toggleScrobblingEnabled();
-            expect(controller.scrobblingEnabled).toBeFalsy();
-            expect(sessionService.setUserPreference).toHaveBeenCalledWith('ScrobblingEnabled', false);
-            expect(sessionService.setUserPreference.calls.count()).toBe(2);
-        });
-    });
-
     describe('event handling', function() {
         it('should change location on the rootScope changeLocation event', function() {
             spyOn($location, 'path');
@@ -174,15 +156,10 @@ describe('Controller: AppController', function() {
             expect(sessionService.setSession).toHaveBeenCalledWith(loginSuccessData);
 
             expect(ApiFactory.session.getUserPreferences).toHaveBeenCalled();
-            expect(ApiFactory.session.getUserPreferences.calls.count()).toBe(1);
 
             $scope.$digest();
 
             expect(sessionService.setUserPreferences).toHaveBeenCalledWith(userPreferencesData);
-            expect(sessionService.setUserPreferences.calls.count()).toBe(1);
-            expect(sessionService.getUserPreference).toHaveBeenCalledWith('ScrobblingEnabled');
-            expect(sessionService.getUserPreference.calls.count()).toBe(1);
-            expect(controller.scrobblingEnabled).toBe('asdgsdagu8as7gf');
         });
     });
 
@@ -191,33 +168,13 @@ describe('Controller: AppController', function() {
             spyOn(sessionService, 'getSession').and.returnValue({
                 Key: 'adbssadf'
             });
-            spyOn(sessionService, 'getUserPreference').and.returnValue(true);
             spyOn($location, 'path').and.returnValue('/asdfbiuasbfi');
 
             controller.verifyLoggedIn();
 
             expect(controller.loggedIn).toBeTruthy();
-            expect(sessionService.getUserPreference).toHaveBeenCalledWith('ScrobblingEnabled');
-            expect(sessionService.getUserPreference.calls.count()).toBe(1);
-            expect(controller.scrobblingEnabled).toBeTruthy();
-
             expect($location.path).toHaveBeenCalledWith();
             expect($location.path.calls.count()).toBe(1);
-        });
-
-        it('should set the scrobblingEnabled scope variable when the verifyLoggedIn function is called', function() {
-            spyOn(sessionService, 'getSession').and.returnValue({
-                Key: 'adbssadf'
-            });
-            spyOn(sessionService, 'getUserPreference').and.returnValue(false);
-            spyOn($location, 'path').and.returnValue('/asdfbiuasbfi');
-
-            controller.verifyLoggedIn();
-
-            expect(controller.loggedIn).toBeTruthy();
-            expect(sessionService.getUserPreference).toHaveBeenCalledWith('ScrobblingEnabled');
-            expect(sessionService.getUserPreference.calls.count()).toBe(1);
-            expect(controller.scrobblingEnabled).toBeFalsy();
         });
 
         it('should redirect the user to /login if verifyLoggedIn is called and a session key is not set', function() {

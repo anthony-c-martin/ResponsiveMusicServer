@@ -25,12 +25,6 @@ angular.module('musicServerApp')
                 if (!ctrl.loggedIn && !currentPath.match(loginRegex)) {
                     $location.path('/login');
                 }
-                ctrl.scrobblingEnabled = sessionService.getUserPreference('ScrobblingEnabled');
-            }
-
-            function toggleScrobblingEnabled() {
-                ctrl.scrobblingEnabled = !ctrl.scrobblingEnabled;
-                sessionService.setUserPreference('ScrobblingEnabled', ctrl.scrobblingEnabled);
             }
 
             function onBeforeUnload() {
@@ -50,7 +44,6 @@ angular.module('musicServerApp')
                 $location.path('/music');
                 ApiFactory.session.getUserPreferences().submit().then(function(data) {
                     sessionService.setUserPreferences(data);
-                    ctrl.scrobblingEnabled = sessionService.getUserPreference('ScrobblingEnabled');
                 });
             }
 
@@ -79,9 +72,7 @@ angular.module('musicServerApp')
             angular.extend(this, {
                 errorMessage: '',
                 loggedIn: false,
-                scrobblingEnabled: false,
-                verifyLoggedIn: verifyLoggedIn,
-                toggleScrobblingEnabled: toggleScrobblingEnabled
+                verifyLoggedIn: verifyLoggedIn
             });
 
             ctrl.verifyLoggedIn();

@@ -4,7 +4,8 @@
     angular.module('app.components.navbar')
         .controller('NavbarController', NavbarController);
 
-    function NavbarController(playerService, $rootScope) {
+    /* @ngInject */
+    function NavbarController(playerService, $rootScope, sessionService) {
         var ctrl = this;
 
         function togglePause() {
@@ -27,6 +28,11 @@
             playerService.controlHooks.positionUpdate(position);
         }
 
+        function toggleScrobblingEnabled() {
+            ctrl.scrobblingEnabled = !ctrl.scrobblingEnabled;
+            sessionService.setUserPreference('ScrobblingEnabled', ctrl.scrobblingEnabled);
+        }
+
         //TODO wrap all the hideDropdowns functionality in a directive
         $rootScope.$on('hideDropdowns', function(e, data) {
             if (!(data && data === 'volume')) {
@@ -35,6 +41,8 @@
         });
 
         angular.extend(this, {
+            scrobblingEnabled: sessionService.getUserPreference('ScrobblingEnabled'),
+            toggleScrobblingEnabled: toggleScrobblingEnabled,
             volumeShown: false,
             togglePause: togglePause,
             nextTrack: nextTrack,
