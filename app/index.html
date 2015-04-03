@@ -21,7 +21,7 @@
         <div am-navbar ng-if="appCtrl.loggedIn"></div>
         <div class="container">
             <div ng-view class="view-container"></div>
-            <error-modal error-message="appCtrl.errorMessage"></error-modal>
+            <am-error></am-error>
         </div>
         <div drag-image class="drag-image"></div>
     </div>
@@ -53,8 +53,9 @@
     <script src="scripts/components/components.module.js"></script>
     <script src="scripts/core/core.module.js"></script>
     <script src="scripts/services/services.module.js"></script>
-    <script src="scripts/components/artist/artist.module.js"></script>
     <script src="scripts/components/album/album.module.js"></script>
+    <script src="scripts/components/artist/artist.module.js"></script>
+    <script src="scripts/components/error/error.module.js"></script>
     <script src="scripts/components/navbar/navbar.module.js"></script>
     <script src="scripts/components/playlist/playlist.module.js"></script>
     <script src="scripts/components/search/search.module.js"></script>
@@ -73,12 +74,13 @@
     <script src="scripts/directives/audioSource.js"></script>
     <script src="scripts/directives/bodyEventHandler.js"></script>
     <script src="scripts/directives/dragImage.js"></script>
-    <script src="scripts/directives/errorModal.js"></script>
     <script src="scripts/directives/scrollLoader.js"></script>
-    <script src="scripts/components/artist/artist.controller.js"></script>
-    <script src="scripts/components/artist/artist.directive.js"></script>
     <script src="scripts/components/album/album.controller.js"></script>
     <script src="scripts/components/album/album.directive.js"></script>
+    <script src="scripts/components/artist/artist.controller.js"></script>
+    <script src="scripts/components/artist/artist.directive.js"></script>
+    <script src="scripts/components/error/error.controller.js"></script>
+    <script src="scripts/components/error/error.directive.js"></script>
     <script src="scripts/components/navbar/navbar.directive.js"></script>
     <script src="scripts/components/navbar/playlistButton.directive.js"></script>
     <script src="scripts/components/navbar/positionControl.directive.js"></script>

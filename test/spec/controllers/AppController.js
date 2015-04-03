@@ -140,36 +140,13 @@ describe('Controller: AppController', function() {
             expect($rootScope.title).toBe('asoduafg8asdfi76t79');
         });
 
-        it('should set the errorMessage scope variable on the rootScope errorDisplay event', function() {
-            controller.errorMessage = '';
-            $rootScope.$emit('errorDisplay', 'asduig87gas98f7g8ygiu');
-
-            expect(controller.errorMessage).toBe('asduig87gas98f7g8ygiu');
-        });
-
-        it('should clear the errorMessage on the hideDropdowns event', function() {
-            controller.errorMessage = 'asdfuasuydv';
-            $rootScope.$emit('hideDropdowns', 'noterror');
-
-            expect(controller.errorMessage).toBe('');
-        });
-
-        it('should not clear the errorMessage on the hideDropdowns event with error set', function() {
-            controller.errorMessage = 'asdgkjsbagiaos8';
-            $rootScope.$emit('hideDropdowns', 'error');
-
-            expect(controller.errorMessage).toBe('asdgkjsbagiaos8');
-        });
-
         it('should clear the session, display an error, and call verifyLoggedIn on the ResponseUnauthorised event', function() {
             spyOn($rootScope, '$emit').and.callThrough();
             spyOn(sessionService, 'clearSession');
             spyOn(controller, 'verifyLoggedIn');
             $rootScope.$emit('ResponseUnauthorised');
 
-            expect($rootScope.$emit).toHaveBeenCalledWith('errorDisplay', 'Your session has timed out, and you have been logged out.');
-            // Set to 2 because I'm calling it to initiate this test
-            expect($rootScope.$emit.calls.count()).toBe(2);
+            expect($rootScope.$emit).toHaveBeenCalledWith('app.components.error.ErrorMessage', 'Your session has timed out, and you have been logged out.');
             expect(sessionService.clearSession).toHaveBeenCalled();
             expect(sessionService.clearSession.calls.count()).toBe(1);
             expect(controller.verifyLoggedIn).toHaveBeenCalled();

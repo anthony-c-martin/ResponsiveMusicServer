@@ -7,7 +7,7 @@ angular.module('musicServerApp')
 
             function loginFailed(message) {
                 console.warn(message);
-                $rootScope.$emit('errorDisplay', 'Login attempt failed. Please try again.');
+                $rootScope.$emit('app.components.error.ErrorMessage', 'Login attempt failed. Please try again.');
             }
 
             function getAuthString(username, password, token) {

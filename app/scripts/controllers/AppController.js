@@ -63,19 +63,9 @@ angular.module('musicServerApp')
             }
 
             function onResponseUnauthorised() {
-                $rootScope.$emit('errorDisplay', 'Your session has timed out, and you have been logged out.');
+                $rootScope.$emit('app.components.error.ErrorMessage', 'Your session has timed out, and you have been logged out.');
                 sessionService.clearSession();
                 ctrl.verifyLoggedIn();
-            }
-
-            function onHideDropdowns(e, data) {
-                if (!(data && data === 'error')) {
-                    ctrl.errorMessage = '';
-                }
-            }
-
-            function onErrorDisplay(e, errorMessage) {
-                ctrl.errorMessage = errorMessage;
             }
 
             window.onbeforeunload = onBeforeUnload;
@@ -85,8 +75,6 @@ angular.module('musicServerApp')
             $rootScope.$on('$locationChangeSuccess', onLocationChangeSuccess);
             $rootScope.$on('$routeChangeSuccess', onRouteChangeSuccess);
             $rootScope.$on('ResponseUnauthorised', onResponseUnauthorised);
-            $rootScope.$on('hideDropdowns', onHideDropdowns);
-            $rootScope.$on('errorDisplay', onErrorDisplay);
 
             angular.extend(this, {
                 errorMessage: '',

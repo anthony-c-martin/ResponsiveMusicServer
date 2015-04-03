@@ -74,9 +74,7 @@ describe('Controller: LoginController', function() {
 
             controller.loginFailed('asdiabsiusavfusyavfuysd');
             expect(console.warn).toHaveBeenCalledWith('asdiabsiusavfusyavfuysd');
-            expect(console.warn.calls.count()).toBe(1);
-            expect($rootScope.$emit).toHaveBeenCalledWith('errorDisplay', 'Login attempt failed. Please try again.');
-            expect($rootScope.$emit.calls.count()).toBe(1);
+            expect($rootScope.$emit).toHaveBeenCalledWith('app.components.error.ErrorMessage', 'Login attempt failed. Please try again.');
         });
     });
 

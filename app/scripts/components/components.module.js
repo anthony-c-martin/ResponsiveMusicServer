@@ -7,6 +7,7 @@
         'app.components.search',
         'app.components.track',
         'app.components.artist',
-        'app.components.album'
+        'app.components.album',
+        'app.components.error'
     ]);
 })();
