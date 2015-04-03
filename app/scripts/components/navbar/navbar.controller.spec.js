@@ -1,25 +1,19 @@
-'use strict';
+/* jshint -W117, -W030 */
+describe('app.components.navbar.NavbarController', function() {
 
-describe('Controller: AudioController', function() {
+    var controller;
 
-    var controller,
-        playerService,
-        $rootScope;
+    beforeEach(module('app.components.navbar'));
 
-    beforeEach(function() {
-        module('musicServerApp');
+    beforeEach(inject(function($controller, $rootScope, playerService) {
+        window.$rootScope = $rootScope;
+        window.playerService = playerService;
 
-        inject(function($injector) {
-            $rootScope = $injector.get('$rootScope');
-            playerService = $injector.get('playerService');
-            var $controller = $injector.get('$controller');
-
-            controller = $controller('AudioController', {
-                playerService: playerService,
-                $rootScope: $rootScope
-            });
+        controller = $controller('NavbarController', {
+            playerService: playerService,
+            $rootScope: $rootScope
         });
-    });
+    }));
 
     describe('togglePause', function() {
         it('should call togglePause on the playerService', function() {

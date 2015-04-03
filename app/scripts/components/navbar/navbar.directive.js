@@ -7,9 +7,12 @@
     /* @ngInject */
     function navbar() {
         return {
+            scope: {},
             restrict: 'A',
             replace: true,
-            templateUrl: 'scripts/components/navbar/navbar.html'
+            templateUrl: 'scripts/components/navbar/navbar.html',
+            controller: 'NavbarController',
+            controllerAs: 'vm'
         };
     }
 })();

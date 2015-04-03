@@ -1,45 +1,32 @@
-'use strict';
-
-describe('Controller: MainController', function() {
+/* jshint -W117, -W030 */
+describe('app.main.MainController', function() {
 
     var controller,
-        DataLoaderFactory,
-        playerService,
-        ApiFactory,
-        $rootScope,
-        $scope,
-        $q;
+        $scope;
 
     var artistGetAllOutput = {};
     var mockDataLoaderFactory = {
         fetch: function() {},
     };
 
-    beforeEach(function() {
-        module('musicServerApp', function($provide) {
-            $provide.value('DataLoaderFactory', jasmine.createSpy('DataLoaderFactorySpy').and.returnValue(mockDataLoaderFactory));
+    beforeEach(module('app.main'));
+
+    beforeEach(inject(function($controller, $rootScope, playerService, ApiFactory) {
+        $scope = $rootScope.$new();
+        window.$rootScope = $rootScope;
+        window.DataLoaderFactory = jasmine.createSpy('DataLoaderFactorySpy').and.returnValue(mockDataLoaderFactory);
+        window.playerService = playerService;
+        window.ApiFactory = ApiFactory;
+
+        spyOn(ApiFactory.artist, 'getAll').and.returnValue(artistGetAllOutput);
+        controller = $controller('MainController', {
+            $rootScope: $rootScope,
+            $scope: $scope,
+            DataLoaderFactory: DataLoaderFactory,
+            playerService: playerService,
+            ApiFactory: ApiFactory
         });
-
-        inject(function($injector) {
-            $rootScope = $injector.get('$rootScope');
-            $q = $injector.get('$q');
-            $scope = $rootScope.$new();
-            DataLoaderFactory = $injector.get('DataLoaderFactory');
-            playerService = $injector.get('playerService');
-            ApiFactory = $injector.get('ApiFactory');
-            var $controller = $injector.get('$controller');
-
-            spyOn(ApiFactory.artist, 'getAll').and.returnValue(artistGetAllOutput);
-
-            controller = $controller('MainController', {
-                $rootScope: $rootScope,
-                $scope: $scope,
-                DataLoaderFactory: DataLoaderFactory,
-                playerService: playerService,
-                ApiFactory: ApiFactory
-            });
-        });
-    });
+    }));
 
     describe('initialisation', function() {
         it('should initialise artists, albums and tracks on start', function() {

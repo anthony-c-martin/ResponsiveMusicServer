@@ -1,30 +1,22 @@
-'use strict';
+/* jshint -W117, -W030 */
+describe('app.login.LoginController', function() {
 
-describe('Controller: LoginController', function() {
+    var controller;
 
-    var controller,
-        ApiFactory,
-        $rootScope,
-        $routeParams,
-        $q;
+    beforeEach(module('app.login'));
 
-    beforeEach(function() {
-        module('musicServerApp');
+    beforeEach(inject(function($controller, $rootScope, $routeParams, $q, ApiFactory) {
+        window.$rootScope = $rootScope;
+        window.$routeParams = $routeParams;
+        window.ApiFactory = ApiFactory;
+        window.$q = $q;
 
-        inject(function($injector) {
-            $q = $injector.get('$q');
-            $rootScope = $injector.get('$rootScope');
-            $routeParams = $injector.get('$routeParams');
-            ApiFactory = $injector.get('ApiFactory');
-            var $controller = $injector.get('$controller');
-
-            controller = $controller('LoginController', {
-                $rootScope: $rootScope,
-                $routeParams: $routeParams,
-                ApiFactory: ApiFactory
-            });
+        controller = $controller('LoginController', {
+            $rootScope: $rootScope,
+            $routeParams: $routeParams,
+            ApiFactory: ApiFactory
         });
-    });
+    }));
 
     describe('initialisation', function() {
         it('should initialise the auth object on start', function() {
