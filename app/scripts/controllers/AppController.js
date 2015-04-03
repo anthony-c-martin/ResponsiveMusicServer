@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('musicServerApp')
+angular.module('app')
     .controller('AppController', ['$scope', '$rootScope', '$location', 'matchmedia', 'sessionService', 'ApiFactory',
         function ($scope, $rootScope, $location, matchmedia, sessionService, ApiFactory) {
             var ctrl = this;

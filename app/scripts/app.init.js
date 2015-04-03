@@ -11,11 +11,9 @@
             }
         }
 
-        var modules = ['musicServerApp'];
+        var modules = ['app'];
         addModuleIfPresent(modules, 'mock.api');
 
-        angular.bootstrap(document.querySelector('[data-main-app]'), modules, {
-            //strictDi: true
-        });
+        angular.bootstrap(document.querySelector('[data-main-app]'), modules, {});
     });
 })();

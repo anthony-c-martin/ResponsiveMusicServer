@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('musicServerApp')
+angular.module('app')
     .controller('PanelController', ['$scope', '$rootScope', 'SelectableTracksFactory',
         function($scope, $rootScope, SelectableTracksFactory) {
             var ctrl = this;

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mock.api', ['musicServerApp', 'ngMockE2E'])
+angular.module('mock.api', ['app', 'ngMockE2E'])
     .run(['$httpBackend',
         function($httpBackend) {
             $httpBackend.whenGET(/\.html$/).passThrough();

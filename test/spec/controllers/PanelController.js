@@ -14,7 +14,7 @@ describe('Controller: PanelController', function() {
         mockTracks = {};
         mockSelectableTracksFactory = {};
 
-        module('musicServerApp', function($provide) {
+        module('app', function($provide) {
             $provide.value('SelectableTracksFactory', jasmine.createSpy('SelectableTracksFactorySpy').and.returnValue(mockSelectableTracksFactory));
         });
 

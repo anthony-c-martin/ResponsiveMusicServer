@@ -36,7 +36,7 @@ describe('Controller: AppController', function() {
         $q;
 
     beforeEach(function() {
-        module('musicServerApp');
+        module('app');
 
         inject(function($injector) {
             $q = $injector.get('$q');
