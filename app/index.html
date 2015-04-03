@@ -41,17 +41,11 @@
     <!-- endbower -->
     <!-- endbuild -->
 
-    <!-- build:remove -->
-    <script src="bower_components/angular-mocks/angular-mocks.js"></script>
-    <script src="bower_components/angular-scenario/angular-scenario.js"></script>
-    <script src="test/mock/api.js"></script>
-    <!-- endbuild -->
-
     <!-- build:jsApp({.tmp,app}) scripts/scripts.js -->
     <!-- inject:js -->
     <script src="scripts/app.module.js"></script>
-    <script src="scripts/core/core.module.js"></script>
     <script src="scripts/components/components.module.js"></script>
+    <script src="scripts/core/core.module.js"></script>
     <script src="scripts/login/login.module.js"></script>
     <script src="scripts/music/music.module.js"></script>
     <script src="scripts/services/services.module.js"></script>
@@ -108,6 +102,12 @@
     <script src="scripts/services/session/session.service.js"></script>
     <script src="../.tmp/scripts/app.views.js"></script>
     <!-- endinject -->
+    <!-- endbuild -->
+
+    <!-- build:remove -->
+    <script src="bower_components/angular-mocks/angular-mocks.js"></script>
+    <script src="bower_components/angular-scenario/angular-scenario.js"></script>
+    <script src="test/mock/api.js"></script>
     <!-- endbuild -->
 </body>
 </html>
