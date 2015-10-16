@@ -145,7 +145,7 @@ gulp.task('copy:bootstrap', function() {
 
 gulp.task('copy:fontawesome', function() {
     return gulp.src([
-        'bower_components/fontawesome/fonts/*'
+        'bower_components/font-awesome/fonts/*'
     ])
         .pipe($.copy(appConfig.dist, {
             prefix: 2
