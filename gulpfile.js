@@ -108,7 +108,7 @@ gulp.task('imagemin', function() {
 
 gulp.task('templatecache', function() {
     return gulp.src([appConfig.app + '/scripts/**/*.html'])
-        .pipe($.minifyHtml({empty: true}))
+        .pipe($.minifyHtml({empty: true, spare: true}))
         .pipe($.angularTemplatecache(
             'app.views.js', {
                 module: 'app.core',
