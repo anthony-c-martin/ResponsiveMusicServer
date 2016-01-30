@@ -5,7 +5,7 @@
         .controller('LoginController', LoginController);
 
     /* @ngInject */
-    function LoginController($rootScope, $routeParams, ApiFactory) {
+    function LoginController($rootScope, $routeParams, md5, ApiFactory) {
         var ctrl = this;
 
         function loginFailed(message) {
@@ -14,8 +14,8 @@
         }
 
         function getAuthString(username, password, token) {
-            var pswdHash = md5(username + ':' + 'com.acm.AMMusicServer' + ':' + password);
-            return md5(token + ':' + username + ':' + pswdHash + ':' + token);
+            var pswdHash = md5.createHash(username + ':' + 'com.acm.AMMusicServer' + ':' + password);
+            return md5.createHash(token + ':' + username + ':' + pswdHash + ':' + token);
         }
 
         function submitSessionRequest(token, authString) {

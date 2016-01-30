@@ -9,24 +9,24 @@
   "homepage": "https://github.com/antm611/MusicServerGUI",
   "private": true,
   "dependencies": {
-    "angular": "~1.4.7",
-    "json3": "~3.3.2",
-    "angular-resource": "~1.4.7",
-    "angular-cookies": "~1.4.7",
-    "angular-sanitize": "~1.4.7",
-    "angular-animate": "~1.4.7",
-    "angular-touch": "~1.4.7",
-    "angular-route": "~1.4.7",
-    "ngInfiniteScroll": "~1.1.2",
-    "es5-shim": "~4.1.14",
-    "font-awesome": "~4.4.0",
-    "matchmedia-ng": "~1.0.5",
-    "blueimp-md5": "~1.1.1"
+    "angular": "^1.4.9",
+    "json3": "^3.3.2",
+    "angular-resource": "^1.4.9",
+    "angular-cookies": "^1.4.9",
+    "angular-sanitize": "^1.4.9",
+    "angular-animate": "^1.4.9",
+    "angular-touch": "^1.4.9",
+    "angular-route": "^1.4.9",
+    "ngInfiniteScroll": "^1.2.2",
+    "es5-shim": "^4.5.2",
+    "font-awesome": "^4.5.0",
+    "matchmedia-ng": "^1.0.5",
+    "angular-md5": "^0.1.10"
   },
   "devDependencies": {
-    "angular-mocks": "~1.4.7",
-    "angular-scenario": "~1.4.7",
-    "jquery": "~2.1.4"
+    "angular-mocks": "^1.4.9",
+    "angular-scenario": "^1.4.9",
+    "jquery": "^2.2.0"
   },
   "appPath": "app",
   "overrides": {

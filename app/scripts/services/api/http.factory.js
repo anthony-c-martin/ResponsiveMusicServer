@@ -5,7 +5,7 @@
         .factory('HttpFactory', HttpFactory);
 
     /* @ngInject */
-    function HttpFactory($http, $q, $rootScope) {
+    function HttpFactory($http, $q, $rootScope, md5) {
         return function(command, url) {
             var thisRequest = this;
             var params = {
@@ -63,7 +63,7 @@
             if (sessionSecret) {
                 sigString += sessionSecret + ';';
             }
-            return md5(sigString);
+            return md5.createHash(sigString);
         }
 
         function submitRequest(url, params, secret) {

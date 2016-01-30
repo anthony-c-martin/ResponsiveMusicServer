@@ -29,7 +29,7 @@ module.exports = function(config) {
             'bower_components/angular-touch/angular-touch.js',
             'bower_components/matchmedia/matchMedia.js',
             'bower_components/matchmedia-ng/matchmedia-ng.js',
-            'bower_components/blueimp-md5/js/md5.js',
+            'bower_components/angular-md5/angular-md5.js',
             'app/scripts/**/*.module.js',
             'app/scripts/**/*.js',
             '.tmp/scripts/app.views.js',

@@ -87,10 +87,36 @@ gulp.task('jshint', function() {
 gulp.task('usemin', function() {
     return gulp.src([appConfig.app + '/index.html'])
         .pipe($.usemin({
-            cssVendor: [$.sourcemaps.init(), $.minifyCss(), $.rev(), $.rename({suffix: '.min'}), $.sourcemaps.write('./')],
-            cssApp: [$.sourcemaps.init(), $.minifyCss(), $.rev(), $.rename({suffix: '.min'}), $.sourcemaps.write('./')],
-            jsVendor: [$.sourcemaps.init(), $.uglify(), $.rev(), $.rename({suffix: '.min'}), $.sourcemaps.write('./')],
-            jsApp: [$.ngAnnotate({add: true}), $.sourcemaps.init(), $.uglify(), $.rev(), $.rename({suffix: '.min'}), $.sourcemaps.write('./')],
+            cssVendor: [
+                $.sourcemaps.init(),
+                $.cssnano(),
+                $.rev(),
+                $.rename({suffix: '.min'}),
+                $.sourcemaps.write('./')
+            ],
+            cssApp: [
+                $.sourcemaps.init(),
+                $.cssnano(),
+                $.rev(),
+                $.rename({suffix: '.min'}),
+                $.sourcemaps.write('./')
+            ],
+            jsVendor: [
+                $.sourcemaps.init(),
+                $.uglify(),
+                $.rev(),
+                $.rename({suffix: '.min'}),
+                $.sourcemaps.write('./')
+            ],
+            jsApp: [
+                $.ngAnnotate({add: true}),
+                $.sourcemaps.init(),
+                $.babel(),
+                $.uglify(),
+                $.rev(),
+                $.rename({suffix: '.min'}),
+                $.sourcemaps.write('./')
+            ],
             outputRelativePath: '../' + appConfig.dist + '/'
         }))
         .pipe(gulp.dest(appConfig.dist));
@@ -108,7 +134,7 @@ gulp.task('imagemin', function() {
 
 gulp.task('templatecache', function() {
     return gulp.src([appConfig.app + '/scripts/**/*.html'])
-        .pipe($.minifyHtml({empty: true, spare: true}))
+        .pipe($.htmlmin({empty: true, spare: true}))
         .pipe($.angularTemplatecache(
             'app.views.js', {
                 module: 'app.core',
@@ -188,7 +214,7 @@ gulp.task('watch', function() {
     gulp.watch([
         appConfig.app + '/scripts/**/*.js',
         appConfig.app + '/scripts/**/*.spec.js'
-    ], ['jshint', 'karma', 'inject']);
+    ], ['jshint', 'karma', 'inject', $.babel()]);
     gulp.watch(appConfig.app + '/styles/{,*/}*.scss', ['sass']);
     gulp.watch([
         appConfig.app + '/**/*.html',
