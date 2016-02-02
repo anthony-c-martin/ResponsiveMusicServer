@@ -14,14 +14,15 @@ var runSequence = require('run-sequence');
 
 var appConfig = {
     app: require('./bower.json').appPath || 'app',
-    dist: 'dist'
+    dist: 'dist',
+    tmp: '.tmp'
 };
 
 var server = express();
 server.use(require('connect-livereload')({
     port: 35729
 }));
-server.use(express.static('.tmp'));
+server.use(express.static(appConfig.tmp));
 server.use('/bower_components', express.static('./bower_components'));
 server.use('/test', express.static('./test'));
 server.use(express.static(appConfig.app));
@@ -53,13 +54,13 @@ gulp.task('express', function() {
 
 gulp.task('clean:server', function() {
     return del([
-        '.tmp'
+        appConfig.tmp
     ]);
 });
 
 gulp.task('clean:dist', function() {
     return del([
-        '.tmp',
+        appConfig.tmp,
         appConfig.dist + '/{,*/}*.*'
     ]);
 });
@@ -72,7 +73,7 @@ gulp.task('wiredep', function() {
             dependencies: true,
             devDependencies: false
         }))
-        .pipe(gulp.dest(appConfig.app));
+        .pipe(gulp.dest(appConfig.tmp));
 });
 
 gulp.task('jshint', function() {
@@ -85,7 +86,7 @@ gulp.task('jshint', function() {
 });
 
 gulp.task('usemin', function() {
-    return gulp.src([appConfig.app + '/index.html'])
+    return gulp.src([appConfig.tmp + '/index.html'])
         .pipe($.usemin({
             cssVendor: [
                 $.sourcemaps.init(),
@@ -109,8 +110,8 @@ gulp.task('usemin', function() {
                 $.sourcemaps.write('./')
             ],
             jsApp: [
-                $.ngAnnotate({add: true}),
                 $.sourcemaps.init(),
+                $.ngAnnotate({add: true}),
                 $.babel(),
                 $.uglify(),
                 $.rev(),
@@ -197,7 +198,7 @@ gulp.task('sass', function() {
 });
 
 gulp.task('inject', ['templatecache'], function() {
-    return gulp.src([appConfig.app + '/index.html'])
+    return gulp.src([appConfig.tmp + '/index.html'])
         .pipe($.inject(gulp.src([
             appConfig.app + '/scripts/app.module.js',
             appConfig.app + '/scripts/**/*.module.js',
@@ -205,8 +206,8 @@ gulp.task('inject', ['templatecache'], function() {
             '.tmp/scripts/app.views.js',
             '.tmp/scripts/app.oldviews.js',
             '!' + appConfig.app + '/scripts/**/*.spec.js'
-        ], {read: false}), {relative: true}))
-        .pipe(gulp.dest(appConfig.app));
+        ], {read: false}), {relative: true, ignorePath: '../app'}))
+        .pipe(gulp.dest(appConfig.tmp));
 });
 
 gulp.task('watch', function() {
@@ -225,7 +226,8 @@ gulp.task('watch', function() {
 
 gulp.task('serve', function() {
     return runSequence(
-        ['clean:server', 'wiredep'],
+        ['clean:server'],
+        ['wiredep'],
         ['inject'],
         ['sass', 'express'],
         'watch'
@@ -234,7 +236,8 @@ gulp.task('serve', function() {
 
 gulp.task('build', function() {
     runSequence(
-        ['clean:dist', 'wiredep'],
+        ['clean:dist'],
+        ['wiredep'],
         ['sass', 'copy:fontawesome', 'copy:bootstrap', 'copy:dist'],
         ['imagemin', 'inject'],
         'usemin'
