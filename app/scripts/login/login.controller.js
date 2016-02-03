@@ -5,7 +5,7 @@
         .controller('LoginController', LoginController);
 
     /* @ngInject */
-    function LoginController($rootScope, $routeParams, md5, ApiFactory) {
+    function LoginController($rootScope, $stateParams, md5, ApiFactory) {
         var ctrl = this;
 
         function loginFailed(message) {
@@ -38,8 +38,8 @@
             });
         }
 
-        if ($routeParams.token && $routeParams.auth) {
-            submitSessionRequest($routeParams.token, $routeParams.auth);
+        if ($stateParams.token && $stateParams.auth) {
+            submitSessionRequest($stateParams.token, $stateParams.auth);
         }
 
         angular.extend(this, {

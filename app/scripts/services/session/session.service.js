@@ -27,6 +27,11 @@
             };
         }
 
+        function hasSession() {
+            var session = getSession();
+            return !!(session && session.Key && session.Secret);
+        }
+
         function clearSession() {
             delete $window.sessionStorage.sessionKey;
             delete $window.sessionStorage.sessionSecret;
@@ -59,6 +64,7 @@
             jsonURL: '/api',
             setSession: setSession,
             getSession: getSession,
+            hasSession: hasSession,
             clearSession: clearSession,
             setUserPreferences: setUserPreferences,
             setUserPreference: setUserPreference,

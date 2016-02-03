@@ -5,11 +5,8 @@
         .config(config);
 
     /* @ngInject */
-    function config($routeProvider, matchmediaProvider) {
-        $routeProvider.
-            otherwise({
-                redirectTo: '/login'
-            });
+    function config($urlRouterProvider, matchmediaProvider) {
+        $urlRouterProvider.otherwise('/login');
 
         matchmediaProvider.rules.desktop = '(min-width: 56em)';
         matchmediaProvider.rules.phone = '(max-width: 40em)';
