@@ -36,8 +36,7 @@
         }
 
         function onStateChangeStart(event, toState) {
-            console.error(toState);
-            if (toState.name === 'login' || toState.name === 'login.auto') {
+            if (toState.name === 'login') {
                 sessionService.clearSession();
             } else if (!sessionService.hasSession()) {
                 event.preventDefault();

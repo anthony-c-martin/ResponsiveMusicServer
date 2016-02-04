@@ -19,14 +19,9 @@
             playerService.playlist.addTracksByArtist(ctrl.artist.ID);
         }
 
-        function select() {
-            $scope.$emit('selectArtist', ctrl.artist);
-        }
-
         angular.extend(this, {
             play: play,
-            add: add,
-            select: select
+            add: add
         });
     }
 })();

@@ -1,4 +1,4 @@
-<li class="artist" ng-click="vm.select()" draggable="true">
+<li ui-sref="music.artist({artistId: vm.artist.ID})" ui-sref-active="selected" class="artist" draggable="true">
     <div class="content">
         <div class="controls controls-mini">
             <button ng-click="vm.add()" type="button" class="control control-add"><i class="fa fa-plus"></i></button>

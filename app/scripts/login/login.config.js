@@ -8,13 +8,10 @@
     function config($stateProvider) {
         $stateProvider.
             state('login', {
-                url: '/login',
+                url: '/login?{token:string}&{auth:string}',
                 controller: 'LoginController',
                 controllerAs: 'vm',
-                templateUrl: 'scripts/login/login.html',
-            }).
-            state('login.auto', {
-                url: '/{token:string}/{auth:string}'
+                templateUrl: 'scripts/login/login.html'
             });
     }
 })();

@@ -11,7 +11,7 @@
                 url: '/music',
                 controller: 'MusicController',
                 controllerAs: 'vm',
-                templateUrl: 'scripts/music/music.html',
+                templateUrl: 'scripts/music/music.html'
             }).
             state('music.artist', {
                 url: '/{artistId:int}'

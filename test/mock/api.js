@@ -154,23 +154,23 @@
 
     function getMockTrack(id) {
         return {
-            ID: id,
-            Name: 'Track ' + id,
+            ID: id + 1,
+            Name: 'Track ' + (id + 1),
             Duration: 60
         };
     }
 
     function getMockAlbum(id) {
         return {
-            ID: id,
-            Name: 'Album ' + id
+            ID: id + 1,
+            Name: 'Album ' + (id + 1)
         };
     }
 
     function getMockArtist(id) {
         return {
-            ID: id,
-            Name: 'Artist ' + id
+            ID: id + 1,
+            Name: 'Artist ' + (id + 1)
         };
     }
 })();

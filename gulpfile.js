@@ -214,7 +214,7 @@ gulp.task('watch', function() {
     gulp.watch([
         appConfig.app + '/scripts/**/*.js',
         appConfig.app + '/scripts/**/*.spec.js'
-    ], ['jshint', 'karma', 'inject', $.babel()]);
+    ], ['jshint', 'karma', 'inject']);
     gulp.watch(appConfig.app + '/styles/{,*/}*.scss', ['sass']);
     gulp.watch([
         appConfig.app + '/**/*.html',
