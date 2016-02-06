@@ -17,7 +17,7 @@
         });
 
         function onBeforeUnload() {
-            if (ctrl.loggedIn && !window.LiveReload) {
+            if (ctrl.isLoggedIn() && !window.LiveReload) {
                 return 'Reloading or closing this page will stop playback!';
             }
         }
@@ -25,7 +25,7 @@
         function onLoginSuccess(event, sessionData) {
             sessionService.setSession(sessionData);
             $state.go('music');
-            ApiFactory.session.getUserPreferences().submit().then(function(data) {
+            ApiFactory.session.getUserPreferences().then(function(data) {
                 sessionService.setUserPreferences(data);
             });
         }
@@ -49,7 +49,6 @@
         }
 
         window.onbeforeunload = onBeforeUnload;
-
         $rootScope.$on('loginSuccess', onLoginSuccess);
         $rootScope.$on('ResponseUnauthorised', onResponseUnauthorised);
         $rootScope.$on('$stateChangeStart', onStateChangeStart);
@@ -58,9 +57,5 @@
             errorMessage: '',
             isLoggedIn: isLoggedIn
         });
-
-        if (!sessionService.hasSession() && !$state.includes('login')) {
-            $state.go('login');
-        }
     }
 })();

@@ -52,17 +52,4 @@ describe('app.components.album.AlbumController', function() {
             expect(playerService.playlist.addTracksByAlbum).toHaveBeenCalledWith(366);
         });
     });
-
-    describe('select', function() {
-        it('should emit a selectAlbum event', function() {
-            spyOn($scope, '$emit');
-            var mockAlbum = {};
-            controller.album = mockAlbum;
-
-            controller.select();
-
-            expect($scope.$emit).toHaveBeenCalledWith('selectAlbum', mockAlbum);
-            expect($scope.$emit.calls.count()).toBe(1);
-        });
-    });
 });

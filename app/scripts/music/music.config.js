@@ -18,9 +18,6 @@
             }).
             state('music.artist.album', {
                 url: '/{albumId:int}'
-            }).
-            state('music.search', {
-                url: '/search/{type:string}/{search:string}'
             });
     }
 })();

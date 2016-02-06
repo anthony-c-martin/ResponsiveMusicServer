@@ -41,12 +41,11 @@ describe('app.services.player.trackManagerService', function() {
 
         it('should submit an API nowplaying request', function() {
             spyOn(sessionService, 'getUserPreference').and.returnValue(true);
-            spyOn(ApiFactory.track, 'lastFMNowPlaying').and.returnValue(jasmine.createSpyObj('request', ['submit']));
+            spyOn(ApiFactory.track, 'lastFMNowPlaying');
 
             service.setupScrobbling({ID: 2155});
 
             expect(ApiFactory.track.lastFMNowPlaying).toHaveBeenCalledWith(2155);
-            expect(ApiFactory.track.lastFMNowPlaying().submit).toHaveBeenCalledWith();
         });
 
         it('should call scrobbleTimer.reset with half the time of the track as the second argument', function() {
@@ -59,7 +58,7 @@ describe('app.services.player.trackManagerService', function() {
 
         it('should call scrobbleTimer.reset with a callback function', function() {
             spyOn(sessionService, 'getUserPreference').and.returnValue(true);
-            spyOn(ApiFactory.track, 'lastFMScrobble').and.returnValue(jasmine.createSpyObj('request', ['submit']));
+            spyOn(ApiFactory.track, 'lastFMScrobble');
 
             service.setupScrobbling({ID: 345745, Duration: 3215});
             var callbackFunction = mocktrackTimerFactory.reset.calls.argsFor(0)[0];
@@ -68,7 +67,6 @@ describe('app.services.player.trackManagerService', function() {
             expect(mocktrackTimerFactory.reset.calls.argsFor(0)[1]).toBe(240);
             callbackFunction();
             expect(ApiFactory.track.lastFMScrobble).toHaveBeenCalledWith(345745);
-            expect(ApiFactory.track.lastFMScrobble().submit).toHaveBeenCalledWith();
         });
     });
 
@@ -96,9 +94,7 @@ describe('app.services.player.trackManagerService', function() {
             convertSpies = [];
             spyOn(ApiFactory.track, 'convert').and.callFake(function(id) {
                 convertSpies[id] = $q.defer();
-                return {
-                    submit: jasmine.createSpy('submit').and.returnValue(convertSpies[id].promise)
-                };
+                return convertSpies[id].promise;
             });
         });
 

@@ -19,14 +19,9 @@
             playerService.playlist.addTracksByAlbum(ctrl.album.ID);
         }
 
-        function select() {
-            $scope.$emit('selectAlbum', ctrl.album);
-        }
-
         angular.extend(this, {
             play: play,
-            add: add,
-            select: select
+            add: add
         });
     }
 })();

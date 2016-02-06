@@ -5,7 +5,6 @@ describe('app.components.misc.amScrollLoader', function() {
         scope;
 
     beforeEach(module('app.components.misc'));
-
     beforeEach(inject(function($compile, $rootScope) {
         element = angular.element(
             '<div am-scroll-loader="testFunction()"></div>'
@@ -17,12 +16,6 @@ describe('app.components.misc.amScrollLoader', function() {
 
         scope = element.scope();
     }));
-
-    describe('initialisation', function() {
-        it('should call the scope function on start', function() {
-            expect(scope.testFunction).toHaveBeenCalledWith();
-        });
-    });
 
     describe('scroll', function() {
         it('should call the scope function on scroll if close to the bottom of the container', function() {

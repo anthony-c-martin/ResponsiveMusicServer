@@ -1,405 +1,256 @@
 /* jshint -W117, -W030 */
 describe('app.services.api.ApiFactory', function() {
 
-    var service,
-        $httpBackend,
-        $rootScope,
-        HttpFactory,
-        sessionService;
+    var service;
 
-    beforeEach(function() {
-        module('app.services.api');
+    var mockResponse = {
+        SomeKey: 'someResponse'
+    };
+    var successSpy;
 
-        inject(function($injector) {
-            $httpBackend = $injector.get('$httpBackend');
-            $rootScope = $injector.get('$rootScope');
-            sessionService = $injector.get('sessionService');
-            HttpFactory = $injector.get('HttpFactory');
+    beforeEach(module('app.services.api'));
+    beforeEach(inject(function($injector, $httpBackend, sessionService, HttpFactory) {
+        window.$httpBackend = $httpBackend;
+        window.sessionService = sessionService;
+        window.HttpFactory = HttpFactory;
 
-            service = $injector.get('ApiFactory', {
-                HttpFactory: HttpFactory,
-                sessionService: sessionService
-            });
-
-            sessionService.setSession({
-                Key: 'SessionKey',
-                Secret: 'SessionSecret'
-            });
-        });
-    });
-
-    describe('sessionService access', function() {
-        it('should use the url specified by the sessionService object', function() {
-            sessionService.jsonURL = '/asdgsadinosf';
-            var successSpy = jasmine.createSpy('successSpy');
-            var mockResponse = {};
-            var postedData;
-            $httpBackend.whenPOST('/asdgsadinosf').respond(function(method, url, data) {
-                postedData = data;
-                return [200, mockResponse, {}];
-            });
-
-            service.artist.getAll().submit().then(successSpy);
-            $httpBackend.flush();
-            $rootScope.$digest();
-
-            expect(successSpy).toHaveBeenCalledWith(mockResponse);
+        service = $injector.get('ApiFactory', {
+            HttpFactory: HttpFactory,
+            sessionService: sessionService
         });
 
-        it('should use seesion key and secret specified by the sessionService object', function() {
-            sessionService.setSession({
-                Key: 'asdgiuasdfisdbfj9a89',
-                Secret: 'asdf97g87fgdsfiuh'
-            });
-            var successSpy = jasmine.createSpy('successSpy');
-            var mockResponse = {};
-            var postedData;
-            $httpBackend.whenPOST('/api').respond(function(method, url, data) {
-                postedData = data;
-                return [200, mockResponse, {}];
-            });
-
-            service.artist.getAll().submit().then(successSpy);
-            $httpBackend.flush();
-            $rootScope.$digest();
-
-            expect(JSON.parse(postedData)).toEqual({
-                Command: 'GetArtists',
-                Session: 'asdgiuasdfisdbfj9a89',
-                Signature: 'e8e0dff3e2396f7d15f83ac36fc8e7f6'
-            });
-            expect(successSpy).toHaveBeenCalledWith(mockResponse);
+        sessionService.setSession({
+            Key: 'testSessionKey',
+            Secret: 'testSessionSecret'
         });
-    });
+        sessionService.jsonURL = '/testSessionUrl';
+
+        successSpy = jasmine.createSpy('successSpy');
+    }));
 
     describe('artist', function() {
         it('should submit a correctly-formatted GetArtists request', function() {
-            var successSpy = jasmine.createSpy('successSpy');
-            var mockResponse = {};
-            var postedData;
-            $httpBackend.whenPOST('/api').respond(function(method, url, data) {
-                postedData = data;
-                return [200, mockResponse, {}];
-            });
-
-            service.artist.getAll().submit().then(successSpy);
-            $httpBackend.flush();
-            $rootScope.$digest();
-
-            expect(JSON.parse(postedData)).toEqual({
+            $httpBackend.expectPOST('/testSessionUrl', {
                 Command: 'GetArtists',
-                Session: 'SessionKey',
-                Signature: 'f571e03de167601a7af42f12e6903f2d'
-            });
+                Session: 'testSessionKey',
+                Start: 193,
+                Limit: 27,
+                Signature: '7ecbc07e49f5b91fbe6d61e5084ebcf8'
+            }).respond(mockResponse);
+
+            service.artist.getAll(193, 27).then(successSpy);
+            $httpBackend.flush();
+
             expect(successSpy).toHaveBeenCalledWith(mockResponse);
         });
 
         it('should submit a correctly-formatted SearchArtists request', function() {
-            var successSpy = jasmine.createSpy('successSpy');
-            var mockResponse = {};
-            var postedData;
-            $httpBackend.whenPOST('/api').respond(function(method, url, data) {
-                postedData = data;
-                return [200, mockResponse, {}];
-            });
-
-            service.artist.search('sdfasfasd34wes').submit().then(successSpy);
-            $httpBackend.flush();
-            $rootScope.$digest();
-
-            expect(JSON.parse(postedData)).toEqual({
+            $httpBackend.expectPOST('/testSessionUrl', {
                 Command: 'SearchArtists',
-                Session: 'SessionKey',
+                Session: 'testSessionKey',
                 String: 'sdfasfasd34wes',
-                Signature: '42c7e9af966fc5793b9d159c5a75566a'
-            });
+                Start: 45,
+                Limit: 29,
+                Signature: '3254d4aa43ac2cd936d88d87ef60243c'
+            }).respond(mockResponse);
+
+            service.artist.search('sdfasfasd34wes', 45, 29).then(successSpy);
+            $httpBackend.flush();
+
             expect(successSpy).toHaveBeenCalledWith(mockResponse);
         });
     });
 
     describe('album', function() {
         it('should submit a correctly-formatted GetAlbums request', function() {
-            var successSpy = jasmine.createSpy('successSpy');
-            var mockResponse = {};
-            var postedData;
-            $httpBackend.whenPOST('/api').respond(function(method, url, data) {
-                postedData = data;
-                return [200, mockResponse, {}];
-            });
-
-            service.album.getAll().submit().then(successSpy);
-            $httpBackend.flush();
-            $rootScope.$digest();
-
-            expect(JSON.parse(postedData)).toEqual({
+            $httpBackend.expectPOST('/testSessionUrl', {
                 Command: 'GetAlbums',
-                Session: 'SessionKey',
-                Signature: '852a236f9dc8d3eeb682b3054a35bea0'
-            });
+                Session: 'testSessionKey',
+                Start: 87,
+                Limit: 19,
+                Signature: 'ba777946855c97fa04e5765625cb2ef6'
+            }).respond(mockResponse);
+
+            service.album.getAll(87, 19).then(successSpy);
+            $httpBackend.flush();
+
             expect(successSpy).toHaveBeenCalledWith(mockResponse);
         });
 
         it('should submit a correctly-formatted GetAlbumsByArtist request', function() {
-            var successSpy = jasmine.createSpy('successSpy');
-            var mockResponse = {};
-            var postedData;
-            $httpBackend.whenPOST('/api').respond(function(method, url, data) {
-                postedData = data;
-                return [200, mockResponse, {}];
-            });
-
-            service.album.getFromArtist(12364).submit().then(successSpy);
-            $httpBackend.flush();
-            $rootScope.$digest();
-
-            expect(JSON.parse(postedData)).toEqual({
+            $httpBackend.expectPOST('/testSessionUrl', {
                 Command: 'GetAlbumsByArtist',
-                Session: 'SessionKey',
+                Session: 'testSessionKey',
                 ID: 12364,
-                Signature: '7f430d40bbb0b196fb2722bf9226534b'
-            });
+                Start: 23,
+                Limit: 39,
+                Signature: '0a93dc91846321695b39242df0fdf79f'
+            }).respond(mockResponse);
+
+            service.album.getFromArtist(12364, 23, 39).then(successSpy);
+            $httpBackend.flush();
+
             expect(successSpy).toHaveBeenCalledWith(mockResponse);
         });
 
         it('should submit a correctly-formatted SearchAlbums request', function() {
-            var successSpy = jasmine.createSpy('successSpy');
-            var mockResponse = {};
-            var postedData;
-            $httpBackend.whenPOST('/api').respond(function(method, url, data) {
-                postedData = data;
-                return [200, mockResponse, {}];
-            });
-
-            service.album.search('asdfs08h8s7dhf8h').submit().then(successSpy);
-            $httpBackend.flush();
-            $rootScope.$digest();
-
-            expect(JSON.parse(postedData)).toEqual({
+            $httpBackend.expectPOST('/testSessionUrl', {
                 Command: 'SearchAlbums',
-                Session: 'SessionKey',
+                Session: 'testSessionKey',
                 String: 'asdfs08h8s7dhf8h',
-                Signature: 'c48181ebc6c1cec0c5507db46eea5af0'
-            });
+                Start: 87,
+                Limit: 19,
+                Signature: '897269c5a7eacd9fd260df69c9ac271c'
+            }).respond(mockResponse);
+
+            service.album.search('asdfs08h8s7dhf8h', 87, 19).then(successSpy);
+            $httpBackend.flush();
+
             expect(successSpy).toHaveBeenCalledWith(mockResponse);
         });
     });
 
     describe('track', function() {
         it('should submit a correctly-formatted GetTracks request', function() {
-            var successSpy = jasmine.createSpy('successSpy');
-            var mockResponse = {};
-            var postedData;
-            $httpBackend.whenPOST('/api').respond(function(method, url, data) {
-                postedData = data;
-                return [200, mockResponse, {}];
-            });
-
-            service.track.getAll().submit().then(successSpy);
-            $httpBackend.flush();
-            $rootScope.$digest();
-
-            expect(JSON.parse(postedData)).toEqual({
+            $httpBackend.expectPOST('/testSessionUrl', {
                 Command: 'GetTracks',
-                Session: 'SessionKey',
-                Signature: '9cd9745f73d2108eca1473f30a690445'
-            });
+                Session: 'testSessionKey',
+                Start: 31,
+                Limit: 24,
+                Signature: 'f61f71a6d765336613958a7923d91327'
+            }).respond(mockResponse);
+
+            service.track.getAll(31, 24).then(successSpy);
+            $httpBackend.flush();
+
             expect(successSpy).toHaveBeenCalledWith(mockResponse);
         });
 
         it('should submit a correctly-formatted GetTracksByArtist request', function() {
-            var successSpy = jasmine.createSpy('successSpy');
-            var mockResponse = {};
-            var postedData;
-            $httpBackend.whenPOST('/api').respond(function(method, url, data) {
-                postedData = data;
-                return [200, mockResponse, {}];
-            });
-
-            service.track.getFromArtist(35326).submit().then(successSpy);
-            $httpBackend.flush();
-            $rootScope.$digest();
-
-            expect(JSON.parse(postedData)).toEqual({
+            $httpBackend.expectPOST('/testSessionUrl', {
                 Command: 'GetTracksByArtist',
-                Session: 'SessionKey',
+                Session: 'testSessionKey',
                 ID: 35326,
-                Signature: '65327783655927dc7580c1c329e3ecf3'
-            });
+                Start: 120,
+                Limit: 31,
+                Signature: '6d96d46d027e8d9e6dc47d980b877db3'
+            }).respond(mockResponse);
+
+            service.track.getFromArtist(35326, 120, 31).then(successSpy);
+            $httpBackend.flush();
+
             expect(successSpy).toHaveBeenCalledWith(mockResponse);
         });
 
         it('should submit a correctly-formatted GetTracksByAlbum request', function() {
-            var successSpy = jasmine.createSpy('successSpy');
-            var mockResponse = {};
-            var postedData;
-            $httpBackend.whenPOST('/api').respond(function(method, url, data) {
-                postedData = data;
-                return [200, mockResponse, {}];
-            });
-
-            service.track.getFromAlbum(12486).submit().then(successSpy);
-            $httpBackend.flush();
-            $rootScope.$digest();
-
-            expect(JSON.parse(postedData)).toEqual({
+            $httpBackend.expectPOST('/testSessionUrl', {
                 Command: 'GetTracksByAlbum',
-                Session: 'SessionKey',
+                Session: 'testSessionKey',
                 ID: 12486,
-                Signature: 'acdaf279a09e9deaea0bcc348c700ec1'
-            });
+                Start: 197,
+                Limit: 912,
+                Signature: '73ca7d058d272b399535f5ac6108d3f7'
+            }).respond(mockResponse);
+            service.track.getFromAlbum(12486, 197, 912).then(successSpy);
+            $httpBackend.flush();
+
             expect(successSpy).toHaveBeenCalledWith(mockResponse);
         });
 
         it('should submit a correctly-formatted ConvertTrackByID request', function() {
-            var successSpy = jasmine.createSpy('successSpy');
-            var mockResponse = {};
-            var postedData;
-            $httpBackend.whenPOST('/api').respond(function(method, url, data) {
-                postedData = data;
-                return [200, mockResponse, {}];
-            });
-
-            service.track.convert('dfjdhfsjkfsbkdhfbuiy').submit().then(successSpy);
-            $httpBackend.flush();
-            $rootScope.$digest();
-
-            expect(JSON.parse(postedData)).toEqual({
+            $httpBackend.expectPOST('/testSessionUrl', {
                 Command: 'ConvertTrackByID',
-                Session: 'SessionKey',
+                Session: 'testSessionKey',
                 String: 'dfjdhfsjkfsbkdhfbuiy',
-                Signature: 'aa438b284e587caab0120fe62523a0b7'
-            });
+                Signature: '647ea1d083f22eecf6d1057bc1200b85'
+            }).respond(mockResponse);
+
+            service.track.convert('dfjdhfsjkfsbkdhfbuiy').then(successSpy);
+            $httpBackend.flush();
+
             expect(successSpy).toHaveBeenCalledWith(mockResponse);
         });
 
         it('should submit a correctly-formatted LFMNowPlayingTrack request', function() {
-            var successSpy = jasmine.createSpy('successSpy');
-            var mockResponse = {};
-            var postedData;
-            $httpBackend.whenPOST('/api').respond(function(method, url, data) {
-                postedData = data;
-                return [200, mockResponse, {}];
-            });
-
-            service.track.lastFMNowPlaying('sdf9basd8yfhio').submit().then(successSpy);
-            $httpBackend.flush();
-            $rootScope.$digest();
-
-            expect(JSON.parse(postedData)).toEqual({
+            $httpBackend.expectPOST('/testSessionUrl', {
                 Command: 'LFMNowPlayingTrack',
-                Session: 'SessionKey',
+                Session: 'testSessionKey',
                 String: 'sdf9basd8yfhio',
-                Signature: '70939d28715047cdaa18c8dd7ebae9df'
-            });
+                Signature: '97accd5f7efa66cc6bde99bf85cb3aa5'
+            }).respond(mockResponse);
+
+            service.track.lastFMNowPlaying('sdf9basd8yfhio').then(successSpy);
+            $httpBackend.flush();
+
             expect(successSpy).toHaveBeenCalledWith(mockResponse);
         });
 
         it('should submit a correctly-formatted LFMScrobbleTrack request', function() {
-            var successSpy = jasmine.createSpy('successSpy');
-            var mockResponse = {};
-            var postedData;
-            $httpBackend.whenPOST('/api').respond(function(method, url, data) {
-                postedData = data;
-                return [200, mockResponse, {}];
-            });
-
-            service.track.lastFMScrobble('sdfg87s6dgf7sgyui').submit().then(successSpy);
-            $httpBackend.flush();
-            $rootScope.$digest();
-
-            expect(JSON.parse(postedData)).toEqual({
+            $httpBackend.expectPOST('/testSessionUrl', {
                 Command: 'LFMScrobbleTrack',
-                Session: 'SessionKey',
+                Session: 'testSessionKey',
                 String: 'sdfg87s6dgf7sgyui',
-                Signature: 'f58892cf47c44d128cc45ba6f6c5412c'
-            });
+                Signature: '85330096dad0e0d72e80fc277750e38a'
+            }).respond(mockResponse);
+
+            service.track.lastFMScrobble('sdfg87s6dgf7sgyui').then(successSpy);
+            $httpBackend.flush();
+
             expect(successSpy).toHaveBeenCalledWith(mockResponse);
         });
 
         it('should submit a correctly-formatted SearchTracks request', function() {
-            var successSpy = jasmine.createSpy('successSpy');
-            var mockResponse = {};
-            var postedData;
-            $httpBackend.whenPOST('/api').respond(function(method, url, data) {
-                postedData = data;
-                return [200, mockResponse, {}];
-            });
-
-            service.track.search('asdfas8bfsiaufb').submit().then(successSpy);
-            $httpBackend.flush();
-            $rootScope.$digest();
-
-            expect(JSON.parse(postedData)).toEqual({
+            $httpBackend.expectPOST('/testSessionUrl', {
                 Command: 'SearchTracks',
-                Session: 'SessionKey',
+                Session: 'testSessionKey',
                 String: 'asdfas8bfsiaufb',
-                Signature: '7b265b3a7b49e14b6d832d06b349b5fb'
-            });
+                Start: 124,
+                Limit: 13,
+                Signature: 'e6e5a0261cf8726ea95164e62bfeaa11'
+            }).respond(mockResponse);
+
+            service.track.search('asdfas8bfsiaufb', 124, 13).then(successSpy);
+            $httpBackend.flush();
+
             expect(successSpy).toHaveBeenCalledWith(mockResponse);
         });
     });
 
     describe('session', function() {
         it('should submit a correctly-formatted GetToken request', function() {
-            var successSpy = jasmine.createSpy('successSpy');
-            var mockResponse = {};
-            var postedData;
-            $httpBackend.whenPOST('/api').respond(function(method, url, data) {
-                postedData = data;
-                return [200, mockResponse, {}];
-            });
-
-            service.session.getToken().submit().then(successSpy);
-            $httpBackend.flush();
-            $rootScope.$digest();
-
-            expect(JSON.parse(postedData)).toEqual({
+            $httpBackend.expectPOST('/testSessionUrl', {
                 Command: 'GetToken',
                 Signature: '7a60187550fce5fd85929b245077fe20'
-            });
+            }).respond(mockResponse);
+
+            service.session.getToken().then(successSpy);
+            $httpBackend.flush();
+
             expect(successSpy).toHaveBeenCalledWith(mockResponse);
         });
 
         it('should submit a correctly-formatted GetSession request', function() {
-            var successSpy = jasmine.createSpy('successSpy');
-            var mockResponse = {};
-            var postedData;
-            $httpBackend.whenPOST('/api').respond(function(method, url, data) {
-                postedData = data;
-                return [200, mockResponse, {}];
-            });
-
-            service.session.getSession('asdfisbdf9sd80s9di0', 'sd89f7ah9s8d7gh0as9jidojd').submit().then(successSpy);
-            $httpBackend.flush();
-            $rootScope.$digest();
-
-            expect(JSON.parse(postedData)).toEqual({
+            $httpBackend.expectPOST('/testSessionUrl', {
                 Command: 'GetSession',
-                Token: 'asdfisbdf9sd80s9di0',
-                Authentication: 'sd89f7ah9s8d7gh0as9jidojd',
-                Signature: '9307b9d7cda2b8d5446f171393527d23'
-            });
+                Signature: 'cad406b2cb3f38eb55870aeb8d2edd3a'
+            }).respond(mockResponse);
+
+            service.session.getSession().then(successSpy);
+            $httpBackend.flush();
+
             expect(successSpy).toHaveBeenCalledWith(mockResponse);
         });
 
         it('should submit a correctly-formatted GetUserPreferences request', function() {
-            var successSpy = jasmine.createSpy('successSpy');
-            var mockResponse = {};
-            var postedData;
-            $httpBackend.whenPOST('/api').respond(function(method, url, data) {
-                postedData = data;
-                return [200, mockResponse, {}];
-            });
-
-            service.session.getUserPreferences().submit().then(successSpy);
-            $httpBackend.flush();
-            $rootScope.$digest();
-
-            expect(JSON.parse(postedData)).toEqual({
+            $httpBackend.expectPOST('/testSessionUrl', {
                 Command: 'GetUserPreferences',
-                Session: 'SessionKey',
-                Signature: '679b9978ae9764f5fc5185ecbf258ad9'
-            });
+                Session: 'testSessionKey',
+                Signature: 'df322e5e0e7416b3e62b1c19fbaf11ed'
+            }).respond(mockResponse);
+
+            service.session.getUserPreferences().then(successSpy);
+            $httpBackend.flush();
+
             expect(successSpy).toHaveBeenCalledWith(mockResponse);
         });
     });
