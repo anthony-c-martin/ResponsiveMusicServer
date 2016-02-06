@@ -5,62 +5,105 @@
         .controller('MusicController', MusicController);
 
     /* @ngInject */
-    function MusicController($scope, $rootScope, $routeParams, DataLoaderFactory, ApiFactory) {
+    function MusicController($scope, $state, ApiFactory) {
         var ctrl = this;
+        var shouldLoadMoreArtists = true;
+        var shouldLoadMoreAlbums = true;
+        var shouldLoadMoreTracks = true;
 
-        function loadArtists() {
-            ctrl.artists.length = 0;
-            $scope.artistRequest = null;
+        var selectedAlbumId = 0;
+        var selectedArtistId = 0;
+        var firstLoad = true;
+        $scope.$on('$stateChangeSuccess', function onStateChangeSuccess() {
+            var shouldResetArtists = false;
+            var shouldResetAlbums = false;
+            var shouldResetTracks = false;
 
-            if ($routeParams.search && $routeParams.type === 'artists') {
-                $scope.artistRequest = new DataLoaderFactory(ApiFactory.artist.search($routeParams.search), ctrl.artists, 100);
-            } else if (!$routeParams.search) {
-                $scope.artistRequest = new DataLoaderFactory(ApiFactory.artist.getAll(), ctrl.artists, 100);
+            if (firstLoad) {
+                firstLoad = false;
+                shouldResetArtists = true;
+                shouldResetAlbums = true;
+                shouldResetTracks = true;
             }
-        }
-
-        function loadAlbums(artist) {
-            ctrl.albums.length = 0;
-            $scope.albumRequest = null;
-
-            if ($routeParams.search && $routeParams.type === 'albums') {
-                $scope.albumRequest = new DataLoaderFactory(ApiFactory.album.search($routeParams.search), ctrl.albums, 100);
-            } else if (artist) {
-                $scope.albumRequest = new DataLoaderFactory(ApiFactory.album.getFromArtist(artist.ID), ctrl.albums, 100);
+            if (selectedArtistId !== $state.params.artistId) {
+                selectedArtistId = $state.params.artistId;
+                shouldResetAlbums = true;
             }
-        }
-
-        function loadTracks(album) {
-            ctrl.tracks.length = 0;
-            $scope.trackRequest = null;
-
-            if ($routeParams.search && $routeParams.type === 'tracks') {
-                $scope.albumRequest = new DataLoaderFactory(ApiFactory.track.search($routeParams.search), ctrl.tracks, 100);
-            } else if (album) {
-                $scope.trackRequest = new DataLoaderFactory(ApiFactory.track.getFromAlbum(album.ID), ctrl.tracks, 100);
+            if (selectedAlbumId !== $state.params.albumId) {
+                selectedAlbumId = $state.params.albumId;
+                shouldResetTracks = true;
             }
-        }
 
-        $rootScope.$on('selectArtist', function(e, artist) {
-            loadAlbums(artist);
-            loadTracks(null);
-            $scope.albumRequest.fetch();
+            if (shouldResetArtists) {
+                ctrl.artists.length = 0;
+                shouldLoadMoreArtists = true;
+                loadMoreArtists();
+            }
+            if (shouldResetAlbums) {
+                ctrl.albums.length = 0;
+                shouldLoadMoreAlbums = true;
+                loadMoreAlbums();
+            }
+            if (shouldResetTracks) {
+                ctrl.tracks.length = 0;
+                shouldLoadMoreTracks = true;
+                loadMoreTracks();
+            }
         });
 
-        $rootScope.$on('selectAlbum', function(e, album) {
-            loadTracks(album);
-            $scope.trackRequest.fetch();
-        });
+        function loadMoreArtists() {
+            if (!shouldLoadMoreArtists) {
+                return;
+            }
+            shouldLoadMoreArtists = false;
+            ApiFactory.artist.getAll(ctrl.artists.length, 100).then(function(artists) {
+                if (artists.length > 0) {
+                    shouldLoadMoreArtists = true;
+                }
+                while (artists.length > 0) {
+                    ctrl.artists.push(artists.shift());
+                }
+            });
+        }
+
+        function loadMoreAlbums() {
+            if (!shouldLoadMoreAlbums || !selectedArtistId) {
+                return;
+            }
+            shouldLoadMoreAlbums = false;
+            ApiFactory.album.getFromArtist(selectedArtistId, ctrl.albums.length, 100).then(function(albums) {
+                if (albums.length > 0) {
+                    shouldLoadMoreAlbums = true;
+                }
+                while (albums.length > 0) {
+                    ctrl.albums.push(albums.shift());
+                }
+            });
+        }
+
+        function loadMoreTracks() {
+            if (!shouldLoadMoreTracks || !selectedAlbumId) {
+                return;
+            }
+            shouldLoadMoreTracks = false;
+            ApiFactory.track.getFromAlbum(selectedAlbumId, ctrl.tracks.length, 100).then(function(tracks) {
+                if (tracks.length > 0) {
+                    shouldLoadMoreTracks = true;
+                }
+                while (tracks.length > 0) {
+                    ctrl.tracks.push(tracks.shift());
+                }
+            });
+        }
 
         $scope.tracks = [];
         angular.extend(this, {
             artists: [],
             albums: [],
-            tracks: $scope.tracks
+            tracks: $scope.tracks,
+            loadMoreArtists: loadMoreArtists,
+            loadMoreAlbums: loadMoreAlbums,
+            loadMoreTracks: loadMoreTracks
         });
-
-        loadArtists();
-        loadAlbums();
-        loadTracks();
     }
 })();

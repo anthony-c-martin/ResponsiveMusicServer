@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module('app.login', [
-        'ngRoute',
+        'ui.router',
         'angular-md5',
         'app.services.api'
     ]);

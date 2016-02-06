@@ -6,13 +6,13 @@
 
     /* @ngInject */
     function ApiFactory(HttpFactory, sessionService) {
-        function authRequest(command) {
+        function apiAuthedRequest(command) {
             var session = sessionService.getSession();
 
-            return unauthRequest(command).authenticate(session.Key, session.Secret);
+            return apiRequest(command).authenticate(session.Key, session.Secret);
         }
 
-        function unauthRequest(command) {
+        function apiRequest(command) {
             var url = sessionService.jsonURL;
 
             return new HttpFactory(command, url);
@@ -20,57 +20,56 @@
 
         return {
             artist: {
-                getAll: function() {
-                    return authRequest('GetArtists');
+                getAll: function(start, limit) {
+                    return apiAuthedRequest('GetArtists').bound(start, limit).submit();
                 },
-                search: function(string) {
-                    return authRequest('SearchArtists').byString(string);
+                search: function(string, start, limit) {
+                    return apiAuthedRequest('SearchArtists').byString(string).bound(start, limit).submit();
                 }
             },
             album: {
-                getAll: function() {
-                    return authRequest('GetAlbums');
+                getAll: function(start, limit) {
+                    return apiAuthedRequest('GetAlbums').bound(start, limit).submit();
                 },
-                getFromArtist: function(id) {
-                    return authRequest('GetAlbumsByArtist').byId(id);
+                getFromArtist: function(artistId, start, limit) {
+                    return apiAuthedRequest('GetAlbumsByArtist').byId(artistId).bound(start, limit).submit();
                 },
-                search: function(string) {
-                    return authRequest('SearchAlbums').byString(string);
+                search: function(string, start, limit) {
+                    return apiAuthedRequest('SearchAlbums').byString(string).bound(start, limit).submit();
                 }
             },
             track: {
-                getAll: function() {
-                    return authRequest('GetTracks');
+                getAll: function(start, limit) {
+                    return apiAuthedRequest('GetTracks').bound(start, limit).submit();
                 },
-                getFromArtist: function(id) {
-                    return authRequest('GetTracksByArtist').byId(id);
+                getFromArtist: function(id, start, limit) {
+                    return apiAuthedRequest('GetTracksByArtist').byId(id).bound(start, limit).submit();
                 },
-                getFromAlbum: function(id) {
-                    return authRequest('GetTracksByAlbum').byId(id);
+                getFromAlbum: function(albumId, start, limit) {
+                    return apiAuthedRequest('GetTracksByAlbum').byId(albumId).bound(start, limit).submit();
                 },
                 convert: function(string) {
-                    return authRequest('ConvertTrackByID').byString(string);
+                    return apiAuthedRequest('ConvertTrackByID').byString(string).submit();
                 },
                 lastFMNowPlaying: function(string) {
-                    return authRequest('LFMNowPlayingTrack').byString(string);
+                    return apiAuthedRequest('LFMNowPlayingTrack').byString(string).submit();
                 },
                 lastFMScrobble: function(string) {
-                    return authRequest('LFMScrobbleTrack').byString(string);
+                    return apiAuthedRequest('LFMScrobbleTrack').byString(string).submit();
                 },
-                search: function(string) {
-                    return authRequest('SearchTracks').byString(string);
+                search: function(string, start, limit) {
+                    return apiAuthedRequest('SearchTracks').byString(string).bound(start, limit).submit();
                 }
             },
             session: {
                 getToken: function() {
-                    return unauthRequest('GetToken');
+                    return apiRequest('GetToken').submit();
                 },
                 getSession: function(token, authentication) {
-                    return unauthRequest('GetSession').addParam('Token', token)
-                        .addParam('Authentication', authentication);
+                    return apiRequest('GetSession').addParam('Token', token).addParam('Authentication', authentication).submit();
                 },
                 getUserPreferences: function() {
-                    return authRequest('GetUserPreferences');
+                    return apiAuthedRequest('GetUserPreferences').submit();
                 }
             }
         };

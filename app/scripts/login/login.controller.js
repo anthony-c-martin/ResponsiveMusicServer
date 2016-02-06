@@ -5,11 +5,10 @@
         .controller('LoginController', LoginController);
 
     /* @ngInject */
-    function LoginController($rootScope, $routeParams, md5, ApiFactory) {
+    function LoginController($rootScope, $stateParams, md5, ApiFactory) {
         var ctrl = this;
 
-        function loginFailed(message) {
-            console.warn(message);
+        function loginFailed() {
             $rootScope.$emit('app.components.error.ErrorMessage', 'Login attempt failed. Please try again.');
         }
 
@@ -19,34 +18,35 @@
         }
 
         function submitSessionRequest(token, authString) {
-            ApiFactory.session.getSession(token, authString).submit().then(function(data) {
+            ApiFactory.session.getSession(token, authString).then(function(data) {
                 $rootScope.$emit('loginSuccess', {
                     Key: data.Session,
                     Secret: data.Secret
                 });
             }, function() {
-                ctrl.loginFailed();
+                loginFailed();
             });
         }
 
         function login() {
-            ApiFactory.session.getToken().submit().then(function(data) {
+            ApiFactory.session.getToken().then(function(data) {
                 var authString = getAuthString(ctrl.auth.username, ctrl.auth.password, data.Token);
                 submitSessionRequest(data.Token, authString);
             }, function() {
-                ctrl.loginFailed();
+                loginFailed();
             });
         }
 
-        if ($routeParams.token && $routeParams.auth) {
-            submitSessionRequest($routeParams.token, $routeParams.auth);
+        function attemptAutoLogin() {
+            if ($stateParams.token && $stateParams.auth) {
+                submitSessionRequest($stateParams.token, $stateParams.auth);
+            }
         }
 
         angular.extend(this, {
             auth: {},
             login: login,
-            loginFailed: loginFailed,
-            getAuthString: getAuthString
+            attemptAutoLogin: attemptAutoLogin
         });
     }
 })();

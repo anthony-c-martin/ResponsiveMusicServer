@@ -14,7 +14,7 @@
             <span>
                 <div class="history-item clickable" ng-click="panel.deselectArtist()">Artists</div>
             </span>
-            <span ng-show="panel.selectedArtist">
+            <span ng-show="panel.selectedArtist"?,''>
                 <div class="history-item"><i class="fa fa-chevron-right"></i></div>
                 <div class="history-item clickable" ng-click="panel.deselectAlbum()">{{ panel.selectedArtist.Name }}</div>
             </span>
@@ -24,17 +24,17 @@
             </span>
         </div>
     </div>
-    <div ng-show="panel.isArtistsShown()" am-scroll-loader="artistRequest.fetch()" class="pane">
+    <div ng-show="panel.isArtistsShown()" am-scroll-loader="vm.loadMoreArtists()" class="pane">
         <ul class="artists">
             <li am-artist="artist" ng-repeat="artist in vm.artists | limitTo: vm.artists.length track by artist.ID" ng-class="{selected: (artist === panel.selectedArtist)}"></li>
         </ul>
     </div><!--
-    --><div ng-show="panel.isAlbumsShown()" am-scroll-loader="albumRequest.fetch()" class="pane">
+    --><div ng-show="panel.isAlbumsShown()" am-scroll-loader="vm.loadMoreAlbums()" class="pane">
         <ul class="albums">
             <li am-album="album" ng-repeat="album in vm.albums | limitTo: vm.albums.length track by album.ID" ng-class="{selected: (album === panel.selectedAlbum)}"></li>
         </ul>
     </div><!--
-    --><div ng-show="panel.isTracksShown()" ng-mousedown="panel.deselectTracks($event)" am-scroll-loader="trackRequest.fetch()" class="pane">
+    --><div ng-show="panel.isTracksShown()" ng-mousedown="panel.deselectTracks($event)" am-scroll-loader="vm.loadMoreTracks()" class="pane">
         <ul class="tracks">
             <li am-track="track" track-area="trackArea" ng-repeat="track in vm.tracks | limitTo: vm.tracks.length track by track.ID"></li>
         </ul>

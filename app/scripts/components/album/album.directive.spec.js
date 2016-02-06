@@ -23,14 +23,6 @@ describe('app.components.album.amAlbum', function() {
             expect(element.find('.content').find('.desc').text()).toBe('Album 1');
         });
 
-        it('should call select when clicked', function() {
-            spyOn(scope.vm, 'select');
-
-            element.trigger('click');
-
-            expect(scope.vm.select).toHaveBeenCalled();
-        });
-
         it('should call add when the add button is clicked', function() {
             spyOn(scope.vm, 'add');
 

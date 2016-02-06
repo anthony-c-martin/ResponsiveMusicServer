@@ -18,9 +18,9 @@
 
 <body am-body-event-handler ng-controller="AppController as appCtrl">
     <div>
-        <div am-navbar ng-if="appCtrl.loggedIn"></div>
+        <div am-navbar ng-if="appCtrl.isLoggedIn()"></div>
         <div class="container">
-            <div ng-view class="view-container"></div>
+            <div ui-view class="view-container"></div>
             <am-error></am-error>
         </div>
         <div am-drag-image class="drag-image"></div>
@@ -33,19 +33,19 @@
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-animate/angular-animate.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
-    <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
     <script src="bower_components/matchmedia/matchMedia.js"></script>
     <script src="bower_components/matchmedia-ng/matchmedia-ng.js"></script>
     <script src="bower_components/angular-md5/angular-md5.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
     <!-- build:jsApp({.tmp,app}) scripts/scripts.js -->
     <!-- inject:js -->
     <script src="scripts/app.module.js"></script>
-    <script src="scripts/components/components.module.js"></script>
     <script src="scripts/core/core.module.js"></script>
+    <script src="scripts/components/components.module.js"></script>
     <script src="scripts/login/login.module.js"></script>
     <script src="scripts/music/music.module.js"></script>
     <script src="scripts/services/services.module.js"></script>
@@ -91,7 +91,6 @@
     <script src="scripts/components/track/track.controller.js"></script>
     <script src="scripts/components/track/track.directive.js"></script>
     <script src="scripts/services/api/api.factory.js"></script>
-    <script src="scripts/services/api/dataLoader.factory.js"></script>
     <script src="scripts/services/api/http.factory.js"></script>
     <script src="scripts/services/player/draggableData.service.js"></script>
     <script src="scripts/services/player/player.service.js"></script>

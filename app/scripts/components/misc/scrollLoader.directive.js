@@ -9,7 +9,6 @@
         return {
             restrict: 'A',
             link: function (scope, element, attrs) {
-                scope.$eval(attrs.amScrollLoader);
                 var raw = element[0];
 
                 element.on('scroll', function () {

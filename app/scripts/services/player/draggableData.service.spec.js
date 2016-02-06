@@ -409,29 +409,13 @@ describe('app.services.player.draggableDataService', function() {
     });
 
     describe('setArtists', function() {
-        var submitFunction = jasmine.createSpy('submitFunction');
-        var boundFunction = jasmine.createSpy('boundFunction');
-        beforeEach(function() {
-            spyOn(ApiFactory.track, 'getFromArtist').and.callFake(function(id) {
-                return {
-                    bound: function(start, limit) {
-                        boundFunction(start, limit);
-                        return this;
-                    },
-                    submit: function() {
-                        return submitFunction(id);
-                    }
-                };
-            });
-        });
-
         it('should call ApiFactory.track.getFromArtist for each artist passed in', function() {
-            submitFunction.and.callFake(function(id) {
-                return $q.when([{
-                    ID: id + 4
-                }, {
-                    ID: id + 5
-                }]);
+            spyOn(ApiFactory.track, 'getFromArtist').and.callFake(function(id) {
+                if (id === 12384) {
+                    return $q.when([{ID: 39782}]);
+                } else if (id === 12049) {
+                    return $q.when([{ID: 37828}, {ID: 7129}]);
+                }
             });
             var outputTracks;
 
@@ -441,18 +425,19 @@ describe('app.services.player.draggableDataService', function() {
             });
             $rootScope.$digest();
 
-            expect(ApiFactory.track.getFromArtist).toHaveBeenCalledWith(12384);
-            expect(ApiFactory.track.getFromArtist).toHaveBeenCalledWith(12049);
-            expect(outputTracks).toEqual([{ID: 12388}, {ID: 12389}, {ID: 12053}, {ID: 12054}]);
+            expect(ApiFactory.track.getFromArtist).toHaveBeenCalledWith(12384, 0, 1000);
+            expect(ApiFactory.track.getFromArtist).toHaveBeenCalledWith(12049, 0, 1000);
+            expect(outputTracks).toEqual([{ID: 39782}, {ID: 37828}, {ID: 7129}]);
         });
 
         it('should not allow getTracks to return tracks until all ApiFactorys have been completed', function() {
             var unresolvedPromise = $q.defer();
-            submitFunction.and.callFake(function(id) {
+            spyOn(ApiFactory.track, 'getFromArtist').and.callFake(function(id) {
                 if (id === 38984) {
                     return unresolvedPromise.promise;
+                } else if (id === 12424) {
+                    return $q.when([{ID: 37828}]);
                 }
-                return $q.when([]);
             });
             var outputTracks;
 
@@ -465,17 +450,18 @@ describe('app.services.player.draggableDataService', function() {
             expect(outputTracks).toBeUndefined();
             unresolvedPromise.resolve([{ID: 12329}]);
             $rootScope.$digest();
-            expect(outputTracks).toEqual([{ID: 12329}]);
+            expect(outputTracks).toEqual([{ID: 12329}, {ID: 37828}]);
         });
 
         it('should reject getTracks if any of the ApiFactorys fail', function() {
-            submitFunction.and.callFake(function(id) {
+            var rejectSpy = jasmine.createSpy('rejectSpy');
+            spyOn(ApiFactory.track, 'getFromArtist').and.callFake(function(id) {
                 if (id === 23539) {
                     return $q.reject();
+                } else if (id === 29832) {
+                    return $q.when([{ID: 37828}]);
                 }
-                return $q.when(['adc']);
             });
-            var rejectSpy = jasmine.createSpy('rejectSpy');
 
             service.setArtists([{ID: 23539}, {ID: 29832}]);
             service.getTracks().then(function() {}, rejectSpy);
@@ -486,29 +472,13 @@ describe('app.services.player.draggableDataService', function() {
     });
 
     describe('setAlbums', function() {
-        var submitFunction = jasmine.createSpy('submitFunction');
-        var boundFunction = jasmine.createSpy('boundFunction');
-        beforeEach(function() {
-            spyOn(ApiFactory.track, 'getFromAlbum').and.callFake(function(id) {
-                return {
-                    bound: function(start, limit) {
-                        boundFunction(start, limit);
-                        return this;
-                    },
-                    submit: function() {
-                        return submitFunction(id);
-                    }
-                };
-            });
-        });
-
         it('should call ApiFactory.track.getFromAlbum for each album passed in', function() {
-            submitFunction.and.callFake(function(id) {
-                return $q.when([{
-                    ID: id + 4
-                }, {
-                    ID: id + 5
-                }]);
+            spyOn(ApiFactory.track, 'getFromAlbum').and.callFake(function(id) {
+                if (id === 12384) {
+                    return $q.when([{ID: 39782}]);
+                } else if (id === 12049) {
+                    return $q.when([{ID: 37828}, {ID: 7129}]);
+                }
             });
             var outputTracks;
 
@@ -518,18 +488,19 @@ describe('app.services.player.draggableDataService', function() {
             });
             $rootScope.$digest();
 
-            expect(ApiFactory.track.getFromAlbum).toHaveBeenCalledWith(12384);
-            expect(ApiFactory.track.getFromAlbum).toHaveBeenCalledWith(12049);
-            expect(outputTracks).toEqual([{ID: 12388}, {ID: 12389}, {ID: 12053}, {ID: 12054}]);
+            expect(ApiFactory.track.getFromAlbum).toHaveBeenCalledWith(12384, 0, 1000);
+            expect(ApiFactory.track.getFromAlbum).toHaveBeenCalledWith(12049, 0, 1000);
+            expect(outputTracks).toEqual([{ID: 39782}, {ID: 37828}, {ID: 7129}]);
         });
 
         it('should not allow getTracks to return tracks until all ApiFactorys have been completed', function() {
             var unresolvedPromise = $q.defer();
-            submitFunction.and.callFake(function(id) {
+            spyOn(ApiFactory.track, 'getFromAlbum').and.callFake(function(id) {
                 if (id === 38984) {
                     return unresolvedPromise.promise;
+                } else if (id === 12424) {
+                    return $q.when([{ID: 37828}]);
                 }
-                return $q.when([]);
             });
             var outputTracks;
 
@@ -542,17 +513,18 @@ describe('app.services.player.draggableDataService', function() {
             expect(outputTracks).toBeUndefined();
             unresolvedPromise.resolve([{ID: 12329}]);
             $rootScope.$digest();
-            expect(outputTracks).toEqual([{ID: 12329}]);
+            expect(outputTracks).toEqual([{ID: 12329}, {ID: 37828}]);
         });
 
         it('should reject getTracks if any of the ApiFactorys fail', function() {
-            submitFunction.and.callFake(function(id) {
+            var rejectSpy = jasmine.createSpy('rejectSpy');
+            spyOn(ApiFactory.track, 'getFromAlbum').and.callFake(function(id) {
                 if (id === 23539) {
                     return $q.reject();
+                } else if (id === 29832) {
+                    return $q.when([{ID: 37828}]);
                 }
-                return $q.when(['adc']);
             });
-            var rejectSpy = jasmine.createSpy('rejectSpy');
 
             service.setAlbums([{ID: 23539}, {ID: 29832}]);
             service.getTracks().then(function() {}, rejectSpy);

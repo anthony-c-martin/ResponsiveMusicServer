@@ -17,10 +17,10 @@
                 return;
             }
 
-            ApiFactory.track.lastFMNowPlaying(track.ID).submit();
+            ApiFactory.track.lastFMNowPlaying(track.ID);
 
             scrobbleTimer.reset(function() {
-                ApiFactory.track.lastFMScrobble(track.ID).submit();
+                ApiFactory.track.lastFMScrobble(track.ID);
             }, track.Duration / 2 < 240 ? track.Duration / 2 : 240);
         }
 
@@ -56,7 +56,7 @@
             }
 
             track.conversionPromise = conversionDeferred.promise;
-            ApiFactory.track.convert(track.ID).submit().then(function(data) {
+            ApiFactory.track.convert(track.ID).then(function(data) {
                 if (data.Result && data.Result === 'Success') {
                     track.FileName = data.FileName;
                     conversionDeferred.resolve(track);

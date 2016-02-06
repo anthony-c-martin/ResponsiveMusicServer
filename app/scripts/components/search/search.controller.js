@@ -19,9 +19,9 @@
             ctrl.searchShown = true;
 
             $q.all({
-                artists: ApiFactory.artist.search(ctrl.searchText).bound(0, 5).submit(),
-                albums: ApiFactory.album.search(ctrl.searchText).bound(0, 5).submit(),
-                tracks: ApiFactory.track.search(ctrl.searchText).bound(0, 5).submit()
+                artists: ApiFactory.artist.search(ctrl.searchText, 0, 5),
+                albums: ApiFactory.album.search(ctrl.searchText, 0, 5),
+                tracks: ApiFactory.track.search(ctrl.searchText, 0, 5)
             }).then(function(results) {
                 searchResults.artists = results.artists;
                 searchResults.albums = results.albums;

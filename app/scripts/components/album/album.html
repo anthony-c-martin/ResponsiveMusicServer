@@ -1,4 +1,4 @@
-<li class="album" ng-click="vm.select()" draggable="true">
+<li ui-sref="music.artist.album({albumId: vm.album.ID})" ui-sref-active="selected" class="album" draggable="true">
     <div class="content">
         <div class="controls controls-mini">
             <button ng-click="vm.add()" type="button" class="control control-add"><i class="fa fa-plus"></i></button>

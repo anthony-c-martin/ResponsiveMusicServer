@@ -27,7 +27,7 @@
         function setArtists(artists) {
             var promises = [];
             angular.forEach(artists, function(artist) {
-                promises.push(ApiFactory.track.getFromArtist(artist.ID).bound(0, 1000).submit());
+                promises.push(ApiFactory.track.getFromArtist(artist.ID, 0, 1000));
             });
 
             currentDeferred = $q.defer();
@@ -45,7 +45,7 @@
         function setAlbums(albums) {
             var promises = [];
             angular.forEach(albums, function(album) {
-                promises.push(ApiFactory.track.getFromAlbum(album.ID).bound(0, 1000).submit());
+                promises.push(ApiFactory.track.getFromAlbum(album.ID, 0, 1000));
             });
 
             currentDeferred = $q.defer();

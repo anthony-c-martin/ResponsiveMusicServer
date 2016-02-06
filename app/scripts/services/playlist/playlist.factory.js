@@ -40,7 +40,7 @@
 
             function addTracksByAlbum(albumId) {
                 var deferred = $q.defer();
-                ApiFactory.track.getFromAlbum(albumId).bound(0, 1000).submit()
+                ApiFactory.track.getFromAlbum(albumId, 0, 1000)
                     .then(function(tracks) {
                         addTracks(tracks);
                         deferred.resolve();
@@ -52,7 +52,7 @@
 
             function addTracksByArtist(artistId) {
                 var deferred = $q.defer();
-                ApiFactory.track.getFromArtist(artistId).bound(0, 1000).submit()
+                ApiFactory.track.getFromArtist(artistId, 0, 1000)
                     .then(function(tracks) {
                         addTracks(tracks);
                         deferred.resolve();

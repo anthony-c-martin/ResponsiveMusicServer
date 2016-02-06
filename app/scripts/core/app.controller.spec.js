@@ -1,17 +1,14 @@
 /* jshint -W117, -W030 */
 describe('app.core.AppController', function() {
 
-    var controller,
-        mockMatchmedia;
+    var controller;
 
     beforeEach(module('app.core'));
-
-    beforeEach(inject(function($controller, $q, $rootScope, $location, sessionService, ApiFactory) {
-        mockMatchmedia = getMockMatchMedia();
-
+    beforeEach(inject(function($controller, $q, $rootScope, $state, sessionService, ApiFactory) {
+        window.mockMatchmedia = getMockMatchMedia();
         window.$q = $q;
         window.$rootScope = $rootScope;
-        window.$location = $location;
+        window.$state = $state;
         window.sessionService = sessionService;
         window.ApiFactory = ApiFactory;
         window.$scope = $rootScope.$new();
@@ -19,7 +16,7 @@ describe('app.core.AppController', function() {
         controller = $controller('AppController', {
             $scope: $scope,
             $rootScope: $rootScope,
-            $location: $location,
+            $state: $state,
             matchmedia: mockMatchmedia,
             sessionService: sessionService,
             ApiFactory: ApiFactory
@@ -48,148 +45,85 @@ describe('app.core.AppController', function() {
         });
     });
 
-    describe('window events', function() {
+    describe('event: onbeforeunload', function() {
         it('should prompt when unloading the window if logged in', function() {
-            controller.loggedIn = true;
+            spyOn(sessionService, 'hasSession').and.returnValue(true);
+
             expect(window.onbeforeunload()).toBe('Reloading or closing this page will stop playback!');
         });
 
         it('should not prompt when unloading the window if not logged in', function() {
-            controller.loggedIn = false;
+            spyOn(sessionService, 'hasSession').and.returnValue(false);
+
             expect(window.onbeforeunload()).not.toBeDefined();
         });
     });
 
-    describe('event handling', function() {
-        it('should change location on the rootScope changeLocation event', function() {
-            spyOn($location, 'path');
-            spyOn(controller, 'verifyLoggedIn');
-            $rootScope.$emit('changeLocation', 'sdaogsdnh9');
-
-            expect($location.path).toHaveBeenCalledWith('sdaogsdnh9');
-            expect($location.path.calls.count()).toBe(1);
-            expect(controller.verifyLoggedIn).toHaveBeenCalled();
-            expect(controller.verifyLoggedIn.calls.count()).toBe(1);
-        });
-
-        it('should call verifyLoggedIn on the rootScope $locationChangeSuccess event', function() {
-            spyOn(controller, 'verifyLoggedIn');
-            $rootScope.$emit('$locationChangeSuccess');
-
-            expect(controller.verifyLoggedIn).toHaveBeenCalled();
-            expect(controller.verifyLoggedIn.calls.count()).toBe(1);
-        });
-
-        it('should change the title on the rootScope $routeChangeSuccess event', function() {
-            $rootScope.title = '';
-            $rootScope.$emit('$routeChangeSuccess', {
-                title: 'asoduafg8asdfi76t79'
-            });
-
-            expect($rootScope.title).toBe('asoduafg8asdfi76t79');
-        });
-
-        it('should clear the session, display an error, and call verifyLoggedIn on the ResponseUnauthorised event', function() {
-            spyOn($rootScope, '$emit').and.callThrough();
-            spyOn(sessionService, 'clearSession');
-            spyOn(controller, 'verifyLoggedIn');
-            $rootScope.$emit('ResponseUnauthorised');
-
-            expect($rootScope.$emit).toHaveBeenCalledWith('app.components.error.ErrorMessage',
-                'Your session has timed out, and you have been logged out.');
-            expect(sessionService.clearSession).toHaveBeenCalled();
-            expect(sessionService.clearSession.calls.count()).toBe(1);
-            expect(controller.verifyLoggedIn).toHaveBeenCalled();
-            expect(controller.verifyLoggedIn.calls.count()).toBe(1);
-        });
-
+    describe('event: loginSuccess', function() {
         it('should store session data, redirect the user, and load user preferences on the loginSuccess event', function() {
-            var loginSuccessData = { };
-            var userPreferencesData = { };
-            controller.loggedIn = false;
-            spyOn($location, 'path');
+            spyOn($state, 'go');
+            spyOn(ApiFactory.session, 'getUserPreferences').and.returnValue($q.when({
+                ScrobblingEnabled: 1
+            }));
             spyOn(sessionService, 'setSession');
             spyOn(sessionService, 'setUserPreferences');
-            spyOn(sessionService, 'getUserPreference').and.returnValue('asdgsdagu8as7gf');
-            spyOn(ApiFactory.session, 'getUserPreferences').and.returnValue({
-                submit: function() {
-                    return $q.when(userPreferencesData);
-                }
+
+            $rootScope.$emit('loginSuccess', {
+                Key: 'asd9fhasdfuhi',
+                Secret: 'asdufiasubfi9lkna'
             });
+            $rootScope.$digest();
 
-            $rootScope.$emit('loginSuccess', loginSuccessData);
-
-            expect(controller.loggedIn).toBeTruthy();
-            expect($location.path).toHaveBeenCalledWith('/music');
-            expect(sessionService.setSession).toHaveBeenCalledWith(loginSuccessData);
-
-            expect(ApiFactory.session.getUserPreferences).toHaveBeenCalled();
-
-            $scope.$digest();
-
-            expect(sessionService.setUserPreferences).toHaveBeenCalledWith(userPreferencesData);
+            expect($state.go).toHaveBeenCalledWith('music');
+            expect(sessionService.setSession).toHaveBeenCalledWith({
+                Key: 'asd9fhasdfuhi',
+                Secret: 'asdufiasubfi9lkna'
+            });
+            expect(sessionService.setUserPreferences).toHaveBeenCalledWith({
+                ScrobblingEnabled: 1
+            });
         });
     });
 
-    describe('verifyLoggedIn', function() {
-        it('should not redirect the user and load preferences if verifyLoggedIn is called and a session key is set', function() {
-            spyOn(sessionService, 'getSession').and.returnValue({
-                Key: 'adbssadf'
-            });
-            spyOn($location, 'path').and.returnValue('/asdfbiuasbfi');
+    describe('event: ResponseUnauthorised', function() {
+        it('should emit an error, and redirect the user to the login page', function() {
+            spyOn($state, 'go');
+            spyOn($rootScope, '$emit').and.callThrough();
 
-            controller.verifyLoggedIn();
+            $rootScope.$emit('ResponseUnauthorised');
 
-            expect(controller.loggedIn).toBeTruthy();
-            expect($location.path).toHaveBeenCalledWith();
-            expect($location.path.calls.count()).toBe(1);
+            expect($rootScope.$emit).toHaveBeenCalledWith('app.components.error.ErrorMessage', jasmine.anything());
+            expect($state.go).toHaveBeenCalledWith('login');
         });
+    });
 
-        it('should redirect the user to /login if verifyLoggedIn is called and a session key is not set', function() {
-            spyOn(sessionService, 'getSession').and.returnValue({
-                Key: null
-            });
-            spyOn(sessionService, 'getUserPreference').and.returnValue(true);
-            spyOn($location, 'path').and.returnValue('/asdfbiuasbfi');
-
-            controller.verifyLoggedIn();
-
-            expect(controller.loggedIn).toBeFalsy();
-            expect($location.path).toHaveBeenCalledWith();
-            expect($location.path).toHaveBeenCalledWith('/login');
-            expect($location.path.calls.count()).toBe(2);
-        });
-
-        it('should clear the session data and not redirect if verifyLoggedIn is called and the location is /login', function() {
+    describe('event: $stateChangeStart', function() {
+        it('should clear the session on entering the login state', function() {
             spyOn(sessionService, 'clearSession');
-            spyOn(sessionService, 'getSession').and.returnValue({
-                Key: null
-            });
-            spyOn(sessionService, 'getUserPreference').and.returnValue(true);
-            spyOn($location, 'path').and.returnValue('/login');
 
-            controller.verifyLoggedIn();
+            $rootScope.$emit('$stateChangeStart', {name: 'login'});
 
-            expect(sessionService.clearSession).toHaveBeenCalledWith();
-            expect(sessionService.clearSession.calls.count()).toBe(1);
-            expect($location.path).toHaveBeenCalledWith();
-            expect($location.path.calls.count()).toBe(1);
+            expect(sessionService.clearSession).toHaveBeenCalled();
         });
 
-        it('should clear the session data and not redirect if verifyLoggedIn is called and the location path begins with /login/', function() {
-            spyOn(sessionService, 'clearSession');
-            spyOn(sessionService, 'getSession').and.returnValue({
-                Key: null
-            });
-            spyOn(sessionService, 'getUserPreference').and.returnValue(true);
-            spyOn($location, 'path').and.returnValue('/login/asdf/sadg');
+        it('should cancel the state change and set the state to login if the user has no session', function() {
+            spyOn(sessionService, 'hasSession').and.returnValue(false);
+            spyOn($state, 'go');
 
-            controller.verifyLoggedIn();
+            var event = $rootScope.$emit('$stateChangeStart', {name: 'someRandomState'});
 
-            expect(sessionService.clearSession).toHaveBeenCalledWith();
-            expect(sessionService.clearSession.calls.count()).toBe(1);
-            expect($location.path).toHaveBeenCalledWith();
-            expect($location.path.calls.count()).toBe(1);
+            expect($state.go).toHaveBeenCalledWith('login');
+            expect(event.defaultPrevented).toBeTruthy();
+        });
+
+        it('should allow the state change if the user has a session', function() {
+            spyOn(sessionService, 'hasSession').and.returnValue(true);
+            spyOn($state, 'go');
+
+            var event = $rootScope.$emit('$stateChangeStart', {name: 'someRandomState'});
+
+            expect($state.go).not.toHaveBeenCalled();
+            expect(event.defaultPrevented).toBeFalsy();
         });
     });
 

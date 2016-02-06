@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module('app.core', [
-        'ngRoute',
+        'ui.router',
         'matchmedia-ng',
         'app.services.api',
         'app.services.session',

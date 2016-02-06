@@ -52,17 +52,4 @@ describe('app.components.artist.ArtistController', function() {
             expect(playerService.playlist.addTracksByArtist).toHaveBeenCalledWith(457);
         });
     });
-
-    describe('select', function() {
-        it('should emit a selectArtist event', function() {
-            spyOn($scope, '$emit');
-            var mockArtist = {};
-            controller.artist = mockArtist;
-
-            controller.select();
-
-            expect($scope.$emit).toHaveBeenCalledWith('selectArtist', mockArtist);
-            expect($scope.$emit.calls.count()).toBe(1);
-        });
-    });
 });

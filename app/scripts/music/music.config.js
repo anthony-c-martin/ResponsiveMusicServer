@@ -5,19 +5,19 @@
         .config(config);
 
     /* @ngInject */
-    function config($routeProvider) {
-        $routeProvider.
-            when('/music', {
+    function config($stateProvider) {
+        $stateProvider.
+            state('music', {
+                url: '/music',
                 controller: 'MusicController',
                 controllerAs: 'vm',
-                templateUrl: 'scripts/music/music.html',
-                title: 'Music'
+                templateUrl: 'scripts/music/music.html'
             }).
-            when('/music/search/:type/:search', {
-                controller: 'MusicController',
-                controllerAs: 'vm',
-                templateUrl: 'scripts/music/music.html',
-                title: 'Music'
+            state('music.artist', {
+                url: '/{artistId:int}'
+            }).
+            state('music.artist.album', {
+                url: '/{albumId:int}'
             });
     }
 })();

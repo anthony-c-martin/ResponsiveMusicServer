@@ -5,19 +5,13 @@
         .config(config);
 
     /* @ngInject */
-    function config($routeProvider) {
-        $routeProvider.
-            when('/login', {
+    function config($stateProvider) {
+        $stateProvider.
+            state('login', {
+                url: '/login?{token:string}&{auth:string}',
                 controller: 'LoginController',
                 controllerAs: 'vm',
-                templateUrl: 'scripts/login/login.html',
-                title: 'Login'
-            }).
-            when('/login/:token/:auth', {
-                controller: 'LoginController',
-                controllerAs: 'vm',
-                templateUrl: 'scripts/login/login.html',
-                title: 'Login'
+                templateUrl: 'scripts/login/login.html'
             });
     }
 })();
