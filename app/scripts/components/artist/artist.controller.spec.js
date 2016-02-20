@@ -1,32 +1,24 @@
 /* jshint -W117, -W030 */
 describe('app.components.artist.ArtistController', function() {
 
-    var controller,
-        $scope,
-        $rootScope,
-        playerService,
-        $q;
+    beforeEach(module('app.components.artist'));
+    beforeEach(inject(function($controller, $rootScope, $state, $q, playerService) {
+        window.$scope = $rootScope.$new();
+        window.$rootScope = $rootScope;
+        window.$state = $state;
+        window.$q = $q;
+        window.playerService = playerService;
 
-    beforeEach(function() {
-        module('app.components.artist');
-
-        inject(function($injector) {
-            $q = $injector.get('$q');
-            $rootScope = $injector.get('$rootScope');
-            playerService = $injector.get('playerService');
-            $scope = $rootScope.$new();
-            var $controller = $injector.get('$controller');
-
-            controller = $controller('ArtistController', {
-                $scope: $scope,
-                playerService: playerService
-            });
+        window.controller = $controller('ArtistController', {
+            $scope: $scope,
+            $state: $state,
+            playerService: playerService
         });
-
         controller.artist = {
+            Name: 'The Mothers of Invention',
             ID: 457
         };
-    });
+    }));
 
     describe('play', function() {
         it('should clear the playlist, call addTracksByArtist on the playlist, and then select the next track', function() {

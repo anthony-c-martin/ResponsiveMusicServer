@@ -8,7 +8,7 @@
     function album(draggableDataService) {
         return {
             scope: {
-                'album': '=amAlbum'
+                album: '=amAlbum'
             },
             restrict: 'A',
             replace: true,

@@ -1,26 +1,22 @@
 /* jshint -W117, -W030 */
 describe('app.components.album.amAlbum', function() {
 
-    var element,
-        scope;
-
     beforeEach(module('app.components.album'));
-
     beforeEach(inject(function($compile, $rootScope) {
-        element = angular.element(
+        window.element = angular.element(
             '<li am-album="album"></li>'
         );
 
-        $rootScope.album = {ID: 1235, Name: 'Album 1'};
+        $rootScope.album = {Name: 'Hot Rats'};
         $compile(element)($rootScope);
         $rootScope.$digest();
 
-        scope = element.isolateScope();
+        window.scope = element.isolateScope();
     }));
 
     describe('initialisation', function() {
         it('should display the album Name property', function() {
-            expect(element.find('.content').find('.desc').text()).toBe('Album 1');
+            expect(element.find('.content').find('.desc').text()).toBe('Hot Rats');
         });
 
         it('should call add when the add button is clicked', function() {

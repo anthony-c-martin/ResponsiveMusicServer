@@ -18,6 +18,41 @@
             track: null
         };
 
+        var controlHooks = {
+            nextTrack: nextTrack,
+            previousTrack: previousTrack,
+            volumeUpdate: volumeUpdate,
+            positionUpdate: positionUpdate,
+            changeTrack: changeTrack,
+            togglePause: function() {
+                if (current.isPlaying) {
+                    audioPause();
+                } else {
+                    audioPlay();
+                }
+            }
+        };
+
+        var audioHooks = {
+            play: function() {
+                trackManagerService.togglePauseScrobbling(false);
+                current.isPlaying = true;
+            },
+            pause: function() {
+                trackManagerService.togglePauseScrobbling(true);
+                current.isPlaying = false;
+            },
+            volumeChange: function(volume) {
+                current.volume = volume;
+            },
+            positionChange: function(position) {
+                current.position = position;
+            },
+            ended: function() {
+                controlHooks.nextTrack();
+            }
+        };
+
         function getSourceParams(track) {
             var params = '?FileName=' + encodeURIComponent(track.FileName);
             params += '&Session=' + encodeURIComponent(sessionService.getSession().Key);
@@ -38,8 +73,7 @@
                     $rootScope.$emit('playerService.playNew', {src: '', type: ''});
                     deferred.reject();
                 });
-            }
-            else {
+            } else {
                 $rootScope.$emit('playerService.playNew', {src: '', type: ''});
                 deferred.resolve();
             }
@@ -107,41 +141,6 @@
         function volumeUpdate(volume) {
             $rootScope.$emit('playerService.volumeUpdate', volume);
         }
-
-        var controlHooks = {
-            nextTrack: nextTrack,
-            previousTrack: previousTrack,
-            volumeUpdate: volumeUpdate,
-            positionUpdate: positionUpdate,
-            changeTrack: changeTrack,
-            togglePause: function() {
-                if (current.isPlaying) {
-                    audioPause();
-                } else {
-                    audioPlay();
-                }
-            }
-        };
-
-        var audioHooks = {
-            play: function() {
-                trackManagerService.togglePauseScrobbling(false);
-                current.isPlaying = true;
-            },
-            pause: function() {
-                trackManagerService.togglePauseScrobbling(true);
-                current.isPlaying = false;
-            },
-            volumeChange: function(volume) {
-                current.volume = volume;
-            },
-            positionChange: function(position) {
-                current.position = position;
-            },
-            ended: function() {
-                controlHooks.nextTrack();
-            }
-        };
 
         angular.extend(this, {
             playlist: playlist,

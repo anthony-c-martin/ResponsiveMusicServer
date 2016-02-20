@@ -1,8 +1,7 @@
 /* jshint -W117, -W030 */
 describe('app.music.MusicController', function() {
 
-    var controller,
-        $scope;
+    var controller;
 
     var artist1 = {ID: 32983, Name: 'Frank Zappa'};
     var artist2 = {ID: 12342, Name: 'Captain Beefheart'};
@@ -14,7 +13,7 @@ describe('app.music.MusicController', function() {
 
     beforeEach(module('app.music'));
     beforeEach(inject(function($controller, $q, $rootScope, $state, playerService, ApiFactory) {
-        $scope = $rootScope.$new();
+        window.$scope = $rootScope.$new();
         window.$rootScope = $rootScope;
         window.$state = $state;
         window.playerService = playerService;
@@ -99,8 +98,7 @@ describe('app.music.MusicController', function() {
 
                 expect(controller.artists).toEqual([artist1, artist2]);
                 expect(controller.albums).toEqual([album1]);
-                expect(controller.tracks).toEqual([track1
-                ]);
+                expect(controller.tracks).toEqual([track1]);
             });
         });
 

@@ -8,8 +8,8 @@
     function track(draggableDataService) {
         return {
             scope: {
-                'track': '=amTrack',
-                'trackArea': '='
+                track: '=amTrack',
+                trackArea: '='
             },
             restrict: 'A',
             replace: true,

@@ -1,26 +1,22 @@
 /* jshint -W117, -W030 */
 describe('app.components.artist.amArtist', function() {
 
-    var element,
-        scope;
-
     beforeEach(module('app.components.artist'));
-
     beforeEach(inject(function($compile, $rootScope) {
-        element = angular.element(
+        window.element = angular.element(
             '<li am-artist="artist"></li>'
         );
 
-        $rootScope.artist = {ID: 1, Name: 'Artist 1'};
+        $rootScope.artist = {Name: 'Frank Zappa'};
         $compile(element)($rootScope);
         $rootScope.$digest();
 
-        scope = element.isolateScope();
+        window.scope = element.isolateScope();
     }));
 
     describe('initialisation', function() {
         it('should display the artist Name property', function() {
-            expect(element.find('.content').find('.desc').text()).toBe('Artist 1');
+            expect(element.find('.content').find('.desc').text()).toBe('Frank Zappa');
         });
 
         it('should call add when the add button is clicked', function() {

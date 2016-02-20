@@ -8,7 +8,7 @@
     function artist(draggableDataService) {
         return {
             scope: {
-                'artist': '=amArtist'
+                artist: '=amArtist'
             },
             restrict: 'A',
             replace: true,

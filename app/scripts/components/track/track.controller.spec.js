@@ -1,32 +1,24 @@
 /* jshint -W117, -W030 */
 describe('app.components.track.TrackController', function() {
 
-    var controller,
-        $scope,
-        $rootScope,
-        playerService,
-        $q;
+    beforeEach(module('app.components.track'));
+    beforeEach(inject(function($controller, $rootScope, $state, $q, playerService) {
+        window.$scope = $rootScope.$new();
+        window.$rootScope = $rootScope;
+        window.$state = $state;
+        window.$q = $q;
+        window.playerService = playerService;
 
-    beforeEach(function() {
-        module('app.components.track');
-
-        inject(function($injector) {
-            $q = $injector.get('$q');
-            $rootScope = $injector.get('$rootScope');
-            playerService = $injector.get('playerService');
-            $scope = $rootScope.$new();
-            var $controller = $injector.get('$controller');
-
-            controller = $controller('TrackController', {
-                $scope: $scope,
-                playerService: playerService
-            });
+        window.controller = $controller('TrackController', {
+            $scope: $scope,
+            $state: $state,
+            playerService: playerService
         });
-
-        $scope.track = {
+        controller.track = {
+            Name: 'Evelynn, a modified dog',
             ID: 362
         };
-    });
+    }));
 
     describe('play', function() {
         it('should clear the playlist, call addTrack on the playlist, and then select the next track', function() {

@@ -49,8 +49,11 @@
     "requireSpacesInConditionalExpression": true,
     "requireSpaceBeforeBlockStatements": true,
     "requireLineFeedAtFileEnd": true,
-    "disallowSpacesInsideObjectBrackets": "all",
-    "disallowSpacesInsideArrayBrackets": "all",
+    "requireSpacesInAnonymousFunctionExpression": false,
+    "requireSpacesInsideObjectBrackets": false,
+    "requireSpacesInsideArrayBrackets": false,
+    "requirePaddingNewLinesAfterBlocks": false,
+    "requireTrailingComma": false,
     "disallowSpacesInsideParentheses": true,
 
     "jsDoc": {

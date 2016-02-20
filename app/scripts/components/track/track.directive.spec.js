@@ -1,28 +1,22 @@
 /* jshint -W117, -W030 */
 describe('app.components.track.amTrack', function() {
 
-    var element,
-        playlistElement,
-        scope,
-        playlistScope;
-
     beforeEach(module('app.components.track'));
-
     beforeEach(inject(function($compile, $rootScope) {
-        element = angular.element(
+        window.element = angular.element(
             '<li am-track="track"></li>'
         );
-        playlistElement = angular.element(
+        window.playlistElement = angular.element(
             '<li am-track="track" am-playlist-track="true"></li>'
         );
 
-        $rootScope.track = {Name: 'Track 1'};
+        $rootScope.track = {Name: 'Uncle Remus'};
         $compile(element)($rootScope);
         $compile(playlistElement)($rootScope);
         $rootScope.$digest();
 
-        scope = element.isolateScope();
-        playlistScope = playlistElement.isolateScope();
+        window.scope = element.isolateScope();
+        window.playlistScope = playlistElement.isolateScope();
     }));
 
     describe('initialisation', function() {
@@ -33,7 +27,7 @@ describe('app.components.track.amTrack', function() {
         });
 
         it('should display the track Name property', function() {
-            expect(element.find('.content').find('.desc').text()).toBe('Track 1');
+            expect(element.find('.content').find('.desc').text()).toBe('Uncle Remus');
         });
 
         it('should call select on mousedown', function() {
