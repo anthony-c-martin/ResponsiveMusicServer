@@ -1,17 +1,17 @@
 (function() {
-    'use strict';
+  'use strict';
 
-    angular.module('app.login')
-        .config(config);
+  angular.module('app.login')
+    .config(config);
 
-    /* @ngInject */
-    function config($stateProvider) {
-        $stateProvider.
-            state('login', {
-                url: '/login?{token:string}&{auth:string}',
-                controller: 'LoginController',
-                controllerAs: 'vm',
-                templateUrl: 'scripts/login/login.html'
-            });
-    }
+  /* @ngInject */
+  function config($stateProvider) {
+    $stateProvider.
+      state('login', {
+        url: '/login?{token:string}&{auth:string}',
+        controller: 'LoginController',
+        controllerAs: 'vm',
+        templateUrl: 'scripts/login/login.html'
+      });
+  }
 })();

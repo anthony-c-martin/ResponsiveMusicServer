@@ -7,69 +7,69 @@ $phone: 40em;
 $post-phone: $phone + $viewport-increment;
 
 @mixin mq-small {
-    @media screen and (max-width: $phone) {
-        @content;
-    }
+  @media screen and (max-width: $phone) {
+    @content;
+  }
 }
 
 @mixin mq-small-med {
-    @media screen and (max-width: $pre-desktop) {
-        @content;
-    }
+  @media screen and (max-width: $pre-desktop) {
+    @content;
+  }
 }
 
 @mixin mq-med {
-    @include mq-small-med {
-        @include mq-med-large {
-            @content;
-        }
+  @include mq-small-med {
+    @include mq-med-large {
+      @content;
     }
+  }
 }
 
 @mixin mq-med-large {
-    @media screen and (min-width: $post-phone) {
-        @content;
-    }
+  @media screen and (min-width: $post-phone) {
+    @content;
+  }
 }
 
 @mixin mq-large {
-    @media screen and (min-width: $desktop) {
-        @content;
-    }
+  @media screen and (min-width: $desktop) {
+    @content;
+  }
 }
 
 @mixin hide-small {
-    @include mq-small() {
-        display: none;
-    }
+  @include mq-small() {
+    display: none;
+  }
 }
 
 @mixin hide-small-med {
-    @include mq-small {
-        display: none;
-    }
-    @include mq-med {
-        display: none;
-    }
+  @include mq-small {
+    display: none;
+  }
+  @include mq-med {
+    display: none;
+  }
 }
 
 @mixin hide-med {
-    @include mq-med {
-        display: none;
-    }
+  @include mq-med {
+    display: none;
+  }
 }
 
 @mixin hide-med-large {
-    @include mq-med {
-        display: none;
-    }
-    @include mq-large {
-        display: none;
-    }
+  @include mq-med {
+    display: none;
+  }
+  @include mq-large {
+    display: none;
+  }
 }
 
 @mixin hide-large {
-    @include mq-large {
-        display: none;
-    }
+  @include mq-large {
+    display: none;
+  }
 }

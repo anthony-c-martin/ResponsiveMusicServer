@@ -1,7 +1,7 @@
 (function() {
-    'use strict';
+  'use strict';
 
-    angular.module('app.components.error', [
-        'app.core'
-    ]);
+  angular.module('app.components.error', [
+    'app.core'
+  ]);
 })();

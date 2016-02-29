@@ -1,10 +1,10 @@
 (function() {
-    'use strict';
+  'use strict';
 
-    angular.module('app.services.player', [
-        'app.services.api',
-        'app.services.playlist',
-        'app.services.session'
-    ]);
+  angular.module('app.services.player', [
+    'app.services.api',
+    'app.services.playlist',
+    'app.services.session'
+  ]);
 
 })();

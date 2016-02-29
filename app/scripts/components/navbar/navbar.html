@@ -1,34 +1,34 @@
 <div class="navbar">
-    <div ng-if="isPhone" class="navbar-inner">
-        <am-position-control current-audio="vm.current" position-update="vm.positionUpdate"></am-position-control>
+  <div ng-if="isPhone" class="navbar-inner">
+    <am-position-control current-audio="vm.current" position-update="vm.positionUpdate"></am-position-control>
+  </div>
+  <div class="navbar-inner">
+    <div class="controls controls-nav unshrinkable">
+      <button ng-click="vm.previousTrack()" type="button" class="control">
+        <i class="fa fa-fast-backward"></i>
+      </button>
+      <button ng-click="vm.togglePause()" type="button" class="control">
+        <i ng-if="!vm.current.isPlaying" class="fa fa-play"></i>
+        <i ng-if="vm.current.isPlaying" class="fa fa-pause"></i>
+      </button>
+      <button ng-click="vm.nextTrack()" type="button" class="control">
+        <i class="fa fa-fast-forward"></i>
+      </button>
     </div>
-    <div class="navbar-inner">
-        <div class="controls controls-nav unshrinkable">
-            <button ng-click="vm.previousTrack()" type="button" class="control">
-                <i class="fa fa-fast-backward"></i>
-            </button>
-            <button ng-click="vm.togglePause()" type="button" class="control">
-                <i ng-if="!vm.current.isPlaying" class="fa fa-play"></i>
-                <i ng-if="vm.current.isPlaying" class="fa fa-pause"></i>
-            </button>
-            <button ng-click="vm.nextTrack()" type="button" class="control">
-                <i class="fa fa-fast-forward"></i>
-            </button>
-        </div>
-        <am-position-control current-audio="vm.current" position-update="vm.positionUpdate" ng-if="!isPhone"></am-position-control>
-        <div class="controls controls-nav unshrinkable">
-            <am-playlist></am-playlist>
-            <div class="control-container">
-                <button ng-click="vm.volumeShown = !vm.volumeShown" ng-class="{active: vm.volumeShown}" am-body-event-handler="volume" type="button" class="control">
-                    <i class="fa fa-volume-up"></i>
-                </button>
-                <am-volume-control current-audio="vm.current" volume-update="vm.volumeUpdate" ng-show="vm.volumeShown"></am-volume-control>
-            </div>
-            <button ng-click="vm.toggleScrobblingEnabled()" ng-class="{active: vm.scrobblingEnabled}" type="button" class="control">
-                <i class="fa fa-lastfm"></i>
-            </button>
-        </div>
-        <am-search></am-search>
+    <am-position-control current-audio="vm.current" position-update="vm.positionUpdate" ng-if="!isPhone"></am-position-control>
+    <div class="controls controls-nav unshrinkable">
+      <am-playlist></am-playlist>
+      <div class="control-container">
+        <button ng-click="vm.volumeShown = !vm.volumeShown" ng-class="{active: vm.volumeShown}" am-body-event-handler="volume" type="button" class="control">
+          <i class="fa fa-volume-up"></i>
+        </button>
+        <am-volume-control current-audio="vm.current" volume-update="vm.volumeUpdate" ng-show="vm.volumeShown"></am-volume-control>
+      </div>
+      <button ng-click="vm.toggleScrobblingEnabled()" ng-class="{active: vm.scrobblingEnabled}" type="button" class="control">
+        <i class="fa fa-lastfm"></i>
+      </button>
     </div>
-    <audio am-audio-source></audio>
+    <am-search></am-search>
+  </div>
+  <audio am-audio-source></audio>
 </div>

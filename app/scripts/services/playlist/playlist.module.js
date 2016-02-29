@@ -1,8 +1,8 @@
 (function() {
-    'use strict';
+  'use strict';
 
-    angular.module('app.services.playlist', [
-        'app.services.api'
-    ]);
+  angular.module('app.services.playlist', [
+    'app.services.api'
+  ]);
 
 })();

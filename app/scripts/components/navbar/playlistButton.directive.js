@@ -1,16 +1,16 @@
 (function() {
-    'use strict';
+  'use strict';
 
-    angular.module('app.components.navbar')
-        .directive('amPlaylistButton', playlistButton);
+  angular.module('app.components.navbar')
+    .directive('amPlaylistButton', playlistButton);
 
-    /* @ngInject */
-    function playlistButton(draggableDataService) {
-        return {
-            restrict: 'A',
-            link: function(scope, element) {
-                draggableDataService.bindPlaylistDropEvents(element);
-            }
-        };
-    }
+  /* @ngInject */
+  function playlistButton(draggableDataService) {
+    return {
+      restrict: 'A',
+      link: function(scope, element) {
+        draggableDataService.bindPlaylistDropEvents(element);
+      }
+    };
+  }
 })();

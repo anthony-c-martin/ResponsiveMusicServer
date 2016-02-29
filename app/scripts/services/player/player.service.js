@@ -1,152 +1,152 @@
 (function () {
-    'use strict';
+  'use strict';
 
-    angular.module('app.services.player')
-        .service('playerService', playerService);
+  angular.module('app.services.player')
+    .service('playerService', playerService);
 
-    /* @ngInject */
-    function playerService($rootScope, $q, PlaylistFactory, sessionService, trackManagerService) {
-        /* jshint validthis: true */
+  /* @ngInject */
+  function playerService($rootScope, $q, PlaylistFactory, sessionService, trackManagerService) {
+    /* jshint validthis: true */
 
-        var playlist = new PlaylistFactory();
-        var prevPlayedPlaylist = new PlaylistFactory();
+    var playlist = new PlaylistFactory();
+    var prevPlayedPlaylist = new PlaylistFactory();
 
-        var current = {
-            position: 0,
-            volume: 0.5,
-            isPlaying: false,
-            track: null
-        };
+    var current = {
+      position: 0,
+      volume: 0.5,
+      isPlaying: false,
+      track: null
+    };
 
-        var controlHooks = {
-            nextTrack: nextTrack,
-            previousTrack: previousTrack,
-            volumeUpdate: volumeUpdate,
-            positionUpdate: positionUpdate,
-            changeTrack: changeTrack,
-            togglePause: function() {
-                if (current.isPlaying) {
-                    audioPause();
-                } else {
-                    audioPlay();
-                }
-            }
-        };
-
-        var audioHooks = {
-            play: function() {
-                trackManagerService.togglePauseScrobbling(false);
-                current.isPlaying = true;
-            },
-            pause: function() {
-                trackManagerService.togglePauseScrobbling(true);
-                current.isPlaying = false;
-            },
-            volumeChange: function(volume) {
-                current.volume = volume;
-            },
-            positionChange: function(position) {
-                current.position = position;
-            },
-            ended: function() {
-                controlHooks.nextTrack();
-            }
-        };
-
-        function getSourceParams(track) {
-            var params = '?FileName=' + encodeURIComponent(track.FileName);
-            params += '&Session=' + encodeURIComponent(sessionService.getSession().Key);
-
-            return params;
+    var controlHooks = {
+      nextTrack: nextTrack,
+      previousTrack: previousTrack,
+      volumeUpdate: volumeUpdate,
+      positionUpdate: positionUpdate,
+      changeTrack: changeTrack,
+      togglePause: function() {
+        if (current.isPlaying) {
+          audioPause();
+        } else {
+          audioPlay();
         }
+      }
+    };
 
-        function changeTrack(track) {
-            var deferred = $q.defer();
+    var audioHooks = {
+      play: function() {
+        trackManagerService.togglePauseScrobbling(false);
+        current.isPlaying = true;
+      },
+      pause: function() {
+        trackManagerService.togglePauseScrobbling(true);
+        current.isPlaying = false;
+      },
+      volumeChange: function(volume) {
+        current.volume = volume;
+      },
+      positionChange: function(position) {
+        current.position = position;
+      },
+      ended: function() {
+        controlHooks.nextTrack();
+      }
+    };
 
-            if (track) {
-                trackManagerService.startConversion(track).then(function() {
-                    $rootScope.$emit('playerService.playNew', {src: '/stream' + getSourceParams(track), type: 'audio/mp4'});
+    function getSourceParams(track) {
+      var params = '?FileName=' + encodeURIComponent(track.FileName);
+      params += '&Session=' + encodeURIComponent(sessionService.getSession().Key);
 
-                    trackManagerService.setupScrobbling(track);
-                    deferred.resolve();
-                }, function() {
-                    $rootScope.$emit('playerService.playNew', {src: '', type: ''});
-                    deferred.reject();
-                });
-            } else {
-                $rootScope.$emit('playerService.playNew', {src: '', type: ''});
-                deferred.resolve();
-            }
+      return params;
+    }
 
-            return deferred.promise;
-        }
+    function changeTrack(track) {
+      var deferred = $q.defer();
 
-        function nextTrack() {
-            var newTrack = playlist.tracks[0];
+      if (track) {
+        trackManagerService.startConversion(track).then(function() {
+          $rootScope.$emit('playerService.playNew', {src: '/stream' + getSourceParams(track), type: 'audio/mp4'});
 
-            controlHooks.changeTrack(newTrack)
-                .finally(function() {
-                    playlist.removeTrack(newTrack);
-                    if (current.track) {
-                        prevPlayedPlaylist.addTrack(current.track);
-                    }
-                    current.track = newTrack;
+          trackManagerService.setupScrobbling(track);
+          deferred.resolve();
+        }, function() {
+          $rootScope.$emit('playerService.playNew', {src: '', type: ''});
+          deferred.reject();
+        });
+      } else {
+        $rootScope.$emit('playerService.playNew', {src: '', type: ''});
+        deferred.resolve();
+      }
 
-                    trackManagerService.startConversion(playlist.tracks[0]);
-                });
-        }
+      return deferred.promise;
+    }
 
-        function previousTrack() {
-            if (current.track && (current.track.Duration * current.position > 2)) {
-                controlHooks.positionUpdate(0);
+    function nextTrack() {
+      var newTrack = playlist.tracks[0];
 
-                return;
-            }
+      controlHooks.changeTrack(newTrack)
+        .finally(function() {
+          playlist.removeTrack(newTrack);
+          if (current.track) {
+            prevPlayedPlaylist.addTrack(current.track);
+          }
+          current.track = newTrack;
 
-            var prevPlaylistLength = prevPlayedPlaylist.tracks.length;
-
-            if (prevPlaylistLength > 0) {
-                var lastTrack = prevPlayedPlaylist.tracks[prevPlaylistLength - 1];
-                controlHooks.changeTrack(lastTrack)
-                    .finally(function() {
-                        prevPlayedPlaylist.removeTrack(lastTrack);
-                        if (current.track) {
-                            playlist.addTrack(current.track, 0);
-                        }
-                        current.track = lastTrack;
-                    });
-            } else if (current.track) {
-                playlist.addTrack(current.track, 0);
-                current.track = null;
-                controlHooks.changeTrack(null);
-            }
-        }
-
-        function audioPlay() {
-            if (current.track) {
-                $rootScope.$emit('playerService.play');
-            } else {
-                controlHooks.nextTrack();
-            }
-        }
-
-        function audioPause() {
-            $rootScope.$emit('playerService.pause');
-        }
-
-        function positionUpdate(position) {
-            $rootScope.$emit('playerService.positionUpdate', position);
-        }
-
-        function volumeUpdate(volume) {
-            $rootScope.$emit('playerService.volumeUpdate', volume);
-        }
-
-        angular.extend(this, {
-            playlist: playlist,
-            current: current,
-            audioHooks: audioHooks,
-            controlHooks: controlHooks
+          trackManagerService.startConversion(playlist.tracks[0]);
         });
     }
+
+    function previousTrack() {
+      if (current.track && (current.track.Duration * current.position > 2)) {
+        controlHooks.positionUpdate(0);
+
+        return;
+      }
+
+      var prevPlaylistLength = prevPlayedPlaylist.tracks.length;
+
+      if (prevPlaylistLength > 0) {
+        var lastTrack = prevPlayedPlaylist.tracks[prevPlaylistLength - 1];
+        controlHooks.changeTrack(lastTrack)
+          .finally(function() {
+            prevPlayedPlaylist.removeTrack(lastTrack);
+            if (current.track) {
+              playlist.addTrack(current.track, 0);
+            }
+            current.track = lastTrack;
+          });
+      } else if (current.track) {
+        playlist.addTrack(current.track, 0);
+        current.track = null;
+        controlHooks.changeTrack(null);
+      }
+    }
+
+    function audioPlay() {
+      if (current.track) {
+        $rootScope.$emit('playerService.play');
+      } else {
+        controlHooks.nextTrack();
+      }
+    }
+
+    function audioPause() {
+      $rootScope.$emit('playerService.pause');
+    }
+
+    function positionUpdate(position) {
+      $rootScope.$emit('playerService.positionUpdate', position);
+    }
+
+    function volumeUpdate(volume) {
+      $rootScope.$emit('playerService.volumeUpdate', volume);
+    }
+
+    angular.extend(this, {
+      playlist: playlist,
+      current: current,
+      audioHooks: audioHooks,
+      controlHooks: controlHooks
+    });
+  }
 })();

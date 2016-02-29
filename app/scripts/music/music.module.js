@@ -1,8 +1,8 @@
 (function() {
-    'use strict';
+  'use strict';
 
-    angular.module('app.music', [
-        'ui.router',
-        'app.services.player'
-    ]);
+  angular.module('app.music', [
+    'ui.router',
+    'app.services.player'
+  ]);
 })();
