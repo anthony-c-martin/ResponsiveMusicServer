@@ -1,6 +1,6 @@
 import {Component} from 'angular2/core';
 import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
-import MusicComponent from './music/music.component';
+//import MusicComponent from './music/music.component';
 import LoginComponent from './login/login.component';
 
 @Component({
@@ -22,6 +22,7 @@ import LoginComponent from './login/login.component';
 })
 @RouteConfig([
   { path: '/login/:auth/:token', name: 'Login', component: LoginComponent, useAsDefault: true }
+  //{ path: '/music/:artistId/:albumId', name: 'Music', component: MusicComponent }
 ])
 export class AppComponent {
 }
