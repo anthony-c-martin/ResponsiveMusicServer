@@ -1,75 +1,49 @@
-(function() {
-  'use strict';
-
-  angular.module('app.services.session')
-    .service('sessionService', sessionService);
-
-  /* @ngInject */
-  function sessionService($window) {
-    /* jshint validthis: true */
-
-    function setSession(newSession) {
-      $window.sessionStorage.sessionKey = newSession.Key;
-      $window.sessionStorage.sessionSecret = newSession.Secret;
+System.register([], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
+    var SessionService;
+    return {
+        setters:[],
+        execute: function() {
+            SessionService = (function () {
+                function SessionService() {
+                    this.apiUrl = '/api';
+                }
+                SessionService.prototype.set = function (session) {
+                    sessionStorage['sessionKey'] = session.key;
+                    sessionStorage['sessionSecret'] = session.secret;
+                };
+                SessionService.prototype.get = function () {
+                    return { key: sessionStorage['sessionKey'], secret: sessionStorage['sessionSecret'] };
+                };
+                SessionService.prototype.exists = function () {
+                    var session = this.get();
+                    return !!(session.key && session.secret);
+                };
+                SessionService.prototype.clear = function () {
+                    delete sessionStorage['sessionKey'];
+                    delete sessionStorage['sessionSecret'];
+                    delete sessionStorage['sessionPrefs'];
+                };
+                SessionService.prototype._setPrefs = function (prefs) {
+                    sessionStorage['sessionPrefs'] = JSON.stringify(prefs);
+                };
+                SessionService.prototype._getPrefs = function () {
+                    return (sessionStorage['sessionPrefs']) ? JSON.parse(sessionStorage['sessionPrefs']) : {};
+                };
+                SessionService.prototype.setPref = function (key, value) {
+                    var prefs = this._getPrefs();
+                    prefs[key] = value;
+                    this._setPrefs(prefs);
+                };
+                SessionService.prototype.getPref = function (key) {
+                    var prefs = this._getPrefs();
+                    return prefs[key];
+                };
+                return SessionService;
+            }());
+            exports_1("SessionService", SessionService);
+        }
     }
-
-    function getSession() {
-      if ($window.sessionStorage !== undefined &&
-        $window.sessionStorage.sessionKey && $window.sessionStorage.sessionSecret) {
-        return {
-          Key: $window.sessionStorage.sessionKey,
-          Secret: $window.sessionStorage.sessionSecret
-        };
-      }
-      return {
-        Key: '',
-        Secret: ''
-      };
-    }
-
-    function hasSession() {
-      var session = getSession();
-      return !!(session && session.Key && session.Secret);
-    }
-
-    function clearSession() {
-      delete $window.sessionStorage.sessionKey;
-      delete $window.sessionStorage.sessionSecret;
-      delete $window.sessionStorage.userPreferences;
-    }
-
-    function setUserPreferences(userPreferences) {
-      $window.sessionStorage.userPreferences = JSON.stringify(userPreferences);
-    }
-
-    function setUserPreference(key, value) {
-      var prefs = getUserPreferences();
-      prefs[key] = value;
-      setUserPreferences(prefs);
-    }
-
-    function getUserPreferences() {
-      if ($window.sessionStorage.userPreferences) {
-        return JSON.parse($window.sessionStorage.userPreferences);
-      }
-      return {};
-    }
-
-    function getUserPreference(key) {
-      var prefs = getUserPreferences();
-      return prefs[key];
-    }
-
-    angular.extend(this, {
-      jsonURL: '/api',
-      setSession: setSession,
-      getSession: getSession,
-      hasSession: hasSession,
-      clearSession: clearSession,
-      setUserPreferences: setUserPreferences,
-      setUserPreference: setUserPreference,
-      getUserPreferences: getUserPreferences,
-      getUserPreference: getUserPreference
-    });
-  }
-})();
+});
+//# sourceMappingURL=session.service.js.map
