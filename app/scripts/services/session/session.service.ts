@@ -1,7 +1,10 @@
+import {Injectable} from 'angular2/core'
+
 import ISession from './isession';
 
-export class SessionService {
-  apiUrl = '/api';
+@Injectable()
+export default class SessionService {
+  apiUrl:string = '/api';
   set(session:ISession) {
     sessionStorage['sessionKey'] = session.key;
     sessionStorage['sessionSecret'] = session.secret;
@@ -18,12 +21,6 @@ export class SessionService {
     delete sessionStorage['sessionSecret'];
     delete sessionStorage['sessionPrefs'];
   }
-  private _setPrefs(prefs:any) {
-    sessionStorage['sessionPrefs'] = JSON.stringify(prefs);
-  }
-  private _getPrefs() : any {
-    return (sessionStorage['sessionPrefs']) ? JSON.parse(sessionStorage['sessionPrefs']) : {};
-  }
   setPref(key:string, value:string) {
     let prefs = this._getPrefs();
     prefs[key] = value;
@@ -32,5 +29,11 @@ export class SessionService {
   getPref(key:string) : string {
     let prefs = this._getPrefs();
     return prefs[key];
+  }
+  private _setPrefs(prefs:any) {
+    sessionStorage['sessionPrefs'] = JSON.stringify(prefs);
+  }
+  private _getPrefs() : any {
+    return (sessionStorage['sessionPrefs']) ? JSON.parse(sessionStorage['sessionPrefs']) : {};
   }
 }

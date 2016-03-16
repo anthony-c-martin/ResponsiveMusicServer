@@ -5,9 +5,9 @@ import IAlbum from './ialbum';
 
 @Component({
   selector: 'am-album',
-  templateUrl: 'scripts/album/album.html'
+  templateUrl: 'app/scripts/album/album.html'
 })
-export class AlbumComponent {
+export default class AlbumComponent {
   album: IAlbum;
   constructor(album: IAlbum) {
     this.album = album;

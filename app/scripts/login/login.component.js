@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'md5', 'angular2/router', '../services/api/api.factory'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', '../services/api/api.service'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,37 +10,39 @@ System.register(['angular2/core', 'md5', 'angular2/router', '../services/api/api
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, md5_1, router_1, api_factory_1;
+    var core_1, router_1, api_service_1;
     var LoginComponent;
+    function md5(text) {
+        return text;
+    }
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (md5_1_1) {
-                md5_1 = md5_1_1;
-            },
             function (router_1_1) {
                 router_1 = router_1_1;
             },
-            function (api_factory_1_1) {
-                api_factory_1 = api_factory_1_1;
+            function (api_service_1_1) {
+                api_service_1 = api_service_1_1;
             }],
         execute: function() {
             LoginComponent = (function () {
-                function LoginComponent(params) {
+                function LoginComponent(_routeParams, _apiService) {
+                    this._routeParams = _routeParams;
+                    this._apiService = _apiService;
                     this.model = { username: '', password: '' };
                     this.loginFail = new core_1.EventEmitter();
                     this.loginSuccess = new core_1.EventEmitter();
-                    var auth = params.get('auth');
-                    var token = params.get('token');
+                    var auth = this._routeParams.get('auth');
+                    var token = this._routeParams.get('token');
                     if (auth && token) {
                         this._getSession(auth, token);
                     }
                 }
                 LoginComponent.prototype.login = function () {
                     var _this = this;
-                    api_factory_1.default.session.getToken().then(function (data) {
+                    this._apiService.getAuthToken().then(function (data) {
                         var authString = _this._getAuthString(_this.model.username, _this.model.password, data.Token);
                         _this._getSession(data.Token, authString);
                     }, function () {
@@ -48,12 +50,12 @@ System.register(['angular2/core', 'md5', 'angular2/router', '../services/api/api
                     });
                 };
                 LoginComponent.prototype._getAuthString = function (username, password, token) {
-                    var pswdHash = md5_1.default(username + ':' + 'com.acm.AMMusicServer' + ':' + password);
-                    return md5_1.default(token + ':' + username + ':' + pswdHash + ':' + token);
+                    var pswdHash = md5(username + ':' + 'com.acm.AMMusicServer' + ':' + password);
+                    return md5(token + ':' + username + ':' + pswdHash + ':' + token);
                 };
-                LoginComponent.prototype._getSession = function (token, authString) {
+                LoginComponent.prototype._getSession = function (token, auth) {
                     var _this = this;
-                    api_factory_1.default.session.getSession(token, authString).then(function (data) {
+                    this._apiService.getAuthSession(token, auth).then(function (data) {
                         _this.loginSuccess.emit({ key: data.Session, secret: data.Secret });
                     }, function () {
                         _this.loginFail.emit('GetSession request failed');
@@ -70,14 +72,14 @@ System.register(['angular2/core', 'md5', 'angular2/router', '../services/api/api
                 LoginComponent = __decorate([
                     core_1.Component({
                         selector: 'am-login',
-                        templateUrl: 'scripts/login/login.html',
-                        directives: [router_1.ROUTER_DIRECTIVES]
+                        templateUrl: 'app/scripts/login/login.html',
+                        providers: [api_service_1.default]
                     }), 
-                    __metadata('design:paramtypes', [router_1.RouteParams])
+                    __metadata('design:paramtypes', [router_1.RouteParams, api_service_1.default])
                 ], LoginComponent);
                 return LoginComponent;
             }());
-            exports_1("LoginComponent", LoginComponent);
+            exports_1("default", LoginComponent);
         }
     }
 });

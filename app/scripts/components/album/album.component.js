@@ -37,13 +37,13 @@ System.register(['angular2/core', '../../services/player/player.service'], funct
                 AlbumComponent = __decorate([
                     core_1.Component({
                         selector: 'am-album',
-                        templateUrl: 'scripts/album/album.html'
+                        templateUrl: 'app/scripts/album/album.html'
                     }), 
                     __metadata('design:paramtypes', [Object])
                 ], AlbumComponent);
                 return AlbumComponent;
             }());
-            exports_1("AlbumComponent", AlbumComponent);
+            exports_1("default", AlbumComponent);
         }
     }
 });

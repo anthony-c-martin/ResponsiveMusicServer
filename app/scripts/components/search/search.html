@@ -1,33 +1,33 @@
 <form ng-submit="vm.search()" am-body-event-handler="search" class="controls controls-nav shrinkable controls-search">
   <div ng-show="vm.searchShown" class="dropdown-search">
     <div class="arrow"></div>
-    <div ng-switch="vm.inProgress" am-body-event-handler="search" class="inner">
-      <div ng-switch-when="true" class="search-loading">
+    <div [ngSwitch]="inProgress" am-body-event-handler="search" class="inner">
+      <div *ngSwitchWhen="true" class="search-loading">
         <ul class="search">
           <li class="desc">Loading...</li>
         </ul>
       </div>
-      <div ng-switch-default class="search-results">
-        <ul ng-if="vm.searchResults.tracks.length > 0" class="search tracks">
-          <li class="desc">Tracks<span class="link-right" ng-click="vm.redirectToResults('tracks')">Show all</span></li>
-          <li am-track="track" ng-repeat="track in vm.searchResults.tracks"></li>
+      <div ngSwitchDefault class="search-results">
+        <ul *ngIf="tracksResult.length > 0" class="search tracks">
+          <li class="desc">Tracks<span class="link-right" (click)="viewResults('tracks')">Show all</span></li>
+          <li am-track="track" *ngFor="#track of tracksResult"></li>
         </ul>
-        <ul ng-if="vm.searchResults.albums.length > 0" class="search albums">
-          <li class="desc">Albums<span class="link-right" ng-click="vm.redirectToResults('albums')">Show all</span></li>
-          <li am-album="album" ng-repeat="album in vm.searchResults.albums"></li>
+        <ul *ngIf="albumsResult.length > 0" class="search albums">
+          <li class="desc">Albums<span class="link-right" (click)="viewResults('albums')">Show all</span></li>
+          <li am-album="album" *ngFor="#album of albumsResult"></li>
         </ul>
-        <ul ng-if="vm.searchResults.artists.length > 0" class="search artists">
-          <li class="desc">Artists<span class="link-right" ng-click="vm.redirectToResults('artists')">Show all</span></li>
-          <li am-artist="artist" ng-repeat="artist in vm.searchResults.artists"></li>
+        <ul *ngIf="artistsResult.length > 0" class="search artists">
+          <li class="desc">Artists<span class="link-right" (click)="viewResults('artists')">Show all</span></li>
+          <li am-artist="artist" *ngFor="#artist of artistsResult"></li>
         </ul>
-        <ul ng-if="vm.searchResults.artists.length + vm.searchResults.albums.length + vm.searchResults.tracks.length <= 0" class="search">
+        <ul *ngIf="artistsResult.length + albumsResult.length + tracksResult.length <= 0" class="search">
           <li class="desc">No results found</li>
         </ul>
       </div>
     </div>
   </div>
-  <input ng-model="vm.searchText" class="control" type="text" placeholder="search" autocomplete="off">
-  <button ng-class="{active: vm.searchShown}" type="submit" class="control">
+  <input [(ngModel)]="searchText" class="control" type="text" placeholder="search" autocomplete="off">
+  <button [ngClass]="{active: vm.searchShown}" type="submit" class="control">
     <i class="fa fa-search"></i>
   </button>
 </form>

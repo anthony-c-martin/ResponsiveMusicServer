@@ -1,7 +1,7 @@
-import {Component} from 'angular2/core';
-import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
+import {Component} from 'angular2/core'
+import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router'
 //import MusicComponent from './music/music.component';
-import LoginComponent from './login/login.component';
+import LoginComponent from './login/login.component'
 
 @Component({
   selector: 'am-musicserver',
@@ -21,8 +21,10 @@ import LoginComponent from './login/login.component';
   providers: [ROUTER_PROVIDERS]
 })
 @RouteConfig([
-  { path: '/login/:auth/:token', name: 'Login', component: LoginComponent, useAsDefault: true }
-  //{ path: '/music/:artistId/:albumId', name: 'Music', component: MusicComponent }
+  { path: '/login', name: 'Login', component: LoginComponent, useAsDefault: true },
+  { path: '/login/:auth/:token', name: 'LoginAuto', component: LoginComponent }
+//  { path: '/music/:artistId/:albumId', name: 'Music', component: MusicComponent },
+//  { path: '/music/search/:searchText', name: 'Search', component: MusicComponent }
 ])
-export class AppComponent {
+export default class AppComponent {
 }

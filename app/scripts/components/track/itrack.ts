@@ -1,5 +1,5 @@
 interface ITrack {
-  ID: number;
+  ID: string;
   Name: string;
 }
 

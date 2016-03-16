@@ -35,13 +35,14 @@ System.register(['angular2/core', 'angular2/router', './login/login.component'],
                         providers: [router_1.ROUTER_PROVIDERS]
                     }),
                     router_1.RouteConfig([
-                        { path: '/login/:auth/:token', name: 'Login', component: login_component_1.default, useAsDefault: true }
+                        { path: '/login', name: 'Login', component: login_component_1.default, useAsDefault: true },
+                        { path: '/login/:auth/:token', name: 'LoginAuto', component: login_component_1.default }
                     ]), 
                     __metadata('design:paramtypes', [])
                 ], AppComponent);
                 return AppComponent;
             }());
-            exports_1("AppComponent", AppComponent);
+            exports_1("default", AppComponent);
         }
     }
 });

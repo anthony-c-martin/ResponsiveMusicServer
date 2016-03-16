@@ -5,9 +5,9 @@ import IArtist from './iartist';
 
 @Component({
   selector: 'am-artist',
-  templateUrl: 'scripts/artist/artist.html'
+  templateUrl: 'app/scripts/artist/artist.html'
 })
-export class ArtistComponent {
+export default class ArtistComponent {
   artist: IArtist;
   constructor(artist: IArtist) {
     this.artist = artist;

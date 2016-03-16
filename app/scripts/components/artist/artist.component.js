@@ -37,13 +37,13 @@ System.register(['angular2/core', '../../services/player/player.service'], funct
                 ArtistComponent = __decorate([
                     core_1.Component({
                         selector: 'am-artist',
-                        templateUrl: 'scripts/artist/artist.html'
+                        templateUrl: 'app/scripts/artist/artist.html'
                     }), 
                     __metadata('design:paramtypes', [Object])
                 ], ArtistComponent);
                 return ArtistComponent;
             }());
-            exports_1("ArtistComponent", ArtistComponent);
+            exports_1("default", ArtistComponent);
         }
     }
 });

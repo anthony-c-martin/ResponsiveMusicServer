@@ -5,9 +5,9 @@ import ITrack from './itrack';
 
 @Component({
   selector: 'am-track',
-  templateUrl: 'scripts/track/track.html'
+  templateUrl: 'app/scripts/track/track.html'
 })
-export class TrackComponent {
+export default class TrackComponent {
   track: ITrack;
   constructor(track: ITrack) {
     this.track = track;

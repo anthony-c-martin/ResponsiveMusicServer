@@ -39,13 +39,13 @@ System.register(['angular2/core', '../../services/player/player.service'], funct
                 TrackComponent = __decorate([
                     core_1.Component({
                         selector: 'am-track',
-                        templateUrl: 'scripts/track/track.html'
+                        templateUrl: 'app/scripts/track/track.html'
                     }), 
                     __metadata('design:paramtypes', [Object])
                 ], TrackComponent);
                 return TrackComponent;
             }());
-            exports_1("TrackComponent", TrackComponent);
+            exports_1("default", TrackComponent);
         }
     }
 });
