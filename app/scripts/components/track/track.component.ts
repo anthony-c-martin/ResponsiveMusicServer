@@ -1,28 +1,17 @@
-import {Component} from 'angular2/core';
+import {Component, Input, Output, EventEmitter} from 'angular2/core';
 
 import PlayerService from '../../services/player/player.service';
 import ITrack from './itrack';
 
 @Component({
   selector: 'am-track',
-  templateUrl: 'app/scripts/track/track.html'
+  templateUrl: 'app/scripts/components/track/track.html'
 })
 export default class TrackComponent {
-  track: ITrack;
-  constructor(track: ITrack) {
-    this.track = track;
-  }
-  play() {
-    PlayerService.playlist.clear();
-    PlayerService.playlist.addTrack(this.track);
-    PlayerService.controlHooks.nextTrack();
-  }
-  add() {
-    PlayerService.playlist.addTrack(this.track);
-  }
-  remove() {
-    PlayerService.playlist.removeTrack(this.track);
-  }
+  @Output() remove: EventEmitter<ITrack> = new EventEmitter();
+  @Output() play: EventEmitter<ITrack> = new EventEmitter();
+  @Output() add: EventEmitter<ITrack> = new EventEmitter();
+  @Input() track: ITrack;
 }
 
 //TODO: Integrate with DraggableData

@@ -1,6 +1,5 @@
-System.register(['angular2/core', 'angular2/router', '../../services/api/api.service'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/common', 'angular2/router', '../../services/api/api.service'], function(exports_1) {
     "use strict";
-    var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -10,12 +9,15 @@ System.register(['angular2/core', 'angular2/router', '../../services/api/api.ser
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, api_service_1;
+    var core_1, common_1, router_1, api_service_1;
     var SearchComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (common_1_1) {
+                common_1 = common_1_1;
             },
             function (router_1_1) {
                 router_1 = router_1_1;
@@ -26,31 +28,27 @@ System.register(['angular2/core', 'angular2/router', '../../services/api/api.ser
         execute: function() {
             SearchComponent = (function () {
                 function SearchComponent(_router, _apiService) {
+                    var _this = this;
                     this._router = _router;
                     this._apiService = _apiService;
                     this.inProgress = false;
                     this.searchShown = false;
+                    this.search = new common_1.Control('');
+                    this.artists = this.search.valueChanges
+                        .debounceTime(400)
+                        .distinctUntilChanged()
+                        .switchMap(function (search) { return _this._apiService.searchArtists(search, 0, 5); });
+                    this.albums = this.search.valueChanges
+                        .debounceTime(400)
+                        .distinctUntilChanged()
+                        .switchMap(function (search) { return _this._apiService.searchAlbums(search, 0, 5); });
+                    this.tracks = this.search.valueChanges
+                        .debounceTime(400)
+                        .distinctUntilChanged()
+                        .switchMap(function (search) { return _this._apiService.searchTracks(search, 0, 5); });
                 }
-                SearchComponent.prototype.search = function () {
-                    var _this = this;
-                    this.inProgress = true;
-                    this.searchShown = true;
-                    Promise.all([
-                        this._apiService.searchArtists(this.searchText, 0, 5),
-                        this._apiService.searchAlbums(this.searchText, 0, 5),
-                        this._apiService.searchTracks(this.searchText, 0, 5)
-                    ]).then(function (results) {
-                        _this.artistsResult = results[0];
-                        _this.albumsResult = results[1];
-                        _this.tracksResult = results[2];
-                        _this.inProgress = false;
-                    }, function () {
-                        _this.searchShown = false;
-                        _this.inProgress = false;
-                    });
-                };
                 SearchComponent.prototype.viewResults = function (type) {
-                    var searchText = this.searchText;
+                    var searchText = this.search.value;
                     this._router.navigate(['Search', { searchType: type, searchText: searchText }]);
                 };
                 SearchComponent = __decorate([

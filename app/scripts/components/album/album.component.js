@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../../services/player/player.service'], function(exports_1, context_1) {
+System.register(['angular2/core'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,36 +10,37 @@ System.register(['angular2/core', '../../services/player/player.service'], funct
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, player_service_1;
+    var core_1;
     var AlbumComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
-            },
-            function (player_service_1_1) {
-                player_service_1 = player_service_1_1;
             }],
         execute: function() {
             AlbumComponent = (function () {
-                function AlbumComponent(album) {
-                    this.album = album;
+                function AlbumComponent() {
+                    this.play = new core_1.EventEmitter();
+                    this.add = new core_1.EventEmitter();
                 }
-                AlbumComponent.prototype.play = function () {
-                    player_service_1.default.playlist.clear();
-                    player_service_1.default.playlist.addTracksByAlbum(this.album).then(function () {
-                        player_service_1.default.controlHooks.nextTrack();
-                    });
-                };
-                AlbumComponent.prototype.add = function () {
-                    player_service_1.default.playlist.addTracksByAlbum(this.album);
-                };
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], AlbumComponent.prototype, "play", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], AlbumComponent.prototype, "add", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Object)
+                ], AlbumComponent.prototype, "album", void 0);
                 AlbumComponent = __decorate([
                     core_1.Component({
                         selector: 'am-album',
-                        templateUrl: 'app/scripts/album/album.html'
+                        templateUrl: 'app/scripts/components/album/album.html'
                     }), 
-                    __metadata('design:paramtypes', [Object])
+                    __metadata('design:paramtypes', [])
                 ], AlbumComponent);
                 return AlbumComponent;
             }());

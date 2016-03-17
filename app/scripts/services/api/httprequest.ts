@@ -1,6 +1,7 @@
 //import md5 from 'md5'
 import {Http} from 'angular2/http'
-import 'rxjs/Rx'
+import {Observable} from 'rxjs/Observable'
+import 'rxjs/operator/map'
 
 import SessionService from '../session/session.service'
 function md5(text:string) : string{
@@ -30,12 +31,17 @@ export default class HttpRequest {
     this._addParam('Authentication', auth);
     return this;
   }
-  submit(auth:boolean) : Promise<any> {
+  submitNoAuth() : Observable<any> {
+    return this._submit(false);
+  }
+  submitAuth() : Observable<any> {
+    return this._submit(true);
+  }
+  private _submit(auth:boolean) : Observable<any> {
     this._addParam('Signature', this._getSignature(auth));
     return this._http
       .post(this._sessionService.apiUrl, JSON.stringify(this._params))
-      .map(response => response.json())
-      .toPromise();
+      .map(response => response.json());
   }
   private _getSignature(auth:boolean) : string {
     const keys = Object.keys(this._params).sort();

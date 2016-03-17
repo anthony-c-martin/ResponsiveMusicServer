@@ -33,49 +33,49 @@ System.register(['angular2/core', 'angular2/http', '../session/session.service',
                     this._sessionService = _sessionService;
                 }
                 ApiService.prototype.getAllArtists = function (start, limit) {
-                    return this._apiRequest('GetArtists').bound(start, limit).submit(true);
+                    return this._apiRequest('GetArtists').bound(start, limit).submitAuth();
                 };
                 ApiService.prototype.searchArtists = function (search, start, limit) {
-                    return this._apiRequest('SearchArtists').byString(search).bound(start, limit).submit(true);
+                    return this._apiRequest('SearchArtists').byString(search).bound(start, limit).submitAuth();
                 };
                 ApiService.prototype.getAllAlbums = function (start, limit) {
-                    return this._apiRequest('GetAlbums').bound(start, limit).submit(true);
+                    return this._apiRequest('GetAlbums').bound(start, limit).submitAuth();
                 };
                 ApiService.prototype.getAlbumsByArtist = function (artist, start, limit) {
-                    return this._apiRequest('GetAlbumsByArtist').byId(artist.ID).bound(start, limit).submit(true);
+                    return this._apiRequest('GetAlbumsByArtist').byId(artist.ID).bound(start, limit).submitAuth();
                 };
                 ApiService.prototype.searchAlbums = function (search, start, limit) {
-                    return this._apiRequest('SearchAlbums').byString(search).bound(start, limit).submit(true);
+                    return this._apiRequest('SearchAlbums').byString(search).bound(start, limit).submitAuth();
                 };
                 ApiService.prototype.getAllTracks = function (start, limit) {
-                    return this._apiRequest('GetTracks').bound(start, limit).submit(true);
+                    return this._apiRequest('GetTracks').bound(start, limit).submitAuth();
                 };
                 ApiService.prototype.getTracksByArtist = function (artist, start, limit) {
-                    return this._apiRequest('GetTracksByArtist').byId(artist.ID).bound(start, limit).submit(true);
+                    return this._apiRequest('GetTracksByArtist').byId(artist.ID).bound(start, limit).submitAuth();
                 };
                 ApiService.prototype.getTracksByAlbum = function (album, start, limit) {
-                    return this._apiRequest('GetTracksByAlbum').byId(album.ID).bound(start, limit).submit(true);
+                    return this._apiRequest('GetTracksByAlbum').byId(album.ID).bound(start, limit).submitAuth();
                 };
                 ApiService.prototype.convertTrack = function (track) {
-                    return this._apiRequest('ConvertTrackByID').byString(track.ID).submit(true);
+                    return this._apiRequest('ConvertTrackByID').byString(track.ID).submitAuth();
                 };
                 ApiService.prototype.lastFMNowPlaying = function (track) {
-                    return this._apiRequest('LFMNowPlayingTrack').byString(track.ID).submit(true);
+                    return this._apiRequest('LFMNowPlayingTrack').byString(track.ID).submitAuth();
                 };
                 ApiService.prototype.lastFMScrobble = function (track) {
-                    return this._apiRequest('LFMScrobbleTrack').byString(track.ID).submit(true);
+                    return this._apiRequest('LFMScrobbleTrack').byString(track.ID).submitAuth();
                 };
                 ApiService.prototype.searchTracks = function (search, start, limit) {
-                    return this._apiRequest('SearchTracks').byString(search).bound(start, limit).submit(true);
+                    return this._apiRequest('SearchTracks').byString(search).bound(start, limit).submitAuth();
                 };
                 ApiService.prototype.getAuthToken = function () {
-                    return this._apiRequest('GetToken').submit(false);
+                    return this._apiRequest('GetToken').submitNoAuth();
                 };
                 ApiService.prototype.getAuthSession = function (token, auth) {
-                    return this._apiRequest('GetSession').addAuth(token, auth).submit(false);
+                    return this._apiRequest('GetSession').addAuth(token, auth).submitNoAuth();
                 };
                 ApiService.prototype.getUserPreferences = function () {
-                    return this._apiRequest('GetUserPreferences').submit(true);
+                    return this._apiRequest('GetUserPreferences').submitAuth();
                 };
                 ApiService.prototype._apiRequest = function (command) {
                     return new httprequest_1.default(this._http, this._sessionService, command);

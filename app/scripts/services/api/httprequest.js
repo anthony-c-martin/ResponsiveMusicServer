@@ -1,4 +1,4 @@
-System.register(['rxjs/Rx'], function(exports_1, context_1) {
+System.register(['rxjs/operator/map'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var HttpRequest;
@@ -34,12 +34,17 @@ System.register(['rxjs/Rx'], function(exports_1, context_1) {
                     this._addParam('Authentication', auth);
                     return this;
                 };
-                HttpRequest.prototype.submit = function (auth) {
+                HttpRequest.prototype.submitNoAuth = function () {
+                    return this._submit(false);
+                };
+                HttpRequest.prototype.submitAuth = function () {
+                    return this._submit(true);
+                };
+                HttpRequest.prototype._submit = function (auth) {
                     this._addParam('Signature', this._getSignature(auth));
                     return this._http
                         .post(this._sessionService.apiUrl, JSON.stringify(this._params))
-                        .map(function (response) { return response.json(); })
-                        .toPromise();
+                        .map(function (response) { return response.json(); });
                 };
                 HttpRequest.prototype._getSignature = function (auth) {
                     var keys = Object.keys(this._params).sort();

@@ -1,26 +1,16 @@
-import {Component} from 'angular2/core';
+import {Component, Input, Output, EventEmitter} from 'angular2/core';
 
 import PlayerService from '../../services/player/player.service';
 import IArtist from './iartist';
 
 @Component({
   selector: 'am-artist',
-  templateUrl: 'app/scripts/artist/artist.html'
+  templateUrl: 'app/scripts/components/artist/artist.html'
 })
 export default class ArtistComponent {
-  artist: IArtist;
-  constructor(artist: IArtist) {
-    this.artist = artist;
-  }
-  play() {
-    PlayerService.playlist.clear();
-    PlayerService.playlist.addTracksByArtist(this.artist).then(function() {
-      PlayerService.controlHooks.nextTrack();
-    });
-  }
-  add() {
-    PlayerService.playlist.addTracksByArtist(this.artist);
-  }
+  @Output() play: EventEmitter<IArtist> = new EventEmitter();
+  @Output() add: EventEmitter<IArtist> = new EventEmitter();
+  @Input() artist: IArtist;
 }
 
 //TODO: Integrate with DraggableData

@@ -1,7 +1,7 @@
-System.register(['angular2/platform/browser', './app.component', 'angular2/http', './services/api/api.service', './services/session/session.service'], function(exports_1, context_1) {
+System.register(['angular2/platform/browser', './app.component', 'angular2/http', './services/api/api.service', './services/session/session.service', './services/playlist/playlist.service'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var browser_1, app_component_1, http_1, api_service_1, session_service_1;
+    var browser_1, app_component_1, http_1, api_service_1, session_service_1, playlist_service_1;
     return {
         setters:[
             function (browser_1_1) {
@@ -18,9 +18,12 @@ System.register(['angular2/platform/browser', './app.component', 'angular2/http'
             },
             function (session_service_1_1) {
                 session_service_1 = session_service_1_1;
+            },
+            function (playlist_service_1_1) {
+                playlist_service_1 = playlist_service_1_1;
             }],
         execute: function() {
-            browser_1.bootstrap(app_component_1.default, [http_1.HTTP_PROVIDERS, api_service_1.default, session_service_1.default]);
+            browser_1.bootstrap(app_component_1.default, [http_1.HTTP_PROVIDERS, api_service_1.default, session_service_1.default, playlist_service_1.default]);
         }
     }
 });

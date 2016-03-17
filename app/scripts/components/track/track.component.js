@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../../services/player/player.service'], function(exports_1, context_1) {
+System.register(['angular2/core'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,38 +10,42 @@ System.register(['angular2/core', '../../services/player/player.service'], funct
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, player_service_1;
+    var core_1;
     var TrackComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
-            },
-            function (player_service_1_1) {
-                player_service_1 = player_service_1_1;
             }],
         execute: function() {
             TrackComponent = (function () {
-                function TrackComponent(track) {
-                    this.track = track;
+                function TrackComponent() {
+                    this.remove = new core_1.EventEmitter();
+                    this.play = new core_1.EventEmitter();
+                    this.add = new core_1.EventEmitter();
                 }
-                TrackComponent.prototype.play = function () {
-                    player_service_1.default.playlist.clear();
-                    player_service_1.default.playlist.addTrack(this.track);
-                    player_service_1.default.controlHooks.nextTrack();
-                };
-                TrackComponent.prototype.add = function () {
-                    player_service_1.default.playlist.addTrack(this.track);
-                };
-                TrackComponent.prototype.remove = function () {
-                    player_service_1.default.playlist.removeTrack(this.track);
-                };
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], TrackComponent.prototype, "remove", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], TrackComponent.prototype, "play", void 0);
+                __decorate([
+                    core_1.Output(), 
+                    __metadata('design:type', core_1.EventEmitter)
+                ], TrackComponent.prototype, "add", void 0);
+                __decorate([
+                    core_1.Input(), 
+                    __metadata('design:type', Object)
+                ], TrackComponent.prototype, "track", void 0);
                 TrackComponent = __decorate([
                     core_1.Component({
                         selector: 'am-track',
-                        templateUrl: 'app/scripts/track/track.html'
+                        templateUrl: 'app/scripts/components/track/track.html'
                     }), 
-                    __metadata('design:paramtypes', [Object])
+                    __metadata('design:paramtypes', [])
                 ], TrackComponent);
                 return TrackComponent;
             }());
