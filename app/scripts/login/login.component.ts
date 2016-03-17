@@ -26,7 +26,7 @@ export default class LoginComponent {
     }
   }
   login() {
-    this._apiService.getAuthToken().then((data) => {
+    this._apiService.getAuthToken().then(data => {
       const authString = this._getAuthString(this.model.username, this.model.password, data.Token);
       this._getSession(data.Token, authString);
     }, () => {
@@ -38,8 +38,8 @@ export default class LoginComponent {
     return md5(token + ':' + username + ':' + pswdHash + ':' + token);
   }
   private _getSession(token:string, auth:string) {
-    this._apiService.getAuthSession(token, auth).then((data) => {
-      this.loginSuccess.emit({key: data.Session, secret: data.Secret});
+    this._apiService.getAuthSession(token, auth).then(data => {
+      this.loginSuccess.emit(data);
     }, () => {
       this.loginFail.emit('GetSession request failed');
     })

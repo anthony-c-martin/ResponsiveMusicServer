@@ -57,22 +57,22 @@ System.register(['angular2/core', 'angular2/http', '../session/session.service',
                     return this._apiRequest('GetTracksByAlbum').byId(album.ID).bound(start, limit).submitAuth();
                 };
                 ApiService.prototype.convertTrack = function (track) {
-                    return this._apiRequest('ConvertTrackByID').byString(track.ID).submitAuth();
+                    return this._apiRequest('ConvertTrackByID').byString(track.ID).submitAuth().toPromise();
                 };
                 ApiService.prototype.lastFMNowPlaying = function (track) {
-                    return this._apiRequest('LFMNowPlayingTrack').byString(track.ID).submitAuth();
+                    return this._apiRequest('LFMNowPlayingTrack').byString(track.ID).submitAuth().toPromise();
                 };
                 ApiService.prototype.lastFMScrobble = function (track) {
-                    return this._apiRequest('LFMScrobbleTrack').byString(track.ID).submitAuth();
+                    return this._apiRequest('LFMScrobbleTrack').byString(track.ID).submitAuth().toPromise();
                 };
                 ApiService.prototype.searchTracks = function (search, start, limit) {
                     return this._apiRequest('SearchTracks').byString(search).bound(start, limit).submitAuth();
                 };
                 ApiService.prototype.getAuthToken = function () {
-                    return this._apiRequest('GetToken').submitNoAuth();
+                    return this._apiRequest('GetToken').submitNoAuth().toPromise();
                 };
                 ApiService.prototype.getAuthSession = function (token, auth) {
-                    return this._apiRequest('GetSession').addAuth(token, auth).submitNoAuth();
+                    return this._apiRequest('GetSession').addAuth(token, auth).submitNoAuth().toPromise();
                 };
                 ApiService.prototype.getUserPreferences = function () {
                     return this._apiRequest('GetUserPreferences').submitAuth();

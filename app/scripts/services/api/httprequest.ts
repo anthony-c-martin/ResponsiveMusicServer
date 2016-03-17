@@ -47,7 +47,7 @@ export default class HttpRequest {
     const keys = Object.keys(this._params).sort();
     let sigString = keys.map(key => key + ':' + keys[key] + ';').join();
     if (auth) {
-      sigString += this._sessionService.get().secret + ';';
+      sigString += this._sessionService.get().Secret + ';';
     }
     return md5(sigString);
   }

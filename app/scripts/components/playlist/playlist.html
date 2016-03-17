@@ -10,7 +10,7 @@
           <span class="link-left" (click)="playlistService.removeAll()">Clear All</span>
           <span class="link-right" (click)="playlistService.removeSelection(selection)">Clear Selected</span>
         </li>
-        <am-track (remove)="playlistService.removeTrack($event)" *ngFor="#track of playlistService.playlist"></am-track>
+        <am-track [track]="track" (remove)="playlistService.removeTrack($event)" *ngFor="#track of playlistService.playlist"></am-track>
         <li *ngIf="playlistService.playlist.length <= 0" class="desc">This playlist is empty!</li>
       </ul>
     </div>

@@ -23,15 +23,15 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     this.apiUrl = '/api';
                 }
                 SessionService.prototype.set = function (session) {
-                    sessionStorage['sessionKey'] = session.key;
-                    sessionStorage['sessionSecret'] = session.secret;
+                    sessionStorage['sessionKey'] = session.Session;
+                    sessionStorage['sessionSecret'] = session.Secret;
                 };
                 SessionService.prototype.get = function () {
-                    return { key: sessionStorage['sessionKey'], secret: sessionStorage['sessionSecret'] };
+                    return { Session: sessionStorage['sessionKey'], Secret: sessionStorage['sessionSecret'] };
                 };
                 SessionService.prototype.exists = function () {
                     var session = this.get();
-                    return !!(session.key && session.secret);
+                    return !!(session.Session && session.Secret);
                 };
                 SessionService.prototype.clear = function () {
                     delete sessionStorage['sessionKey'];
@@ -51,7 +51,10 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     sessionStorage['sessionPrefs'] = JSON.stringify(prefs);
                 };
                 SessionService.prototype._getPrefs = function () {
-                    return (sessionStorage['sessionPrefs']) ? JSON.parse(sessionStorage['sessionPrefs']) : {};
+                    var prefs = sessionStorage['sessionPrefs'] ? JSON.parse(sessionStorage['sessionPrefs']) : {};
+                    return {
+                        ScrobblingEnabled: !!prefs.ScrobblingEnabled
+                    };
                 };
                 SessionService = __decorate([
                     core_1.Injectable(), 

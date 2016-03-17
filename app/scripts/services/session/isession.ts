@@ -1,5 +1,5 @@
 interface ISession {
-  key: string;
-  secret: string;
+  Session: string;
+  Secret: string;
 }
 export default ISession;

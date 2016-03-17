@@ -7,6 +7,8 @@ import HttpRequest from './httprequest'
 import IArtist from '../../components/artist/iartist'
 import IAlbum from '../../components/album/ialbum'
 import ITrack from '../../components/track/itrack'
+import ISession from '../session/isession'
+import IToken from '../session/itoken'
 
 @Injectable()
 export default class ApiService {
@@ -35,23 +37,23 @@ export default class ApiService {
   getTracksByAlbum(album:IAlbum, start:number, limit:number) : Observable<ITrack[]> {
     return this._apiRequest('GetTracksByAlbum').byId(album.ID).bound(start, limit).submitAuth();
   }
-  convertTrack(track:ITrack) : Observable<any> {
-    return this._apiRequest('ConvertTrackByID').byString(track.ID).submitAuth();
+  convertTrack(track:ITrack) : Promise<void> {
+    return this._apiRequest('ConvertTrackByID').byString(track.ID).submitAuth().toPromise();
   }
-  lastFMNowPlaying(track:ITrack) : Observable<any> {
-    return this._apiRequest('LFMNowPlayingTrack').byString(track.ID).submitAuth();
+  lastFMNowPlaying(track:ITrack) : Promise<void> {
+    return this._apiRequest('LFMNowPlayingTrack').byString(track.ID).submitAuth().toPromise();
   }
-  lastFMScrobble(track:ITrack) : Observable<any> {
-    return this._apiRequest('LFMScrobbleTrack').byString(track.ID).submitAuth();
+  lastFMScrobble(track:ITrack) : Promise<void> {
+    return this._apiRequest('LFMScrobbleTrack').byString(track.ID).submitAuth().toPromise();
   }
   searchTracks(search:string, start:number, limit:number) : Observable<ITrack[]> {
     return this._apiRequest('SearchTracks').byString(search).bound(start, limit).submitAuth();
   }
-  getAuthToken() : Observable<any> {
-    return this._apiRequest('GetToken').submitNoAuth();
+  getAuthToken() : Promise<IToken> {
+    return this._apiRequest('GetToken').submitNoAuth().toPromise();
   }
-  getAuthSession(token:string, auth:string) : Observable<any> {
-    return this._apiRequest('GetSession').addAuth(token, auth).submitNoAuth();
+  getAuthSession(token:string, auth:string) : Promise<ISession> {
+    return this._apiRequest('GetSession').addAuth(token, auth).submitNoAuth().toPromise();
   }
   getUserPreferences() : Observable<any> {
     return this._apiRequest('GetUserPreferences').submitAuth();

@@ -1,20 +1,21 @@
-import {Injectable} from 'angular2/core'
+import {Injectable} from 'angular2/core';
 
 import ISession from './isession';
+import IUserPreferences from './iuserpreferences';
 
 @Injectable()
 export default class SessionService {
   apiUrl:string = '/api';
   set(session:ISession) {
-    sessionStorage['sessionKey'] = session.key;
-    sessionStorage['sessionSecret'] = session.secret;
+    sessionStorage['sessionKey'] = session.Session;
+    sessionStorage['sessionSecret'] = session.Secret;
   }
   get() : ISession {
-    return {key: sessionStorage['sessionKey'], secret: sessionStorage['sessionSecret']};
+    return {Session: sessionStorage['sessionKey'], Secret: sessionStorage['sessionSecret']};
   }
   exists() : boolean {
     let session = this.get();
-    return !!(session.key && session.secret);
+    return !!(session.Session && session.Secret);
   }
   clear() {
     delete sessionStorage['sessionKey'];
@@ -30,10 +31,13 @@ export default class SessionService {
     let prefs = this._getPrefs();
     return prefs[key];
   }
-  private _setPrefs(prefs:any) {
+  private _setPrefs(prefs: IUserPreferences) {
     sessionStorage['sessionPrefs'] = JSON.stringify(prefs);
   }
-  private _getPrefs() : any {
-    return (sessionStorage['sessionPrefs']) ? JSON.parse(sessionStorage['sessionPrefs']) : {};
+  private _getPrefs() : IUserPreferences {
+    const prefs = sessionStorage['sessionPrefs'] ? JSON.parse(sessionStorage['sessionPrefs']) : {};
+    return {
+      ScrobblingEnabled: !!prefs.ScrobblingEnabled
+    };
   }
 }

@@ -8,19 +8,19 @@
         </ul>
       </div>
       <div ngSwitchDefault class="search-results">
-        <ul *ngIf="tracksResult.length > 0" class="search tracks">
+        <ul *ngIf="tracks.length > 0" class="search tracks">
           <li class="desc">Tracks<span class="link-right" (click)="viewResults('tracks')">Show all</span></li>
-          <li am-track="track" *ngFor="#track of tracksResult"></li>
+          <am-track [track]="track" *ngFor="#track of tracks"></am-track>
         </ul>
-        <ul *ngIf="albumsResult.length > 0" class="search albums">
+        <ul *ngIf="albums.length > 0" class="search albums">
           <li class="desc">Albums<span class="link-right" (click)="viewResults('albums')">Show all</span></li>
-          <li am-album="album" *ngFor="#album of albumsResult"></li>
+          <am-album [album]="album" *ngFor="#album of albums"></am-album>
         </ul>
-        <ul *ngIf="artistsResult.length > 0" class="search artists">
+        <ul *ngIf="artists.length > 0" class="search artists">
           <li class="desc">Artists<span class="link-right" (click)="viewResults('artists')">Show all</span></li>
-          <li am-artist="artist" *ngFor="#artist of artistsResult"></li>
+          <am-artist [artist]="artist" *ngFor="#artist of artists"></am-artist>
         </ul>
-        <ul *ngIf="artistsResult.length + albumsResult.length + tracksResult.length <= 0" class="search">
+        <ul *ngIf="artists.length + albums.length + tracks.length <= 0" class="search">
           <li class="desc">No results found</li>
         </ul>
       </div>

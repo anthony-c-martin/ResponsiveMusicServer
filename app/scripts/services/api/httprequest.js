@@ -50,7 +50,7 @@ System.register(['rxjs/operator/map'], function(exports_1, context_1) {
                     var keys = Object.keys(this._params).sort();
                     var sigString = keys.map(function (key) { return key + ':' + keys[key] + ';'; }).join();
                     if (auth) {
-                        sigString += this._sessionService.get().secret + ';';
+                        sigString += this._sessionService.get().Secret + ';';
                     }
                     return md5(sigString);
                 };
