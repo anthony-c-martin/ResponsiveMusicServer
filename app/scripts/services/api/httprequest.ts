@@ -1,12 +1,9 @@
-//import md5 from 'md5'
-import {Http} from 'angular2/http'
-import {Observable} from 'rxjs/Observable'
-import 'rxjs/operator/map'
+import {md5} from 'blueimp-md5';
+import {Http} from 'angular2/http';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/operator/map';
 
-import SessionService from '../session/session.service'
-function md5(text:string) : string{
-  return text;
-}
+import SessionService from '../session/session.service';
 
 export default class HttpRequest {
   private _params = {};

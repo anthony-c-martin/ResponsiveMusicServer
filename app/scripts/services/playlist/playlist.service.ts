@@ -1,7 +1,7 @@
 import ITrack from '../../components/track/itrack'
 
 export default class PlaylistService {
-  tracks:ITrack[];
+  tracks: ITrack[];
   addTrack(track:ITrack, position?:number) {
     this.addTracks([track], position);
   }

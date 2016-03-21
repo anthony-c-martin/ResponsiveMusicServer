@@ -38,23 +38,14 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     delete sessionStorage['sessionSecret'];
                     delete sessionStorage['sessionPrefs'];
                 };
-                SessionService.prototype.setPref = function (key, value) {
-                    var prefs = this._getPrefs();
-                    prefs[key] = value;
-                    this._setPrefs(prefs);
-                };
-                SessionService.prototype.getPref = function (key) {
-                    var prefs = this._getPrefs();
-                    return prefs[key];
-                };
-                SessionService.prototype._setPrefs = function (prefs) {
-                    sessionStorage['sessionPrefs'] = JSON.stringify(prefs);
-                };
-                SessionService.prototype._getPrefs = function () {
+                SessionService.prototype.getPrefs = function () {
                     var prefs = sessionStorage['sessionPrefs'] ? JSON.parse(sessionStorage['sessionPrefs']) : {};
                     return {
                         ScrobblingEnabled: !!prefs.ScrobblingEnabled
                     };
+                };
+                SessionService.prototype.setPrefs = function (prefs) {
+                    sessionStorage['sessionPrefs'] = JSON.stringify(prefs);
                 };
                 SessionService = __decorate([
                     core_1.Injectable(), 

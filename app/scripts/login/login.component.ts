@@ -1,13 +1,10 @@
-import {Component, EventEmitter, Output} from 'angular2/core'
-//import md5 from 'md5'
-import {RouteParams} from 'angular2/router'
+import {Component, EventEmitter, Output} from 'angular2/core';
+import {md5} from 'blueimp-md5';
+import {RouteParams} from 'angular2/router';
 
-import ILogin from './ilogin'
-import ISession from '../services/session/isession'
-import ApiService from '../services/api/api.service'
-function md5(text:string) : string{
-  return text;
-}
+import ILogin from './ilogin';
+import ISession from '../services/session/isession';
+import ApiService from '../services/api/api.service';
 
 @Component({
   selector: 'am-login',

@@ -57,12 +57,12 @@ System.register(['angular2/core', 'angular2/http', '../session/session.service',
                     return this._apiRequest('GetTracksByAlbum').byId(album.ID).bound(start, limit).submitAuth();
                 };
                 ApiService.prototype.convertTrack = function (track) {
-                    return this._apiRequest('ConvertTrackByID').byString(track.ID).submitAuth().toPromise();
+                    return this._apiRequest('ConvertTrackByID').byString(track.ID).submitAuth();
                 };
-                ApiService.prototype.lastFMNowPlaying = function (track) {
+                ApiService.prototype.lastFmNowPlaying = function (track) {
                     return this._apiRequest('LFMNowPlayingTrack').byString(track.ID).submitAuth().toPromise();
                 };
-                ApiService.prototype.lastFMScrobble = function (track) {
+                ApiService.prototype.lastFmScrobble = function (track) {
                     return this._apiRequest('LFMScrobbleTrack').byString(track.ID).submitAuth().toPromise();
                 };
                 ApiService.prototype.searchTracks = function (search, start, limit) {

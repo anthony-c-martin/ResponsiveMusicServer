@@ -22,22 +22,13 @@ export default class SessionService {
     delete sessionStorage['sessionSecret'];
     delete sessionStorage['sessionPrefs'];
   }
-  setPref(key:string, value:string) {
-    let prefs = this._getPrefs();
-    prefs[key] = value;
-    this._setPrefs(prefs);
-  }
-  getPref(key:string) : string {
-    let prefs = this._getPrefs();
-    return prefs[key];
-  }
-  private _setPrefs(prefs: IUserPreferences) {
-    sessionStorage['sessionPrefs'] = JSON.stringify(prefs);
-  }
-  private _getPrefs() : IUserPreferences {
+  getPrefs() : IUserPreferences {
     const prefs = sessionStorage['sessionPrefs'] ? JSON.parse(sessionStorage['sessionPrefs']) : {};
     return {
       ScrobblingEnabled: !!prefs.ScrobblingEnabled
     };
+  }
+  setPrefs(prefs: IUserPreferences) {
+    sessionStorage['sessionPrefs'] = JSON.stringify(prefs);
   }
 }

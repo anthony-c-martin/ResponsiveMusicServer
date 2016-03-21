@@ -1,12 +1,13 @@
-System.register(['rxjs/operator/map'], function(exports_1, context_1) {
+System.register(['blueimp-md5', 'rxjs/operator/map'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
+    var blueimp_md5_1;
     var HttpRequest;
-    function md5(text) {
-        return text;
-    }
     return {
         setters:[
+            function (blueimp_md5_1_1) {
+                blueimp_md5_1 = blueimp_md5_1_1;
+            },
             function (_1) {}],
         execute: function() {
             HttpRequest = (function () {
@@ -52,7 +53,7 @@ System.register(['rxjs/operator/map'], function(exports_1, context_1) {
                     if (auth) {
                         sigString += this._sessionService.get().Secret + ';';
                     }
-                    return md5(sigString);
+                    return blueimp_md5_1.md5(sigString);
                 };
                 HttpRequest.prototype._addParam = function (key, value) {
                     this._params[key] = value;

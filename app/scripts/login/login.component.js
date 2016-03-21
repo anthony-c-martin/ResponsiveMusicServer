@@ -1,5 +1,6 @@
-System.register(['angular2/core', 'angular2/router', '../services/api/api.service'], function(exports_1) {
+System.register(['angular2/core', 'blueimp-md5', 'angular2/router', '../services/api/api.service'], function(exports_1, context_1) {
     "use strict";
+    var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -9,15 +10,15 @@ System.register(['angular2/core', 'angular2/router', '../services/api/api.servic
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, api_service_1;
+    var core_1, blueimp_md5_1, router_1, api_service_1;
     var LoginComponent;
-    function md5(text) {
-        return text;
-    }
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (blueimp_md5_1_1) {
+                blueimp_md5_1 = blueimp_md5_1_1;
             },
             function (router_1_1) {
                 router_1 = router_1_1;
@@ -49,8 +50,8 @@ System.register(['angular2/core', 'angular2/router', '../services/api/api.servic
                     });
                 };
                 LoginComponent.prototype._getAuthString = function (username, password, token) {
-                    var pswdHash = md5(username + ':' + 'com.acm.AMMusicServer' + ':' + password);
-                    return md5(token + ':' + username + ':' + pswdHash + ':' + token);
+                    var pswdHash = blueimp_md5_1.md5(username + ':' + 'com.acm.AMMusicServer' + ':' + password);
+                    return blueimp_md5_1.md5(token + ':' + username + ':' + pswdHash + ':' + token);
                 };
                 LoginComponent.prototype._getSession = function (token, auth) {
                     var _this = this;
