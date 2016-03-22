@@ -29,16 +29,16 @@
   <script>
     System.config({
       packages: {
-        'app': {
+        app: {
           format: 'register',
           defaultExtension: 'js'
         },
-        'rxjs': {defaultExtension: 'js'},
+        rxjs: {defaultExtension: 'js'},
         'blueimp-md5': {format: 'cjs'}
       },
       map: {
         'blueimp-md5': '/node_modules/blueimp-md5/js/md5.js',
-        'rxjs': 'node_modules/rxjs'
+        rxjs: 'node_modules/rxjs'
       },
     });
     System.import('app/scripts/main')

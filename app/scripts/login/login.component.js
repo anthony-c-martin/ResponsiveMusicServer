@@ -1,6 +1,5 @@
-System.register(['angular2/core', 'blueimp-md5', 'angular2/router', '../services/api/api.service', '../services/error/error.service'], function(exports_1, context_1) {
+System.register(['angular2/core', 'blueimp-md5', 'angular2/router', '../services/api/api.service', '../services/error/error.service', '../services/session/session.service'], function(exports_1) {
     "use strict";
-    var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -10,7 +9,7 @@ System.register(['angular2/core', 'blueimp-md5', 'angular2/router', '../services
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, blueimp_md5_1, router_1, api_service_1, error_service_1;
+    var core_1, blueimp_md5_1, router_1, api_service_1, error_service_1, session_service_1;
     var LoginComponent;
     return {
         setters:[
@@ -28,16 +27,20 @@ System.register(['angular2/core', 'blueimp-md5', 'angular2/router', '../services
             },
             function (error_service_1_1) {
                 error_service_1 = error_service_1_1;
+            },
+            function (session_service_1_1) {
+                session_service_1 = session_service_1_1;
             }],
         execute: function() {
             LoginComponent = (function () {
-                function LoginComponent(_routeParams, _apiService, _errorService) {
+                function LoginComponent(_router, _routeParams, _apiService, _errorService, _sessionService) {
+                    this._router = _router;
                     this._routeParams = _routeParams;
                     this._apiService = _apiService;
                     this._errorService = _errorService;
-                    this.model = { username: '', password: '' };
-                    this.loginFail = new core_1.EventEmitter();
-                    this.loginSuccess = new core_1.EventEmitter();
+                    this._sessionService = _sessionService;
+                    this.username = '';
+                    this.password = '';
                     var auth = this._routeParams.get('auth');
                     var token = this._routeParams.get('token');
                     if (auth && token) {
@@ -47,10 +50,10 @@ System.register(['angular2/core', 'blueimp-md5', 'angular2/router', '../services
                 LoginComponent.prototype.login = function () {
                     var _this = this;
                     this._apiService.getAuthToken().subscribe(function (data) {
-                        var authString = _this._getAuthString(_this.model.username, _this.model.password, data.Token);
+                        var authString = _this._getAuthString(_this.username, _this.password, data.Token);
                         _this._getSession(data.Token, authString);
                     }, function () {
-                        _this._errorService.showError('Login Failed!');
+                        _this._errorService.showError('Login attempt failed. Please try again.');
                     });
                 };
                 LoginComponent.prototype._getAuthString = function (username, password, token) {
@@ -60,26 +63,19 @@ System.register(['angular2/core', 'blueimp-md5', 'angular2/router', '../services
                 LoginComponent.prototype._getSession = function (token, auth) {
                     var _this = this;
                     this._apiService.getAuthSession(token, auth).subscribe(function (data) {
-                        _this.loginSuccess.emit(data);
+                        _this._sessionService.set(data);
+                        _this._router.navigate(['Music']);
                     }, function () {
-                        _this._errorService.showError('Login Failed!');
+                        _this._errorService.showError('Login attempt failed. Please try again.');
                     });
                 };
-                __decorate([
-                    core_1.Output(), 
-                    __metadata('design:type', core_1.EventEmitter)
-                ], LoginComponent.prototype, "loginFail", void 0);
-                __decorate([
-                    core_1.Output(), 
-                    __metadata('design:type', core_1.EventEmitter)
-                ], LoginComponent.prototype, "loginSuccess", void 0);
                 LoginComponent = __decorate([
                     core_1.Component({
                         selector: 'am-login',
                         templateUrl: 'app/scripts/login/login.html',
                         providers: [api_service_1.default]
                     }), 
-                    __metadata('design:paramtypes', [router_1.RouteParams, api_service_1.default, error_service_1.default])
+                    __metadata('design:paramtypes', [router_1.Router, router_1.RouteParams, api_service_1.default, error_service_1.default, session_service_1.default])
                 ], LoginComponent);
                 return LoginComponent;
             }());

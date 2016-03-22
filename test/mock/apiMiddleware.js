@@ -13,11 +13,6 @@ module.exports = function apiMiddleware() {
       return;
     }
 
-    res.statusCode = 404;
-    res.statusMessage = 'Not Found';
-    res.end('');
-    return;
-
     var respData = api.processRequest(req.body);
 
     if (respData[0] !== 200) {

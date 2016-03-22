@@ -1,16 +1,20 @@
-import {Component} from 'angular2/core'
-import {Control} from 'angular2/common'
-import {Router} from 'angular2/router'
+import {Component} from 'angular2/core';
+import {Control} from 'angular2/common';
+import {Router} from 'angular2/router';
+import {Observable} from 'rxjs/observable';
 
-import ApiService from '../../services/api/api.service'
-import IArtist from '../artist/iartist'
-import IAlbum from '../album/ialbum'
-import ITrack from '../track/itrack'
-import {Observable} from 'rxjs/observable'
+import ApiService from '../../services/api/api.service';
+import IArtist from '../artist/iartist';
+import IAlbum from '../album/ialbum';
+import ITrack from '../track/itrack';
+import ArtistComponent from '../components/artist/artist.component';
+import AlbumComponent from '../components/album/album.component';
+import TrackComponent from '../components/track/track.component';
 
 @Component({
   selector: 'am-search',
-  templateUrl: 'app/scripts/components/search/search.html'
+  templateUrl: 'app/scripts/components/search/search.html',
+  directives: [ArtistComponent, AlbumComponent, TrackComponent]
 })
 export default class SearchComponent {
   inProgress: boolean = false;

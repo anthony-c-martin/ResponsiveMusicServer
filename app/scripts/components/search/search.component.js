@@ -1,6 +1,5 @@
-System.register(['angular2/core', 'angular2/common', 'angular2/router', '../../services/api/api.service'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/common', 'angular2/router', '../../services/api/api.service', '../components/artist/artist.component', '../components/album/album.component', '../components/track/track.component'], function(exports_1) {
     "use strict";
-    var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -10,7 +9,7 @@ System.register(['angular2/core', 'angular2/common', 'angular2/router', '../../s
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, router_1, api_service_1;
+    var core_1, common_1, router_1, api_service_1, artist_component_1, album_component_1, track_component_1;
     var SearchComponent;
     return {
         setters:[
@@ -25,6 +24,15 @@ System.register(['angular2/core', 'angular2/common', 'angular2/router', '../../s
             },
             function (api_service_1_1) {
                 api_service_1 = api_service_1_1;
+            },
+            function (artist_component_1_1) {
+                artist_component_1 = artist_component_1_1;
+            },
+            function (album_component_1_1) {
+                album_component_1 = album_component_1_1;
+            },
+            function (track_component_1_1) {
+                track_component_1 = track_component_1_1;
             }],
         execute: function() {
             SearchComponent = (function () {
@@ -55,7 +63,8 @@ System.register(['angular2/core', 'angular2/common', 'angular2/router', '../../s
                 SearchComponent = __decorate([
                     core_1.Component({
                         selector: 'am-search',
-                        templateUrl: 'app/scripts/components/search/search.html'
+                        templateUrl: 'app/scripts/components/search/search.html',
+                        directives: [artist_component_1.default, album_component_1.default, track_component_1.default]
                     }), 
                     __metadata('design:paramtypes', [router_1.Router, api_service_1.default])
                 ], SearchComponent);

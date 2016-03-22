@@ -1,11 +1,11 @@
-import {Component, EventEmitter, Output} from 'angular2/core';
+import {Component, Output} from 'angular2/core';
 import md5 from 'blueimp-md5';
-import {RouteParams} from 'angular2/router';
+import {Router, RouteParams} from 'angular2/router';
 
-import ILogin from './ilogin';
 import ISession from '../services/session/isession';
 import ApiService from '../services/api/api.service';
 import ErrorService from '../services/error/error.service';
+import SessionService from '../services/session/session.service';
 
 @Component({
   selector: 'am-login',
@@ -13,12 +13,13 @@ import ErrorService from '../services/error/error.service';
   providers: [ApiService]
 })
 export default class LoginComponent {
-  model: ILogin = {username: '', password: ''};
-  @Output() loginFail: EventEmitter<string> = new EventEmitter();
-  @Output() loginSuccess: EventEmitter<ISession> = new EventEmitter();
-  constructor(private _routeParams: RouteParams,
+  username: string = '';
+  password: string = '';
+  constructor(private _router: Router,
+              private _routeParams: RouteParams,
               private _apiService: ApiService,
-              private _errorService: ErrorService) {
+              private _errorService: ErrorService,
+              private _sessionService: SessionService) {
     const auth = this._routeParams.get('auth');
     const token = this._routeParams.get('token');
     if (auth && token) {
@@ -28,25 +29,26 @@ export default class LoginComponent {
   login() {
     this._apiService.getAuthToken().subscribe(
       (data) => {
-        const authString = this._getAuthString(this.model.username, this.model.password, data.Token);
+        const authString = this._getAuthString(this.username, this.password, data.Token);
         this._getSession(data.Token, authString);
       },
       () => {
-        this._errorService.showError('Login Failed!');
+        this._errorService.showError('Login attempt failed. Please try again.');
       }
     );
   }
-  private _getAuthString(username:string, password: string, token:string) {
+  private _getAuthString(username: string, password: string, token:string) {
     const pswdHash = md5(username + ':' + 'com.acm.AMMusicServer' + ':' + password);
     return md5(token + ':' + username + ':' + pswdHash + ':' + token);
   }
-  private _getSession(token:string, auth:string) {
+  private _getSession(token: string, auth: string) {
     this._apiService.getAuthSession(token, auth).subscribe(
       (data) => {
-        this.loginSuccess.emit(data);
+        this._sessionService.set(data);
+        this._router.navigate(['Music']);
       },
       () => {
-        this._errorService.showError('Login Failed!');
+        this._errorService.showError('Login attempt failed. Please try again.');
       }
     );
   }
