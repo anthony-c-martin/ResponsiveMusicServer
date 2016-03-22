@@ -25,16 +25,21 @@
   <script src="node_modules/angular2/bundles/angular2.dev.js"></script>
   <script src="node_modules/angular2/bundles/router.dev.js"></script>
   <script src="node_modules/angular2/bundles/http.dev.js"></script>
-  <script src="node_modules/blueimp-md5/js/md5.js"></script>
 
   <script>
     System.config({
       packages: {
-        app: {
+        'app': {
           format: 'register',
           defaultExtension: 'js'
-        }
-      }
+        },
+        'rxjs': {defaultExtension: 'js'},
+        'blueimp-md5': {format: 'cjs'}
+      },
+      map: {
+        'blueimp-md5': '/node_modules/blueimp-md5/js/md5.js',
+        'rxjs': 'node_modules/rxjs'
+      },
     });
     System.import('app/scripts/main')
       .then(null, console.error.bind(console));

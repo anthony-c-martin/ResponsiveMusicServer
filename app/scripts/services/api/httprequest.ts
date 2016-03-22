@@ -1,4 +1,4 @@
-import {md5} from 'blueimp-md5';
+import md5 from 'blueimp-md5';
 import {Http} from 'angular2/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/operator/map';

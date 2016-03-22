@@ -50,8 +50,8 @@ System.register(['angular2/core', 'blueimp-md5', 'angular2/router', '../services
                     });
                 };
                 LoginComponent.prototype._getAuthString = function (username, password, token) {
-                    var pswdHash = blueimp_md5_1.md5(username + ':' + 'com.acm.AMMusicServer' + ':' + password);
-                    return blueimp_md5_1.md5(token + ':' + username + ':' + pswdHash + ':' + token);
+                    var pswdHash = blueimp_md5_1.default(username + ':' + 'com.acm.AMMusicServer' + ':' + password);
+                    return blueimp_md5_1.default(token + ':' + username + ':' + pswdHash + ':' + token);
                 };
                 LoginComponent.prototype._getSession = function (token, auth) {
                     var _this = this;

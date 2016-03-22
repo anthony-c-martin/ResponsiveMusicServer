@@ -64,7 +64,7 @@
     "start": "concurrently \"npm run tsc:w\" \"npm run lite\" ",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
-    "lite": "lite-server",
+    "lite": "lite-server -c \"test/lite-server.js\"",
     "typings": "typings",
     "postinstall": "typings install"
   }

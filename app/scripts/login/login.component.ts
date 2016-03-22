@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Output} from 'angular2/core';
-import {md5} from 'blueimp-md5';
+import md5 from 'blueimp-md5';
 import {RouteParams} from 'angular2/router';
 
 import ILogin from './ilogin';

@@ -8,7 +8,6 @@
     "jasmine": "registry:dt/jasmine#2.2.0+20160308082659",
     "jquery": "registry:dt/jquery#1.10.0+20160303223636",
     "webaudioapi": "github:DefinitelyTyped/DefinitelyTyped/webaudioapi/waa.d.ts",
-    "blueimp-md5": "github:DefinitelyTyped/DefinitelyTyped/blueimp-md5/blueimp-md5.d.ts",
     "mediastream": "github:DefinitelyTyped/DefinitelyTyped/webrtc/MediaStream.d.ts"
   }
 }

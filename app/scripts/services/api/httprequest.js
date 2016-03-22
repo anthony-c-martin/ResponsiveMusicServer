@@ -53,7 +53,7 @@ System.register(['blueimp-md5', 'rxjs/operator/map'], function(exports_1, contex
                     if (auth) {
                         sigString += this._sessionService.get().Secret + ';';
                     }
-                    return blueimp_md5_1.md5(sigString);
+                    return blueimp_md5_1.default(sigString);
                 };
                 HttpRequest.prototype._addParam = function (key, value) {
                     this._params[key] = value;
