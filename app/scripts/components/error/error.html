@@ -1,5 +1,4 @@
-<div ng-if="vm.hasError()">
-  <div class="modal-backdrop">
-  </div>
-  <div am-body-event-handler="error" class="error-modal">{{ vm.errorMessage }}</div>
+<div *ngIf="errorMsg">
+  <div (click)="errorService.clearError()" class="modal-backdrop"></div>
+  <div class="error-modal">{{ errorMsg }}</div>
 </div>

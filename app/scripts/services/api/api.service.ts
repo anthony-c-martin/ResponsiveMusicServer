@@ -1,6 +1,6 @@
 import {Injectable} from 'angular2/core';
 import {Http} from 'angular2/http';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs/observable';
 
 import SessionService from '../session/session.service';
 import HttpRequest from './httprequest';
@@ -10,6 +10,7 @@ import ITrack from '../../components/track/itrack';
 import IConversionResult from '../../components/track/iconversionresult';
 import ISession from '../session/isession';
 import IToken from '../session/itoken';
+import {ISuccessResponse} from './isuccessresponse';
 
 @Injectable()
 export default class ApiService {
@@ -41,20 +42,20 @@ export default class ApiService {
   convertTrack(track: ITrack) : Observable<IConversionResult> {
     return this._apiRequest('ConvertTrackByID').byString(track.ID).submitAuth();
   }
-  lastFmNowPlaying(track: ITrack) : Promise<void> {
-    return this._apiRequest('LFMNowPlayingTrack').byString(track.ID).submitAuth().toPromise();
+  lastFmNowPlaying(track: ITrack) : Observable<ISuccessResponse> {
+    return this._apiRequest('LFMNowPlayingTrack').byString(track.ID).submitAuth();
   }
-  lastFmScrobble(track: ITrack) : Promise<void> {
-    return this._apiRequest('LFMScrobbleTrack').byString(track.ID).submitAuth().toPromise();
+  lastFmScrobble(track: ITrack) : Observable<ISuccessResponse> {
+    return this._apiRequest('LFMScrobbleTrack').byString(track.ID).submitAuth();
   }
   searchTracks(search: string, start: number, limit: number) : Observable<ITrack[]> {
     return this._apiRequest('SearchTracks').byString(search).bound(start, limit).submitAuth();
   }
-  getAuthToken() : Promise<IToken> {
-    return this._apiRequest('GetToken').submitNoAuth().toPromise();
+  getAuthToken() : Observable<IToken> {
+    return this._apiRequest('GetToken').submitNoAuth();
   }
-  getAuthSession(token: string, auth: string) : Promise<ISession> {
-    return this._apiRequest('GetSession').addAuth(token, auth).submitNoAuth().toPromise();
+  getAuthSession(token: string, auth: string) : Observable<ISession> {
+    return this._apiRequest('GetSession').addAuth(token, auth).submitNoAuth();
   }
   getUserPreferences() : Observable<any> {
     return this._apiRequest('GetUserPreferences').submitAuth();

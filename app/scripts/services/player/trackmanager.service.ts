@@ -1,6 +1,6 @@
 import {Injectable} from 'angular2/core'
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/operator/map'
+import {Observable} from 'rxjs/observable';
+import 'rxjs/add/operator/map';
 
 import ITrack from '../../components/track/itrack';
 import SessionService from '../session/session.service';

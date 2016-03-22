@@ -6,7 +6,7 @@ import ApiService from '../../services/api/api.service'
 import IArtist from '../artist/iartist'
 import IAlbum from '../album/ialbum'
 import ITrack from '../track/itrack'
-import {Observable} from 'rxjs/Observable'
+import {Observable} from 'rxjs/observable'
 
 @Component({
   selector: 'am-search',

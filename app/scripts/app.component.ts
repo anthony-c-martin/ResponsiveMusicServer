@@ -1,7 +1,9 @@
-import {Component} from 'angular2/core'
-import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router'
+import {Component} from 'angular2/core';
+import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
+
 //import MusicComponent from './music/music.component';
-import LoginComponent from './login/login.component'
+import LoginComponent from './login/login.component';
+import ErrorComponent from './components/error/error.component';
 
 @Component({
   selector: 'am-musicserver',
@@ -17,7 +19,7 @@ import LoginComponent from './login/login.component'
       <div am-drag-image class="drag-image"></div>
     </div>
   `,
-  directives: [ROUTER_DIRECTIVES],
+  directives: [ROUTER_DIRECTIVES, ErrorComponent],
   providers: [ROUTER_PROVIDERS]
 })
 @RouteConfig([

@@ -1,12 +1,15 @@
-System.register(['blueimp-md5', 'rxjs/operator/map'], function(exports_1, context_1) {
+System.register(['blueimp-md5', 'angular2/http', 'rxjs/add/operator/map'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var blueimp_md5_1;
+    var blueimp_md5_1, http_1;
     var HttpRequest;
     return {
         setters:[
             function (blueimp_md5_1_1) {
                 blueimp_md5_1 = blueimp_md5_1_1;
+            },
+            function (http_1_1) {
+                http_1 = http_1_1;
             },
             function (_1) {}],
         execute: function() {
@@ -43,8 +46,12 @@ System.register(['blueimp-md5', 'rxjs/operator/map'], function(exports_1, contex
                 };
                 HttpRequest.prototype._submit = function (auth) {
                     this._addParam('Signature', this._getSignature(auth));
+                    var headers = new http_1.Headers();
+                    headers.append('Content-Type', 'application/json');
                     return this._http
-                        .post(this._sessionService.apiUrl, JSON.stringify(this._params))
+                        .post(this._sessionService.apiUrl, JSON.stringify(this._params), {
+                        headers: headers
+                    })
                         .map(function (response) { return response.json(); });
                 };
                 HttpRequest.prototype._getSignature = function (auth) {

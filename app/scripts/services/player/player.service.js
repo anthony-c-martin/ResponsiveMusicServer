@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'rxjs/Observable', './trackmanager.service', '../session/session.service', '../playlist/playlist.service'], function(exports_1, context_1) {
+System.register(['angular2/core', 'rxjs/observable', './trackmanager.service', '../session/session.service', '../playlist/playlist.service'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,15 +10,15 @@ System.register(['angular2/core', 'rxjs/Observable', './trackmanager.service', '
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, Observable_1, trackmanager_service_1, session_service_1, playlist_service_1;
+    var core_1, observable_1, trackmanager_service_1, session_service_1, playlist_service_1;
     var PlayerService;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (Observable_1_1) {
-                Observable_1 = Observable_1_1;
+            function (observable_1_1) {
+                observable_1 = observable_1_1;
             },
             function (trackmanager_service_1_1) {
                 trackmanager_service_1 = trackmanager_service_1_1;
@@ -101,7 +101,7 @@ System.register(['angular2/core', 'rxjs/Observable', './trackmanager.service', '
                     var _this = this;
                     if (!track) {
                         this._sendTrackChange();
-                        return Observable_1.Observable.of(null);
+                        return observable_1.Observable.of(null);
                     }
                     var conversionResult = this._trackManagerService.initConversion(track);
                     conversionResult.subscribe(function (track) {

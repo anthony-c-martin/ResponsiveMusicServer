@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'rxjs/Observable', 'rxjs/operator/map', '../session/session.service', '../api/api.service', '../player/tracktimer.service'], function(exports_1, context_1) {
+System.register(['angular2/core', 'rxjs/observable', 'rxjs/add/operator/map', '../session/session.service', '../api/api.service', '../player/tracktimer.service'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,15 +10,15 @@ System.register(['angular2/core', 'rxjs/Observable', 'rxjs/operator/map', '../se
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, Observable_1, session_service_1, api_service_1, tracktimer_service_1;
+    var core_1, observable_1, session_service_1, api_service_1, tracktimer_service_1;
     var TrackManagerService;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (Observable_1_1) {
-                Observable_1 = Observable_1_1;
+            function (observable_1_1) {
+                observable_1 = observable_1_1;
             },
             function (_1) {},
             function (session_service_1_1) {
@@ -38,7 +38,7 @@ System.register(['angular2/core', 'rxjs/Observable', 'rxjs/operator/map', '../se
                 }
                 TrackManagerService.prototype.initConversion = function (track) {
                     if (track.FileName) {
-                        return Observable_1.Observable.of(track);
+                        return observable_1.Observable.of(track);
                     }
                     return this._apiService.convertTrack(track)
                         .map(function (data) {

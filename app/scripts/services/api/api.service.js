@@ -60,19 +60,19 @@ System.register(['angular2/core', 'angular2/http', '../session/session.service',
                     return this._apiRequest('ConvertTrackByID').byString(track.ID).submitAuth();
                 };
                 ApiService.prototype.lastFmNowPlaying = function (track) {
-                    return this._apiRequest('LFMNowPlayingTrack').byString(track.ID).submitAuth().toPromise();
+                    return this._apiRequest('LFMNowPlayingTrack').byString(track.ID).submitAuth();
                 };
                 ApiService.prototype.lastFmScrobble = function (track) {
-                    return this._apiRequest('LFMScrobbleTrack').byString(track.ID).submitAuth().toPromise();
+                    return this._apiRequest('LFMScrobbleTrack').byString(track.ID).submitAuth();
                 };
                 ApiService.prototype.searchTracks = function (search, start, limit) {
                     return this._apiRequest('SearchTracks').byString(search).bound(start, limit).submitAuth();
                 };
                 ApiService.prototype.getAuthToken = function () {
-                    return this._apiRequest('GetToken').submitNoAuth().toPromise();
+                    return this._apiRequest('GetToken').submitNoAuth();
                 };
                 ApiService.prototype.getAuthSession = function (token, auth) {
-                    return this._apiRequest('GetSession').addAuth(token, auth).submitNoAuth().toPromise();
+                    return this._apiRequest('GetSession').addAuth(token, auth).submitNoAuth();
                 };
                 ApiService.prototype.getUserPreferences = function () {
                     return this._apiRequest('GetUserPreferences').submitAuth();

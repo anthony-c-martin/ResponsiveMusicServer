@@ -1,7 +1,7 @@
 import md5 from 'blueimp-md5';
-import {Http} from 'angular2/http';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/operator/map';
+import {Http, Headers} from 'angular2/http';
+import {Observable} from 'rxjs/observable';
+import 'rxjs/add/operator/map';
 
 import SessionService from '../session/session.service';
 
@@ -36,8 +36,12 @@ export default class HttpRequest {
   }
   private _submit(auth:boolean) : Observable<any> {
     this._addParam('Signature', this._getSignature(auth));
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
     return this._http
-      .post(this._sessionService.apiUrl, JSON.stringify(this._params))
+      .post(this._sessionService.apiUrl, JSON.stringify(this._params), {
+        headers: headers
+      })
       .map(response => response.json());
   }
   private _getSignature(auth:boolean) : string {

@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'blueimp-md5', 'angular2/router', '../services/api/api.service'], function(exports_1, context_1) {
+System.register(['angular2/core', 'blueimp-md5', 'angular2/router', '../services/api/api.service', '../services/error/error.service'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'blueimp-md5', 'angular2/router', '../services
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, blueimp_md5_1, router_1, api_service_1;
+    var core_1, blueimp_md5_1, router_1, api_service_1, error_service_1;
     var LoginComponent;
     return {
         setters:[
@@ -25,12 +25,16 @@ System.register(['angular2/core', 'blueimp-md5', 'angular2/router', '../services
             },
             function (api_service_1_1) {
                 api_service_1 = api_service_1_1;
+            },
+            function (error_service_1_1) {
+                error_service_1 = error_service_1_1;
             }],
         execute: function() {
             LoginComponent = (function () {
-                function LoginComponent(_routeParams, _apiService) {
+                function LoginComponent(_routeParams, _apiService, _errorService) {
                     this._routeParams = _routeParams;
                     this._apiService = _apiService;
+                    this._errorService = _errorService;
                     this.model = { username: '', password: '' };
                     this.loginFail = new core_1.EventEmitter();
                     this.loginSuccess = new core_1.EventEmitter();
@@ -42,11 +46,11 @@ System.register(['angular2/core', 'blueimp-md5', 'angular2/router', '../services
                 }
                 LoginComponent.prototype.login = function () {
                     var _this = this;
-                    this._apiService.getAuthToken().then(function (data) {
+                    this._apiService.getAuthToken().subscribe(function (data) {
                         var authString = _this._getAuthString(_this.model.username, _this.model.password, data.Token);
                         _this._getSession(data.Token, authString);
                     }, function () {
-                        _this.loginFail.emit('GetToken request failed');
+                        _this._errorService.showError('Login Failed!');
                     });
                 };
                 LoginComponent.prototype._getAuthString = function (username, password, token) {
@@ -55,10 +59,10 @@ System.register(['angular2/core', 'blueimp-md5', 'angular2/router', '../services
                 };
                 LoginComponent.prototype._getSession = function (token, auth) {
                     var _this = this;
-                    this._apiService.getAuthSession(token, auth).then(function (data) {
+                    this._apiService.getAuthSession(token, auth).subscribe(function (data) {
                         _this.loginSuccess.emit(data);
                     }, function () {
-                        _this.loginFail.emit('GetSession request failed');
+                        _this._errorService.showError('Login Failed!');
                     });
                 };
                 __decorate([
@@ -75,7 +79,7 @@ System.register(['angular2/core', 'blueimp-md5', 'angular2/router', '../services
                         templateUrl: 'app/scripts/login/login.html',
                         providers: [api_service_1.default]
                     }), 
-                    __metadata('design:paramtypes', [router_1.RouteParams, api_service_1.default])
+                    __metadata('design:paramtypes', [router_1.RouteParams, api_service_1.default, error_service_1.default])
                 ], LoginComponent);
                 return LoginComponent;
             }());

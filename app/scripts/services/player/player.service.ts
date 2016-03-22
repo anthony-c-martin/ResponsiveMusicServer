@@ -1,5 +1,5 @@
 import {Injectable} from 'angular2/core';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs/observable';
 
 import ITrack from '../../components/track/itrack';
 import TrackManagerService from './trackmanager.service';

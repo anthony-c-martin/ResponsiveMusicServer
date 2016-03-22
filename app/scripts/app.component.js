@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './login/login.component'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', './login/login.component', './components/error/error.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', './login/login.component'],
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, login_component_1;
+    var core_1, router_1, login_component_1, error_component_1;
     var AppComponent;
     return {
         setters:[
@@ -22,6 +22,9 @@ System.register(['angular2/core', 'angular2/router', './login/login.component'],
             },
             function (login_component_1_1) {
                 login_component_1 = login_component_1_1;
+            },
+            function (error_component_1_1) {
+                error_component_1 = error_component_1_1;
             }],
         execute: function() {
             AppComponent = (function () {
@@ -31,7 +34,7 @@ System.register(['angular2/core', 'angular2/router', './login/login.component'],
                     core_1.Component({
                         selector: 'am-musicserver',
                         template: "\n    <div>\n      <div am-navbar ng-if=\"appCtrl.isLoggedIn()\"></div>\n      <div class=\"container\">\n        <div class=\"view-container\">\n          <router-outlet></router-outlet>\n        </div>\n        <am-error></am-error>\n      </div>\n      <div am-drag-image class=\"drag-image\"></div>\n    </div>\n  ",
-                        directives: [router_1.ROUTER_DIRECTIVES],
+                        directives: [router_1.ROUTER_DIRECTIVES, error_component_1.default],
                         providers: [router_1.ROUTER_PROVIDERS]
                     }),
                     router_1.RouteConfig([
