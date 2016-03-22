@@ -20,6 +20,7 @@ export default class LoginComponent {
               private _apiService: ApiService,
               private _errorService: ErrorService,
               private _sessionService: SessionService) {
+    this._sessionService.clear();
     const auth = this._routeParams.get('auth');
     const token = this._routeParams.get('token');
     if (auth && token) {

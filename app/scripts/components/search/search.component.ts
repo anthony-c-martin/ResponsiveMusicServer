@@ -7,9 +7,9 @@ import ApiService from '../../services/api/api.service';
 import IArtist from '../artist/iartist';
 import IAlbum from '../album/ialbum';
 import ITrack from '../track/itrack';
-import ArtistComponent from '../components/artist/artist.component';
-import AlbumComponent from '../components/album/album.component';
-import TrackComponent from '../components/track/track.component';
+import ArtistComponent from '../artist/artist.component';
+import AlbumComponent from '../album/album.component';
+import TrackComponent from '../track/track.component';
 
 @Component({
   selector: 'am-search',
