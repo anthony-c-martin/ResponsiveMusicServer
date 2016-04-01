@@ -1,0 +1,10 @@
+<div>
+  <div am-navbar ng-if="appCtrl.isLoggedIn()"></div>
+  <div class="container">
+    <div class="view-container">
+      <router-outlet></router-outlet>
+    </div>
+    <am-error></am-error>
+  </div>
+  <div am-drag-image class="drag-image"></div>
+</div>
