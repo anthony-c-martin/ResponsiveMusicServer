@@ -4,8 +4,9 @@ import PlayerService from '../../services/player/player.service';
 import IAlbum from './ialbum';
 
 @Component({
-  selector: 'am-album',
-  template: require('./album.html')
+  selector: '[am-album]',
+  template: require('./album.html'),
+  styles: [require('./album.scss')]
 })
 export default class AlbumComponent {
   @Output() play: EventEmitter<IAlbum> = new EventEmitter();

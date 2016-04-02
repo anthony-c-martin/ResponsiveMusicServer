@@ -1,23 +1,17 @@
 <div class="panes">
-  <div [amScrollLoader]="loadMoreArtists" class="pane">
+  <div [amScrollLoader]="loadArtists" class="pane">
     <ul class="artists">
-      <li *ngFor="#artist of artists">
-        <am-artist [artist]="artist" draggable="true"></am-artist>
-      </li>
+      <li am-artist [artist]="artist" *ngFor="#artist of artists"></li>
     </ul>
   </div><!--
-  --><div [amScrollLoader]="loadMoreAlbums" class="pane">
+  --><div [amScrollLoader]="loadAlbums" class="pane">
     <ul class="albums">
-      <li *ngFor="#album of albums">
-        <am-album [album]="album" draggable="true"></am-album>
-      </li>
+      <li am-album [album]="album" *ngFor="#album of albums"></li>
     </ul>
   </div><!--
-  --><div [amScrollLoader]="loadMoreTracks" ng-mousedown="panel.deselectTracks($event)" class="pane">
+  --><div [amScrollLoader]="loadTracks" ng-mousedown="panel.deselectTracks($event)" class="pane">
     <ul class="tracks">
-      <li *ngFor="#track of tracks">
-        <am-track [track]="track" draggable="true"></am-track>
-      </li>
+      <li am-track [track]="track" *ngFor="#track of tracks"></li>
     </ul>
   </div>
 </div>

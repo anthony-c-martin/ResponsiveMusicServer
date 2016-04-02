@@ -1,1 +1,439 @@
-@import '../assets/sass/main';
+@import '../assets/sass/_colors';
+@import '../assets/sass/_mixins';
+@import '../assets/sass/_mq-mixins';
+
+$navbar-height: 1.75em;
+
+* {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+p, h1, h2, h3, h4 {
+  cursor: default;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  font-size: 100%;
+  overflow: hidden;
+}
+
+body {
+  overflow: auto;
+  @include mq-med-large {
+    padding: $navbar-height 0 0 0;
+  }
+  @include mq-small {
+    padding: ($navbar-height * 2) 0 0 0;
+  }
+  margin: 0;
+  background-color: $med-background;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 300;
+  font-size: 1em;
+  min-height: 25em;
+  &>div {
+    height: 100%;
+    overflow: hidden;
+  }
+}
+
+input, button, select, textarea {
+  text-align: left;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  border-radius: 0;
+  &:focus {
+    outline: 0;
+  }
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.clickable {
+  @include noselect-pointer;
+}
+
+.history {
+  .history-item {
+    display: inline-block;
+    padding: 0.5em 0.25em;
+  }
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  @include vendor-prefix(box-shadow, 0 0 0.2em 0 $dark-border);
+  background-color: $dark-background;
+  border-bottom: 0.063 solid $light-border;
+  .navbar-inner {
+    max-width: 80em;
+    margin: 0 auto;
+    display: flex;
+    padding: 0;
+    @include mq-small {
+      display: flex;
+    }
+    &>.unshrinkable {
+      flex-shrink: 0;
+    }
+    &>.shrinkable {
+      flex-grow: 1;
+      flex-shrink: 1;
+    }
+    &>.controls-search {
+      display: flex;
+      width: 0;
+      @include mq-large {
+        max-width: 20em;
+      }
+      &>input {
+        width: 100%;
+      }
+    }
+  }
+  z-index: 2;
+}
+
+.controls {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  .control, .control-container {
+    float: left;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-color: $control-background;
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+  button.control {
+    @include noselect-pointer;
+    color: $control-text;
+    &:hover {
+      color: $control-text-hover;
+    }
+    &>span {
+      text-align: center;
+    }
+  }
+  &.controls-mini {
+    .control {
+      margin-right: 0.25em;
+      background-color: transparent;
+      @include mq-large {
+        opacity: 0;
+      }
+    }
+  }
+  &.controls-nav {
+    margin: 0 0.25em;
+    &:first-child {
+      margin-left: 0;
+    }
+    &:last-child {
+      margin-right: 0;
+    }
+    &>.control, &>.control-container {
+      height: 2em - 0.25em;
+      &.active {
+        background-color: $control-background-active;
+      }
+    }
+
+    &>.control {
+      padding: 0.25em 0.5em;
+      @include mq-large {
+        padding: 0.25em 0.75em;
+      }
+    }
+    &>.control-nopad {
+      padding: 0;
+      @include mq-large {
+        padding: 0;
+      }
+      &>.padded-contents {
+        padding: 0.25em 0.5em;
+        @include mq-large {
+          padding: 0.25em 0.75em;
+        }
+      }
+    }
+    &>.control-container {
+      padding: 0;
+      &>.control {
+        padding: 0.25em 0.5em;
+        @include mq-large {
+          padding: 0.25em 0.75em;
+        }
+      }
+    }
+    &>button.control {
+      &:active {
+        background-color: $control-background-active;
+      }
+    }
+    @include mq-small {
+      display: flex;
+      margin: 0;
+    }
+  }
+}
+
+.container {
+  height: 100%;
+  .view-container {
+    height: 100%;
+  }
+  @include mq-large {
+    margin-left: 3em;
+    margin-right: 3em;
+    padding: 1em;
+  }
+}
+
+.panes {
+  max-width: 90em;
+  margin: 0 auto;
+  background-color: $light-background;
+  height: 100%;
+  .pane {
+    @include mq-large {
+      width: 33.3%;
+    }
+    @include mq-med {
+      width: 50%;
+    }
+    @include mq-small {
+      width: 100%;
+    }
+    @include mq-small-med {
+      padding-top: 2em;
+    }
+    display: inline-block;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    &:not(:first-child) {
+      border-left: 0.1em solid $light-border;
+    }
+  }
+  .pane-top {
+    @include hide-large;
+    @include noselect-default;
+    height: 2em;
+    position: fixed;
+    background-color: $med-background;
+    width: 100%;
+    border-bottom: 0.15em solid $light-border;
+    z-index: 1;
+  }
+  @include mq-large {
+    position: relative;
+    border-radius: 0.25em;
+    border: 0.15em solid $light-border;
+  }
+}
+
+.hide-s {
+  @include hide-small;
+}
+
+.hide-sm {
+  @include hide-small-med;
+}
+
+.hide-m {
+  @include hide-med;
+}
+
+.hide-ml {
+  @include hide-med-large;
+}
+
+.hide-l {
+  @include hide-large
+}
+
+.prog-container {
+  background-color: #ccd;
+  position: relative;
+  @include noselect-pointer;
+  width: 100%;
+  &>* {
+    @include noevents;
+  }
+  .prog-bar {
+    height: 100%;
+    background-color: #A2A2B8;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .track-info {
+    @include hide-overflow;
+    text-align: center;
+    position: relative;
+  }
+}
+
+.dropdown-playlist {
+  @include dropdown(30em, 0, 0);
+}
+
+.dropdown-search {
+  @include dropdown(30em, 0, -6em);
+}
+
+.dropdown-volume {
+  @include mq-large {
+    @include dropdown(2em, 2.5em, 0);
+  }
+  @include mq-small-med {
+    @include dropdown(2em, 1.75em, 0);
+  }
+  &>.inner {
+    height: 10em;
+    padding: 0.25em;
+    &>div.vol-container {
+      height: 100%;
+      width: 100%;
+      background-color: #ccd;
+      position: relative;
+      @include noselect-pointer;
+      &>div.vol-bar {
+        width: 100%;
+        background-color: #A2A2B8;
+        position: absolute;
+        bottom: 0;
+        @include noevents;
+      }
+    }
+  }
+}
+
+ul.playlist {
+  margin: 0;
+  padding: 0;
+  li {
+    &.desc {
+      @include noselect-default;
+      background-color: $dark-background;
+      color: $dark-text;
+    }
+    padding: 1em;
+    @include noselect;
+    &.track {
+      padding: 0;
+      &.dropzone-pre {
+        padding-top: 1em;
+        background-color: $light-background-active;
+        .content {
+          border-top: 0.1em solid $light-border;
+          background-color: $light-background;
+        }
+      }
+      &.dropzone-post {
+        padding-bottom: 1em;
+        background-color: $light-background-active;
+        .content {
+          border-bottom: 0.1em solid $light-border;
+          background-color: $light-background;
+        }
+      }
+    }
+    &>span.link-left {
+      @include noselect-pointer;
+    }
+    &>span.link-right {
+      float: right;
+      @include noselect-pointer;
+    }
+  }
+}
+
+ul.search {
+  margin: 0;
+  padding: 0;
+  li {
+    &.desc {
+      @include noselect-default;
+      background-color: $dark-background;
+      color: $dark-text;
+    }
+    padding: 1em;
+    @include noselect;
+    &.track, &.artist, &.album {
+      padding: 0;
+    }
+    &>span.link-right {
+      float: right;
+      @include noselect-pointer;
+    }
+  }
+}
+
+form.login {
+  @include noselect;
+  @include vendor-prefix(box-shadow, 0 0 0.2em 0 $dark-border);
+  background-color: $dark-background;
+  border: 0.1em solid $dark-border;
+  color: $dark-text;
+  @include mq-small {
+    width: 100%;
+    padding: 1em;
+  }
+  @include mq-med-large {
+    width: 20em;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0.25em;
+  }
+  &>.login-control {
+    @include mq-small {
+      font-size: 1.2em;
+      margin-top: 1em;
+    }
+    width: 100%;
+    height: 2em;
+    margin-top: 0.25em;
+  }
+  &>.title {
+    text-align: center;
+    font-size: 1.5em;
+    margin: 0.25em 0;
+  }
+  &>button.login-control {
+    @include noselect-pointer;
+    background-color: $control-background;
+    border: 0;
+    text-align: center;
+    color: $control-text;
+    &:hover {
+      color: $control-text-hover;
+    }
+  }
+}
+
+.drag-image {
+  position: absolute;
+  display: block;
+  max-width: 10em;
+  max-height: 2em;
+  background-color: #000;
+  color: #FFF;
+  border-radius: 0.25em;
+  padding: 0.25em;
+}

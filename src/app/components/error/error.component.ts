@@ -3,7 +3,8 @@ import ErrorService from '../../services/error/error.service';
 
 @Component({
   selector: 'am-error',
-  template: require('./error.html')
+  template: require('./error.html'),
+  styles: [require('./error.scss')]
 })
 export default class ErrorComponent {
   errorMsg: string = '';

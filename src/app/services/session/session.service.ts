@@ -1,4 +1,4 @@
-import {Injectable} from 'angular2/core';
+import {Injectable, EventEmitter} from 'angular2/core';
 
 import ISession from './isession';
 import IUserPreferences from './iuserpreferences';
@@ -6,6 +6,7 @@ import IUserPreferences from './iuserpreferences';
 @Injectable()
 export default class SessionService {
   apiUrl:string = '/api';
+  loggedOut: EventEmitter<string> = new EventEmitter();
   set(session: ISession) {
     sessionStorage['sessionKey'] = session.Session;
     sessionStorage['sessionSecret'] = session.Secret;
@@ -21,6 +22,10 @@ export default class SessionService {
     delete sessionStorage['sessionKey'];
     delete sessionStorage['sessionSecret'];
     delete sessionStorage['sessionPrefs'];
+  }
+  unauthorized() {
+    this.clear();
+    this.loggedOut.emit('Unauthorized');
   }
   getPrefs() : IUserPreferences {
     const prefs = sessionStorage['sessionPrefs'] ? JSON.parse(sessionStorage['sessionPrefs']) : {};

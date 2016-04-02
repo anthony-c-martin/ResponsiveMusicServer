@@ -3,7 +3,7 @@ interface ITrack {
   Name: string;
   Duration: number;
   FileName?: string;
-  selected: boolean;
+  isSelected: boolean;
   clone() : ITrack;
 }
 

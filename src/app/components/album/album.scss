@@ -1,0 +1,4 @@
+@import '../../../assets/sass/_colors';
+@import '../../../assets/sass/_mixins';
+
+@include music-list-item($light-border, $light-background, $light-background-selected, $light-background-hover);

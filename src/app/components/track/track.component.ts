@@ -4,8 +4,9 @@ import PlayerService from '../../services/player/player.service';
 import ITrack from './itrack';
 
 @Component({
-  selector: 'am-track',
-  template: require('./track.html')
+  selector: '[am-track]',
+  template: require('./track.html'),
+  styles: [require('./track.scss')]
 })
 export default class TrackComponent {
   @Output() remove: EventEmitter<ITrack> = new EventEmitter();
