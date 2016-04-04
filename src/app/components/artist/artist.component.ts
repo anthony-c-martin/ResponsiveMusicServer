@@ -13,7 +13,6 @@ import IArtist from './iartist';
 export default class ArtistComponent {
   @Output() play: EventEmitter<IArtist> = new EventEmitter();
   @Output() add: EventEmitter<IArtist> = new EventEmitter();
-  @Output() select: EventEmitter<IArtist> = new EventEmitter();
   @Input() artist: IArtist;
 }
 

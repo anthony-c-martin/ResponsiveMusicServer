@@ -9,7 +9,7 @@
       <li am-album [album]="album" *ngFor="#album of albums"></li>
     </ul>
   </div><!--
-  --><div [amScrollLoader]="loadTracks" ng-mousedown="panel.deselectTracks($event)" class="pane">
+  --><div [amScrollLoader]="loadTracks" class="pane">
     <ul class="tracks">
       <li am-track [track]="track" *ngFor="#track of tracks"></li>
     </ul>

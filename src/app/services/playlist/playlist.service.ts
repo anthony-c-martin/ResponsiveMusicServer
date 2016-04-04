@@ -2,10 +2,10 @@ import ITrack from '../../components/track/itrack'
 
 export default class PlaylistService {
   tracks: ITrack[];
-  addTrack(track:ITrack, position?:number) {
+  addTrack(track: ITrack, position?: number) {
     this.addTracks([track], position);
   }
-  addTracks(tracks:ITrack[], position?:number) {
+  addTracks(tracks: ITrack[], position?: number) {
     if (position === undefined) {
       position = this.tracks.length;
     }
@@ -19,18 +19,18 @@ export default class PlaylistService {
       this.tracks.push(track);
     });
   }
-  selectTracks(tracks:ITrack[]) {
+  selectTracks(tracks: ITrack[]) {
     tracks.forEach(track => {
-      track.selected = true;
+      track.isSelected = true;
     });
   }
-  removeTrack(track:ITrack) {
+  removeTrack(track: ITrack) {
     const index = this.tracks.indexOf(track);
     if (index > -1) {
       this.tracks.splice(index, 1);
     }
   }
-  removeTracks(tracks:ITrack[]) {
+  removeTracks(tracks: ITrack[]) {
     tracks.forEach(track => {
       this.removeTrack(track);
     });
@@ -40,7 +40,7 @@ export default class PlaylistService {
   }
   unselectAll() {
     this.tracks.forEach(track => {
-      delete track.selected;
+      delete track.isSelected;
     });
   }
 }
