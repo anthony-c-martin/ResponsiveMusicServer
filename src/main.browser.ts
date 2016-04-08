@@ -7,11 +7,17 @@ import {ENV_PROVIDERS} from './platform/environment';
 import App from './app/app';
 import ErrorService from './app/services/error/error.service';
 import SessionService from './app/services/session/session.service';
+import PlayerService from './app/services/player/player.service';
+import TrackManagerService from './app/services/player/trackmanager.service';
+import ApiService from './app/services/api/api.service';
 
 export function main() {
   let APP_PROVIDERS = [
     ErrorService,
-    SessionService
+    SessionService,
+    PlayerService,
+    TrackManagerService,
+    ApiService
   ];
 
   return bootstrap(App, [

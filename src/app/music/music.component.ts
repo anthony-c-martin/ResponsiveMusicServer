@@ -38,6 +38,11 @@ export default class MusicComponent {
       this._router.navigate(['Login']);
       this._errorService.showError('Your session has timed out, and you have been logged out.');
     });
+    this._apiService.getUserPreferences().subscribe(
+      (prefs) => {
+        this._sessionService.setPrefs(prefs);
+      }
+    );
   }
   private _loadMoreArtists() {
     if (!this._shouldLoadMoreArtists) {

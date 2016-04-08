@@ -1,21 +1,18 @@
-<div class="navbar">
-  <div ng-if="isPhone" class="navbar-inner">
-    <am-position-control current-audio="vm.current" position-update="vm.positionUpdate"></am-position-control>
-  </div>
+<div *ngIf="sessionService.exists()" class="navbar">
   <div class="navbar-inner">
     <div class="controls controls-nav unshrinkable">
-      <button ng-click="vm.previousTrack()" type="button" class="control">
+      <button (click)="playerService.previousTrack()" type="button" class="control">
         <i class="fa fa-fast-backward"></i>
       </button>
-      <button ng-click="vm.togglePause()" type="button" class="control">
-        <i ng-if="!vm.current.isPlaying" class="fa fa-play"></i>
-        <i ng-if="vm.current.isPlaying" class="fa fa-pause"></i>
+      <button (click)="togglePlaying" type="button" class="control">
+        <i *ngIf="isPaused" class="fa fa-play"></i>
+        <i *ngIf="!isPaused" class="fa fa-pause"></i>
       </button>
-      <button ng-click="vm.nextTrack()" type="button" class="control">
+      <button (click)="playerService.nextTrack()" type="button" class="control">
         <i class="fa fa-fast-forward"></i>
       </button>
     </div>
-    <am-position-control current-audio="vm.current" position-update="vm.positionUpdate" ng-if="!isPhone"></am-position-control>
+    <am-position-control current-audio="vm.current" position-update="vm.positionUpdate"></am-position-control>
     <div class="controls controls-nav unshrinkable">
       <am-playlist></am-playlist>
       <div class="control-container">
@@ -24,7 +21,7 @@
         </button>
         <am-volume-control current-audio="vm.current" volume-update="vm.volumeUpdate" ng-show="vm.volumeShown"></am-volume-control>
       </div>
-      <button ng-click="vm.toggleScrobblingEnabled()" ng-class="{active: vm.scrobblingEnabled}" type="button" class="control">
+      <button ng-click="toggleScrobbling()" [ngClass]="{active: scrobblingEnabled}" type="button" class="control">
         <i class="fa fa-lastfm"></i>
       </button>
     </div>

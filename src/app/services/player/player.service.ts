@@ -13,6 +13,7 @@ export default class PlayerService {
   private _playlist: PlaylistService;
   private _historyPlaylist: PlaylistService;
   private _howl: Howl;
+  private isPaused: boolean = true;
   constructor(private _trackManagerService: TrackManagerService,
               private _sessionService: SessionService) {
     this._playlist = new PlaylistService();
@@ -77,6 +78,11 @@ export default class PlayerService {
     } else {
       this._howl.pause();
     }
+  }
+  setScrobbling(enabled: boolean) {
+    const prefs = this._sessionService.getPrefs();
+    prefs.ScrobblingEnabled = enabled;
+    this._sessionService.setPrefs(prefs);
   }
   private _changeTrack(track?: ITrack) : Observable<ITrack> {
     if (!track) {

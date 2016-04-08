@@ -143,30 +143,16 @@ module.exports = {
     //
     // See: http://webpack.github.io/docs/configuration.html#module-loaders
     loaders: [
-
-      // Typescript loader support for .ts and Angular 2 async routes via .async.ts
-      //
-      // See: https://github.com/s-panferov/awesome-typescript-loader
       {test: /\.ts$/, loader: 'awesome-typescript-loader', exclude: [/\.(spec|e2e)\.ts$/]},
-
-      // Json loader support for *.json files.
-      //
-      // See: https://github.com/webpack/json-loader
-      {test: /\.json$/, loader: 'json-loader'},
-
-      // Raw loader support for *.css files
-      // Returns file content as string
-      //
-      // See: https://github.com/webpack/raw-loader
-      {test: /\.css$/, loader: 'raw-loader'},
-
-      {test: /\.scss$/, loader: 'raw-loader!sass-loader', exclude: /node_modules/},
-
-      // Raw loader support for *.html
-      // Returns file content as string
-      //
-      // See: https://github.com/webpack/raw-loader
-      {test: /\.html$/, loader: 'raw-loader', exclude: [helpers.root('src/index.html')]},
+      {test: /\.json$/, loader: 'json'},
+      {test: /\.css$/, loader: 'raw!css'},
+      {test: /\.scss$/, loader: 'raw!sass', exclude: /node_modules/},
+      {test: /\.html$/, loader: 'raw', exclude: [helpers.root('src/index.html')]},
+      {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'file?mimetype=image/svg+xml'},
+      {test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "file?mimetype=application/font-woff"},
+      {test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: "file?mimetype=application/font-woff"},
+      {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "file?mimetype=application/octet-stream"},
+      {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file"},
     ]
 
   },

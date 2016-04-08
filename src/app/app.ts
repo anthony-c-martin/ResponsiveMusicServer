@@ -4,15 +4,16 @@ import {RouteConfig, Router} from 'angular2/router';
 import MusicComponent from './music/music.component';
 import LoginComponent from './login/login.component';
 import ErrorComponent from './components/error/error.component';
+import NavbarComponent from './components/navbar/navbar.component';
 
 @Component({
   selector: 'app',
   template: require('./app.html'),
   styles: [
-    require('../../node_modules/normalize.css/normalize.css'),
-    require('./app.scss')
+    require('./app.scss'),
+    require('!raw!../../node_modules/font-awesome/css/font-awesome.css')
   ],
-  directives: [ErrorComponent],
+  directives: [NavbarComponent, ErrorComponent],
   encapsulation: ViewEncapsulation.None
 })
 @RouteConfig([

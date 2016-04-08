@@ -69,43 +69,6 @@ ul {
   }
 }
 
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  @include vendor-prefix(box-shadow, 0 0 0.2em 0 $dark-border);
-  background-color: $dark-background;
-  border-bottom: 0.063 solid $light-border;
-  .navbar-inner {
-    max-width: 80em;
-    margin: 0 auto;
-    display: flex;
-    padding: 0;
-    @include mq-small {
-      display: flex;
-    }
-    &>.unshrinkable {
-      flex-shrink: 0;
-    }
-    &>.shrinkable {
-      flex-grow: 1;
-      flex-shrink: 1;
-    }
-    &>.controls-search {
-      display: flex;
-      width: 0;
-      @include mq-large {
-        max-width: 20em;
-      }
-      &>input {
-        width: 100%;
-      }
-    }
-  }
-  z-index: 2;
-}
-
 .controls {
   position: relative;
   display: inline-block;
