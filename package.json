@@ -20,6 +20,7 @@
     "server:dev": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server --config config/webpack.dev.js --inline --progress --profile --colors --watch --display-error-details --display-cached --content-base src/",
     "server:dev:hmr": "npm run server:dev -- --hot",
     "server:prod": "http-server dist --cors",
+    "mockapi": "node ./test/mock/apiServer.js",
     "webdriver:update": "webdriver-manager update",
     "webdriver:start": "webdriver-manager start",
     "lint": "./node_modules/.bin/tslint 'src/**/*.ts'",
@@ -48,6 +49,7 @@
   "devDependencies": {
     "angular2-hmr": "~0.2.2",
     "awesome-typescript-loader": "~0.16.2",
+    "body-parser": "^1.15.0",
     "compression-webpack-plugin": "^0.3.0",
     "copy-webpack-plugin": "^1.1.1",
     "css-loader": "^0.23.1",
@@ -57,6 +59,7 @@
     "es7-reflect-metadata": "^1.6.0",
     "exports-loader": "^0.6.3",
     "expose-loader": "^0.7.1",
+    "express": "^4.13.4",
     "file-loader": "^0.8.5",
     "html-webpack-plugin": "^2.9.0",
     "http-server": "^0.9.0",

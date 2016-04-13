@@ -145,19 +145,9 @@ module.exports = {
 
     if (requests[command] !== undefined) {
       var output = requests[command](data);
-      console.log({
-        command: command,
-        input: data,
-        output: output
-      });
       return output;
     }
 
-    console.warn({
-      error: 404,
-      command: command,
-      input: data
-    });
     return [404, {}, {}];
   }
 };
