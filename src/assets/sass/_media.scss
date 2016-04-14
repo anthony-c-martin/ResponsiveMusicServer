@@ -19,10 +19,8 @@ $post-phone: $phone + $viewport-increment;
 }
 
 @mixin mq-med {
-  @include mq-small-med {
-    @include mq-med-large {
-      @content;
-    }
+  @media screen and (min-width: $post-phone) and (max-width: $pre-desktop) {
+    @content;
   }
 }
 
@@ -39,16 +37,13 @@ $post-phone: $phone + $viewport-increment;
 }
 
 @mixin hide-small {
-  @include mq-small() {
+  @include mq-small {
     display: none;
   }
 }
 
 @mixin hide-small-med {
-  @include mq-small {
-    display: none;
-  }
-  @include mq-med {
+  @include mq-small-med {
     display: none;
   }
 }
@@ -60,10 +55,7 @@ $post-phone: $phone + $viewport-increment;
 }
 
 @mixin hide-med-large {
-  @include mq-med {
-    display: none;
-  }
-  @include mq-large {
+  @include mq-med-large {
     display: none;
   }
 }

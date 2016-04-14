@@ -1,4 +1,4 @@
-import ITrack from '../../components/track/itrack'
+import {ITrack} from '../api/api.interfaces';
 
 export default class PlaylistService {
   tracks: ITrack[];

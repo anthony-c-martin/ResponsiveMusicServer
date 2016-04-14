@@ -1,0 +1,43 @@
+@import '../../assets/sass/common';
+
+.login {
+  background-color: #eee;
+  width: 12em;
+  overflow: hidden;
+  @include mq-small {
+    height: 100%;
+    width: 100%;
+  }
+  @include mq-med-large {
+    margin: 2em auto;
+    @include border-radius(0.25em);
+  }
+}
+
+.title {
+  background-color: #aaa;
+  padding: 0.5em;
+  font-size: 1.5em;
+}
+
+.content {
+  padding: 0.5em 1em;
+}
+
+.input, .submit {
+  box-sizing: border-box;
+  display: block;
+  margin: 0.5em 0;
+  padding: 0.25em 0.5em;
+  width: 100%;
+  font-size: 1.25em;
+  @include border-radius(0.25em);
+  border: none;
+}
+
+.submit {
+  margin-top: 1em;
+  background-color: #aaa;
+  border: none;
+  cursor: pointer;
+}

@@ -1,0 +1,21 @@
+@mixin vendor-prefix($name, $argument) {
+  -webkit-#{$name}: #{$argument};
+  -ms-#{$name}: #{$argument};
+  -moz-#{$name}: #{$argument};
+  -o-#{$name}: #{$argument};
+  #{$name}: #{$argument};
+}
+
+@mixin noselect {
+  @include vendor-prefix(user-select, none);
+}
+
+@mixin transition($property, $duration) {
+  @include vendor-prefix(transition-property, $property);
+  @include vendor-prefix(transition-duration, $duration);
+  @include vendor-prefix(transition-timing-function, linear);
+}
+
+@mixin border-radius($radius) {
+  @include vendor-prefix(border-radius, $radius);
+}

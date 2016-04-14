@@ -2,7 +2,7 @@ import {Component, Output} from 'angular2/core';
 import * as md5 from 'blueimp-md5';
 import {Router, RouteParams} from 'angular2/router';
 
-import {ISession} from '../services/session/session.interfaces';
+import {ISession} from '../services/api/api.interfaces';
 import ApiService from '../services/api/api.service';
 import ErrorService from '../services/error/error.service';
 import SessionService from '../services/session/session.service';
@@ -10,6 +10,7 @@ import SessionService from '../services/session/session.service';
 @Component({
   selector: 'am-login',
   template: require('./login.html'),
+  styles: [require('./login.scss')],
   providers: [ApiService, SessionService]
 })
 export default class LoginComponent {

@@ -1,6 +1,6 @@
 import {Injectable, EventEmitter} from 'angular2/core';
 
-import {ISession, IUserPreferences} from './session.interfaces';
+import {ISession, IUserPreferences} from '../api/api.interfaces';
 
 @Injectable()
 export default class SessionService {

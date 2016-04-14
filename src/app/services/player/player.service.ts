@@ -2,7 +2,7 @@ import {Injectable} from 'angular2/core';
 import {Observable} from 'rxjs/Observable';
 import {Howl} from 'howler';
 
-import ITrack from '../../components/track/itrack';
+import {ITrack} from '../api/api.interfaces';
 import TrackManagerService from './trackmanager.service';
 import SessionService from '../session/session.service';
 import PlaylistService from '../playlist/playlist.service';

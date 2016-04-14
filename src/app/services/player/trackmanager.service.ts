@@ -2,7 +2,7 @@ import {Injectable} from 'angular2/core'
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
-import ITrack from '../../components/track/itrack';
+import {ITrack} from '../api/api.interfaces';
 import SessionService from '../session/session.service';
 import ApiService from '../api/api.service';
 import TrackTimerService from '../player/tracktimer.service';

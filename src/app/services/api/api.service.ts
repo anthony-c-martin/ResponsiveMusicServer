@@ -6,12 +6,7 @@ import 'rxjs/add/observable/throw';
 
 import SessionService from '../session/session.service';
 import HttpRequest from './httprequest';
-import IArtist from '../../components/artist/iartist';
-import IAlbum from '../../components/album/ialbum';
-import ITrack from '../../components/track/itrack';
-import IConversionResult from '../../components/track/iconversionresult';
-import {ISuccessResponse} from './api.interfaces';
-import {ISession, IToken, IUserPreferences} from '../session/session.interfaces';
+import {ISuccessResponse, IArtist, IConversionResult, IAlbum, ITrack, ISession, IToken, IUserPreferences} from './api.interfaces';
 
 @Injectable()
 export default class ApiService {
