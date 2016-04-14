@@ -6,12 +6,8 @@ import LoginComponent from './login/login.component';
 @Component({
   selector: 'app',
   template: require('./app.html'),
-  styles: [
-    require('!raw!normalize.css'),
-    require('./app.scss')
-  ],
-  directives: [],
-  encapsulation: ViewEncapsulation.None
+  styles: [require('./app.scss')],
+  directives: []
 })
 @RouteConfig([
   { path: '/login', name: 'Login', component: LoginComponent, useAsDefault: true },

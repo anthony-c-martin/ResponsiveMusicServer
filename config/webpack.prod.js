@@ -160,14 +160,13 @@ module.exports = {
         ]
       },
       {test: /\.json$/, loader: 'json'},
-      {test: /\.css$/, loader: 'raw!css?sourceMap'},
       {test: /\.scss$/, loader: 'raw!sass?sourceMap', exclude: /node_modules/},
       {test: /\.html$/, loader: 'raw', exclude: [helpers.root('src/index.html')]},
-      {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'file?mimetype=image/svg+xml'},
-      {test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "file?mimetype=application/font-woff"},
-      {test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: "file?mimetype=application/font-woff"},
-      {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "file?mimetype=application/octet-stream"},
-      {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file"},
+      {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?mimetype=image/svg+xml'},
+      {test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "url?mimetype=application/font-woff"},
+      {test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: "url?mimetype=application/font-woff"},
+      {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url?mimetype=application/octet-stream"},
+      {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "url?&mimetype=application/vnd.ms-fontobject"}
     ],
 
     // A RegExp or an array of RegExps. Don’t parse files matching.

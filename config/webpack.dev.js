@@ -145,16 +145,14 @@ module.exports = {
     loaders: [
       {test: /\.ts$/, loader: 'awesome-typescript-loader', exclude: [/\.(spec|e2e)\.ts$/]},
       {test: /\.json$/, loader: 'json'},
-      {test: /\.css$/, loader: 'raw!css'},
-      {test: /\.scss$/, loader: 'raw!sass', exclude: /node_modules/},
+      {test: /\.scss$/, loader: 'raw!sass?sourceMap', exclude: /node_modules/},
       {test: /\.html$/, loader: 'raw', exclude: [helpers.root('src/index.html')]},
-      {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'file?mimetype=image/svg+xml'},
-      {test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "file?mimetype=application/font-woff"},
-      {test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: "file?mimetype=application/font-woff"},
-      {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "file?mimetype=application/octet-stream"},
-      {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file"},
+      {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?mimetype=image/svg+xml'},
+      {test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "url?mimetype=application/font-woff"},
+      {test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: "url?mimetype=application/font-woff"},
+      {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url?mimetype=application/octet-stream"},
+      {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "url?&mimetype=application/vnd.ms-fontobject"}
     ]
-
   },
 
   // Add additional plugins to the compiler.
