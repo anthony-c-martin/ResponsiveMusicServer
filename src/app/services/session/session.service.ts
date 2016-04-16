@@ -4,7 +4,7 @@ import {ISession, IUserPreferences} from '../api/api.interfaces';
 
 @Injectable()
 export default class SessionService {
-  apiUrl:string = '/api';
+  apiUrl: string = '/api';
   loggedOut: EventEmitter<string> = new EventEmitter();
   set(session: ISession) {
     sessionStorage['sessionKey'] = session.Session;
