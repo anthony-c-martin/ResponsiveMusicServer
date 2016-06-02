@@ -1,0 +1,7 @@
+<div class="content" [ngClass]="{selected: artist.isSelected}" draggable="true">
+  <div class="controls controls-mini">
+    <button (click)="add()" type="button" class="control control-add"><i class="fa fa-plus"></i></button>
+    <button (click)="play()" type="button" class="control control-play"><i class="fa fa-play"></i></button>
+  </div>
+  <div class="desc">{{ artist.Name }}</div>
+</div>

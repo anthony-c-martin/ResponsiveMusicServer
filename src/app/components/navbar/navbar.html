@@ -1,0 +1,31 @@
+<div *ngIf="sessionService.exists()" class="navbar">
+  <div class="navbar-inner">
+    <div class="controls controls-nav unshrinkable">
+      <button (click)="playerService.previousTrack()" type="button" class="control">
+        <i class="fa fa-fast-backward"></i>
+      </button>
+      <button (click)="togglePlaying" type="button" class="control">
+        <i *ngIf="isPaused" class="fa fa-play"></i>
+        <i *ngIf="!isPaused" class="fa fa-pause"></i>
+      </button>
+      <button (click)="playerService.nextTrack()" type="button" class="control">
+        <i class="fa fa-fast-forward"></i>
+      </button>
+    </div>
+    <am-position-control current-audio="vm.current" position-update="vm.positionUpdate"></am-position-control>
+    <div class="controls controls-nav unshrinkable">
+      <am-playlist></am-playlist>
+      <div class="control-container">
+        <button ng-click="vm.volumeShown = !vm.volumeShown" ng-class="{active: vm.volumeShown}" am-body-event-handler="volume" type="button" class="control">
+          <i class="fa fa-volume-up"></i>
+        </button>
+        <am-volume-control current-audio="vm.current" volume-update="vm.volumeUpdate" ng-show="vm.volumeShown"></am-volume-control>
+      </div>
+      <button ng-click="toggleScrobbling()" [ngClass]="{active: scrobblingEnabled}" type="button" class="control">
+        <i class="fa fa-lastfm"></i>
+      </button>
+    </div>
+    <am-search></am-search>
+  </div>
+  <audio am-audio-source></audio>
+</div>

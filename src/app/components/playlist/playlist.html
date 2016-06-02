@@ -1,0 +1,18 @@
+<div class="control-container">
+  <button [ngClass]="{active: visible}" (click)="toggleVisible()" type="button" class="control">
+    <i class="fa fa-list"></i>
+  </button>
+  <div [hidden]="!visible" class="dropdown-playlist">
+    <div class="arrow"></div>
+    <div class="inner">
+      <ul class="playlist tracks">
+        <li *ngIf="playlistService.playlist.length > 0" class="desc">
+          <span class="link-left" (click)="playlistService.removeAll()">Clear All</span>
+          <span class="link-right" (click)="playlistService.removeSelection(selection)">Clear Selected</span>
+        </li>
+        <am-track [track]="track" (remove)="playlistService.removeTrack($event)" *ngFor="let track of playlistService.playlist"></am-track>
+        <li *ngIf="playlistService.playlist.length <= 0" class="desc">This playlist is empty!</li>
+      </ul>
+    </div>
+  </div>
+</div>

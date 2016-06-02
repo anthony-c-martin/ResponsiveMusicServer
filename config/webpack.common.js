@@ -78,11 +78,6 @@ module.exports = {
     // remove other default values
     modulesDirectories: ['node_modules'],
 
-    alias: {
-      // legacy imports pre-rc releases
-      'angular2': helpers.root('node_modules/@angularclass/angular2-beta-to-rc-alias/dist/beta-17')
-    },
-
   },
 
   /*
@@ -164,6 +159,34 @@ module.exports = {
       {
         test: /\.css$/,
         loader: 'raw-loader'
+      },
+      {
+        test: /\.scss$/,
+        loader: 'raw-loader!sass-loader'
+      },
+
+      /*
+       * Web fonts
+       */
+      {
+        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'file-loader?mimetype=image/svg+xml'
+      },
+      {
+        test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
+        loader: "file-loader?mimetype=application/font-woff"
+      },
+      {
+        test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
+        loader: "file-loader?mimetype=application/font-woff"
+      },
+      {
+        test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+        loader: "file-loader?mimetype=application/octet-stream"
+      },
+      {
+        test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+        loader: "file-loader"
       },
 
       /* Raw loader support for *.html

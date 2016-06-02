@@ -1,0 +1,17 @@
+<div class="panes">
+  <div [amScrollLoader]="loadArtists" class="pane">
+    <ul class="artists">
+      <li am-artist [artist]="artist" *ngFor="let artist of artists"></li>
+    </ul>
+  </div><!--
+  --><div [amScrollLoader]="loadAlbums" class="pane">
+    <ul class="albums">
+      <li am-album [album]="album" *ngFor="let album of albums"></li>
+    </ul>
+  </div><!--
+  --><div [amScrollLoader]="loadTracks" class="pane">
+    <ul class="tracks">
+      <li am-track [track]="track" *ngFor="let track of tracks"></li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,142 @@
+@mixin vendor-prefix($name, $argument) {
+  -webkit-#{$name}: #{$argument};
+  -ms-#{$name}: #{$argument};
+  -moz-#{$name}: #{$argument};
+  -o-#{$name}: #{$argument};
+  #{$name}: #{$argument};
+}
+
+@mixin noselect {
+  @include vendor-prefix(user-select, none);
+}
+
+@mixin noselect-pointer {
+  @include noselect;
+  cursor: pointer;
+}
+
+@mixin noselect-default {
+  @include noselect;
+  cursor: default;
+}
+
+@mixin music-list-item($border, $background, $background-selected, $background-hover) {
+  .content {
+    border-bottom: 0.1em solid $border;
+    background-color: $background;
+    margin: 0;
+    padding: 0.7em;
+    @include noselect-pointer;
+    &.selected {
+      background-color: $background-selected;
+    }
+    &:hover {
+      background-color: $background-hover;
+    }
+    &>.desc {
+      @include hide-overflow;
+    }
+    &>.controls {
+      float: right;
+    }
+  }
+}
+
+@mixin dropdown($width, $left, $offset) {
+  $shadowRadius: 0.3em;
+  $widthWithMargin: $width + (2 * $shadowRadius);
+  position: absolute;
+  overflow: hidden;
+  width: $widthWithMargin;
+  left: 1em - ($widthWithMargin/2) + $left + $offset;
+  padding-top: 1em - $shadowRadius;
+  z-index: 3;
+  top: $navbar-height;
+  &>.arrow {
+    @include arrow(1em) {
+      &:after {
+        background-color: $dark-background;
+        border: 0.1em solid $dark-border;
+          @include vendor-prefix(box-shadow, 0 0 $shadowRadius 0 $dark-border);
+      }
+      left: ($widthWithMargin/2) - $offset;
+    }
+  }
+  &>.inner {
+    margin: $shadowRadius;
+    background-color: $dark-background;
+    border: 0.1em solid $dark-border;
+    @include vendor-prefix(box-shadow, 0 0 $shadowRadius 0 $dark-border);
+    max-height: 30em;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+}
+
+@mixin column-count($var) {
+  -moz-column-count: $var;
+  -webkit-column-count: $var;
+  column-count: $var;
+}
+
+@mixin column-width($var) {
+  -moz-column-width: $var;
+  -webkit-column-width: $var;
+  column-width: $var;
+}
+
+@mixin column-gap($var) {
+  -moz-column-gap: $var;
+  -webkit-column-gap: $var;
+  column-gap: $var;
+}
+
+@mixin avoid-column-break {
+  break-inside: avoid-column;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+@mixin hide-overflow {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin transition($property, $duration) {
+  @include vendor-prefix(transition-property, $property);
+  @include vendor-prefix(transition-duration, $duration);
+  @include vendor-prefix(transition-timing-function, linear);
+}
+
+@mixin url-icon($url, $x, $y) {
+  background: url($url);
+  background-size: $x $y;
+  height: $y;
+  width: $x;
+  display: inline-block;
+}
+
+@mixin arrow($width) {
+  width: $width * 2;
+  height: $width;
+  overflow-y: hidden;
+  position: absolute;
+  margin-left: -$width;
+  top: 0.1em;
+  @content;
+  &:after {
+    content: "";
+    position: absolute;
+    left: $width / 2;
+    top: $width / 2;
+    width: $width;
+    height: $width;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+  }
+}
+
+@mixin noevents {
+  pointer-events: none;
+}

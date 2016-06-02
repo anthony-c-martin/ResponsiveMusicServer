@@ -1,0 +1,8 @@
+<div class="dropdown-volume">
+  <div class="arrow"></div>
+  <div am-body-event-handler="volume" class="inner">
+    <div ng-click="volumeChange($event)" class="vol-container">
+      <div ng-style="{height: (currentAudio.volume * 100) + '%'}" class="vol-bar"></div>
+    </div>
+  </div>
+</div>
