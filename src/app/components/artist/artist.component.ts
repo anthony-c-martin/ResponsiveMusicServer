@@ -1,5 +1,5 @@
-import {Component, Input, Output, EventEmitter} from 'angular2/core';
-import {NgClass} from 'angular2/common';
+import {Component, Input, Output, EventEmitter} from '@angular/core';
+import {NgClass} from '@angular/common';
 
 import PlayerService from '../../services/player/player.service';
 import IArtist from './iartist';
@@ -8,11 +8,11 @@ import IArtist from './iartist';
   selector: '[am-artist]',
   template: require('./artist.html'),
   styles: [require('./artist.scss')],
-  directives: [NgClass]
+  viewProviders: [NgClass]
 })
 export default class ArtistComponent {
-  @Output() play: EventEmitter<IArtist> = new EventEmitter();
-  @Output() add: EventEmitter<IArtist> = new EventEmitter();
+  @Output() play: EventEmitter<IArtist> = new EventEmitter<IArtist>();
+  @Output() add: EventEmitter<IArtist> = new EventEmitter<IArtist>();
   @Input() artist: IArtist;
 }
 

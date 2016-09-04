@@ -1,12 +1,10 @@
-import {Component} from 'angular2/core';
-import {Control} from 'angular2/common';
-import {Router} from 'angular2/router';
+import {Component} from '@angular/core';
+import {FormControl} from '@angular/forms';
+import {Router} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
+import 'rxjs/Rx';
 
 import ApiService from '../../services/api/api.service';
-import IArtist from '../artist/iartist';
-import IAlbum from '../album/ialbum';
-import ITrack from '../track/itrack';
 import ArtistComponent from '../artist/artist.component';
 import AlbumComponent from '../album/album.component';
 import TrackComponent from '../track/track.component';
@@ -14,15 +12,15 @@ import TrackComponent from '../track/track.component';
 @Component({
   selector: 'am-search',
   template: require('./search.html'),
-  directives: [ArtistComponent, AlbumComponent, TrackComponent]
+  viewProviders: [ArtistComponent, AlbumComponent, TrackComponent]
 })
 export default class SearchComponent {
   inProgress: boolean = false;
   searchShown: boolean = false;
-  search: Control = new Control('');
-  artists: Observable<IArtist[]>;
-  albums: Observable<IAlbum[]>;
-  tracks: Observable<ITrack[]>;
+  search: FormControl = new FormControl('');
+  artists: Observable<any>;
+  albums: Observable<any>;
+  tracks: Observable<any>;
   constructor(private _router:Router, private _apiService:ApiService) {
     this.artists = this.search.valueChanges
       .debounceTime(400)

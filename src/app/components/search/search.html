@@ -2,23 +2,23 @@
   <div ng-show="vm.searchShown" class="dropdown-search">
     <div class="arrow"></div>
     <div [ngSwitch]="inProgress" am-body-event-handler="search" class="inner">
-      <div *ngSwitchWhen="true" class="search-loading">
+      <div *ngSwitchCase="true" class="search-loading">
         <ul class="search">
           <li class="desc">Loading...</li>
         </ul>
       </div>
-      <div ngSwitchDefault class="search-results">
+      <div *ngSwitchDefault class="search-results">
         <ul *ngIf="tracks.length > 0" class="search tracks">
           <li class="desc">Tracks<span class="link-right" (click)="viewResults('tracks')">Show all</span></li>
-          <am-track [track]="track" *ngFor="#track of tracks"></am-track>
+          <li am-track [track]="track" *ngFor="let track of tracks"></li>
         </ul>
         <ul *ngIf="albums.length > 0" class="search albums">
           <li class="desc">Albums<span class="link-right" (click)="viewResults('albums')">Show all</span></li>
-          <am-album [album]="album" *ngFor="#album of albums"></am-album>
+          <li am-album [album]="album" *ngFor="let album of albums"></li>
         </ul>
         <ul *ngIf="artists.length > 0" class="search artists">
           <li class="desc">Artists<span class="link-right" (click)="viewResults('artists')">Show all</span></li>
-          <am-artist [artist]="artist" *ngFor="#artist of artists"></am-artist>
+          <li am-artist [artist]="artist" *ngFor="let artist of artists"></li>
         </ul>
         <ul *ngIf="artists.length + albums.length + tracks.length <= 0" class="search">
           <li class="desc">No results found</li>

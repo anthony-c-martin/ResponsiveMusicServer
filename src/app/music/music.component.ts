@@ -1,5 +1,5 @@
-import {Component} from 'angular2/core';
-import {Router, RouteParams} from 'angular2/router';
+import {Component} from '@angular/core';
+import {Router} from '@angular/router';
 
 import IArtist from '../components/artist/iartist';
 import IAlbum from '../components/album/ialbum';
@@ -15,8 +15,15 @@ import TrackComponent from '../components/track/track.component';
 @Component({
   selector: 'am-music',
   template: require('./music.html'),
-  providers: [ApiService],
-  directives: [ScrollLoaderDirective, ArtistComponent, AlbumComponent, TrackComponent]
+  providers: [
+    ApiService
+  ],
+  viewProviders: [
+    ScrollLoaderDirective,
+    ArtistComponent,
+    AlbumComponent,
+    TrackComponent
+  ]
 })
 export default class MusicComponent {
   loadArtists: Function = this._loadMoreArtists.bind(this);
@@ -29,7 +36,6 @@ export default class MusicComponent {
   albums: IAlbum[] = [];
   tracks: ITrack[] = [];
   constructor(private _router: Router,
-              private _routeParams: RouteParams,
               private _apiService: ApiService,
               private _errorService: ErrorService,
               private _sessionService: SessionService) {

@@ -1,5 +1,5 @@
-import {Component, Input, Output, EventEmitter} from 'angular2/core';
-import {NgClass} from 'angular2/common';
+import {Component, Input, Output, EventEmitter} from '@angular/core';
+import {NgClass} from '@angular/common';
 
 import PlayerService from '../../services/player/player.service';
 import IAlbum from './ialbum';
@@ -8,11 +8,11 @@ import IAlbum from './ialbum';
   selector: '[am-album]',
   template: require('./album.html'),
   styles: [require('./album.scss')],
-  directives: [NgClass]
+  viewProviders: [NgClass]
 })
 export default class AlbumComponent {
-  @Output() play: EventEmitter<IAlbum> = new EventEmitter();
-  @Output() add: EventEmitter<IAlbum> = new EventEmitter();
+  @Output() play: EventEmitter<IAlbum> = new EventEmitter<IAlbum>();
+  @Output() add: EventEmitter<IAlbum> = new EventEmitter<IAlbum>();
   @Input() album: IAlbum;
 }
 

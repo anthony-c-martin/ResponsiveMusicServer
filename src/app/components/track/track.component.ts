@@ -1,5 +1,5 @@
-import {Component, Input, Output, EventEmitter} from 'angular2/core';
-import {NgClass} from 'angular2/common';
+import {Component, Input, Output, EventEmitter} from '@angular/core';
+import {NgClass} from '@angular/common';
 
 import PlayerService from '../../services/player/player.service';
 import ITrack from './itrack';
@@ -8,12 +8,12 @@ import ITrack from './itrack';
   selector: '[am-track]',
   template: require('./track.html'),
   styles: [require('./track.scss')],
-  directives: [NgClass]
+  viewProviders: [NgClass]
 })
 export default class TrackComponent {
-  @Output() remove: EventEmitter<ITrack> = new EventEmitter();
-  @Output() play: EventEmitter<ITrack> = new EventEmitter();
-  @Output() add: EventEmitter<ITrack> = new EventEmitter();
+  @Output() remove: EventEmitter<ITrack> = new EventEmitter<ITrack>();
+  @Output() play: EventEmitter<ITrack> = new EventEmitter<ITrack>();
+  @Output() add: EventEmitter<ITrack> = new EventEmitter<ITrack>();
   @Input() track: ITrack;
 }
 

@@ -1,11 +1,13 @@
-import {Component, Input} from 'angular2/core'
+import {Component, Input} from '@angular/core'
 
 import ITrack from '../track/itrack'
 import PlaylistService from '../../services/playlist/playlist.service'
+import TrackComponent from '../track/track.component';
 
 @Component({
   selector: 'am-playlist',
-  template: require('./playlist.html')
+  template: require('./playlist.html'),
+  viewProviders: [TrackComponent]
 })
 export default class PlaylistComponent {
   @Input() visible:boolean;

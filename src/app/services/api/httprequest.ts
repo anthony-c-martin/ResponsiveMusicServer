@@ -1,5 +1,5 @@
 import * as md5 from 'blueimp-md5';
-import {Http, Headers} from 'angular2/http';
+import {Http, Headers} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
@@ -37,7 +37,7 @@ export default class HttpRequest {
   private _submit(auth:boolean) : Observable<any> {
     if (auth) {
       this._addParam('Session', this._sessionService.get().Session);
-    }        
+    }
     this._addParam('Signature', this._getSignature(auth));
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');

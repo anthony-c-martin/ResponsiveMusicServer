@@ -1,11 +1,11 @@
-import {Injectable, EventEmitter} from 'angular2/core';
+import {Injectable, EventEmitter} from '@angular/core';
 
 import {ISession, IUserPreferences} from './session.interfaces';
 
 @Injectable()
 export default class SessionService {
   apiUrl:string = '/api';
-  loggedOut: EventEmitter<string> = new EventEmitter();
+  loggedOut: EventEmitter<string> = new EventEmitter<string>();
   set(session: ISession) {
     sessionStorage['sessionKey'] = session.Session;
     sessionStorage['sessionSecret'] = session.Secret;

@@ -1,6 +1,6 @@
-import {Component, Output} from 'angular2/core';
+import {Component, Output} from '@angular/core';
 import * as md5 from 'blueimp-md5';
-import {Router, RouteParams} from 'angular2/router';
+import {Router, ActivatedRoute} from '@angular/router';
 
 import {ISession} from '../services/session/session.interfaces';
 import ApiService from '../services/api/api.service';
@@ -16,17 +16,21 @@ export default class LoginComponent {
   username: string = '';
   password: string = '';
   constructor(private _router: Router,
-              private _routeParams: RouteParams,
+              private _activatedRoute: ActivatedRoute,
               private _apiService: ApiService,
               private _errorService: ErrorService,
               private _sessionService: SessionService) {
     this._sessionService.clear();
-    const auth = this._routeParams.get('auth');
-    const token = this._routeParams.get('token');
-    if (auth && token) {
-      this._getSession(auth, token);
-    }
   }
+
+  ngOnInit() {
+    this._activatedRoute.params.subscribe(params => {
+      if (params['auth'] && params['token']) {
+        this._getSession(params['auth'], params['token']);
+      }
+    });
+  }
+
   login() {
     this._apiService.getAuthToken().subscribe(
       (data) => {
@@ -47,7 +51,7 @@ export default class LoginComponent {
     this._apiService.getAuthSession(token, auth).subscribe(
       (data) => {
         this._sessionService.set(data);
-        this._router.navigate(['Music']);
+        this._router.navigate(['music']);
       },
       () => {
         this._errorService.showError('Login attempt failed. Please try again.');
